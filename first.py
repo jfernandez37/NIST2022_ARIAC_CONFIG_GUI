@@ -135,15 +135,51 @@ if __name__ == "__main__":
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF TABLE_TRAY_INFOS
     trayInfo = tk.Tk()
-    trayInstructions = tk.Label(trayInfo, text="If you would like to skip a question, leave it blank")
+    trayInstructions = tk.Label(trayInfo, text="If you would like to skip a tray, leave it blank, leave it blank")
     trayInstructions.pack()
-    trayNext = tk.Button(trayInfo, text="Next", command=options.destroy)
+    table1 = tk.StringVar()
+    table1.set("")
+    table1Label = tk.Label(trayInfo, text="Choose the material for table 1")
+    table1Label.pack()
+    table1Menu = tk.OptionMenu(trayInfo, table1, "", "movable_tray_dark_wood", "movable_tray_light_wood", "movable_tray_metal_rusty", "movable_tray_metal_shiny")
+    table1Menu.pack()
+    table1q = tk.StringVar()
+    table1q.set("")
+    table1qLabel = tk.Label(trayInfo, text="Choose the quantity for table 1")
+    table1qLabel.pack()
+    table1qMenu = tk.OptionMenu(trayInfo, table1q, "", "1", "2", "3")
+    table1qMenu.pack()
+    table2 = tk.StringVar()
+    table2.set("")
+    table2Label = tk.Label(trayInfo, text="Choose the material for table 2")
+    table2Label.pack()
+    table2Menu = tk.OptionMenu(trayInfo, table2, "", "movable_tray_dark_wood", "movable_tray_light_wood", "movable_tray_metal_rusty", "movable_tray_metal_shiny")
+    table2Menu.pack()
+    table2q = tk.StringVar()
+    table2q.set("")
+    table2qLabel = tk.Label(trayInfo, text="Choose the quantity for table 2")
+    table2qLabel.pack()
+    table2qMenu = tk.OptionMenu(trayInfo, table2q, "", "1", "2", "3")
+    table2qMenu.pack()
+    trayNext = tk.Button(trayInfo, text="Next", command=trayInfo.destroy)
     trayNext.pack(pady=20)
     skipFlag = tk.StringVar()
     skipFlag.set("0")
     skipButton = tk.Button(trayInfo, text="Skip", command=tray_skip)
     skipButton.pack()
     trayInfo.mainloop()
-    print(skipFlag.get())
+    with open(saveFileName, "a") as o:
+        if (table1.get() != "" and table1q.get() != "") or table2.get() != "" and table2q.get() != "":
+            o.write("\n\n\ntable_tray_infos:\n")
+        if table1.get() != "" and table1q.get() != "":
+            o.write("\ttable_1:\n")
+            o.write("\t\ttray_model: "+table1.get()+"\n")
+            o.write("\t\tquantity: "+table1q.get()+"\n")
+        if table2.get() != "" and table2q.get() != "":
+            o.write("\ttable_2:\n")
+            o.write("\t\ttray_model: "+table2.get()+"\n")
+            o.write("\t\tquantity: "+table2q.get()+"\n")
+    # END OF TABLE MENUS
+    # -----------------------------------------------------------------------------------
     # BEGINNING OF GETTING AGV LOCATIONS
 
