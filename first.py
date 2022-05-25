@@ -182,6 +182,4 @@ if __name__ == "__main__":
                 o.write("\t\tquantity: "+table2q.get()+"\n")
     # END OF TABLE MENUS
     # -----------------------------------------------------------------------------------
-    # BEGINNING OF GETTING AGV LOCATIONS
-    agvInfo = tk.Tk()
-    
+    # BEGINNING OF GETTING AGV LOCATIONS    
