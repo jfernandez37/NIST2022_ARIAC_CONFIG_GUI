@@ -170,7 +170,7 @@ if __name__ == "__main__":
     trayInfo.mainloop()
     if skipFlag == "0":
         with open(saveFileName, "a") as o:
-            if (table1.get() != "" and table1q.get() != "") or table2.get() != "" and table2q.get() != "":
+            if (table1.get() != "" and table1q.get() != "") or (table2.get() != "" and table2q.get() != ""):
                 o.write("\n\n\ntable_tray_infos:\n")
             if table1.get() != "" and table1q.get() != "":
                 o.write("\ttable_1:\n")
@@ -182,4 +182,42 @@ if __name__ == "__main__":
                 o.write("\t\tquantity: "+table2q.get()+"\n")
     # END OF TABLE MENUS
     # -----------------------------------------------------------------------------------
-    # BEGINNING OF GETTING AGV LOCATIONS    
+    # BEGINNING OF GETTING AGV_INFOS
+    agvInfo = tk.Tk()
+    agv1 = tk.StringVar()
+    agv1.set("ks1")
+    agv1Label = tk.Label(agvInfo, text="AGV1 Location:")
+    agv1Label.pack()
+    agv1Menu = tk.OptionMenu(agvInfo, agv1, "ks1", "as1", "as2")
+    agv1Menu.pack()
+    agv2 = tk.StringVar()
+    agv2.set("ks2")
+    agv2Label = tk.Label(agvInfo, text="AGV2 Location:")
+    agv2Label.pack()
+    agv2Menu = tk.OptionMenu(agvInfo, agv2, "ks2", "as1", "as2")
+    agv2Menu.pack()
+    agv3 = tk.StringVar()
+    agv3.set("ks3")
+    agv3Label = tk.Label(agvInfo, text="AGV3 Location:")
+    agv3Label.pack()
+    agv3Menu = tk.OptionMenu(agvInfo, agv3, "ks3", "as3", "as4")
+    agv3Menu.pack()
+    agv4 = tk.StringVar()
+    agv4.set("ks4")
+    agv4Label = tk.Label(agvInfo, text="AGV4 Location:")
+    agv4Label.pack()
+    agv4Menu = tk.OptionMenu(agvInfo, agv4, "ks4", "as3", "as4")
+    agv4Menu.pack()
+    agvNext = tk.Button(agvInfo, text="Next", command=agvInfo.destroy)
+    agvNext.pack(pady=20)
+    agvInfo.mainloop()
+    with open(saveFileName, "a") as o:
+        o.write("\n\nagv_infos:\n")
+        o.write("\tagv1:\n")
+        o.write("\t\tlocation: " + agv1.get() + "\n")
+        o.write("\tagv2:\n")
+        o.write("\t\tlocation: " + agv2.get() + "\n")
+        o.write("\tagv3:\n")
+        o.write("\t\tlocation: " + agv3.get() + "\n")
+        o.write("\tagv4:\n")
+        o.write("\t\tlocation: " + agv4.get() + "\n")
