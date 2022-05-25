@@ -168,18 +168,20 @@ if __name__ == "__main__":
     skipButton = tk.Button(trayInfo, text="Skip", command=tray_skip)
     skipButton.pack()
     trayInfo.mainloop()
-    with open(saveFileName, "a") as o:
-        if (table1.get() != "" and table1q.get() != "") or table2.get() != "" and table2q.get() != "":
-            o.write("\n\n\ntable_tray_infos:\n")
-        if table1.get() != "" and table1q.get() != "":
-            o.write("\ttable_1:\n")
-            o.write("\t\ttray_model: "+table1.get()+"\n")
-            o.write("\t\tquantity: "+table1q.get()+"\n")
-        if table2.get() != "" and table2q.get() != "":
-            o.write("\ttable_2:\n")
-            o.write("\t\ttray_model: "+table2.get()+"\n")
-            o.write("\t\tquantity: "+table2q.get()+"\n")
+    if skipFlag == "0":
+        with open(saveFileName, "a") as o:
+            if (table1.get() != "" and table1q.get() != "") or table2.get() != "" and table2q.get() != "":
+                o.write("\n\n\ntable_tray_infos:\n")
+            if table1.get() != "" and table1q.get() != "":
+                o.write("\ttable_1:\n")
+                o.write("\t\ttray_model: "+table1.get()+"\n")
+                o.write("\t\tquantity: "+table1q.get()+"\n")
+            if table2.get() != "" and table2q.get() != "":
+                o.write("\ttable_2:\n")
+                o.write("\t\ttray_model: "+table2.get()+"\n")
+                o.write("\t\tquantity: "+table2q.get()+"\n")
     # END OF TABLE MENUS
     # -----------------------------------------------------------------------------------
     # BEGINNING OF GETTING AGV LOCATIONS
-
+    agvInfo = tk.Tk()
+    
