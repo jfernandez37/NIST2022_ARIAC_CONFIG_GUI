@@ -188,10 +188,12 @@ def new_order():
     get_ann_val.pack()
     order_kitting = tk.Button(add_order, text="Kitting", command=kitting)
     order_kitting.pack(pady=20)
+    order_assembly = tk.Button(add_order, text="Assembly", command=assembly)
+    order_assembly.pack(pady=20)
     order_save = tk.Button(add_order, text="Save and Exit", command=add_order.destroy)
     order_save.pack(pady=20)
     add_order.mainloop()
-    add_order.append(Order(temp_priority.get(), temp_k_health.get(), temp_a_health.get(), 
+    allOrders.append(Order(temp_priority.get(), temp_k_health.get(), temp_a_health.get(),
                            temp_announcement_cond.get(), temp_ann_val.get(), tempKits, tempAssemb))
     tempKits.clear()
     tempAssemb.clear()
@@ -248,7 +250,41 @@ def get_k_products():
 
 
 def assembly():
-    print("test")
+    assemb_wind = tk.Toplevel()
+    a_ship_count = tk.StringVar()
+    a_ship_count.set('1')
+    a_ship_count_label = tk.Label(assemb_wind, text="Enter the shipment count")
+    a_ship_count_label.pack()
+    a_ship_count_entry = tk.Entry(assemb_wind, textvariable=a_ship_count)
+    a_ship_count_entry.pack()
+    a_stations = tk.StringVar()
+    a_stations.set('1')
+    a_stations_label = tk.Label(assemb_wind, text="Enter the assembly stations")
+    a_stations_label.pack()
+    a_stations_entry = tk.Entry(assemb_wind, textvariable=a_stations)
+    a_stations_entry.pack()
+    add_a_products = tk.Button(assemb_wind, text="Add Product", command=get_a_products)
+    add_a_products.pack(pady=20)
+    order_assemb = tk.Button(assemb_wind, text="Save and Exit", command=assemb_wind.destroy)
+    order_assemb.pack(pady=20)
+    assemb_wind.mainloop()
+    tempAssemb.append(Assembly(a_ship_count.get(), a_stations.get(), assembProds))
+    assembProds.clear()
+
+
+def get_a_products():
+    a_products = tk.Toplevel()
+    all_prod_str = []
+    for prod in allProd:
+        all_prod_str.append(str(prod.id)+" "+str(prod.pType))
+    a_product_info = tk.StringVar()
+    a_product_info.set(all_prod_str[0])
+    a_product_type_menu = tk.OptionMenu(a_products, a_product_info, *all_prod_str)
+    a_product_type_menu.pack()
+    assemb_prod_exit = tk.Button(a_products, text="Save and Exit", command=a_products.destroy)
+    assemb_prod_exit.pack(pady=20)
+    a_products.mainloop()
+    assembProds.append(allProd[all_prod_str.index(a_product_info.get())])
 
 
 def cancel_file():
