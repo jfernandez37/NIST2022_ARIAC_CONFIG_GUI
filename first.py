@@ -98,9 +98,9 @@ def add_product():
     product_type_menu_label = tk.Label(product_info, text="Choose the product type:")
     product_type_menu_label.pack()
     product_type_menu = tk.OptionMenu(product_info, product_type, "assembly_battery_red", "assembly_battery_green"
-                                      ,"assembly_battery_blue", "assembly_pump_red","assembly_pump_green"
-                                      ,"assembly_pump_blue", "assembly_regulator_red",
-                                      "assembly_regulator_green","assembly_regulator_blue")
+                                      , "assembly_battery_blue", "assembly_pump_red", "assembly_pump_green"
+                                      , "assembly_pump_blue", "assembly_regulator_red",
+                                      "assembly_regulator_green", "assembly_regulator_blue")
     product_type_menu.pack()
     x_val_label = tk.Label(product_info, text="Enter the x value")
     x_val_label.pack()
@@ -148,8 +148,30 @@ def add_product():
         agv4Rot.set(agv4Rot.get() + ' ' + '[' + r_x_val.get() + ',' + r_y_val.get() + ',' + r_z_val.get() + ']')
 
 
+def cancel_file():
+    cancelFlag.set('1')
+    getFileName.destroy()
+
+
+def cancel_options():
+    cancelFlag.set('1')
+    options.destroy()
+
+
+def cancel_tray():
+    cancelFlag.set('1')
+    trayInfo.destroy()
+
+
+def cancel_agv():
+    cancelFlag.set('1')
+    agvInfo.destroy()
+
+
 if __name__ == "__main__":
     getFileName = tk.Tk()
+    cancelFlag = tk.StringVar()
+    cancelFlag.set('0')
     getFileName.title("NIST ARIAC CONFIG GUI")
     fileName = tk.StringVar()
     fileName.set("")
@@ -163,7 +185,11 @@ if __name__ == "__main__":
     fileNameTextBox.pack()
     fileExit = tk.Button(getFileName, text="Next", command=get_file_name_next)
     fileExit.pack(pady=20)
+    cancelFile = tk.Button(getFileName, text="Cancel", command=cancel_file)
+    cancelFile.pack(pady=20)
     getFileName.mainloop()
+    if cancelFlag.get() == '1':
+        quit()
     # END OF GETTING THE NAME OF THE FILE
     # ----------------------------------------------------------------------------------------------
     # BEGINNING OF OPTIONS
@@ -208,6 +234,8 @@ if __name__ == "__main__":
     timeLimitButton.pack(pady=5)
     nextButton = tk.Button(options, text="Next", command=options.destroy)
     nextButton.pack(pady=20)
+    cancelOptions = tk.Button(options, text="Cancel", command=cancel_options)
+    cancelOptions.pack(pady=20)
     options.mainloop()
     saveFileName = fileName.get()
     if '.yaml' not in saveFileName:
@@ -225,6 +253,12 @@ if __name__ == "__main__":
         o.write("\t# mandatory: gripper_tray or gripper_part\n")
         o.write("\tcurrent_gripper_type: "+gripperType.get()+"\n")
         o.write("\ttime_limit: "+timeLimit.get()+"\n")
+    if cancelFlag.get() == '1':
+        if path.exists(fileName.get()):
+            os.remove(fileName.get())
+        elif path.exists(fileName.get() + '.yaml'):
+            os.remove(fileName.get() + '.yaml')
+        quit()
     # END OF GETTING OPTIONS
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF TABLE_TRAY_INFOS
@@ -262,6 +296,8 @@ if __name__ == "__main__":
     skipFlag.set("0")
     skipButton = tk.Button(trayInfo, text="Skip", command=tray_skip)
     skipButton.pack()
+    cancelTray = tk.Button(trayInfo, text="Cancel", command=cancel_tray)
+    cancelTray.pack()
     trayInfo.mainloop()
     if skipFlag.get() == "0":
         with open(saveFileName, "a") as o:
@@ -275,6 +311,12 @@ if __name__ == "__main__":
                 o.write("\ttable_2:\n")
                 o.write("\t\ttray_model: "+table2.get()+"\n")
                 o.write("\t\tquantity: "+table2q.get()+"\n")
+    if cancelFlag.get() == '1':
+        if path.exists(fileName.get()):
+            os.remove(fileName.get())
+        elif path.exists(fileName.get() + '.yaml'):
+            os.remove(fileName.get() + '.yaml')
+        quit()
     # END OF TABLE MENUS
     # -----------------------------------------------------------------------------------
     # BEGINNING OF GETTING AGV_INFOS
@@ -332,6 +374,8 @@ if __name__ == "__main__":
     productButton.pack(pady=20)
     agvNext = tk.Button(agvInfo, text="Next", command=agvInfo.destroy)
     agvNext.pack(pady=20)
+    cancelAgv = tk.Button(agvInfo, text="Cancel", command=cancel_agv)
+    cancelAgv.pack(pady=20)
     agvInfo.mainloop()
     partID=0
     index=0
@@ -400,3 +444,9 @@ if __name__ == "__main__":
                     o.write("\t\t\t\t\trpy: " + agv4RArr[index + 1] + "\n")
                     partID += 1
                     index += 1
+    if cancelFlag.get() == '1':
+        if path.exists(fileName.get()):
+            os.remove(fileName.get())
+        elif path.exists(fileName.get() + '.yaml'):
+            os.remove(fileName.get() + '.yaml')
+        quit()
