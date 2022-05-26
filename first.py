@@ -148,6 +148,13 @@ def add_product():
         agv4Rot.set(agv4Rot.get() + ' ' + '[' + r_x_val.get() + ',' + r_y_val.get() + ',' + r_z_val.get() + ']')
 
 
+def new_order():
+    add_order = tk.Toplevel()
+    order_save = tk.Button(add_order, text="Save and Exit", command=add_order.destroy)
+    order_save.pack(pady=20)
+    add_order.mainloop()
+
+
 def cancel_file():
     cancelFlag.set('1')
     getFileName.destroy()
@@ -166,6 +173,11 @@ def cancel_tray():
 def cancel_agv():
     cancelFlag.set('1')
     agvInfo.destroy()
+
+
+def cancel_orders():
+    cancelFlag.set('1')
+    ordersInfo.destroy()
 
 
 if __name__ == "__main__":
@@ -377,29 +389,51 @@ if __name__ == "__main__":
     cancelAgv = tk.Button(agvInfo, text="Cancel", command=cancel_agv)
     cancelAgv.pack(pady=20)
     agvInfo.mainloop()
-    partID=0
-    index=0
+    partID = 0
+    index = 0
+    # print(agv1ProdTypes.get())
     agv1CArr = agv1Coords.get().split(" ")
     agv2CArr = agv2Coords.get().split(" ")
     agv3CArr = agv3Coords.get().split(" ")
     agv4CArr = agv4Coords.get().split(" ")
+    agv1CArr.reverse()
+    agv2CArr.reverse()
+    agv3CArr.reverse()
+    agv4CArr.reverse()
     agv1RArr = agv1Rot.get().split(' ')
     agv2RArr = agv2Rot.get().split(' ')
     agv3RArr = agv3Rot.get().split(' ')
     agv4RArr = agv4Rot.get().split(' ')
+    agv1RArr.reverse()
+    agv2RArr.reverse()
+    agv3RArr.reverse()
+    agv4RArr.reverse()
+    agv1Types = agv1ProdTypes.get().split(' ')
+    agv2Types = agv2ProdTypes.get().split(' ')
+    agv3Types = agv3ProdTypes.get().split(' ')
+    agv4Types = agv4ProdTypes.get().split(' ')
+    agv1Types.reverse()
+    agv2Types.reverse()
+    agv3Types.reverse()
+    agv4Types.reverse()
+    agv1IDs = []
+    agv2IDs = []
+    agv3IDs = []
+    agv4IDs = []
     with open(saveFileName, "a") as o:
         o.write("\n\nagv_infos:\n")
         o.write("\tagv1:\n")
         o.write("\t\tlocation: " + agv1.get() + "\n")
         if len(agv1ProdTypes.get()) != 0:
             o.write("\t\tproducts:\n")
-            for i in agv1ProdTypes.get().split(' '):
+            for i in agv1Types:
                 if i != '':
                     o.write("\t\t\tpart_"+str(partID)+":\n")
+                    agv1IDs.append(partID)
                     o.write("\t\t\t\ttype: " + i + "\n" )
                     o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + agv1CArr[index+1]+"\n")
-                    o.write("\t\t\t\t\trpy: " + agv1RArr[index+1] + "\n")
+                    o.write("\t\t\t\t\txyz: " + agv1CArr[index]+"\n")
+                    o.write("\t\t\t\t\trpy: " + agv1RArr[index] + "\n")
                     partID += 1
                     index += 1
         index = 0
@@ -407,13 +441,14 @@ if __name__ == "__main__":
         o.write("\t\tlocation: " + agv2.get() + "\n")
         if len(agv2ProdTypes.get()) != 0:
             o.write("\t\tproducts:\n")
-            for i in agv2ProdTypes.get().split(' '):
+            for i in agv2Types:
                 if i != '':
-                    o.write("\t\t\tpart_"+str(partID)+":\n")
-                    o.write("\t\t\t\ttype: " + i + "\n" )
+                    o.write("\t\t\tpart_" + str(partID) + ":\n")
+                    agv2IDs.append(partID)
+                    o.write("\t\t\t\ttype: " + i + "\n")
                     o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + agv2CArr[index+1]+"\n")
-                    o.write("\t\t\t\t\trpy: " + agv2RArr[index+1] + "\n")
+                    o.write("\t\t\t\t\txyz: " + agv2CArr[index] + "\n")
+                    o.write("\t\t\t\t\trpy: " + agv2RArr[index] + "\n")
                     partID += 1
                     index += 1
         index = 0
@@ -421,13 +456,14 @@ if __name__ == "__main__":
         o.write("\t\tlocation: " + agv3.get() + "\n")
         if len(agv3ProdTypes.get()) != 0:
             o.write("\t\tproducts:\n")
-            for i in agv3ProdTypes.get().split(' '):
+            for i in agv3Types:
                 if i != '':
-                    o.write("\t\t\tpart_"+str(partID)+":\n")
-                    o.write("\t\t\t\ttype: " + i + "\n" )
+                    o.write("\t\t\tpart_" + str(partID) + ":\n")
+                    agv3IDs.append(partID)
+                    o.write("\t\t\t\ttype: " + i + "\n")
                     o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + agv3CArr[index+1]+"\n")
-                    o.write("\t\t\t\t\trpy: " + agv3RArr[index + 1] + "\n")
+                    o.write("\t\t\t\t\txyz: " + agv3CArr[index] + "\n")
+                    o.write("\t\t\t\t\trpy: " + agv3RArr[index] + "\n")
                     partID += 1
                     index += 1
         index = 0
@@ -435,15 +471,34 @@ if __name__ == "__main__":
         o.write("\t\tlocation: " + agv4.get() + "\n")
         if len(agv4ProdTypes.get()) != 0:
             o.write("\t\tproducts:\n")
-            for i in agv4ProdTypes.get().split(' '):
+            for i in agv4Types:
                 if i != '':
-                    o.write("\t\t\tpart_"+str(partID)+":\n")
-                    o.write("\t\t\t\ttype: " + i + "\n" )
+                    o.write("\t\t\tpart_" + str(partID) + ":\n")
+                    agv4IDs.append(partID)
+                    o.write("\t\t\t\ttype: " + i + "\n")
                     o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + agv4CArr[index+1]+"\n")
-                    o.write("\t\t\t\t\trpy: " + agv4RArr[index + 1] + "\n")
+                    o.write("\t\t\t\t\txyz: " + agv4CArr[index] + "\n")
+                    o.write("\t\t\t\t\trpy: " + agv4RArr[index] + "\n")
                     partID += 1
                     index += 1
+    if cancelFlag.get() == '1':
+        if path.exists(fileName.get()):
+            os.remove(fileName.get())
+        elif path.exists(fileName.get() + '.yaml'):
+            os.remove(fileName.get() + '.yaml')
+        quit()
+    # END OF AGV OPTIONS
+    # ----------------------------------------------------------------------------------------------------------------------
+    # BEGINNING OF ORDERS
+    ordersInfo = tk.Tk()
+    ordersInfo.title("Orders Information")
+    newOrder = tk.Button(ordersInfo, text="New Order", command=new_order)
+    newOrder.pack(pady=20)
+    ordersNext = tk.Button(ordersInfo, text="Next", command=ordersInfo.destroy)
+    ordersNext.pack(pady=20)
+    cancelOrders = tk.Button(ordersInfo, text="Cancel", command=cancel_orders)
+    cancelOrders.pack(pady=20)
+    ordersInfo.mainloop()
     if cancelFlag.get() == '1':
         if path.exists(fileName.get()):
             os.remove(fileName.get())
