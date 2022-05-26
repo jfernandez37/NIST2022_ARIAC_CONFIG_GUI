@@ -2,6 +2,11 @@ import tkinter as tk
 import os.path
 from os import path
 
+tempKits = []
+tempAssemb = []
+kitProds = []
+assembProds = []
+
 
 def tf():
     if tfOverBins.config('text')[-1] == 'True':
@@ -151,9 +156,99 @@ def add_product():
 
 def new_order():
     add_order = tk.Toplevel()
+    temp_priority = tk.StringVar()
+    temp_priority.set('1')
+    temp_k_health = tk.StringVar()
+    temp_k_health.set('1')
+    temp_a_health = tk.StringVar()
+    temp_a_health.set('1')
+    temp_announcement_cond = tk.StringVar()
+    temp_announcement_cond.set('time')
+    temp_ann_val = tk.StringVar()
+    temp_ann_val.set('1')
+    get_priority_label = tk.Label(add_order, text="Enter the priority of the order")
+    get_priority_label.pack()
+    get_priority = tk.Entry(add_order, textvariable=temp_priority)
+    get_priority.pack()
+    get_k_health_label = tk.Label(add_order, text="Enter the kitting health of the order")
+    get_k_health_label.pack()
+    get_k_health = tk.Entry(add_order, textvariable=temp_k_health)
+    get_k_health.pack()
+    get_a_health_label = tk.Label(add_order, text="Enter the assembly health of the order")
+    get_a_health_label.pack()
+    get_a_health = tk.Entry(add_order, textvariable=temp_a_health)
+    get_a_health.pack()
+    get_announcement_condition_label = tk.Label(add_order, text="Enter the announcement condition of the order")
+    get_announcement_condition_label.pack()
+    get_announcement_condition = tk.Entry(add_order, textvariable=temp_announcement_cond)
+    get_announcement_condition.pack()
+    get_ann_val_label = tk.Label(add_order, text="Enter the announcement value of the order")
+    get_ann_val_label.pack()
+    get_ann_val = tk.Entry(add_order, textvariable=temp_ann_val)
+    get_ann_val.pack()
+    order_kitting = tk.Button(add_order, text="Kitting", command=kitting)
+    order_kitting.pack(pady=20)
     order_save = tk.Button(add_order, text="Save and Exit", command=add_order.destroy)
     order_save.pack(pady=20)
     add_order.mainloop()
+    add_order.append(Order(temp_priority.get(), temp_k_health.get(), temp_a_health.get(), 
+                           temp_announcement_cond.get(), temp_ann_val.get(), tempKits, tempAssemb))
+    tempKits.clear()
+    tempAssemb.clear()
+
+
+def kitting():
+    kitting_wind = tk.Toplevel()
+    ship_count = tk.StringVar()
+    ship_count.set('1')
+    trays = tk.StringVar()
+    trays.set('')
+    k_agv = tk.StringVar()
+    k_agv.set('')
+    k_destination = tk.StringVar()
+    k_destination.set('')
+    k_ship_count = tk.Label(kitting_wind, text="Enter the shipping count")
+    k_ship_count.pack()
+    get_ship_count = tk.Entry(kitting_wind, textvariable=ship_count)
+    get_ship_count.pack()
+    k_trays = tk.Label(kitting_wind, text="Kitting Trays")
+    k_trays.pack()
+    get_trays = tk.Entry(kitting_wind, textvariable=trays)
+    get_trays.pack()
+    k_agv_label = tk.Label(kitting_wind, text="Enter the Kitting agv")
+    k_agv_label.pack()
+    get_k_agv = tk.Entry(kitting_wind, textvariable=k_agv)
+    get_k_agv.pack()
+    k_dest_label = tk.Label(kitting_wind, text="Enter the Kitting destination")
+    k_dest_label.pack()
+    get_k_dest = tk.Entry(kitting_wind, textvariable=k_destination)
+    get_k_dest.pack()
+    add_k_products = tk.Button(kitting_wind, text="Add Product", command=get_k_products)
+    add_k_products.pack(pady=20)
+    order_kitting = tk.Button(kitting_wind, text="Save and Exit", command=kitting_wind.destroy)
+    order_kitting.pack(pady=20)
+    kitting_wind.mainloop()
+    tempKits.append(Kitting(ship_count.get(), trays.get(), k_agv.get(), k_destination.get(), kitProds))
+    kitProds.clear()
+
+
+def get_k_products():
+    k_products = tk.Toplevel()
+    all_prod_str = []
+    for prod in allProd:
+        all_prod_str.append(str(prod.id)+" "+str(prod.pType))
+    k_product_info = tk.StringVar()
+    k_product_info.set(all_prod_str[0])
+    k_product_type_menu = tk.OptionMenu(k_products, k_product_info, *all_prod_str)
+    k_product_type_menu.pack()
+    kitting_prod_exit = tk.Button(k_products, text="Save and Exit", command=k_products.destroy)
+    kitting_prod_exit.pack(pady=20)
+    k_products.mainloop()
+    kitProds.append(allProd[all_prod_str.index(k_product_info.get())])
+
+
+def assembly():
+    print("test")
 
 
 def cancel_file():
@@ -528,22 +623,21 @@ if __name__ == "__main__":
         elif path.exists(fileName.get() + '.yaml'):
             os.remove(fileName.get() + '.yaml')
         quit()
+    allProd = []
+    for i in agv1Prod:
+        allProd.append(i)
+    for i in agv2Prod:
+        allProd.append(i)
+    for i in agv3Prod:
+        allProd.append(i)
     for i in agv4Prod:
-        print(i.id)
-        print(i.pType)
-        print(i.xyz)
-        print(i.rpy)
+        allProd.append(i)
     # END OF AGV OPTIONS
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF ORDERS
     orderID = 0
     ordersInfo = tk.Tk()
-    orderPriorities = tk.StringVar()
-    orderPriorities.set('')
-    kittingHealth = tk.StringVar()
-    kittingHealth.set('')
-    assemblyHealth = tk.StringVar()
-    assemblyHealth.set('')
+    allOrders = []
     ordersInfo.title("Orders Information")
     newOrder = tk.Button(ordersInfo, text="New Order", command=new_order)
     newOrder.pack(pady=20)
