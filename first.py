@@ -60,6 +60,15 @@ def tray_skip():
     trayInfo.destroy()
 
 
+def get_file_name_next():
+    if fileName.get() == "" and reqFlag.get() == "0":
+        req_label = tk.Label(getFileName, text="This field is required. Please enter a non-empty file name")
+        req_label.pack()
+        reqFlag.set('1')
+    elif fileName.get() != '':
+        getFileName.destroy()
+
+
 def add_product():
     product_info = tk.Toplevel()
     x_val = tk.StringVar()
@@ -138,11 +147,13 @@ if __name__ == "__main__":
     getFileName.title("NIST ARIAC CONFIG GUI")
     fileName = tk.StringVar()
     fileName.set("")
+    reqFlag = tk.StringVar()
+    reqFlag.set("0")
     fileNameLabel = tk.Label(getFileName, text="Enter the file name you would like to save as:")
     fileNameLabel.pack()
     fileNameTextBox = tk.Entry(getFileName, textvariable=fileName)
     fileNameTextBox.pack()
-    fileExit = tk.Button(getFileName, text="Next", command=getFileName.destroy)
+    fileExit = tk.Button(getFileName, text="Next", command=get_file_name_next)
     fileExit.pack(pady=20)
     getFileName.mainloop()
     # END OF GETTING THE NAME OF THE FILE
