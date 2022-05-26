@@ -68,7 +68,8 @@ def get_file_name_next():
         req_label.pack()
         reqFlag.set('1')
     if (path.exists(fileName.get()) or path.exists(fileName.get()+'.yaml')) and existFlag.get() == '0':
-        exist_label = tk.Label(getFileName, text="A file with this name already exists. Please enter another file name.")
+        exist_label = tk.Label(getFileName,
+                               text="A file with this name already exists. Please enter another file name.")
         exist_label.pack()
         existFlag.set('1')
     elif fileName.get() != '':
@@ -97,9 +98,9 @@ def add_product():
     product_type = tk.StringVar(product_info)
     product_type_menu_label = tk.Label(product_info, text="Choose the product type:")
     product_type_menu_label.pack()
-    product_type_menu = tk.OptionMenu(product_info, product_type, "assembly_battery_red", "assembly_battery_green"
-                                      , "assembly_battery_blue", "assembly_pump_red", "assembly_pump_green"
-                                      , "assembly_pump_blue", "assembly_regulator_red",
+    product_type_menu = tk.OptionMenu(product_info, product_type, "assembly_battery_red", "assembly_battery_green",
+                                      "assembly_battery_blue", "assembly_pump_red", "assembly_pump_green",
+                                      "assembly_pump_blue", "assembly_regulator_red",
                                       "assembly_regulator_green", "assembly_regulator_blue")
     product_type_menu.pack()
     x_val_label = tk.Label(product_info, text="Enter the x value")
@@ -178,6 +179,41 @@ def cancel_agv():
 def cancel_orders():
     cancelFlag.set('1')
     ordersInfo.destroy()
+
+
+class Order:
+    def __init__(self, priority, k_health, a_health, an_cond, cond_val, kit_info, assem_info):
+        self.priority = priority
+        self.kittingHealth = k_health
+        self.assemblyHealth = a_health
+        self.announcementCondition = an_cond
+        self.conditionValue = cond_val
+        self.kitting = kit_info
+        self.assembly = assem_info
+
+
+class Kitting:
+    def __init__(self, ship_count, trays, agvs, destinations, products):
+        self.shipmentCount = ship_count
+        self.trays = trays
+        self.agvs = agvs
+        self.destinations = destinations
+        self.products = products
+
+
+class Assembly:
+    def __init__(self, ship_count, stations, products):
+        self.shipmentCount = ship_count
+        self.stations = stations
+        self.products = products
+
+
+class Products:
+    def __init__(self, pid, p_type, xyz, rpy):
+        self.id = pid
+        self.pType = p_type
+        self.xyz = xyz
+        self.rpy = rpy
 
 
 if __name__ == "__main__":
@@ -282,7 +318,8 @@ if __name__ == "__main__":
     table1.set("")
     table1Label = tk.Label(trayInfo, text="Choose the material for table 1")
     table1Label.pack()
-    table1Menu = tk.OptionMenu(trayInfo, table1, "", "movable_tray_dark_wood", "movable_tray_light_wood", "movable_tray_metal_rusty", "movable_tray_metal_shiny")
+    table1Menu = tk.OptionMenu(trayInfo, table1, "", "movable_tray_dark_wood", "movable_tray_light_wood",
+                               "movable_tray_metal_rusty", "movable_tray_metal_shiny")
     table1Menu.pack()
     table1q = tk.StringVar()
     table1q.set("")
@@ -294,7 +331,8 @@ if __name__ == "__main__":
     table2.set("")
     table2Label = tk.Label(trayInfo, text="Choose the material for table 2")
     table2Label.pack()
-    table2Menu = tk.OptionMenu(trayInfo, table2, "", "movable_tray_dark_wood", "movable_tray_light_wood", "movable_tray_metal_rusty", "movable_tray_metal_shiny")
+    table2Menu = tk.OptionMenu(trayInfo, table2, "", "movable_tray_dark_wood", "movable_tray_light_wood",
+                               "movable_tray_metal_rusty", "movable_tray_metal_shiny")
     table2Menu.pack()
     table2q = tk.StringVar()
     table2q.set("")
@@ -344,7 +382,7 @@ if __name__ == "__main__":
     agv1ProdTypes.set('')
     agv1Coords = tk.StringVar()
     agv1Coords.set('')
-    agv1Rot=tk.StringVar()
+    agv1Rot = tk.StringVar()
     agv1Rot.set('')
     agv2 = tk.StringVar()
     agv2.set("ks2")
@@ -392,6 +430,10 @@ if __name__ == "__main__":
     partID = 0
     index = 0
     # print(agv1ProdTypes.get())
+    agv1Prod = []
+    agv2Prod = []
+    agv3Prod = []
+    agv4Prod = []
     agv1CArr = agv1Coords.get().split(" ")
     agv2CArr = agv2Coords.get().split(" ")
     agv3CArr = agv3Coords.get().split(" ")
@@ -430,12 +472,15 @@ if __name__ == "__main__":
                 if i != '':
                     o.write("\t\t\tpart_"+str(partID)+":\n")
                     agv1IDs.append(partID)
-                    o.write("\t\t\t\ttype: " + i + "\n" )
+                    tempID = "part_"+str(partID)
+                    o.write("\t\t\t\ttype: " + i + "\n")
                     o.write("\t\t\t\tpose: \n")
                     o.write("\t\t\t\t\txyz: " + agv1CArr[index]+"\n")
                     o.write("\t\t\t\t\trpy: " + agv1RArr[index] + "\n")
                     partID += 1
                     index += 1
+                    agv1Prod.append(Products(tempID, i, agv1CArr[index], agv1RArr[index]))
+
         index = 0
         o.write("\tagv2:\n")
         o.write("\t\tlocation: " + agv2.get() + "\n")
@@ -487,10 +532,18 @@ if __name__ == "__main__":
         elif path.exists(fileName.get() + '.yaml'):
             os.remove(fileName.get() + '.yaml')
         quit()
+    print(str(agv1Prod[0].id))
     # END OF AGV OPTIONS
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF ORDERS
+    orderID = 0
     ordersInfo = tk.Tk()
+    orderPriorities = tk.StringVar()
+    orderPriorities.set('')
+    kittingHealth = tk.StringVar()
+    kittingHealth.set('')
+    assemblyHealth = tk.StringVar()
+    assemblyHealth.set('')
     ordersInfo.title("Orders Information")
     newOrder = tk.Button(ordersInfo, text="New Order", command=new_order)
     newOrder.pack(pady=20)
