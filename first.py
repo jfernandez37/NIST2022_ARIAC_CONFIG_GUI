@@ -1,4 +1,6 @@
 import tkinter as tk
+import os.path
+from os import path
 
 
 def tf():
@@ -65,9 +67,13 @@ def get_file_name_next():
         req_label = tk.Label(getFileName, text="This field is required. Please enter a non-empty file name")
         req_label.pack()
         reqFlag.set('1')
+    if (path.exists(fileName.get()) or path.exists(fileName.get()+'.yaml')) and existFlag.get() == '0':
+        exist_label = tk.Label(getFileName, text="A file with this name already exists. Please enter another file name.")
+        exist_label.pack()
+        existFlag.set('1')
     elif fileName.get() != '':
         getFileName.destroy()
-
+        
 
 def add_product():
     product_info = tk.Toplevel()
@@ -149,6 +155,8 @@ if __name__ == "__main__":
     fileName.set("")
     reqFlag = tk.StringVar()
     reqFlag.set("0")
+    existFlag = tk.StringVar()
+    existFlag.set("0")
     fileNameLabel = tk.Label(getFileName, text="Enter the file name you would like to save as:")
     fileNameLabel.pack()
     fileNameTextBox = tk.Entry(getFileName, textvariable=fileName)
