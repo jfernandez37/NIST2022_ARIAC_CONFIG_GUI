@@ -429,7 +429,6 @@ if __name__ == "__main__":
     agvInfo.mainloop()
     partID = 0
     index = 0
-    # print(agv1ProdTypes.get())
     agv1Prod = []
     agv2Prod = []
     agv3Prod = []
@@ -458,10 +457,6 @@ if __name__ == "__main__":
     agv2Types.reverse()
     agv3Types.reverse()
     agv4Types.reverse()
-    agv1IDs = []
-    agv2IDs = []
-    agv3IDs = []
-    agv4IDs = []
     with open(saveFileName, "a") as o:
         o.write("\n\nagv_infos:\n")
         o.write("\tagv1:\n")
@@ -471,16 +466,14 @@ if __name__ == "__main__":
             for i in agv1Types:
                 if i != '':
                     o.write("\t\t\tpart_"+str(partID)+":\n")
-                    agv1IDs.append(partID)
                     tempID = "part_"+str(partID)
                     o.write("\t\t\t\ttype: " + i + "\n")
                     o.write("\t\t\t\tpose: \n")
                     o.write("\t\t\t\t\txyz: " + agv1CArr[index]+"\n")
                     o.write("\t\t\t\t\trpy: " + agv1RArr[index] + "\n")
                     partID += 1
-                    index += 1
                     agv1Prod.append(Products(tempID, i, agv1CArr[index], agv1RArr[index]))
-
+                    index += 1
         index = 0
         o.write("\tagv2:\n")
         o.write("\t\tlocation: " + agv2.get() + "\n")
@@ -489,12 +482,13 @@ if __name__ == "__main__":
             for i in agv2Types:
                 if i != '':
                     o.write("\t\t\tpart_" + str(partID) + ":\n")
-                    agv2IDs.append(partID)
+                    tempID = "part_" + str(partID)
                     o.write("\t\t\t\ttype: " + i + "\n")
                     o.write("\t\t\t\tpose: \n")
                     o.write("\t\t\t\t\txyz: " + agv2CArr[index] + "\n")
                     o.write("\t\t\t\t\trpy: " + agv2RArr[index] + "\n")
                     partID += 1
+                    agv2Prod.append(Products(tempID, i, agv2CArr[index], agv2RArr[index]))
                     index += 1
         index = 0
         o.write("\tagv3:\n")
@@ -504,12 +498,13 @@ if __name__ == "__main__":
             for i in agv3Types:
                 if i != '':
                     o.write("\t\t\tpart_" + str(partID) + ":\n")
-                    agv3IDs.append(partID)
+                    tempID = "part_" + str(partID)
                     o.write("\t\t\t\ttype: " + i + "\n")
                     o.write("\t\t\t\tpose: \n")
                     o.write("\t\t\t\t\txyz: " + agv3CArr[index] + "\n")
                     o.write("\t\t\t\t\trpy: " + agv3RArr[index] + "\n")
                     partID += 1
+                    agv3Prod.append(Products(tempID, i, agv3CArr[index], agv3RArr[index]))
                     index += 1
         index = 0
         o.write("\tagv4:\n")
@@ -519,12 +514,13 @@ if __name__ == "__main__":
             for i in agv4Types:
                 if i != '':
                     o.write("\t\t\tpart_" + str(partID) + ":\n")
-                    agv4IDs.append(partID)
+                    tempID = "part_"+str(partID)
                     o.write("\t\t\t\ttype: " + i + "\n")
                     o.write("\t\t\t\tpose: \n")
                     o.write("\t\t\t\t\txyz: " + agv4CArr[index] + "\n")
                     o.write("\t\t\t\t\trpy: " + agv4RArr[index] + "\n")
                     partID += 1
+                    agv4Prod.append(Products(tempID, i, agv4CArr[index], agv4RArr[index]))
                     index += 1
     if cancelFlag.get() == '1':
         if path.exists(fileName.get()):
@@ -532,7 +528,11 @@ if __name__ == "__main__":
         elif path.exists(fileName.get() + '.yaml'):
             os.remove(fileName.get() + '.yaml')
         quit()
-    print(str(agv1Prod[0].id))
+    for i in agv4Prod:
+        print(i.id)
+        print(i.pType)
+        print(i.xyz)
+        print(i.rpy)
     # END OF AGV OPTIONS
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF ORDERS
