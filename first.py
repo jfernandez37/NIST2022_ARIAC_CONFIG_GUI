@@ -111,7 +111,7 @@ def add_product():
     product_type_menu = tk.OptionMenu(product_info, product_type, "assembly_battery_red", "assembly_battery_green",
                                       "assembly_battery_blue", "assembly_pump_red", "assembly_pump_green",
                                       "assembly_pump_blue", "assembly_regulator_red",
-                                      "assembly_regulator_green", "assembly_regulator_blue") #add sensor
+                                      "assembly_regulator_green", "assembly_regulator_blue")
     product_type_menu.pack()
     x_val_label = tk.Label(product_info, text="Enter the x value")
     x_val_label.pack()
@@ -170,7 +170,7 @@ def new_order():
     temp_announcement_cond = tk.StringVar()
     temp_announcement_cond.set('time')
     temp_ann_val = tk.StringVar()
-    temp_ann_val.set('1')
+    temp_ann_val.set('0')
     get_priority_label = tk.Label(add_order, text="Enter the priority of the order")
     get_priority_label.pack()
     get_priority = tk.Entry(add_order, textvariable=temp_priority)
@@ -207,13 +207,13 @@ def new_order():
 def kitting():
     kitting_wind = tk.Toplevel()
     ship_count = tk.StringVar()
-    ship_count.set('1') #between 1 and 2
+    ship_count.set('1')
     trays = tk.StringVar()
-    trays.set('[movable_tray_metal_rusty]') #list
+    trays.set('[movable_tray_metal_rusty]')
     k_agv = tk.StringVar()
-    k_agv.set('[agv1]') #list
+    k_agv.set('[agv2]')
     k_destination = tk.StringVar()
-    k_destination.set('[as1]') #list of as choices
+    k_destination.set('[as1]')
     k_ship_count = tk.Label(kitting_wind, text="Enter the shipping count")
     k_ship_count.pack()
     get_ship_count = tk.Entry(kitting_wind, textvariable=ship_count)
@@ -434,7 +434,7 @@ if __name__ == "__main__":
             o.write("\tgazebo_state_logging: " + stateLogging.get() + "\n")
         o.write("\t# mandatory: gripper_tray or gripper_part\n")
         o.write("\tcurrent_gripper_type: " + gripperType.get() + "\n")
-        o.write("time_limit: " + timeLimit.get() + "\n")
+        o.write("\ttime_limit: " + timeLimit.get() + "\n")
     if cancelFlag.get() == '1':
         if path.exists(fileName.get()):
             os.remove(fileName.get())
@@ -743,3 +743,6 @@ if __name__ == "__main__":
         elif path.exists(fileName.get() + '.yaml'):
             os.remove(fileName.get() + '.yaml')
         quit()
+    with open(saveFileName, "a") as o:#makes sure there is an empty line at the end of the file
+        o.write("\n")
+        
