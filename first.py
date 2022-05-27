@@ -683,6 +683,8 @@ if __name__ == "__main__":
     cancelOrders = tk.Button(ordersInfo, text="Cancel", command=cancel_orders)
     cancelOrders.pack(pady=20)
     ordersInfo.mainloop()
+    allOrders.reverse()
+    orderInd = len(allOrders)-1
     with open(saveFileName, "a") as o:
         o.write("\n\norders:\n")
         for i in allOrders:
@@ -732,7 +734,7 @@ if __name__ == "__main__":
                     o.write("\t\t\t\t\tpose:\n")
                     o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
                     o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
-            orderInd += 1
+            orderInd -= 1
             orderID += 1
 
     if cancelFlag.get() == '1':
