@@ -72,14 +72,14 @@ def get_file_name_next():
         req_label = tk.Label(getFileName, text="This field is required. Please enter a non-empty file name")
         req_label.pack()
         reqFlag.set('1')
-    if (path.exists(fileName.get()) or path.exists(fileName.get()+'.yaml')) and existFlag.get() == '0':
+    if (path.exists(fileName.get()) or path.exists(fileName.get() + '.yaml')) and existFlag.get() == '0':
         exist_label = tk.Label(getFileName,
                                text="A file with this name already exists. Please enter another file name.")
         exist_label.pack()
         existFlag.set('1')
     elif fileName.get() != '':
         getFileName.destroy()
-        
+
 
 def add_product():
     product_info = tk.Toplevel()
@@ -137,19 +137,19 @@ def add_product():
     prod_save.pack(pady=20)
     product_info.mainloop()
     if agv_id.get() == 'agv1':
-        agv1ProdTypes.set(agv1ProdTypes.get()+' '+product_type.get())
-        agv1Coords.set(agv1Coords.get()+' '+"["+x_val.get()+','+y_val.get()+','+z_val.get()+"]")
-        agv1Rot.set(agv1Rot.get()+' '+'['+r_x_val.get()+','+r_y_val.get()+','+r_z_val.get()+']')
+        agv1ProdTypes.set(agv1ProdTypes.get() + ' ' + product_type.get())
+        agv1Coords.set(agv1Coords.get() + ' ' + "[" + x_val.get() + ',' + y_val.get() + ',' + z_val.get() + "]")
+        agv1Rot.set(agv1Rot.get() + ' ' + '[' + r_x_val.get() + ',' + r_y_val.get() + ',' + r_z_val.get() + ']')
     if agv_id.get() == 'agv2':
-        agv2ProdTypes.set(agv2ProdTypes.get()+' '+product_type.get())
+        agv2ProdTypes.set(agv2ProdTypes.get() + ' ' + product_type.get())
         agv2Coords.set(agv2Coords.get() + ' ' + "[" + x_val.get() + ',' + y_val.get() + ',' + z_val.get() + "]")
         agv2Rot.set(agv2Rot.get() + ' ' + '[' + r_x_val.get() + ',' + r_y_val.get() + ',' + r_z_val.get() + ']')
     if agv_id.get() == 'agv3':
-        agv3ProdTypes.set(agv3ProdTypes.get()+' '+product_type.get())
+        agv3ProdTypes.set(agv3ProdTypes.get() + ' ' + product_type.get())
         agv3Coords.set(agv3Coords.get() + ' ' + "[" + x_val.get() + ',' + y_val.get() + ',' + z_val.get() + "]")
         agv3Rot.set(agv3Rot.get() + ' ' + '[' + r_x_val.get() + ',' + r_y_val.get() + ',' + r_z_val.get() + ']')
     if agv_id.get() == 'agv4':
-        agv4ProdTypes.set(agv4ProdTypes.get()+' '+product_type.get())
+        agv4ProdTypes.set(agv4ProdTypes.get() + ' ' + product_type.get())
         agv4Coords.set(agv4Coords.get() + ' ' + "[" + x_val.get() + ',' + y_val.get() + ',' + z_val.get() + "]")
         agv4Rot.set(agv4Rot.get() + ' ' + '[' + r_x_val.get() + ',' + r_y_val.get() + ',' + r_z_val.get() + ']')
 
@@ -195,8 +195,6 @@ def new_order():
     add_order.mainloop()
     allOrders.append(Order(temp_priority.get(), temp_k_health.get(), temp_a_health.get(),
                            temp_announcement_cond.get(), temp_ann_val.get(), tempKits, tempAssemb))
-    tempKits.clear()
-    tempAssemb.clear()
 
 
 def kitting():
@@ -231,14 +229,13 @@ def kitting():
     order_kitting.pack(pady=20)
     kitting_wind.mainloop()
     tempKits.append(Kitting(ship_count.get(), trays.get(), k_agv.get(), k_destination.get(), kitProds))
-    kitProds.clear()
 
 
 def get_k_products():
     k_products = tk.Toplevel()
     all_prod_str = []
     for prod in allProd:
-        all_prod_str.append(str(prod.id)+" "+str(prod.pType))
+        all_prod_str.append(str(prod.id) + " " + str(prod.pType))
     k_product_info = tk.StringVar()
     k_product_info.set(all_prod_str[0])
     k_product_type_menu = tk.OptionMenu(k_products, k_product_info, *all_prod_str)
@@ -269,14 +266,13 @@ def assembly():
     order_assemb.pack(pady=20)
     assemb_wind.mainloop()
     tempAssemb.append(Assembly(a_ship_count.get(), a_stations.get(), assembProds))
-    assembProds.clear()
 
 
 def get_a_products():
     a_products = tk.Toplevel()
     all_prod_str = []
     for prod in allProd:
-        all_prod_str.append(str(prod.id)+" "+str(prod.pType))
+        all_prod_str.append(str(prod.id) + " " + str(prod.pType))
     a_product_info = tk.StringVar()
     a_product_info.set(all_prod_str[0])
     a_product_type_menu = tk.OptionMenu(a_products, a_product_info, *all_prod_str)
@@ -422,16 +418,16 @@ if __name__ == "__main__":
     with open(saveFileName, "a") as o:
         o.write("options:\n")
         if overBins.get() != 'none':
-            o.write("\tinsert_models_over_bins: " + overBins.get()+"\n")
+            o.write("\tinsert_models_over_bins: " + overBins.get() + "\n")
         if popCycles.get() != 'none':
-            o.write("\tbelt_population_cycles: " + popCycles.get()+"\n")
+            o.write("\tbelt_population_cycles: " + popCycles.get() + "\n")
         if overStations.get() != 'none':
-            o.write("\tinsert_models_over_stations: "+overStations.get()+"\n")
+            o.write("\tinsert_models_over_stations: " + overStations.get() + "\n")
         if stateLogging.get() != 'none':
-            o.write("\tgazebo_state_logging: "+stateLogging.get()+"\n")
+            o.write("\tgazebo_state_logging: " + stateLogging.get() + "\n")
         o.write("\t# mandatory: gripper_tray or gripper_part\n")
-        o.write("\tcurrent_gripper_type: "+gripperType.get()+"\n")
-        o.write("\ttime_limit: "+timeLimit.get()+"\n")
+        o.write("\tcurrent_gripper_type: " + gripperType.get() + "\n")
+        o.write("\ttime_limit: " + timeLimit.get() + "\n")
     if cancelFlag.get() == '1':
         if path.exists(fileName.get()):
             os.remove(fileName.get())
@@ -486,12 +482,12 @@ if __name__ == "__main__":
                 o.write("\n\n\ntable_tray_infos:\n")
             if table1.get() != "" and table1q.get() != "":
                 o.write("\ttable_1:\n")
-                o.write("\t\ttray_model: "+table1.get()+"\n")
-                o.write("\t\tquantity: "+table1q.get()+"\n")
+                o.write("\t\ttray_model: " + table1.get() + "\n")
+                o.write("\t\tquantity: " + table1q.get() + "\n")
             if table2.get() != "" and table2q.get() != "":
                 o.write("\ttable_2:\n")
-                o.write("\t\ttray_model: "+table2.get()+"\n")
-                o.write("\t\tquantity: "+table2q.get()+"\n")
+                o.write("\t\ttray_model: " + table2.get() + "\n")
+                o.write("\t\tquantity: " + table2q.get() + "\n")
     if cancelFlag.get() == '1':
         if path.exists(fileName.get()):
             os.remove(fileName.get())
@@ -596,11 +592,11 @@ if __name__ == "__main__":
             o.write("\t\tproducts:\n")
             for i in agv1Types:
                 if i != '':
-                    o.write("\t\t\tpart_"+str(partID)+":\n")
-                    tempID = "part_"+str(partID)
+                    o.write("\t\t\tpart_" + str(partID) + ":\n")
+                    tempID = "part_" + str(partID)
                     o.write("\t\t\t\ttype: " + i + "\n")
                     o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + agv1CArr[index]+"\n")
+                    o.write("\t\t\t\t\txyz: " + agv1CArr[index] + "\n")
                     o.write("\t\t\t\t\trpy: " + agv1RArr[index] + "\n")
                     partID += 1
                     agv1Prod.append(Products(tempID, i, agv1CArr[index], agv1RArr[index]))
@@ -645,7 +641,7 @@ if __name__ == "__main__":
             for i in agv4Types:
                 if i != '':
                     o.write("\t\t\tpart_" + str(partID) + ":\n")
-                    tempID = "part_"+str(partID)
+                    tempID = "part_" + str(partID)
                     o.write("\t\t\t\ttype: " + i + "\n")
                     o.write("\t\t\t\tpose: \n")
                     o.write("\t\t\t\t\txyz: " + agv4CArr[index] + "\n")
@@ -682,6 +678,39 @@ if __name__ == "__main__":
     cancelOrders = tk.Button(ordersInfo, text="Cancel", command=cancel_orders)
     cancelOrders.pack(pady=20)
     ordersInfo.mainloop()
+    with open(saveFileName, "a") as o:
+        o.write("\n\norders:\n")
+        for i in allOrders:
+            o.write("\torder_"+str(orderID)+":\n")
+            o.write("\t\tpriority: " + i.priority+"\n")
+            o.write("\t\tkitting_robot_health: " + i.kittingHealth+"\n")
+            o.write("\t\tassembly_robot_health: " + i.assemblyHealth+"\n")
+            o.write("\t\tannouncement_condition: " + i.announcementCondition+"\n")
+            o.write("\t\tannouncement_condition_value: "+i.conditionValue+"\n")
+            o.write("\t\tkitting:\n")
+            for j in i.kitting:
+                o.write("\t\t\tshipment_count: "+j.shipmentCount+"\n")
+                o.write("\t\t\ttrays: "+j.trays+"\n")
+                o.write("\t\t\tagvs: "+j.agvs+"\n")
+                o.write("\t\t\tdestinations: "+j.destinations+"\n")
+                o.write("\t\t\tproducts:\n")
+                for k in j.products:
+                    o.write("\t\t\t\t"+k.id+":\n")
+                    o.write("\t\t\t\t\ttype: "+k.pType+"\n")
+                    o.write("\t\t\t\t\tpose:\n")
+                    o.write("\t\t\t\t\t\txyz: "+k.xyz+"\n")
+                    o.write("\t\t\t\t\t\trpy: "+k.rpy+"\n")
+            o.write("\t\tassembly:\n")
+            for j in i.assembly:
+                o.write("\t\t\tshipment_count: "+j.shipmentCount+'\n')
+                o.write("\t\t\tstations: "+j.stations+'\n')
+                o.write("\t\t\tproducts:\n")
+                for k in j.products:
+                    o.write("\t\t\t\t"+k.id+":\n")
+                    o.write("\t\t\t\t\ttype: "+k.pType+"\n")
+                    o.write("\t\t\t\t\tpose:\n")
+                    o.write("\t\t\t\t\t\txyz: "+k.xyz+"\n")
+                    o.write("\t\t\t\t\t\trpy: "+k.rpy+"\n")
     if cancelFlag.get() == '1':
         if path.exists(fileName.get()):
             os.remove(fileName.get())
