@@ -6,6 +6,9 @@ tempKits = []
 tempAssemb = []
 kitProds = []
 assembProds = []
+orderInd = 0
+kProdInd = []
+aProdInd = []
 
 
 def tf():
@@ -195,6 +198,8 @@ def new_order():
     add_order.mainloop()
     allOrders.append(Order(temp_priority.get(), temp_k_health.get(), temp_a_health.get(),
                            temp_announcement_cond.get(), temp_ann_val.get(), tempKits, tempAssemb))
+    kProdInd.append(len(tempKits[len(allOrders)-1].products)-1)
+    aProdInd.append(len(tempAssemb[len(allOrders)-1].products)-1)
 
 
 def kitting():
@@ -688,29 +693,48 @@ if __name__ == "__main__":
             o.write("\t\tannouncement_condition: " + i.announcementCondition+"\n")
             o.write("\t\tannouncement_condition_value: "+i.conditionValue+"\n")
             o.write("\t\tkitting:\n")
-            for j in i.kitting:
-                o.write("\t\t\tshipment_count: "+j.shipmentCount+"\n")
-                o.write("\t\t\ttrays: "+j.trays+"\n")
-                o.write("\t\t\tagvs: "+j.agvs+"\n")
-                o.write("\t\t\tdestinations: "+j.destinations+"\n")
-                o.write("\t\t\tproducts:\n")
-                for k in j.products:
-                    o.write("\t\t\t\t"+k.id+":\n")
-                    o.write("\t\t\t\t\ttype: "+k.pType+"\n")
+            o.write("\t\t\tshipment_count: " + i.kitting[orderInd].shipmentCount + "\n")
+            o.write("\t\t\ttrays: " + i.kitting[orderInd].trays + "\n")
+            o.write("\t\t\tagvs: " + i.kitting[orderInd].agvs + "\n")
+            o.write("\t\t\tdestinations: " + i.kitting[orderInd].destinations + "\n")
+            o.write("\t\t\tproducts:\n")
+            print(kProdInd)
+            print(aProdInd)
+            if len(kProdInd)-1 == orderInd:
+                for k in i.kitting[orderInd].products[kProdInd[orderInd]:]:
+                    o.write("\t\t\t\t" + k.id + ":\n")
+                    o.write("\t\t\t\t\ttype: " + k.pType + "\n")
                     o.write("\t\t\t\t\tpose:\n")
-                    o.write("\t\t\t\t\t\txyz: "+k.xyz+"\n")
-                    o.write("\t\t\t\t\t\trpy: "+k.rpy+"\n")
+                    o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
+                    o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+            else:
+                for k in i.kitting[orderInd].products[kProdInd[orderInd]: kProdInd[orderInd + 1]]:
+                    o.write("\t\t\t\t" + k.id + ":\n")
+                    o.write("\t\t\t\t\ttype: " + k.pType + "\n")
+                    o.write("\t\t\t\t\tpose:\n")
+                    o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
+                    o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
             o.write("\t\tassembly:\n")
-            for j in i.assembly:
-                o.write("\t\t\tshipment_count: "+j.shipmentCount+'\n')
-                o.write("\t\t\tstations: "+j.stations+'\n')
-                o.write("\t\t\tproducts:\n")
-                for k in j.products:
-                    o.write("\t\t\t\t"+k.id+":\n")
-                    o.write("\t\t\t\t\ttype: "+k.pType+"\n")
+            o.write("\t\t\tshipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
+            o.write("\t\t\tstations: " + i.assembly[orderInd].stations + '\n')
+            o.write("\t\t\tproducts:\n")
+            if len(aProdInd)-1 == orderInd:
+                for k in i.assembly[orderInd].products[aProdInd[orderInd]:]:
+                    o.write("\t\t\t\t" + k.id + ":\n")
+                    o.write("\t\t\t\t\ttype: " + k.pType + "\n")
                     o.write("\t\t\t\t\tpose:\n")
-                    o.write("\t\t\t\t\t\txyz: "+k.xyz+"\n")
-                    o.write("\t\t\t\t\t\trpy: "+k.rpy+"\n")
+                    o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
+                    o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+            else:
+                for k in i.assembly[orderInd].products[aProdInd[orderInd] : aProdInd[orderInd+1]]:
+                    o.write("\t\t\t\t" + k.id + ":\n")
+                    o.write("\t\t\t\t\ttype: " + k.pType + "\n")
+                    o.write("\t\t\t\t\tpose:\n")
+                    o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
+                    o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+            orderInd += 1
+            orderID += 1
+
     if cancelFlag.get() == '1':
         if path.exists(fileName.get()):
             os.remove(fileName.get())
