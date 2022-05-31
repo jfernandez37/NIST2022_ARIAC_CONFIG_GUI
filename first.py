@@ -294,7 +294,8 @@ def get_k_products():
     kitting_prod_exit = tk.Button(k_products, text="Save and Exit", command=k_products.destroy)
     kitting_prod_exit.pack(pady=20)
     k_products.mainloop()
-    kitProds.append(Products(temp_pid, k_product_info.get(), str("["+x_val_k.get()+", "+y_val_k.get()+', '+z_val_k.get()+"]"),
+    kitProds.append(Products(temp_pid, k_product_info.get(),
+                             str("["+x_val_k.get()+", "+y_val_k.get()+', '+z_val_k.get()+"]"),
                              str("["+r_x_val_k.get()+", "+r_y_val_k.get()+", "+z_val_k.get()+"]")))
 
 
@@ -321,18 +322,54 @@ def assembly():
 
 
 def get_a_products():
+    temp_pid = "part_100"
     a_products = tk.Toplevel()
-    all_prod_str = []
-    for prod in allProd:
-        all_prod_str.append(str(prod.id) + " " + str(prod.pType))
+    x_val_a = tk.StringVar()
+    x_val_a.set('0')
+    y_val_a = tk.StringVar()
+    y_val_a.set('0')
+    z_val_a = tk.StringVar()
+    z_val_a.set('0')
+    r_x_val_a = tk.StringVar()
+    r_x_val_a.set('0')
+    r_y_val_a = tk.StringVar()
+    r_y_val_a.set('0')
+    r_z_val_a = tk.StringVar()
+    r_z_val_a.set('0')
     a_product_info = tk.StringVar()
-    a_product_info.set(all_prod_str[0])
-    a_product_type_menu = tk.OptionMenu(a_products, a_product_info, *all_prod_str)
+    a_product_info.set(prodList[0])
+    a_product_type_menu = tk.OptionMenu(a_products, a_product_info, *prodList)
     a_product_type_menu.pack()
+    x_val_a_label = tk.Label(a_products, text="Enter the x value")
+    x_val_a_label.pack()
+    x_val_a_entry = tk.Entry(a_products, textvariable=x_val_a)
+    x_val_a_entry.pack()
+    y_val_a_label = tk.Label(a_products, text="Enter the y value")
+    y_val_a_label.pack()
+    y_val_a_entry = tk.Entry(a_products, textvariable=y_val_a)
+    y_val_a_entry.pack()
+    z_val_a_label = tk.Label(a_products, text="Enter the z value")
+    z_val_a_label.pack()
+    z_val_a_entry = tk.Entry(a_products, textvariable=z_val_a)
+    z_val_a_entry.pack()
+    r_x_val_a_label = tk.Label(a_products, text="Enter the x rotation value")
+    r_x_val_a_label.pack()
+    r_x_val_a_entry = tk.Entry(a_products, textvariable=r_x_val_a)
+    r_x_val_a_entry.pack()
+    r_y_val_a_label = tk.Label(a_products, text="Enter the y rotation value")
+    r_y_val_a_label.pack()
+    r_y_val_a_entry = tk.Entry(a_products, textvariable=r_y_val_a)
+    r_y_val_a_entry.pack()
+    r_z_val_a_label = tk.Label(a_products, text="Enter the z rotation value")
+    r_z_val_a_label.pack()
+    r_z_val_a_entry = tk.Entry(a_products, textvariable=r_z_val_a)
+    r_z_val_a_entry.pack()
     assemb_prod_exit = tk.Button(a_products, text="Save and Exit", command=a_products.destroy)
     assemb_prod_exit.pack(pady=20)
     a_products.mainloop()
-    assembProds.append(allProd[all_prod_str.index(a_product_info.get())])
+    assembProds.append(Products(temp_pid, a_product_info.get(),
+                       str("[" + x_val_a.get() + ", " + y_val_a.get() + ', ' + z_val_a.get() + "]"),
+                       str("[" + r_x_val_a.get() + ", " + r_y_val_a.get() + ", " + z_val_a.get() + "]")))
 
 
 def cancel_file():
