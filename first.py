@@ -14,6 +14,12 @@ prodList = ["assembly_battery_red", "assembly_battery_green",
             "assembly_pump_blue", "assembly_regulator_red",
             "assembly_regulator_green", "assembly_regulator_blue", "assembly_sensor_red",
             "assembly_sensor_green", "assembly_sensor_blue"]
+agv1List = ['ks1', 'as1', 'as2']
+agv2List = ['ks2', 'as1', 'as2']
+agv3List = ['ks3', 'as3', 'as4']
+agv4List = ['ks4', 'as3', 'as4']
+trayTypes = ["[movable_tray_dark_wood]", "[movable_tray_light_wood]",
+             "[movable_tray_metal_rusty]", "[movable_tray_metal_shiny]"]
 
 
 def tf():
@@ -202,32 +208,34 @@ def new_order():
     add_order.mainloop()
     allOrders.append(Order(temp_priority.get(), temp_k_health.get(), temp_a_health.get(),
                            temp_announcement_cond.get(), temp_ann_val.get(), tempKits, tempAssemb))
-    kProdInd.append(len(tempKits[len(allOrders)-1].products)-1)
-    aProdInd.append(len(tempAssemb[len(allOrders)-1].products)-1)
+    if len(tempKits) != 0:
+        kProdInd.append(len(tempKits[len(allOrders)-1].products)-1)
+    if len(tempAssemb) != 0:
+        aProdInd.append(len(tempAssemb[len(allOrders)-1].products)-1)
 
 
 def kitting():
     kitting_wind = tk.Toplevel()
     ship_count = tk.StringVar()
-    ship_count.set('1') #between 1 and 2
+    ship_count.set('1')  # between 1 and 2
     trays = tk.StringVar()
-    trays.set('[movable_tray_metal_rusty]') #list
+    trays.set('[movable_tray_metal_rusty]')
     k_agv = tk.StringVar()
-    k_agv.set('[agv1]') #list
+    k_agv.set('[agv1]')
     k_destination = tk.StringVar()
     k_destination.set('[as1]') #list of as choices
     k_ship_count = tk.Label(kitting_wind, text="Enter the shipping count")
     k_ship_count.pack()
-    get_ship_count = tk.Entry(kitting_wind, textvariable=ship_count)
-    get_ship_count.pack()
+    ship_count_menu = tk.OptionMenu(kitting_wind, ship_count, "1", "2")
+    ship_count_menu.pack()
     k_trays = tk.Label(kitting_wind, text="Kitting Trays")
     k_trays.pack()
-    get_trays = tk.Entry(kitting_wind, textvariable=trays)
-    get_trays.pack()
+    get_tray = tk.OptionMenu(kitting_wind, trays, *trayTypes)
+    get_tray.pack()
     k_agv_label = tk.Label(kitting_wind, text="Enter the Kitting agv")
     k_agv_label.pack()
-    get_k_agv = tk.Entry(kitting_wind, textvariable=k_agv)
-    get_k_agv.pack()
+    get_agv = tk.OptionMenu(kitting_wind, k_agv, "[agv1]", "[agv2]", "[agv3]", "[agv4]")
+    get_agv.pack()
     k_dest_label = tk.Label(kitting_wind, text="Enter the Kitting destination")
     k_dest_label.pack()
     get_k_dest = tk.Entry(kitting_wind, textvariable=k_destination)
@@ -704,44 +712,46 @@ if __name__ == "__main__":
             o.write("\t\tassembly_robot_health: " + i.assemblyHealth+"\n")
             o.write("\t\tannouncement_condition: " + i.announcementCondition+"\n")
             o.write("\t\tannouncement_condition_value: "+i.conditionValue+"\n")
-            o.write("\t\tkitting:\n")
-            o.write("\t\t\tshipment_count: " + i.kitting[orderInd].shipmentCount + "\n")
-            o.write("\t\t\ttrays: " + i.kitting[orderInd].trays + "\n")
-            o.write("\t\t\tagvs: " + i.kitting[orderInd].agvs + "\n")
-            o.write("\t\t\tdestinations: " + i.kitting[orderInd].destinations + "\n")
-            o.write("\t\t\tproducts:\n")
-            if len(kProdInd)-1 == orderInd:
-                for k in i.kitting[orderInd].products[kProdInd[orderInd]:]:
-                    o.write("\t\t\t\t" + k.id + ":\n")
-                    o.write("\t\t\t\t\ttype: " + k.pType + "\n")
-                    o.write("\t\t\t\t\tpose:\n")
-                    o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
-                    o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
-            else:
-                for k in i.kitting[orderInd].products[kProdInd[orderInd]: kProdInd[orderInd + 1]]:
-                    o.write("\t\t\t\t" + k.id + ":\n")
-                    o.write("\t\t\t\t\ttype: " + k.pType + "\n")
-                    o.write("\t\t\t\t\tpose:\n")
-                    o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
-                    o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
-            o.write("\t\tassembly:\n")
-            o.write("\t\t\tshipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
-            o.write("\t\t\tstations: " + i.assembly[orderInd].stations + '\n')
-            o.write("\t\t\tproducts:\n")
-            if len(aProdInd)-1 == orderInd:
-                for k in i.assembly[orderInd].products[aProdInd[orderInd]:]:
-                    o.write("\t\t\t\t" + k.id + ":\n")
-                    o.write("\t\t\t\t\ttype: " + k.pType + "\n")
-                    o.write("\t\t\t\t\tpose:\n")
-                    o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
-                    o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
-            else:
-                for k in i.assembly[orderInd].products[aProdInd[orderInd]: aProdInd[orderInd+1]]:
-                    o.write("\t\t\t\t" + k.id + ":\n")
-                    o.write("\t\t\t\t\ttype: " + k.pType + "\n")
-                    o.write("\t\t\t\t\tpose:\n")
-                    o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
-                    o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+            if len(i.kitting) != 0:
+                o.write("\t\tkitting:\n")
+                o.write("\t\t\tshipment_count: " + i.kitting[orderInd].shipmentCount + "\n")
+                o.write("\t\t\ttrays: " + i.kitting[orderInd].trays + "\n")
+                o.write("\t\t\tagvs: " + i.kitting[orderInd].agvs + "\n")
+                o.write("\t\t\tdestinations: " + i.kitting[orderInd].destinations + "\n")
+                o.write("\t\t\tproducts:\n")
+                if len(kProdInd)-1 == orderInd:
+                    for k in i.kitting[orderInd].products[kProdInd[orderInd]:]:
+                        o.write("\t\t\t\t" + k.id + ":\n")
+                        o.write("\t\t\t\t\ttype: " + k.pType + "\n")
+                        o.write("\t\t\t\t\tpose:\n")
+                        o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
+                        o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+                else:
+                    for k in i.kitting[orderInd].products[kProdInd[orderInd]: kProdInd[orderInd + 1]]:
+                        o.write("\t\t\t\t" + k.id + ":\n")
+                        o.write("\t\t\t\t\ttype: " + k.pType + "\n")
+                        o.write("\t\t\t\t\tpose:\n")
+                        o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
+                        o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+            if len(i.assembly) != 0:
+                o.write("\t\tassembly:\n")
+                o.write("\t\t\tshipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
+                o.write("\t\t\tstations: " + i.assembly[orderInd].stations + '\n')
+                o.write("\t\t\tproducts:\n")
+                if len(aProdInd)-1 == orderInd:
+                    for k in i.assembly[orderInd].products[aProdInd[orderInd]:]:
+                        o.write("\t\t\t\t" + k.id + ":\n")
+                        o.write("\t\t\t\t\ttype: " + k.pType + "\n")
+                        o.write("\t\t\t\t\tpose:\n")
+                        o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
+                        o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+                else:
+                    for k in i.assembly[orderInd].products[aProdInd[orderInd]: aProdInd[orderInd+1]]:
+                        o.write("\t\t\t\t" + k.id + ":\n")
+                        o.write("\t\t\t\t\ttype: " + k.pType + "\n")
+                        o.write("\t\t\t\t\tpose:\n")
+                        o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
+                        o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
             orderInd -= 1
             orderID += 1
         o.write("\n")
