@@ -9,6 +9,11 @@ assembProds = []
 orderInd = 0
 kProdInd = []
 aProdInd = []
+prodList = ["assembly_battery_red", "assembly_battery_green",
+            "assembly_battery_blue", "assembly_pump_red", "assembly_pump_green",
+            "assembly_pump_blue", "assembly_regulator_red",
+            "assembly_regulator_green", "assembly_regulator_blue", "assembly_sensor_red",
+            "assembly_sensor_green", "assembly_sensor_blue"]
 
 
 def tf():
@@ -108,11 +113,7 @@ def add_product():
     product_type.set("assembly_battery_red")
     product_type_menu_label = tk.Label(product_info, text="Choose the product type:")
     product_type_menu_label.pack()
-    product_type_menu = tk.OptionMenu(product_info, product_type, "assembly_battery_red", "assembly_battery_green",
-                                      "assembly_battery_blue", "assembly_pump_red", "assembly_pump_green",
-                                      "assembly_pump_blue", "assembly_regulator_red",
-                                      "assembly_regulator_green", "assembly_regulator_blue", "assembly_sensor_red", 
-                                      "assembly_sensor_green", "assembly_sensor_blue")
+    product_type_menu = tk.OptionMenu(product_info, product_type, *prodList)
     product_type_menu.pack()
     x_val_label = tk.Label(product_info, text="Enter the x value")
     x_val_label.pack()
@@ -688,6 +689,12 @@ if __name__ == "__main__":
     ordersInfo.mainloop()
     allOrders.reverse()
     orderInd = len(allOrders)-1
+    if cancelFlag.get() == '1':
+        if path.exists(fileName.get()):
+            os.remove(fileName.get())
+        elif path.exists(fileName.get() + '.yaml'):
+            os.remove(fileName.get() + '.yaml')
+        quit()
     with open(saveFileName, "a") as o:
         o.write("\n\norders:\n")
         for i in allOrders:
@@ -739,10 +746,3 @@ if __name__ == "__main__":
             orderID += 1
         o.write("\n")
 
-    if cancelFlag.get() == '1':
-        if path.exists(fileName.get()):
-            os.remove(fileName.get())
-        elif path.exists(fileName.get() + '.yaml'):
-            os.remove(fileName.get() + '.yaml')
-        quit()
-        
