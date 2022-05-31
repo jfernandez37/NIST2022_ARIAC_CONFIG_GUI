@@ -208,7 +208,7 @@ def new_order():
     add_order.mainloop()
     allOrders.append(Order(temp_priority.get(), temp_k_health.get(), temp_a_health.get(),
                            temp_announcement_cond.get(), temp_ann_val.get(), tempKits, tempAssemb))
-    if len(tempKits) != 0:
+    if len(tempKits) != 0:  # checks if there are products present to avoid errors
         kProdInd.append(len(tempKits[len(allOrders)-1].products)-1)
     if len(tempAssemb) != 0:
         aProdInd.append(len(tempAssemb[len(allOrders)-1].products)-1)
@@ -249,18 +249,53 @@ def kitting():
 
 
 def get_k_products():
+    temp_pid = "part_100"
     k_products = tk.Toplevel()
-    all_prod_str = []
-    for prod in allProd:
-        all_prod_str.append(str(prod.id) + " " + str(prod.pType))
+    x_val_k = tk.StringVar()
+    x_val_k.set('0')
+    y_val_k = tk.StringVar()
+    y_val_k.set('0')
+    z_val_k = tk.StringVar()
+    z_val_k.set('0')
+    r_x_val_k = tk.StringVar()
+    r_x_val_k.set('0')
+    r_y_val_k = tk.StringVar()
+    r_y_val_k.set('0')
+    r_z_val_k = tk.StringVar()
+    r_z_val_k.set('0')
     k_product_info = tk.StringVar()
-    k_product_info.set(all_prod_str[0])
-    k_product_type_menu = tk.OptionMenu(k_products, k_product_info, *all_prod_str)
+    k_product_info.set(prodList[0])
+    k_product_type_menu = tk.OptionMenu(k_products, k_product_info, *prodList)
     k_product_type_menu.pack()
+    x_val_k_label = tk.Label(k_products, text="Enter the x value")
+    x_val_k_label.pack()
+    x_val_k_entry = tk.Entry(k_products, textvariable=x_val_k)
+    x_val_k_entry.pack()
+    y_val_k_label = tk.Label(k_products, text="Enter the y value")
+    y_val_k_label.pack()
+    y_val_k_entry = tk.Entry(k_products, textvariable=y_val_k)
+    y_val_k_entry.pack()
+    z_val_k_label = tk.Label(k_products, text="Enter the z value")
+    z_val_k_label.pack()
+    z_val_k_entry = tk.Entry(k_products, textvariable=z_val_k)
+    z_val_k_entry.pack()
+    r_x_val_k_label = tk.Label(k_products, text="Enter the x rotation value")
+    r_x_val_k_label.pack()
+    r_x_val_k_entry = tk.Entry(k_products, textvariable=r_x_val_k)
+    r_x_val_k_entry.pack()
+    r_y_val_k_label = tk.Label(k_products, text="Enter the y rotation value")
+    r_y_val_k_label.pack()
+    r_y_val_k_entry = tk.Entry(k_products, textvariable=r_y_val_k)
+    r_y_val_k_entry.pack()
+    r_z_val_k_label = tk.Label(k_products, text="Enter the z rotation value")
+    r_z_val_k_label.pack()
+    r_z_val_k_entry = tk.Entry(k_products, textvariable=r_z_val_k)
+    r_z_val_k_entry.pack()
     kitting_prod_exit = tk.Button(k_products, text="Save and Exit", command=k_products.destroy)
     kitting_prod_exit.pack(pady=20)
     k_products.mainloop()
-    kitProds.append(allProd[all_prod_str.index(k_product_info.get())])
+    kitProds.append(Products(temp_pid, k_product_info.get(), str("["+x_val_k.get()+", "+y_val_k.get()+', '+z_val_k.get()+"]"),
+                             str("["+r_x_val_k.get()+", "+r_y_val_k.get()+", "+z_val_k.get()+"]")))
 
 
 def assembly():
@@ -697,6 +732,7 @@ if __name__ == "__main__":
     ordersInfo.mainloop()
     allOrders.reverse()
     orderInd = len(allOrders)-1
+    partC = 0
     if cancelFlag.get() == '1':
         if path.exists(fileName.get()):
             os.remove(fileName.get())
@@ -721,7 +757,8 @@ if __name__ == "__main__":
                 o.write("\t\t\tproducts:\n")
                 if len(kProdInd)-1 == orderInd:
                     for k in i.kitting[orderInd].products[kProdInd[orderInd]:]:
-                        o.write("\t\t\t\t" + k.id + ":\n")
+                        o.write("\t\t\t\tpart_" + str(partC) + ":\n")
+                        partC += 1
                         o.write("\t\t\t\t\ttype: " + k.pType + "\n")
                         o.write("\t\t\t\t\tpose:\n")
                         o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
@@ -740,7 +777,8 @@ if __name__ == "__main__":
                 o.write("\t\t\tproducts:\n")
                 if len(aProdInd)-1 == orderInd:
                     for k in i.assembly[orderInd].products[aProdInd[orderInd]:]:
-                        o.write("\t\t\t\t" + k.id + ":\n")
+                        o.write("\t\t\t\t part_" + str(partC) + ":\n")
+                        partC += 1
                         o.write("\t\t\t\t\ttype: " + k.pType + "\n")
                         o.write("\t\t\t\t\tpose:\n")
                         o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
