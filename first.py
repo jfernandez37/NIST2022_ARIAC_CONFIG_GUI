@@ -802,7 +802,8 @@ if __name__ == "__main__":
                         o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
                 else:
                     for k in i.kitting[orderInd].products[kProdInd[orderInd]: kProdInd[orderInd + 1]]:
-                        o.write("\t\t\t\t" + k.id + ":\n")
+                        o.write("\t\t\t\tpart_" + str(partC) + ":\n")
+                        partC += 1
                         o.write("\t\t\t\t\ttype: " + k.pType + "\n")
                         o.write("\t\t\t\t\tpose:\n")
                         o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
@@ -822,7 +823,8 @@ if __name__ == "__main__":
                         o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
                 else:
                     for k in i.assembly[orderInd].products[aProdInd[orderInd]: aProdInd[orderInd+1]]:
-                        o.write("\t\t\t\t" + k.id + ":\n")
+                        o.write("\t\t\t\tpart_" + str(partC) + ":\n")
+                        partC += 1
                         o.write("\t\t\t\t\ttype: " + k.pType + "\n")
                         o.write("\t\t\t\t\tpose:\n")
                         o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
