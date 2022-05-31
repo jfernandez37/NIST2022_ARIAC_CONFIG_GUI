@@ -111,7 +111,8 @@ def add_product():
     product_type_menu = tk.OptionMenu(product_info, product_type, "assembly_battery_red", "assembly_battery_green",
                                       "assembly_battery_blue", "assembly_pump_red", "assembly_pump_green",
                                       "assembly_pump_blue", "assembly_regulator_red",
-                                      "assembly_regulator_green", "assembly_regulator_blue") #add sensor
+                                      "assembly_regulator_green", "assembly_regulator_blue", "assembly_sensor_red", 
+                                      "assembly_sensor_green", "assembly_sensor_blue")
     product_type_menu.pack()
     x_val_label = tk.Label(product_info, text="Enter the x value")
     x_val_label.pack()
@@ -728,7 +729,7 @@ if __name__ == "__main__":
                     o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
                     o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
             else:
-                for k in i.assembly[orderInd].products[aProdInd[orderInd] : aProdInd[orderInd+1]]:
+                for k in i.assembly[orderInd].products[aProdInd[orderInd]: aProdInd[orderInd+1]]:
                     o.write("\t\t\t\t" + k.id + ":\n")
                     o.write("\t\t\t\t\ttype: " + k.pType + "\n")
                     o.write("\t\t\t\t\tpose:\n")
@@ -736,6 +737,7 @@ if __name__ == "__main__":
                     o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
             orderInd -= 1
             orderID += 1
+        o.write("\n")
 
     if cancelFlag.get() == '1':
         if path.exists(fileName.get()):
@@ -743,3 +745,4 @@ if __name__ == "__main__":
         elif path.exists(fileName.get() + '.yaml'):
             os.remove(fileName.get() + '.yaml')
         quit()
+        
