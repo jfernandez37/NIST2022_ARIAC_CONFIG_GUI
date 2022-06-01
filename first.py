@@ -453,7 +453,7 @@ def add_bin():
     width = '2'
     if dim.get() == '3x3':
         width = '3'
-    modelsOverBinsInfo.append(ModelOverBin(bin_num.get(), bin_prod.get(), 
+    modelsOverBinsInfo.append(ModelOverBin(bin_num.get(), bin_prod.get(),
                                            str("["+x_val_s.get()+", "+y_val_s.get()+", "+z_val_s.get()+"]"),
                                            str("["+x_val_e.get()+", "+y_val_e.get()+", "+z_val_e.get()+"]"),
                                            str("["+r_x_val_b.get()+", "+r_y_val_b.get()+", "+r_z_val_b.get()+"]"),
@@ -872,7 +872,6 @@ if __name__ == "__main__":
     cancelOrders.pack(pady=20)
     ordersInfo.mainloop()
     allOrders.reverse()
-    orderInd = len(allOrders)-1
     partC = 0
     if cancelFlag.get() == '1':
         if path.exists(fileName.get()):
@@ -933,7 +932,6 @@ if __name__ == "__main__":
                         o.write("\t\t\t\t\tpose:\n")
                         o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
                         o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
-            orderInd -= 1
             orderID += 1
         o.write("\n")
     # END OF ORDERS
@@ -941,6 +939,8 @@ if __name__ == "__main__":
     # BEGINNING OF MODELS OVER BINS
     if overBins.get() == 'true':
         overBinsWind = tk.Tk()
+        addBinButton = tk.Button(overBinsWind, text="Add bin", command=add_bin)
+        addBinButton.pack(pady=20)
         overBinsNext = tk.Button(overBinsWind, text="Next", command=overBinsWind.destroy)
         overBinsNext.pack(pady=20)
         cancelOverBins = tk.Button(overBinsWind, text="Cancel", command=cancel_over_bins)
@@ -956,5 +956,12 @@ if __name__ == "__main__":
             with open(saveFileName, "a") as o:
                 o.write("\nmodels_over_bins:")
                 for i in modelsOverBinsInfo:
-                    o.write("\t"+i.)
-            
+                    o.write("\t"+i.binNum+":\n")
+                    o.write("\t\tmodels:\n")
+                    o.write("\t\t\t"+i.product+":\n")
+                    o.write("\t\t\t\txyz_start: "+i.xyz_start+"\n")
+                    o.write("\t\t\t\txyz_end: "+i.xyz_end+"\n")
+                    o.write("\t\t\t\trpy: "+i.rpy+"\n")
+                    o.write("\t\t\t\tnum_models_x: "+i.num_mod_x+"\n")
+                    o.write("\t\t\t\tnum_models_y: "+i.num_mod_y+"\n")
+                o.write("\n")
