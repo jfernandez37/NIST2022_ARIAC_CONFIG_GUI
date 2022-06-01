@@ -880,60 +880,61 @@ if __name__ == "__main__":
             os.remove(fileName.get() + '.yaml')
         quit()
     with open(saveFileName, "a") as o:
-        o.write("\n\norders:\n")
-        for i in allOrders:
-            o.write("\torder_"+str(orderID)+":\n")
-            o.write("\t\tpriority: " + i.priority+"\n")
-            o.write("\t\tkitting_robot_health: " + i.kittingHealth+"\n")
-            o.write("\t\tassembly_robot_health: " + i.assemblyHealth+"\n")
-            o.write("\t\tannouncement_condition: " + i.announcementCondition+"\n")
-            o.write("\t\tannouncement_condition_value: "+i.conditionValue+"\n")
-            if len(i.kitting) != 0:
-                o.write("\t\tkitting:\n")
-                o.write("\t\t\tshipment_count: " + i.kitting[orderInd].shipmentCount + "\n")
-                o.write("\t\t\ttrays: " + i.kitting[orderInd].trays + "\n")
-                o.write("\t\t\tagvs: " + i.kitting[orderInd].agvs + "\n")
-                o.write("\t\t\tdestinations: " + i.kitting[orderInd].destinations + "\n")
-                o.write("\t\t\tproducts:\n")
-                if len(kProdInd)-1 == orderInd:
-                    for k in i.kitting[orderInd].products[kProdInd[orderInd]:]:
-                        o.write("\t\t\t\tpart_" + str(partC) + ":\n")
-                        partC += 1
-                        o.write("\t\t\t\t\ttype: " + k.pType + "\n")
-                        o.write("\t\t\t\t\tpose:\n")
-                        o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
-                        o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
-                else:
-                    for k in i.kitting[orderInd].products[kProdInd[orderInd]: kProdInd[orderInd + 1]]:
-                        o.write("\t\t\t\tpart_" + str(partC) + ":\n")
-                        partC += 1
-                        o.write("\t\t\t\t\ttype: " + k.pType + "\n")
-                        o.write("\t\t\t\t\tpose:\n")
-                        o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
-                        o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
-            if len(i.assembly) != 0:
-                o.write("\t\tassembly:\n")
-                o.write("\t\t\tshipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
-                o.write("\t\t\tstations: " + i.assembly[orderInd].stations + '\n')
-                o.write("\t\t\tproducts:\n")
-                if len(aProdInd)-1 == orderInd:
-                    for k in i.assembly[orderInd].products[aProdInd[orderInd]:]:
-                        o.write("\t\t\t\t part_" + str(partC) + ":\n")
-                        partC += 1
-                        o.write("\t\t\t\t\ttype: " + k.pType + "\n")
-                        o.write("\t\t\t\t\tpose:\n")
-                        o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
-                        o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
-                else:
-                    for k in i.assembly[orderInd].products[aProdInd[orderInd]: aProdInd[orderInd+1]]:
-                        o.write("\t\t\t\tpart_" + str(partC) + ":\n")
-                        partC += 1
-                        o.write("\t\t\t\t\ttype: " + k.pType + "\n")
-                        o.write("\t\t\t\t\tpose:\n")
-                        o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
-                        o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
-            orderID += 1
-        o.write("\n")
+        if len(allOrders) > 0:
+            o.write("\n\norders:\n")
+            for i in allOrders:
+                o.write("\torder_"+str(orderID)+":\n")
+                o.write("\t\tpriority: " + i.priority+"\n")
+                o.write("\t\tkitting_robot_health: " + i.kittingHealth+"\n")
+                o.write("\t\tassembly_robot_health: " + i.assemblyHealth+"\n")
+                o.write("\t\tannouncement_condition: " + i.announcementCondition+"\n")
+                o.write("\t\tannouncement_condition_value: "+i.conditionValue+"\n")
+                if len(i.kitting) != 0:
+                    o.write("\t\tkitting:\n")
+                    o.write("\t\t\tshipment_count: " + i.kitting[orderInd].shipmentCount + "\n")
+                    o.write("\t\t\ttrays: " + i.kitting[orderInd].trays + "\n")
+                    o.write("\t\t\tagvs: " + i.kitting[orderInd].agvs + "\n")
+                    o.write("\t\t\tdestinations: " + i.kitting[orderInd].destinations + "\n")
+                    o.write("\t\t\tproducts:\n")
+                    if len(kProdInd)-1 == orderInd:
+                        for k in i.kitting[orderInd].products[kProdInd[orderInd]:]:
+                            o.write("\t\t\t\tpart_" + str(partC) + ":\n")
+                            partC += 1
+                            o.write("\t\t\t\t\ttype: " + k.pType + "\n")
+                            o.write("\t\t\t\t\tpose:\n")
+                            o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
+                            o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+                    else:
+                        for k in i.kitting[orderInd].products[kProdInd[orderInd]: kProdInd[orderInd + 1]]:
+                            o.write("\t\t\t\tpart_" + str(partC) + ":\n")
+                            partC += 1
+                            o.write("\t\t\t\t\ttype: " + k.pType + "\n")
+                            o.write("\t\t\t\t\tpose:\n")
+                            o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
+                            o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+                if len(i.assembly) != 0:
+                    o.write("\t\tassembly:\n")
+                    o.write("\t\t\tshipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
+                    o.write("\t\t\tstations: " + i.assembly[orderInd].stations + '\n')
+                    o.write("\t\t\tproducts:\n")
+                    if len(aProdInd)-1 == orderInd:
+                        for k in i.assembly[orderInd].products[aProdInd[orderInd]:]:
+                            o.write("\t\t\t\t part_" + str(partC) + ":\n")
+                            partC += 1
+                            o.write("\t\t\t\t\ttype: " + k.pType + "\n")
+                            o.write("\t\t\t\t\tpose:\n")
+                            o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
+                            o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+                    else:
+                        for k in i.assembly[orderInd].products[aProdInd[orderInd]: aProdInd[orderInd+1]]:
+                            o.write("\t\t\t\tpart_" + str(partC) + ":\n")
+                            partC += 1
+                            o.write("\t\t\t\t\ttype: " + k.pType + "\n")
+                            o.write("\t\t\t\t\tpose:\n")
+                            o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
+                            o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+                orderID += 1
+            o.write("\n")
     # END OF ORDERS
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF MODELS OVER BINS
@@ -953,8 +954,9 @@ if __name__ == "__main__":
                 os.remove(fileName.get() + '.yaml')
             quit()
         if len(modelsOverBinsInfo) > 0:
+            modelsOverBinsInfo.reverse()
             with open(saveFileName, "a") as o:
-                o.write("\nmodels_over_bins:")
+                o.write("\nmodels_over_bins:\n")
                 for i in modelsOverBinsInfo:
                     o.write("\t"+i.binNum+":\n")
                     o.write("\t\tmodels:\n")
