@@ -20,6 +20,7 @@ agv3List = ['ks3', 'as3', 'as4']
 agv4List = ['ks4', 'as3', 'as4']
 trayTypes = ["[movable_tray_dark_wood]", "[movable_tray_light_wood]",
              "[movable_tray_metal_rusty]", "[movable_tray_metal_shiny]"]
+modelsOverBinsInfo = []
 
 
 def tf():
@@ -223,7 +224,7 @@ def kitting():
     k_agv = tk.StringVar()
     k_agv.set('[agv1]')
     k_destination = tk.StringVar()
-    k_destination.set('[as1]') #list of as choices
+    k_destination.set('[as1]')  # list of as choices
     k_ship_count = tk.Label(kitting_wind, text="Enter the shipping count")
     k_ship_count.pack()
     ship_count_menu = tk.OptionMenu(kitting_wind, ship_count, "1", "2")
@@ -372,6 +373,93 @@ def get_a_products():
                        str("[" + r_x_val_a.get() + ", " + r_y_val_a.get() + ", " + z_val_a.get() + "]")))
 
 
+def add_bin():
+    add_bin_wind = tk.Toplevel()
+    bin_prod = tk.StringVar()
+    bin_prod.set(prodList[0])
+    bin_num = tk.StringVar()
+    bin_num.set('bin1')
+    dim = tk.StringVar()
+    dim.set('2x2')
+    x_val_s = tk.StringVar()
+    x_val_s.set('0')
+    y_val_s = tk.StringVar()
+    y_val_s.set('0')
+    z_val_s = tk.StringVar()
+    z_val_s.set('0')
+    x_val_e = tk.StringVar()
+    x_val_e.set('0')
+    y_val_e = tk.StringVar()
+    y_val_e.set('0')
+    z_val_e = tk.StringVar()
+    z_val_e.set('0')
+    r_x_val_b = tk.StringVar()
+    r_x_val_b.set('0')
+    r_y_val_b = tk.StringVar()
+    r_y_val_b.set('0')
+    r_z_val_b = tk.StringVar()
+    r_z_val_b.set('0')
+    b_num_label = tk.Label(add_bin_wind, text="Select the bin number")
+    b_num_label.pack()
+    b_num_menu = tk.OptionMenu(add_bin_wind, bin_num, 'bin1', 'bin2', 'bin3', 'bin4')
+    b_num_menu.pack()
+    b_product_label = tk.Label(add_bin_wind, text="Select the product for the bin")
+    b_product_label.pack()
+    b_product_type_menu = tk.OptionMenu(add_bin_wind, bin_prod, *prodList)
+    b_product_type_menu.pack()
+    x_val_s_label = tk.Label(add_bin_wind, text="Enter the start x value")
+    x_val_s_label.pack()
+    x_val_s_entry = tk.Entry(add_bin_wind, textvariable=x_val_s)
+    x_val_s_entry.pack()
+    y_val_s_label = tk.Label(add_bin_wind, text="Enter the start y value")
+    y_val_s_label.pack()
+    y_val_s_entry = tk.Entry(add_bin_wind, textvariable=y_val_s)
+    y_val_s_entry.pack()
+    z_val_s_label = tk.Label(add_bin_wind, text="Enter the start z value")
+    z_val_s_label.pack()
+    z_val_s_entry = tk.Entry(add_bin_wind, textvariable=z_val_s)
+    z_val_s_entry.pack()
+    x_val_e_label = tk.Label(add_bin_wind, text="Enter the end x value")
+    x_val_e_label.pack()
+    x_val_e_entry = tk.Entry(add_bin_wind, textvariable=x_val_e)
+    x_val_e_entry.pack()
+    y_val_e_label = tk.Label(add_bin_wind, text="Enter the end y value")
+    y_val_e_label.pack()
+    y_val_e_entry = tk.Entry(add_bin_wind, textvariable=y_val_e)
+    y_val_e_entry.pack()
+    z_val_e_label = tk.Label(add_bin_wind, text="Enter the end z value")
+    z_val_e_label.pack()
+    z_val_e_entry = tk.Entry(add_bin_wind, textvariable=z_val_e)
+    z_val_e_entry.pack()
+    r_x_val_b_label = tk.Label(add_bin_wind, text="Enter the x rotation value")
+    r_x_val_b_label.pack()
+    r_x_val_b_entry = tk.Entry(add_bin_wind, textvariable=r_x_val_b)
+    r_x_val_b_entry.pack()
+    r_y_val_b_label = tk.Label(add_bin_wind, text="Enter the y rotation value")
+    r_y_val_b_label.pack()
+    r_y_val_b_entry = tk.Entry(add_bin_wind, textvariable=r_y_val_b)
+    r_y_val_b_entry.pack()
+    r_z_val_b_label = tk.Label(add_bin_wind, text="Enter the z rotation value")
+    r_z_val_b_label.pack()
+    r_z_val_b_entry = tk.Entry(add_bin_wind, textvariable=r_z_val_b)
+    r_z_val_b_entry.pack()
+    b_dim_label = tk.Label(add_bin_wind, text="Select the dimensions for the bin")
+    b_dim_label.pack()
+    b_dim_menu = tk.OptionMenu(add_bin_wind, dim, '2x2', '3x3')
+    b_dim_menu.pack()
+    add_bin_exit = tk.Button(add_bin_wind, text="Save and Exit", command=add_bin_wind.destroy)
+    add_bin_exit.pack(pady=20)
+    add_bin_wind.mainloop()
+    width = '2'
+    if dim.get() == '3x3':
+        width = '3'
+    modelsOverBinsInfo.append(ModelOverBin(bin_num.get(), bin_prod.get(), 
+                                           str("["+x_val_s.get()+", "+y_val_s.get()+", "+z_val_s.get()+"]"),
+                                           str("["+x_val_e.get()+", "+y_val_e.get()+", "+z_val_e.get()+"]"),
+                                           str("["+r_x_val_b.get()+", "+r_y_val_b.get()+", "+r_z_val_b.get()+"]"),
+                                           width, width))
+
+
 def cancel_file():
     cancelFlag.set('1')
     getFileName.destroy()
@@ -395,6 +483,11 @@ def cancel_agv():
 def cancel_orders():
     cancelFlag.set('1')
     ordersInfo.destroy()
+
+
+def cancel_over_bins():
+    cancelFlag.set('1')
+    overBinsWind.destroy()
 
 
 class Order:
@@ -430,6 +523,17 @@ class Products:
         self.pType = p_type
         self.xyz = xyz
         self.rpy = rpy
+
+
+class ModelOverBin:
+    def __init__(self, bin_num, prod, start, end, rpy, num_mod_x, num_mod_y):
+        self.binNum = bin_num
+        self.product = prod
+        self.xyz_start = start
+        self.xyz_end = end
+        self.rpy = rpy
+        self.num_mod_x = num_mod_x
+        self.num_mod_y = num_mod_y
 
 
 if __name__ == "__main__":
@@ -832,4 +936,25 @@ if __name__ == "__main__":
             orderInd -= 1
             orderID += 1
         o.write("\n")
-
+    # END OF ORDERS
+    # ----------------------------------------------------------------------------------------------------------------------
+    # BEGINNING OF MODELS OVER BINS
+    if overBins.get() == 'true':
+        overBinsWind = tk.Tk()
+        overBinsNext = tk.Button(overBinsWind, text="Next", command=overBinsWind.destroy)
+        overBinsNext.pack(pady=20)
+        cancelOverBins = tk.Button(overBinsWind, text="Cancel", command=cancel_over_bins)
+        cancelOverBins.pack(pady=20)
+        overBinsWind.mainloop()
+        if cancelFlag.get() == '1':
+            if path.exists(fileName.get()):
+                os.remove(fileName.get())
+            elif path.exists(fileName.get() + '.yaml'):
+                os.remove(fileName.get() + '.yaml')
+            quit()
+        if len(modelsOverBinsInfo) > 0:
+            with open(saveFileName, "a") as o:
+                o.write("\nmodels_over_bins:")
+                for i in modelsOverBinsInfo:
+                    o.write("\t"+i.)
+            
