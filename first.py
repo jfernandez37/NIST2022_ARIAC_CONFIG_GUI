@@ -18,9 +18,11 @@ agv1List = ['ks1', 'as1', 'as2']
 agv2List = ['ks2', 'as1', 'as2']
 agv3List = ['ks3', 'as3', 'as4']
 agv4List = ['ks4', 'as3', 'as4']
+allStations = ['ks1', 'ks2', 'ks3', 'ks4', 'as1', 'as2', 'as3', 'as4']
 trayTypes = ["[movable_tray_dark_wood]", "[movable_tray_light_wood]",
              "[movable_tray_metal_rusty]", "[movable_tray_metal_shiny]"]
 modelsOverBinsInfo = []
+modelsOverStationsInfo = []
 
 
 def tf():
@@ -460,6 +462,66 @@ def add_bin():
                                            width, width))
 
 
+def add_station():
+    add_station_wind = tk.Toplevel()
+    x_val_stat = tk.StringVar()
+    x_val_stat.set('0')
+    y_val_stat = tk.StringVar()
+    y_val_stat.set('0')
+    z_val_stat = tk.StringVar()
+    z_val_stat.set('0')
+    r_x_val_stat = tk.StringVar()
+    r_x_val_stat.set('0')
+    r_y_val_stat = tk.StringVar()
+    r_y_val_stat.set('0')
+    r_z_val_stat = tk.StringVar()
+    r_z_val_stat.set('0')
+    station = tk.StringVar()
+    station.set(allStations[0])
+    stat_prod = tk.StringVar()
+    stat_prod.set(prodList[0])
+    station_label = tk.Label(add_station_wind, text="Select the statijon")
+    station_label.pack()
+    station_menu = tk.OptionMenu(add_station_wind, station, *allStations)
+    station_menu.pack()
+    station_product_label = tk.Label(add_station_wind, text="Select the product for the station")
+    station_product_label.pack()
+    station_product_type_menu = tk.OptionMenu(add_station_wind, stat_prod, *prodList)
+    station_product_type_menu.pack()
+    x_val_stat_label = tk.Label(add_station_wind, text="Enter the x value")
+    x_val_stat_label.pack()
+    x_val_stat_entry = tk.Entry(add_station_wind, textvariable=x_val_stat)
+    x_val_stat_entry.pack()
+    y_val_stat_label = tk.Label(add_station_wind, text="Enter the y value")
+    y_val_stat_label.pack()
+    y_val_stat_entry = tk.Entry(add_station_wind, textvariable=y_val_stat)
+    y_val_stat_entry.pack()
+    z_val_stat_label = tk.Label(add_station_wind, text="Enter the z value")
+    z_val_stat_label.pack()
+    z_val_stat_entry = tk.Entry(add_station_wind, textvariable=z_val_stat)
+    z_val_stat_entry.pack()
+    r_x_val_stat_label = tk.Label(add_station_wind, text="Enter the x rotation value")
+    r_x_val_stat_label.pack()
+    r_x_val_stat_entry = tk.Entry(add_station_wind, textvariable=r_x_val_stat)
+    r_x_val_stat_entry.pack()
+    r_y_val_stat_label = tk.Label(add_station_wind, text="Enter the y rotation value")
+    r_y_val_stat_label.pack()
+    r_y_val_stat_entry = tk.Entry(add_station_wind, textvariable=r_y_val_stat)
+    r_y_val_stat_entry.pack()
+    r_z_val_stat_label = tk.Label(add_station_wind, text="Enter the z rotation value")
+    r_z_val_stat_label.pack()
+    r_z_val_stat_entry = tk.Entry(add_station_wind, textvariable=r_z_val_stat)
+    r_z_val_stat_entry.pack()
+    add_stat_exit = tk.Button(add_station_wind, text="Save and Exit", command=add_station_wind.destroy)
+    add_stat_exit.pack(pady=20)
+    add_station_wind.mainloop()
+    modelsOverStationsInfo.append(ModelOverStation(station.get(), stat_prod.get(),
+                                                   str("["+x_val_stat.get()+", "+y_val_stat.get() +
+                                                       ", "+z_val_stat.get()+"]"),
+                                                   str("["+r_x_val_stat.get()+", "+r_y_val_stat.get() +
+                                                       ", "+r_z_val_stat.get()+"]")))
+
+
 def cancel_file():
     cancelFlag.set('1')
     getFileName.destroy()
@@ -488,6 +550,11 @@ def cancel_orders():
 def cancel_over_bins():
     cancelFlag.set('1')
     overBinsWind.destroy()
+
+
+def cancel_over_stations():
+    cancelFlag.set('1')
+    overStationsWind.destroy()
 
 
 class Order:
@@ -534,6 +601,14 @@ class ModelOverBin:
         self.rpy = rpy
         self.num_mod_x = num_mod_x
         self.num_mod_y = num_mod_y
+
+
+class ModelOverStation:
+    def __init__(self, station, part, xyz, rpy):
+        self.station = station
+        self.part = part
+        self.xyz = xyz
+        self.rpy = rpy
 
 
 if __name__ == "__main__":
@@ -966,4 +1041,33 @@ if __name__ == "__main__":
                     o.write("\t\t\t\trpy: "+i.rpy+"\n")
                     o.write("\t\t\t\tnum_models_x: "+i.num_mod_x+"\n")
                     o.write("\t\t\t\tnum_models_y: "+i.num_mod_y+"\n")
+                o.write("\n")
+    # END OF MODELS OVER BINS
+    # ----------------------------------------------------------------------------------------------------------------------
+    # BEGINNING OF MODELS OVER STATIONS
+    if overStations.get() == 'true':
+        overStationsWind = tk.Tk()
+        addStationButton = tk.Button(overStationsWind, text="Add station", command=add_station)
+        addStationButton.pack(pady=20)
+        overStationsNext = tk.Button(overStationsWind, text="Next", command=overStationsWind.destroy)
+        overStationsNext.pack(pady=20)
+        cancelOverStations = tk.Button(overStationsWind, text="Cancel", command=cancel_over_stations)
+        cancelOverStations.pack(pady=20)
+        overStationsWind.mainloop()
+        if cancelFlag.get() == '1':
+            if path.exists(fileName.get()):
+                os.remove(fileName.get())
+            elif path.exists(fileName.get() + '.yaml'):
+                os.remove(fileName.get() + '.yaml')
+            quit()
+        if len(modelsOverStationsInfo) > 0:
+            modelsOverStationsInfo.reverse()
+            with open(saveFileName, "a") as o:
+                o.write("\nmodels_over_stations:\n")
+                for i in modelsOverStationsInfo:
+                    o.write("\t"+i.station+":\n")
+                    o.write("\t\tmodels:\n")
+                    o.write("\t\t\t"+i.part+":\n")
+                    o.write("\t\t\t\txyz: "+i.xyz+"\n")
+                    o.write("\t\t\t\trpy: "+i.rpy+"\n")
                 o.write("\n")
