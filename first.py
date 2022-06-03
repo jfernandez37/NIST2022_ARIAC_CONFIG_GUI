@@ -23,6 +23,7 @@ trayTypes = ["[movable_tray_dark_wood]", "[movable_tray_light_wood]",
              "[movable_tray_metal_rusty]", "[movable_tray_metal_shiny]"]
 modelsOverBinsInfo = []
 modelsOverStationsInfo = []
+beltCycleInfo = []
 
 
 def tf():
@@ -522,6 +523,64 @@ def add_station():
                                                        ", "+r_z_val_stat.get()+"]")))
 
 
+def add_belt():
+    add_belt_wind = tk.Toplevel()
+    belt_prod = tk.StringVar()
+    belt_prod.set(prodList[0])
+    belt_time = tk.StringVar()
+    belt_time.set('1.0')
+    x_val_belt = tk.StringVar()
+    x_val_belt.set('0')
+    y_val_belt = tk.StringVar()
+    y_val_belt.set('0')
+    z_val_belt = tk.StringVar()
+    z_val_belt.set('0')
+    r_x_val_belt = tk.StringVar()
+    r_x_val_belt.set('0')
+    r_y_val_belt = tk.StringVar()
+    r_y_val_belt.set('0')
+    r_z_val_belt = tk.StringVar()
+    r_z_val_belt.set('0')
+    belt_product_label = tk.Label(add_belt_wind, text="Select the product for the belt")
+    belt_product_label.pack()
+    belt_product_type_menu = tk.OptionMenu(add_belt_wind, belt_prod, *prodList)
+    belt_product_type_menu.pack()
+    belt_time_label = tk.Label(add_belt_wind, text="Enter the wait time for the part")
+    belt_time_label.pack()
+    belt_time_entry = tk.Entry(add_belt_wind, textvariable=belt_time)
+    belt_time_entry.pack()
+    x_val_belt_label = tk.Label(add_belt_wind, text="Enter the x value")
+    x_val_belt_label.pack()
+    x_val_belt_entry = tk.Entry(add_belt_wind, textvariable=x_val_belt)
+    x_val_belt_entry.pack()
+    y_val_belt_label = tk.Label(add_belt_wind, text="Enter the y value")
+    y_val_belt_label.pack()
+    y_val_belt_entry = tk.Entry(add_belt_wind, textvariable=y_val_belt)
+    y_val_belt_entry.pack()
+    z_val_belt_label = tk.Label(add_belt_wind, text="Enter the z value")
+    z_val_belt_label.pack()
+    z_val_belt_entry = tk.Entry(add_belt_wind, textvariable=z_val_belt)
+    z_val_belt_entry.pack()
+    r_x_val_belt_label = tk.Label(add_belt_wind, text="Enter the x rotation value")
+    r_x_val_belt_label.pack()
+    r_x_val_belt_entry = tk.Entry(add_belt_wind, textvariable=r_x_val_belt)
+    r_x_val_belt_entry.pack()
+    r_y_val_belt_label = tk.Label(add_belt_wind, text="Enter the y rotation value")
+    r_y_val_belt_label.pack()
+    r_y_val_belt_entry = tk.Entry(add_belt_wind, textvariable=r_y_val_belt)
+    r_y_val_belt_entry.pack()
+    r_z_val_belt_label = tk.Label(add_belt_wind, text="Enter the z rotation value")
+    r_z_val_belt_label.pack()
+    r_z_val_belt_entry = tk.Entry(add_belt_wind, textvariable=r_z_val_belt)
+    r_z_val_belt_entry.pack()
+    belt_save = tk.Button(add_belt_wind, text="Save and Exit", command=add_belt_wind.destroy)
+    belt_save.pack(pady=20)
+    add_belt_wind.mainloop()
+    beltCycleInfo.append(BeltCycle(belt_prod.get(), belt_time.get(),
+                                   str("["+x_val_belt.get()+", "+y_val_belt.get()+", "+z_val_belt.get()+"]"),
+                                   str("["+r_x_val_belt.get()+", "+r_y_val_belt.get()+", "+r_z_val_belt.get()+"]")))
+
+
 def cancel_file():
     cancelFlag.set('1')
     getFileName.destroy()
@@ -555,6 +614,11 @@ def cancel_over_bins():
 def cancel_over_stations():
     cancelFlag.set('1')
     overStationsWind.destroy()
+
+
+def cancel_belt_cycles():
+    cancelFlag.set('1')
+    beltCyclesWind.destroy()
 
 
 class Order:
@@ -611,6 +675,14 @@ class ModelOverStation:
         self.rpy = rpy
 
 
+class BeltCycle:
+    def __init__(self, part, time, xyz, rpy):
+        self.part = part
+        self.time = time
+        self.xyz = xyz
+        self.rpy = rpy
+
+
 if __name__ == "__main__":
     getFileName = tk.Tk()
     cancelFlag = tk.StringVar()
@@ -645,11 +717,11 @@ if __name__ == "__main__":
     overBinsLabel.pack()
     tfOverBins = tk.Button(text="True", width=12, command=tf)
     tfOverBins.pack(pady=5)
-    popCycles = tk.StringVar()
-    popCycles.set("0")
+    beltCycles = tk.StringVar()
+    beltCycles.set("0")
     popCycleLabel = tk.Label(options, text="Enter the belt population cycles (enter none to skip):")
     popCycleLabel.pack()
-    popCycleBox = tk.Entry(options, textvariable=popCycles)
+    popCycleBox = tk.Entry(options, textvariable=beltCycles)
     popCycleBox.pack()
     overStations = tk.StringVar()
     overStations.set("true")
@@ -687,8 +759,8 @@ if __name__ == "__main__":
         o.write("options:\n")
         if overBins.get() != 'none':
             o.write("\tinsert_models_over_bins: " + overBins.get() + "\n")
-        if popCycles.get() != 'none':
-            o.write("\tbelt_population_cycles: " + popCycles.get() + "\n")
+        if beltCycles.get() != 'none':
+            o.write("\tbelt_population_cycles: " + beltCycles.get() + "\n")
         if overStations.get() != 'none':
             o.write("\tinsert_models_over_stations: " + overStations.get() + "\n")
         if stateLogging.get() != 'none':
@@ -1068,6 +1140,35 @@ if __name__ == "__main__":
                     o.write("\t"+i.station+":\n")
                     o.write("\t\tmodels:\n")
                     o.write("\t\t\t"+i.part+":\n")
+                    o.write("\t\t\t\txyz: "+i.xyz+"\n")
+                    o.write("\t\t\t\trpy: "+i.rpy+"\n")
+                o.write("\n")
+    # END OF MODELS OVER STATIONS
+    # ----------------------------------------------------------------------------------------------------------------------
+    # BEGINNING OF BELT MODELS
+    if beltCycles.get() != '0':
+        beltCyclesWind = tk.Tk()
+        addBeltCycle = tk.Button(beltCyclesWind, text="Add belt cycle", command=add_belt)
+        addBeltCycle.pack(pady=20)
+        beltCycleNext = tk.Button(beltCyclesWind, text="Next", command=beltCyclesWind.destroy)
+        beltCycleNext.pack(pady=20)
+        cancelBeltCycle = tk.Button(beltCyclesWind, text="Cancel", command=cancel_belt_cycles)
+        cancelBeltCycle.pack(pady=20)
+        beltCyclesWind.mainloop()
+        if cancelFlag.get() == '1':
+            if path.exists(fileName.get()):
+                os.remove(fileName.get())
+            elif path.exists(fileName.get() + '.yaml'):
+                os.remove(fileName.get() + '.yaml')
+            quit()
+        if len(beltCycleInfo) > 0:
+            beltCycleInfo.reverse()
+            with open(saveFileName, "a") as o:
+                o.write("\nbelt_models:\n")
+                for i in beltCycleInfo:
+                    o.write("\t"+i.part+":\n")
+                    o.write("\t\t"+i.time+":\n")
+                    o.write("\t\t\tpose:\n")
                     o.write("\t\t\t\txyz: "+i.xyz+"\n")
                     o.write("\t\t\t\trpy: "+i.rpy+"\n")
                 o.write("\n")
