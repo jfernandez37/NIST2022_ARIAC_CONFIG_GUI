@@ -91,7 +91,7 @@ def tray_skip():  # skips the tray menu
     trayInfo.destroy()
 
 
-def get_file_name_next():  # checks to see if the file name the user selects already exists and makes sure input is not empty
+def get_file_name_next():  # checks to see if the file name the user selects exists or is empty
     if fileName.get() == "" and reqFlag.get() == "0":
         req_label = tk.Label(getFileName, text="This field is required. Please enter a non-empty file name")
         req_label.pack()
