@@ -3,36 +3,36 @@ import os.path
 from os import path
 from functools import partial
 
-orderCount = []
-tempKits = []
-tempAssemb = []
-kitProds = []
-assembProds = []
-orderInd = 0
-kProdInd = []
-aProdInd = []
+orderCount = []  # Used in counter in new_order function
+tempKits = []  # holds kitting information for orders
+tempAssemb = []  # holds assembly information for orders
+kitProds = []  # holds products for kitting in orders
+assembProds = []  # holds products for assembly in orders
+orderInd = 0  # index for reading through the orders
+kProdInd = []  # holds the indices for products in kitting
+aProdInd = []  # holds the indices for products in assembly
 prodList = ["assembly_battery_red", "assembly_battery_green",
             "assembly_battery_blue", "assembly_pump_red", "assembly_pump_green",
             "assembly_pump_blue", "assembly_regulator_red",
             "assembly_regulator_green", "assembly_regulator_blue", "assembly_sensor_red",
-            "assembly_sensor_green", "assembly_sensor_blue"]
-agv1List = ['ks1', 'as1', 'as2']
-agv2List = ['ks2', 'as1', 'as2']
-agv3List = ['ks3', 'as3', 'as4']
-agv4List = ['ks4', 'as3', 'as4']
-kAgv1List = ['[ks1]', '[as1]', '[as2]']
-kAgv2List = ['[ks2]', '[as1]', '[as2]']
-kAgv3List = ['[ks3]', '[as3]', '[as4]']
-kAgv4List = ['[ks4]', '[as3]', '[as4]']
-allStations = ['ks1', 'ks2', 'ks3', 'ks4', 'as1', 'as2', 'as3', 'as4']
+            "assembly_sensor_green", "assembly_sensor_blue"]  # list of all parts
+agv1List = ['ks1', 'as1', 'as2']  # all possible locations for agv1
+agv2List = ['ks2', 'as1', 'as2']  # all possible locations for agv2
+agv3List = ['ks3', 'as3', 'as4']  # all possible locations for agv3
+agv4List = ['ks4', 'as3', 'as4']  # all possible locations for agv4
+kAgv1List = ['[ks1]', '[as1]', '[as2]']  # all possible locations for agv1 in the kitting format
+kAgv2List = ['[ks2]', '[as1]', '[as2]']  # all possible locations for agv2 in the kitting format
+kAgv3List = ['[ks3]', '[as3]', '[as4]']  # all possible locations for agv3 in the kitting format
+kAgv4List = ['[ks4]', '[as3]', '[as4]']  # all possible locations for agv4 in the kitting format
+allStations = ['ks1', 'ks2', 'ks3', 'ks4', 'as1', 'as2', 'as3', 'as4']  # list of all locations
 trayTypes = ["[movable_tray_dark_wood]", "[movable_tray_light_wood]",
-             "[movable_tray_metal_rusty]", "[movable_tray_metal_shiny]"]
-modelsOverBinsInfo = []
-modelsOverStationsInfo = []
-beltCycleInfo = []
+             "[movable_tray_metal_rusty]", "[movable_tray_metal_shiny]"]  # list of all tray types
+modelsOverBinsInfo = []  # holds the information from the models over bins function
+modelsOverStationsInfo = []  # holds all the information from the models over stations function
+beltCycleInfo = []  # holds all the information from the belt cycle function
 
 
-def tf():
+def tf():  # cycles through the true or false button for the over bins option
     if tfOverBins.config('text')[-1] == 'True':
         tfOverBins.config(text='False')
         overBins.set("false")
@@ -44,7 +44,7 @@ def tf():
         overBins.set("none")
 
 
-def tf2():
+def tf2():  # cycles through the true or false button for the over stations option
     if tfOverStations.config('text')[-1] == 'True':
         tfOverStations.config(text='False')
         overStations.set("false")
@@ -56,7 +56,7 @@ def tf2():
         overStations.set("none")
 
 
-def tf3():
+def tf3():  # cycles through the true or false button for the gazebo state logging option
     if tfStateLogging.config('text')[-1] == 'True':
         tfStateLogging.config(text='False')
         stateLogging.set("false")
@@ -68,7 +68,7 @@ def tf3():
         stateLogging.set("none")
 
 
-def cgt():
+def cgt():  # cycles through the options for the current gripper type option
     if gripperTypeButton.config('text')[-1] == 'Gripper Tray':
         gripperTypeButton.config(text='Gripper Part')
         gripperType.set("gripper_part")
@@ -77,7 +77,7 @@ def cgt():
         gripperType.set("gripper_tray")
 
 
-def tl():
+def tl():  # cycles through the options for the time limit option
     if timeLimitButton.config('text')[-1] == '500':
         timeLimitButton.config(text='-1')
         timeLimit.set("-1")
@@ -86,12 +86,12 @@ def tl():
         timeLimit.set("500")
 
 
-def tray_skip():
+def tray_skip():  # skips the tray menu
     skipFlag.set("1")
     trayInfo.destroy()
 
 
-def get_file_name_next():
+def get_file_name_next():  # checks to see if the file name the user selects already exists and makes sure input is not empty
     if fileName.get() == "" and reqFlag.get() == "0":
         req_label = tk.Label(getFileName, text="This field is required. Please enter a non-empty file name")
         req_label.pack()
@@ -105,7 +105,7 @@ def get_file_name_next():
         getFileName.destroy()
 
 
-def add_product():
+def add_product():  # adds a product in agv_infos
     product_info = tk.Toplevel()
     x_val = tk.StringVar()
     x_val.set('0')
@@ -177,7 +177,7 @@ def add_product():
         agv4Rot.set(agv4Rot.get() + ' ' + '[' + r_x_val.get() + ',' + r_y_val.get() + ',' + r_z_val.get() + ']')
 
 
-def new_order():
+def new_order():  # this menu pops up to make a new order for the user
     orderCount.append(0)
     print(len(orderCount))
     add_order = tk.Toplevel()
@@ -232,7 +232,7 @@ def new_order():
         aProdInd.append(len(tempAssemb[len(allOrders)-1].products)-1)
 
 
-def update_dest(a, b, c, d, e, f):
+def update_dest(a, b, c, d, e, f):  # switches the options present based off of the agv selected
     menu = a['menu']
     menu.delete(0, 'end')
     if b.get() == '[agv1]':
@@ -253,7 +253,7 @@ def update_dest(a, b, c, d, e, f):
             menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
 
 
-def kitting():
+def kitting():  # allows the user to add kitting to an order
     kitting_wind = tk.Toplevel()
     ship_count = tk.StringVar()
     ship_count.set('1')
@@ -289,7 +289,7 @@ def kitting():
     tempKits.append(Kitting(ship_count.get(), trays.get(), k_agv.get(), k_destination.get(), kitProds))
 
 
-def get_k_products():
+def get_k_products():  # adds a product to kitting
     temp_pid = "part_100"
     k_products = tk.Toplevel()
     x_val_k = tk.StringVar()
@@ -340,7 +340,7 @@ def get_k_products():
                              str("["+r_x_val_k.get()+", "+r_y_val_k.get()+", "+z_val_k.get()+"]")))
 
 
-def assembly():
+def assembly():  # adds assembly to an order
     assemb_wind = tk.Toplevel()
     a_ship_count = tk.StringVar()
     a_ship_count.set('1')
@@ -362,7 +362,7 @@ def assembly():
     tempAssemb.append(Assembly(a_ship_count.get(), a_stations.get(), assembProds))
 
 
-def get_a_products():
+def get_a_products():  # adds a product to assembly
     temp_pid = "part_100"
     a_products = tk.Toplevel()
     x_val_a = tk.StringVar()
@@ -413,7 +413,7 @@ def get_a_products():
                        str("[" + r_x_val_a.get() + ", " + r_y_val_a.get() + ", " + z_val_a.get() + "]")))
 
 
-def add_bin():
+def add_bin():  # adds a bin for models over bins
     add_bin_wind = tk.Toplevel()
     bin_prod = tk.StringVar()
     bin_prod.set(prodList[0])
@@ -500,7 +500,7 @@ def add_bin():
                                            width, width))
 
 
-def add_station():
+def add_station():  # adds a station to models over stations
     add_station_wind = tk.Toplevel()
     x_val_stat = tk.StringVar()
     x_val_stat.set('0')
@@ -560,7 +560,7 @@ def add_station():
                                                        ", "+r_z_val_stat.get()+"]")))
 
 
-def add_belt():
+def add_belt():  # adds a belt to belt models
     add_belt_wind = tk.Toplevel()
     belt_prod = tk.StringVar()
     belt_prod.set(prodList[0])
@@ -618,47 +618,47 @@ def add_belt():
                                    str("["+r_x_val_belt.get()+", "+r_y_val_belt.get()+", "+r_z_val_belt.get()+"]")))
 
 
-def cancel_file():
+def cancel_file():  # cancels the program from the file name menu
     cancelFlag.set('1')
     getFileName.destroy()
 
 
-def cancel_options():
+def cancel_options():  # cancels the program from the options menu
     cancelFlag.set('1')
     options.destroy()
 
 
-def cancel_tray():
+def cancel_tray():  # cancels the program from the table tray menu
     cancelFlag.set('1')
     trayInfo.destroy()
 
 
-def cancel_agv():
+def cancel_agv():  # cancels the program from the agv menu
     cancelFlag.set('1')
     agvInfo.destroy()
 
 
-def cancel_orders():
+def cancel_orders():  # cancels the program from the orders menu
     cancelFlag.set('1')
     ordersInfo.destroy()
 
 
-def cancel_over_bins():
+def cancel_over_bins():  # cancels the program from the models over bins menu
     cancelFlag.set('1')
     overBinsWind.destroy()
 
 
-def cancel_over_stations():
+def cancel_over_stations():  # cancels the program from the models over stations menu
     cancelFlag.set('1')
     overStationsWind.destroy()
 
 
-def cancel_belt_cycles():
+def cancel_belt_cycles():  # cancels the program from the belt models menu
     cancelFlag.set('1')
     beltCyclesWind.destroy()
 
 
-class Order:
+class Order:  # for organizing the data from the order menu
     def __init__(self, priority, k_health, a_health, an_cond, cond_val, kit_info, assem_info):
         self.priority = priority
         self.kittingHealth = k_health
@@ -669,7 +669,7 @@ class Order:
         self.assembly = assem_info
 
 
-class Kitting:
+class Kitting:  # for organizing the data from the kitting menu
     def __init__(self, ship_count, trays, agvs, destinations, products):
         self.shipmentCount = ship_count
         self.trays = trays
@@ -678,14 +678,14 @@ class Kitting:
         self.products = products
 
 
-class Assembly:
+class Assembly:  # for organizing the data from the assembly menu
     def __init__(self, ship_count, stations, products):
         self.shipmentCount = ship_count
         self.stations = stations
         self.products = products
 
 
-class Products:
+class Products:  # for organizing the data for all products
     def __init__(self, pid, p_type, xyz, rpy):
         self.id = pid
         self.pType = p_type
@@ -693,7 +693,7 @@ class Products:
         self.rpy = rpy
 
 
-class ModelOverBin:
+class ModelOverBin:  # for organizing the data from the models over bins menu
     def __init__(self, bin_num, prod, start, end, rpy, num_mod_x, num_mod_y):
         self.binNum = bin_num
         self.product = prod
@@ -704,7 +704,7 @@ class ModelOverBin:
         self.num_mod_y = num_mod_y
 
 
-class ModelOverStation:
+class ModelOverStation:  # for organizing the data from the models over stations menu
     def __init__(self, station, part, xyz, rpy):
         self.station = station
         self.part = part
@@ -712,7 +712,7 @@ class ModelOverStation:
         self.rpy = rpy
 
 
-class BeltCycle:
+class BeltCycle:  # for organizing the data from the belt models menu
     def __init__(self, part, time, xyz, rpy):
         self.part = part
         self.time = time
