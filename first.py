@@ -3,6 +3,7 @@ import os.path
 from os import path
 from functools import partial
 
+orderCount = []
 tempKits = []
 tempAssemb = []
 kitProds = []
@@ -177,6 +178,8 @@ def add_product():
 
 
 def new_order():
+    orderCount.append(0)
+    print(len(orderCount))
     add_order = tk.Toplevel()
     temp_priority = tk.StringVar()
     temp_priority.set('1')
@@ -188,10 +191,11 @@ def new_order():
     temp_announcement_cond.set('time')
     temp_ann_val = tk.StringVar()
     temp_ann_val.set('0')
-    get_priority_label = tk.Label(add_order, text="Enter the priority of the order")
-    get_priority_label.pack()
-    get_priority = tk.Entry(add_order, textvariable=temp_priority)
-    get_priority.pack()
+    if len(orderCount) > 1:
+        get_priority_label = tk.Label(add_order, text="Enter the priority of the order")
+        get_priority_label.pack()
+        get_priority = tk.Entry(add_order, textvariable=temp_priority)
+        get_priority.pack()
     get_k_health_label = tk.Label(add_order, text="Select the kitting health of the order")
     get_k_health_label.pack()
     get_k_health = tk.OptionMenu(add_order, temp_k_health, "0", "1")
@@ -200,10 +204,11 @@ def new_order():
     get_a_health_label.pack()
     get_a_health = tk.OptionMenu(add_order, temp_a_health, "0", "1")
     get_a_health.pack()
-    get_announcement_condition_label = tk.Label(add_order, text="Enter the announcement condition of the order")
-    get_announcement_condition_label.pack()
-    get_announcement_condition = tk.Entry(add_order, textvariable=temp_announcement_cond)
-    get_announcement_condition.pack()
+    if len(orderCount) > 1:
+        get_announcement_condition_label = tk.Label(add_order, text="Enter the announcement condition of the order")
+        get_announcement_condition_label.pack()
+        get_announcement_condition = tk.Entry(add_order, textvariable=temp_announcement_cond)
+        get_announcement_condition.pack()
     get_ann_val_label = tk.Label(add_order, text="Enter the announcement value of the order")
     get_ann_val_label.pack()
     get_ann_val = tk.Entry(add_order, textvariable=temp_ann_val)
@@ -215,8 +220,12 @@ def new_order():
     order_save = tk.Button(add_order, text="Save and Exit", command=add_order.destroy)
     order_save.pack(pady=20)
     add_order.mainloop()
-    allOrders.append(Order(temp_priority.get(), temp_k_health.get(), temp_a_health.get(),
-                           temp_announcement_cond.get(), temp_ann_val.get(), tempKits, tempAssemb))
+    if len(orderCount) == 1:
+        allOrders.append(Order('1', temp_k_health.get(), temp_a_health.get(),
+                               "time", temp_ann_val.get(), tempKits, tempAssemb))
+    else:
+        allOrders.append(Order(temp_priority.get(), temp_k_health.get(), temp_a_health.get(),
+                               temp_announcement_cond.get(), temp_ann_val.get(), tempKits, tempAssemb))
     if len(tempKits) != 0:  # checks if there are products present to avoid errors
         kProdInd.append(len(tempKits[len(allOrders)-1].products)-1)
     if len(tempAssemb) != 0:
