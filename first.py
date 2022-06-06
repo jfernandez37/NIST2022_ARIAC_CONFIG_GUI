@@ -1,6 +1,7 @@
 import tkinter as tk
 import os.path
 from os import path
+from functools import partial
 
 tempKits = []
 tempAssemb = []
@@ -18,6 +19,10 @@ agv1List = ['ks1', 'as1', 'as2']
 agv2List = ['ks2', 'as1', 'as2']
 agv3List = ['ks3', 'as3', 'as4']
 agv4List = ['ks4', 'as3', 'as4']
+kAgv1List = ['[ks1]', '[as1]', '[as2]']
+kAgv2List = ['[ks2]', '[as1]', '[as2]']
+kAgv3List = ['[ks3]', '[as3]', '[as4]']
+kAgv4List = ['[ks4]', '[as3]', '[as4]']
 allStations = ['ks1', 'ks2', 'ks3', 'ks4', 'as1', 'as2', 'as3', 'as4']
 trayTypes = ["[movable_tray_dark_wood]", "[movable_tray_light_wood]",
              "[movable_tray_metal_rusty]", "[movable_tray_metal_shiny]"]
@@ -218,16 +223,37 @@ def new_order():
         aProdInd.append(len(tempAssemb[len(allOrders)-1].products)-1)
 
 
+def update_dest(a, b, c, d, e, f):
+    menu = a['menu']
+    menu.delete(0, 'end')
+    if b.get() == '[agv1]':
+        c.set(kAgv1List[0])
+        for dest in kAgv1List:
+            menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
+    elif b.get() == '[agv2]':
+        c.set(kAgv2List[0])
+        for dest in kAgv2List:
+            menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
+    elif b.get() == '[agv3]':
+        c.set(kAgv3List[0])
+        for dest in kAgv3List:
+            menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
+    else:
+        c.set(kAgv4List[0])
+        for dest in kAgv4List:
+            menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
+
+
 def kitting():
     kitting_wind = tk.Toplevel()
     ship_count = tk.StringVar()
-    ship_count.set('1')  # between 1 and 2
+    ship_count.set('1')
     trays = tk.StringVar()
     trays.set('[movable_tray_metal_rusty]')
     k_agv = tk.StringVar()
     k_agv.set('[agv1]')
     k_destination = tk.StringVar()
-    k_destination.set('[as1]')  # list of as choices
+    k_destination.set('[ks1]')  # list of as choices
     k_ship_count = tk.Label(kitting_wind, text="Enter the shipping count")
     k_ship_count.pack()
     ship_count_menu = tk.OptionMenu(kitting_wind, ship_count, "1", "2")
@@ -242,12 +268,14 @@ def kitting():
     get_agv.pack()
     k_dest_label = tk.Label(kitting_wind, text="Enter the Kitting destination")
     k_dest_label.pack()
-    get_k_dest = tk.Entry(kitting_wind, textvariable=k_destination)
+    get_k_dest = tk.OptionMenu(kitting_wind, k_destination, *agv1List)
     get_k_dest.pack()
     add_k_products = tk.Button(kitting_wind, text="Add Product", command=get_k_products)
     add_k_products.pack(pady=20)
     order_kitting = tk.Button(kitting_wind, text="Save and Exit", command=kitting_wind.destroy)
     order_kitting.pack(pady=20)
+    update_with_arg = partial(update_dest, get_k_dest, k_agv, k_destination)
+    k_agv.trace('w', update_with_arg)
     kitting_wind.mainloop()
     tempKits.append(Kitting(ship_count.get(), trays.get(), k_agv.get(), k_destination.get(), kitProds))
 
