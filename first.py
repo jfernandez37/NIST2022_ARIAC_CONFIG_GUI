@@ -98,6 +98,11 @@ def faulty_skip():  # skips the faulty products menu
     faultyWind.destroy()
 
 
+def drops_skip():  # skips the drops menu
+    dropsSkipFlag.set("1")
+    dropsWind.destroy()
+
+
 def get_file_name_next():  # checks to see if the file name the user selects exists or is empty
     if fileName.get() == "" and reqFlag.get() == "0":
         req_label = tk.Label(getFileName, text="This field is required. Please enter a non-empty file name")
@@ -643,6 +648,10 @@ def add_faulty_prod():  # adds a faulty product for the faulty product challenge
     faultyProdList.append(str(temp_prod.get()+"_"+prod_id.get()))
 
 
+def add_drop_region():  # adds a drop region for the faulty gripper challenge
+    print("hold")
+
+
 def cancel_file():  # cancels the program from the file name menu
     cancelFlag.set('1')
     getFileName.destroy()
@@ -686,6 +695,11 @@ def cancel_belt_cycles():  # cancels the program from the belt models menu
 def cancel_faulty_products():  # cancels the program from the faulty products menu
     cancelFlag.set('1')
     faultyWind.destroy()
+
+
+def cancel_drops():  # cancels the program from the faulty products menu
+    cancelFlag.set('1')
+    dropsWind.destroy()
 
 
 class Order:  # for organizing the data from the order menu
@@ -857,6 +871,7 @@ if __name__ == "__main__":
     # BEGINNING OF TABLE_TRAY_INFOS
     trayInfo = tk.Tk()
     trayInfo.title("Tray Information")
+    trayInfo.geometry("500x500")
     trayInstructions = tk.Label(trayInfo, text="If you would like to skip a tray, leave it blank, leave it blank")
     trayInstructions.pack()
     table1 = tk.StringVar()
@@ -1165,6 +1180,7 @@ if __name__ == "__main__":
     # BEGINNING OF MODELS OVER BINS
     if overBins.get() == 'true':
         overBinsWind = tk.Tk()
+        overBinsWind.title("Models Over Bins Menu")
         addBinButton = tk.Button(overBinsWind, text="Add bin", command=add_bin)
         addBinButton.pack(pady=20)
         overBinsNext = tk.Button(overBinsWind, text="Next", command=overBinsWind.destroy)
@@ -1197,6 +1213,7 @@ if __name__ == "__main__":
     # BEGINNING OF MODELS OVER STATIONS
     if overStations.get() == 'true':
         overStationsWind = tk.Tk()
+        overStationsWind.title("Models Over Stations Menu")
         addStationButton = tk.Button(overStationsWind, text="Add station", command=add_station)
         addStationButton.pack(pady=20)
         overStationsNext = tk.Button(overStationsWind, text="Next", command=overStationsWind.destroy)
@@ -1226,6 +1243,7 @@ if __name__ == "__main__":
     # BEGINNING OF BELT MODELS
     if beltCycles.get() != '0':
         beltCyclesWind = tk.Tk()
+        beltCyclesWind.title("Belt Cycles Menu")
         addBeltCycle = tk.Button(beltCyclesWind, text="Add belt cycle", command=add_belt)
         addBeltCycle.pack(pady=20)
         beltCycleNext = tk.Button(beltCyclesWind, text="Next", command=beltCyclesWind.destroy)
@@ -1254,6 +1272,7 @@ if __name__ == "__main__":
     # -----------------------------------------------------------------------------------
     # BEGINNING OF FAULTY PRODUCTS
     faultyWind = tk.Tk()
+    faultyWind.title("Faulty Products Menu")
     faultySkipFlag = tk.StringVar()
     faultySkipFlag.set('0')
     faultyWindLabel = tk.Label(faultyWind, text="This is needed for the Faulty Product Challenge")
@@ -1284,6 +1303,30 @@ if __name__ == "__main__":
     # --------------------------------------------------------------------------
     # BEGINNING OF DROPS
     dropsWind = tk.Tk()
+    dropsWind.title("Drops Menu")
+    dropsSkipFlag = tk.StringVar()
+    dropsSkipFlag.set('0')
+    dropsWindLabel = tk.Label(dropsWind, text="This is needed for the Faulty Gripper Challenge")
+    dropsWindLabel.pack()
+    addDrop = tk.Button(dropsWind, text="Add New Drop Region", command=add_drop_region)
+    addDrop.pack()
+    skipDrops = tk.Button(dropsWind, text="Skip", command=drops_skip)
+    skipDrops.pack(pady=20)
     dropsNext = tk.Button(dropsWind, text="Next", command=dropsWind.destroy)
     dropsNext.pack(pady=20)
+    cancelDrops = tk.Button(dropsWind, text="Cancel", command=cancel_drops)
+    cancelDrops.pack(pady=20)
     dropsWind.mainloop()
+    if cancelFlag.get() == '1':
+        if path.exists(fileName.get()):
+            os.remove(fileName.get())
+        elif path.exists(fileName.get() + '.yaml'):
+            os.remove(fileName.get() + '.yaml')
+        quit()
+    dropCount = 0
+    if dropsSkipFlag.get() == '0' and len(dropsInfo) > 0:
+        dropsInfo.reverse()
+        with open(saveFileName, 'a') as o:
+            o.write("\ndrops:\n\tdrop_regions:\n")
+            for drop in dropsInfo:
+                o.write("\t\tshipping_box_"+str(dropCount)+"_impending:\n")
