@@ -103,6 +103,11 @@ def drops_skip():  # skips the drops menu
     dropsWind.destroy()
 
 
+def sensor_blackout_skip():  # skips the sensor blackout menu
+    sensor_blackout_skip_flag.set('1')
+    sensorBlackoutWind.destroy()
+
+
 def get_file_name_next():  # checks to see if the file name the user selects exists or is empty
     if fileName.get() == "" and reqFlag.get() == "0":
         req_label = tk.Label(getFileName, text="This field is required. Please enter a non-empty file name")
@@ -684,9 +689,70 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
     drop_frame_label.pack()
     drop_frame_entry = tk.Entry(add_drop_wind, textvariable=temp_frame)
     drop_frame_entry.pack()
+    x_val_min_label = tk.Label(add_drop_wind, text="Enter the min x value")
+    x_val_min_label.pack()
+    x_val_min_entry = tk.Entry(add_drop_wind, textvariable=x_val_min)
+    x_val_min_entry.pack()
+    y_val_min_label = tk.Label(add_drop_wind, text="Enter the min y value")
+    y_val_min_label.pack()
+    y_val_min_entry = tk.Entry(add_drop_wind, textvariable=y_val_min)
+    y_val_min_entry.pack()
+    z_val_min_label = tk.Label(add_drop_wind, text="Enter the min z value")
+    z_val_min_label.pack()
+    z_val_min_entry = tk.Entry(add_drop_wind, textvariable=z_val_min)
+    z_val_min_entry.pack()
+    x_val_max_label = tk.Label(add_drop_wind, text="Enter the max x value")
+    x_val_max_label.pack()
+    x_val_max_entry = tk.Entry(add_drop_wind, textvariable=x_val_max)
+    x_val_max_entry.pack()
+    y_val_max_label = tk.Label(add_drop_wind, text="Enter the max y value")
+    y_val_max_label.pack()
+    y_val_max_entry = tk.Entry(add_drop_wind, textvariable=y_val_max)
+    y_val_max_entry.pack()
+    z_val_max_label = tk.Label(add_drop_wind, text="Enter the max z value")
+    z_val_max_label.pack()
+    z_val_max_entry = tk.Entry(add_drop_wind, textvariable=z_val_max)
+    z_val_max_entry.pack()
+    x_val_dest_label = tk.Label(add_drop_wind, text="Enter the destination x value")
+    x_val_dest_label.pack()
+    x_val_dest_entry = tk.Entry(add_drop_wind, textvariable=x_val_dest)
+    x_val_dest_entry.pack()
+    y_val_dest_label = tk.Label(add_drop_wind, text="Enter the destination y value")
+    y_val_dest_label.pack()
+    y_val_dest_entry = tk.Entry(add_drop_wind, textvariable=y_val_dest)
+    y_val_dest_entry.pack()
+    z_val_dest_label = tk.Label(add_drop_wind, text="Enter the destination z value")
+    z_val_dest_label.pack()
+    z_val_dest_entry = tk.Entry(add_drop_wind, textvariable=z_val_dest)
+    z_val_dest_entry.pack()
+    r_x_val_dest_label = tk.Label(add_drop_wind, text="Enter the x rotation value for the destination")
+    r_x_val_dest_label.pack()
+    r_x_val_dest_entry = tk.Entry(add_drop_wind, textvariable=r_x_val_dest)
+    r_x_val_dest_entry.pack()
+    r_y_val_dest_label = tk.Label(add_drop_wind, text="Enter the y rotation value for the destination")
+    r_y_val_dest_label.pack()
+    r_y_val_dest_entry = tk.Entry(add_drop_wind, textvariable=r_y_val_dest)
+    r_y_val_dest_entry.pack()
+    r_z_val_dest_label = tk.Label(add_drop_wind, text="Enter the z rotation value for the destination")
+    r_z_val_dest_label.pack()
+    r_z_val_dest_entry = tk.Entry(add_drop_wind, textvariable=r_z_val_dest)
+    r_z_val_dest_entry.pack()
+    drop_prod_label = tk.Label(add_drop_wind, text="Select the product type to drop")
+    drop_prod_label.pack()
+    drop_prod_menu = tk.OptionMenu(add_drop_wind, drop_prod, *prodList)
+    drop_prod_menu.pack()
+    drop_robot_type_label = tk.Label(add_drop_wind, text="Select the robot type for the drop")
+    drop_robot_type_label.pack()
+    drop_robot_type_menu = tk.OptionMenu(add_drop_wind, robot_type, "kitting", "gantry")
+    drop_robot_type_menu.pack()
     add_drop_save = tk.Button(add_drop_wind, text="Save and Exit", command=add_drop_wind.destroy)
     add_drop_save.pack(pady=20)
     add_drop_wind.mainloop()
+    dropsInfo.append(Drops(temp_frame.get(), str("["+x_val_min.get()+", "+y_val_min.get()+", "+z_val_min.get()+"]"),
+                           str("["+x_val_max.get()+", "+y_val_max.get()+", "+z_val_max.get()+"]"),
+                           str("["+x_val_dest.get()+", "+y_val_dest.get()+", "+z_val_dest.get()+"]"),
+                           str("["+r_x_val_dest.get()+", "+r_y_val_dest.get()+", "+r_z_val_dest.get()+"]"),
+                           drop_prod.get(), robot_type.get()))
 
 
 def cancel_file():  # cancels the program from the file name menu
@@ -737,6 +803,11 @@ def cancel_faulty_products():  # cancels the program from the faulty products me
 def cancel_drops():  # cancels the program from the faulty products menu
     cancelFlag.set('1')
     dropsWind.destroy()
+
+
+def cancel_sensor_blackout():  # cancels the program from the sensor blackout menu
+    cancelFlag.set('1')
+    sensorBlackoutWind.destroy()
 
 
 class Order:  # for organizing the data from the order menu
@@ -1368,3 +1439,52 @@ if __name__ == "__main__":
             for drop in dropsInfo:
                 o.write("\t\tshipping_box_"+str(dropCount)+"_impending:\n")
                 dropCount += 1
+                o.write("\t\t\tframe: "+drop.frame+"\n")
+                o.write("\t\t\tmin:\n")
+                o.write("\t\t\t\txyz: "+drop.minXyz+"\n")
+                o.write("\t\t\tmax:\n")
+                o.write("\t\t\t\txyz: "+drop.maxXyz+'\n')
+                o.write("\t\t\tdestination:\n")
+                o.write("\t\t\t\txyz: "+drop.destXyz+"\n")
+                o.write("\t\t\t\trpy: "+drop.destRpy+"\n")
+                o.write("\t\t\tproduct_type_to_drop: "+drop.typeToDrop+"\n")
+                o.write("\t\t\trobot_type: "+drop.robotType+"\n")
+            o.write("\n")
+    # END OF DROPS
+    # --------------------------------------------------------------------------
+    # BEGINNING OF SENSOR BLACKOUT
+    sensorBlackoutWind = tk.Tk()
+    prodCount = tk.StringVar()
+    prodCount.set('0')
+    duration = tk.StringVar()
+    duration.set('0')
+    sensor_blackout_skip_flag = tk.StringVar()
+    sensor_blackout_skip_flag.set('0')
+    prodCountLabel = tk.Label(sensorBlackoutWind, text="Enter the product count for the sensor blackout")
+    prodCountLabel.pack()
+    prodCountEntry = tk.Entry(sensorBlackoutWind, textvariable=prodCount)
+    prodCountEntry.pack()
+    durationLabel = tk.Label(sensorBlackoutWind, text="Enter the duration of the sensor blackout")
+    durationLabel.pack()
+    durationEntry = tk.Entry(sensorBlackoutWind, textvariable=duration)
+    durationEntry.pack()
+    sensorBlackoutSkip = tk.Button(sensorBlackoutWind, text="Skip and Exit", command=sensor_blackout_skip)
+    sensorBlackoutSkip.pack(pady=20)
+    sensorBlackoutSE = tk.Button(sensorBlackoutWind, text="Save and Exit", command=sensorBlackoutWind.destroy)
+    sensorBlackoutSE.pack(pady=20)
+    cancelSensorBlackout = tk.Button(sensorBlackoutWind, text="Cancel", command=cancel_sensor_blackout)
+    cancelSensorBlackout.pack(pady=20)
+    sensorBlackoutWind.mainloop()
+    if cancelFlag.get() == '1':
+        if path.exists(fileName.get()):
+            os.remove(fileName.get())
+        elif path.exists(fileName.get() + '.yaml'):
+            os.remove(fileName.get() + '.yaml')
+        quit()
+    if sensor_blackout_skip_flag.get() == '0':
+        with open(saveFileName, 'a') as o:
+            o.write("\nsensor_blackout:\n")
+            o.write("\tproduct_count: "+prodCount.get()+"\n")
+            o.write("\tduration: "+duration.get()+"\n")
+            o.write("\n")
+            
