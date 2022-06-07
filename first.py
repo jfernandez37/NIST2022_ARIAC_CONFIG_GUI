@@ -1330,3 +1330,4 @@ if __name__ == "__main__":
             o.write("\ndrops:\n\tdrop_regions:\n")
             for drop in dropsInfo:
                 o.write("\t\tshipping_box_"+str(dropCount)+"_impending:\n")
+                dropCount += 1
