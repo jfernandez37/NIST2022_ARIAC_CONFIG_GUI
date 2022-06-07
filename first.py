@@ -30,6 +30,7 @@ trayTypes = ["[movable_tray_dark_wood]", "[movable_tray_light_wood]",
 modelsOverBinsInfo = []  # holds the information from the models over bins function
 modelsOverStationsInfo = []  # holds all the information from the models over stations function
 beltCycleInfo = []  # holds all the information from the belt cycle function
+faultyProdList = []  # holds all the information for the faulty product menu
 
 
 def tf():  # cycles through the true or false button for the over bins option
@@ -90,6 +91,10 @@ def tray_skip():  # skips the tray menu
     skipFlag.set("1")
     trayInfo.destroy()
 
+
+def faulty_skip():  # skips the faulty products menu
+    faultySkipFlag.set("1")
+    faultyWind.destroy()
 
 def get_file_name_next():  # checks to see if the file name the user selects exists or is empty
     if fileName.get() == "" and reqFlag.get() == "0":
@@ -618,6 +623,18 @@ def add_belt():  # adds a belt to belt models
                                    str("["+r_x_val_belt.get()+", "+r_y_val_belt.get()+", "+r_z_val_belt.get()+"]")))
 
 
+def add_faulty_prod():
+    faulty_prod_window = tk.Toplevel()
+    temp_prod = tk.StringVar()
+    temp_prod.set(prodList[0])
+    faulty_prod_menu = tk.OptionMenu(faulty_prod_window, temp_prod, *prodList)
+    faulty_prod_menu.pack()
+    faulty_prod_save = tk.Button(faulty_prod_window, text="Save and Exit", command=faulty_prod_window.destroy)
+    faulty_prod_save.pack(pady=20)
+    faulty_prod_window.mainloop()
+    faultyProdList.append(temp_prod.get())
+    
+    
 def cancel_file():  # cancels the program from the file name menu
     cancelFlag.set('1')
     getFileName.destroy()
@@ -656,6 +673,11 @@ def cancel_over_stations():  # cancels the program from the models over stations
 def cancel_belt_cycles():  # cancels the program from the belt models menu
     cancelFlag.set('1')
     beltCyclesWind.destroy()
+
+
+def cancel_faulty_products():  # cancels the program from the faulty products menu
+    cancelFlag.set('1')
+    faultyWind.destroy()
 
 
 class Order:  # for organizing the data from the order menu
@@ -1209,3 +1231,32 @@ if __name__ == "__main__":
                     o.write("\t\t\t\txyz: "+i.xyz+"\n")
                     o.write("\t\t\t\trpy: "+i.rpy+"\n")
                 o.write("\n")
+    # END OF BELT CYCLES
+    # -----------------------------------------------------------------------------------
+    # BEGINNING OF FAULTY PRODUCTS
+    faultyWind = tk.Tk()
+    faultySkipFlag = tk.StringVar()
+    faultySkipFlag.set('0')
+    addProd = tk.Button(faultyWind, text="Add Product", command=add_faulty_prod)
+    addProd.pack(pady=20)
+    skipFaultyProd = tk.Button(faultyWind, text="Skip", command=faulty_skip)
+    skipFaultyProd.pack(pady=20)
+    faultyProdNext = tk.Button(faultyWind, text="Next", command=faultyWind.destroy)
+    faultyProdNext.pack(pady=20)
+    cancelFaultyProd = tk.Button(faultyWind, text="Cancel", command=cancel_faulty_products)
+    cancelFaultyProd.pack(pady=20)
+    faultyWind.mainloop()
+    if cancelFlag.get() == '1':
+        if path.exists(fileName.get()):
+            os.remove(fileName.get())
+        elif path.exists(fileName.get() + '.yaml'):
+            os.remove(fileName.get() + '.yaml')
+        quit()
+    if faultySkipFlag.get() == '0' and len(faultyProdList) > 0:
+        faultyProdList.reverse()
+        with open(saveFileName, 'a') as o:
+            o.write("\nfaulty_products:\n")
+            for prod in faultyProdList:
+                o.write("\t- "+prod+"\n")
+            o.write("\n")
+            
