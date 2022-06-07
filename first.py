@@ -96,6 +96,7 @@ def faulty_skip():  # skips the faulty products menu
     faultySkipFlag.set("1")
     faultyWind.destroy()
 
+
 def get_file_name_next():  # checks to see if the file name the user selects exists or is empty
     if fileName.get() == "" and reqFlag.get() == "0":
         req_label = tk.Label(getFileName, text="This field is required. Please enter a non-empty file name")
@@ -627,14 +628,20 @@ def add_faulty_prod():
     faulty_prod_window = tk.Toplevel()
     temp_prod = tk.StringVar()
     temp_prod.set(prodList[0])
+    prod_id = tk.StringVar()
+    prod_id.set('0')
     faulty_prod_menu = tk.OptionMenu(faulty_prod_window, temp_prod, *prodList)
     faulty_prod_menu.pack()
+    prod_id_label = tk.Label(faulty_prod_window, text="Enter the product id")
+    prod_id_label.pack()
+    prod_id_entry = tk.Entry(faulty_prod_window, textvariable=prod_id)
+    prod_id_entry.pack()
     faulty_prod_save = tk.Button(faulty_prod_window, text="Save and Exit", command=faulty_prod_window.destroy)
     faulty_prod_save.pack(pady=20)
     faulty_prod_window.mainloop()
-    faultyProdList.append(temp_prod.get())
-    
-    
+    faultyProdList.append(str(temp_prod.get()+"_"+prod_id.get()))
+
+
 def cancel_file():  # cancels the program from the file name menu
     cancelFlag.set('1')
     getFileName.destroy()
@@ -1259,4 +1266,3 @@ if __name__ == "__main__":
             for prod in faultyProdList:
                 o.write("\t- "+prod+"\n")
             o.write("\n")
-            
