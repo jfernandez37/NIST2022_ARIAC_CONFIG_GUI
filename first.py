@@ -1,7 +1,7 @@
 import tkinter as tk
 import os.path
 from os import path
-from functools import partial
+from functools import partial  # needed for the active dropdown menu in kitting
 
 orderCount = []  # Used in counter in new_order function
 tempKits = []  # holds kitting information for orders
@@ -723,9 +723,9 @@ class Products:  # for organizing the data for all products
 
 
 class ModelOverBin:  # for organizing the data from the models over bins menu
-    def __init__(self, bin_num, prod, start, end, rpy, num_mod_x, num_mod_y):
+    def __init__(self, bin_num, prod_temp, start, end, rpy, num_mod_x, num_mod_y):
         self.binNum = bin_num
-        self.product = prod
+        self.product = prod_temp
         self.xyz_start = start
         self.xyz_end = end
         self.rpy = rpy
@@ -1244,6 +1244,8 @@ if __name__ == "__main__":
     faultyWind = tk.Tk()
     faultySkipFlag = tk.StringVar()
     faultySkipFlag.set('0')
+    faultyWindLabel = tk.Label(faultyWind, text="This is needed for the Faulty Product Challenge")
+    faultyWindLabel.pack()
     addProd = tk.Button(faultyWind, text="Add Product", command=add_faulty_prod)
     addProd.pack(pady=20)
     skipFaultyProd = tk.Button(faultyWind, text="Skip", command=faulty_skip)
@@ -1266,3 +1268,6 @@ if __name__ == "__main__":
             for prod in faultyProdList:
                 o.write("\t- "+prod+"\n")
             o.write("\n")
+    # END OF FAULTY PRODUCTS
+    # --------------------------------------------------------------------------
+    # BEGINNING OF DROPS
