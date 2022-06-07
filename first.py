@@ -1412,6 +1412,7 @@ if __name__ == "__main__":
     # BEGINNING OF DROPS
     dropsWind = tk.Tk()
     dropsWind.title("Drops Menu")
+    dropsWind.geometry("500x500")
     dropsSkipFlag = tk.StringVar()
     dropsSkipFlag.set('0')
     dropsWindLabel = tk.Label(dropsWind, text="This is needed for the Faulty Gripper Challenge")
@@ -1454,6 +1455,8 @@ if __name__ == "__main__":
     # --------------------------------------------------------------------------
     # BEGINNING OF SENSOR BLACKOUT
     sensorBlackoutWind = tk.Tk()
+    sensorBlackoutWind.title("Sensor Blackout")
+    sensorBlackoutWind.geometry("500x500")
     prodCount = tk.StringVar()
     prodCount.set('0')
     duration = tk.StringVar()
