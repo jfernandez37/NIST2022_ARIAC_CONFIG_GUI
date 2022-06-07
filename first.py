@@ -530,7 +530,7 @@ def add_station():  # adds a station to models over stations
     station.set(allStations[0])
     stat_prod = tk.StringVar()
     stat_prod.set(prodList[0])
-    station_label = tk.Label(add_station_wind, text="Select the statijon")
+    station_label = tk.Label(add_station_wind, text="Select the station")
     station_label.pack()
     station_menu = tk.OptionMenu(add_station_wind, station, *allStations)
     station_menu.pack()
