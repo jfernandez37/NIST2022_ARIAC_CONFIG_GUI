@@ -31,6 +31,7 @@ modelsOverBinsInfo = []  # holds the information from the models over bins funct
 modelsOverStationsInfo = []  # holds all the information from the models over stations function
 beltCycleInfo = []  # holds all the information from the belt cycle function
 faultyProdList = []  # holds all the information for the faulty product menu
+dropsInfo = []  # holds all the information for the drops menu
 
 
 def tf():  # cycles through the true or false button for the over bins option
@@ -624,7 +625,7 @@ def add_belt():  # adds a belt to belt models
                                    str("["+r_x_val_belt.get()+", "+r_y_val_belt.get()+", "+r_z_val_belt.get()+"]")))
 
 
-def add_faulty_prod():
+def add_faulty_prod():  # adds a faulty product for the faulty product challenge
     faulty_prod_window = tk.Toplevel()
     temp_prod = tk.StringVar()
     temp_prod.set(prodList[0])
@@ -747,6 +748,17 @@ class BeltCycle:  # for organizing the data from the belt models menu
         self.time = time
         self.xyz = xyz
         self.rpy = rpy
+
+
+class Drops:  # for organizing the data from the drops menu
+    def __init__(self, frame, min_xyz, max_xyz, dest_xyz, dest_rpy, type_to_drop, robot_type):
+        self.frame = frame
+        self.minXyz = min_xyz
+        self.maxXyz = max_xyz
+        self.destXyz = dest_xyz
+        self.destRpy = dest_rpy
+        self.typeToDrop = type_to_drop
+        self.robotType = robot_type
 
 
 if __name__ == "__main__":
@@ -1271,3 +1283,7 @@ if __name__ == "__main__":
     # END OF FAULTY PRODUCTS
     # --------------------------------------------------------------------------
     # BEGINNING OF DROPS
+    dropsWind = tk.Tk()
+    dropsNext = tk.Button(dropsWind, text="Next", command=dropsWind.destroy)
+    dropsNext.pack(pady=20)
+    dropsWind.mainloop()
