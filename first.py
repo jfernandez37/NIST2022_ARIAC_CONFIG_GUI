@@ -92,7 +92,7 @@ def tl():  # cycles through the options for the time limit option
         timeLimit.set("500")
 
 
-def skip_wind(flag, window):
+def skip_wind(flag, window):  # function for skipping a window
     flag.set('1')
     window.destroy()
 
@@ -742,9 +742,18 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
                            drop_prod.get(), robot_type.get()))
 
 
-def cancel_wind(window):
+def cancel_wind(window):  # cancels at any point in the program
     cancelFlag.set('1')
     window.destroy()
+
+
+def check_cancel(cancel_flag):
+    if cancel_flag == '1':
+        if path.exists(fileName.get()):
+            os.remove(fileName.get())
+        elif path.exists(fileName.get() + '.yaml'):
+            os.remove(fileName.get() + '.yaml')
+        quit()
 
 
 class Order:  # for organizing the data from the order menu
@@ -906,12 +915,7 @@ if __name__ == "__main__":
         o.write("\t# mandatory: gripper_tray or gripper_part\n")
         o.write("\tcurrent_gripper_type: " + gripperType.get() + "\n")
         o.write("time_limit: " + timeLimit.get() + "\n")
-    if cancelFlag.get() == '1':
-        if path.exists(fileName.get()):
-            os.remove(fileName.get())
-        elif path.exists(fileName.get() + '.yaml'):
-            os.remove(fileName.get() + '.yaml')
-        quit()
+    check_cancel(cancelFlag.get())
     # END OF GETTING OPTIONS
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF TABLE_TRAY_INFOS
@@ -969,12 +973,7 @@ if __name__ == "__main__":
                 o.write("\ttable_2:\n")
                 o.write("\t\ttray_model: " + table2.get() + "\n")
                 o.write("\t\tquantity: " + table2q.get() + "\n")
-    if cancelFlag.get() == '1':
-        if path.exists(fileName.get()):
-            os.remove(fileName.get())
-        elif path.exists(fileName.get() + '.yaml'):
-            os.remove(fileName.get() + '.yaml')
-        quit()
+    check_cancel(cancelFlag.get())
     # END OF TABLE MENUS
     # -----------------------------------------------------------------------------------
     # BEGINNING OF GETTING AGV_INFOS
@@ -1066,12 +1065,7 @@ if __name__ == "__main__":
                     o.write("\t\t\t\t\txyz: " + i.xyz + "\n")
                     o.write("\t\t\t\t\trpy: " + i.rpy + "\n")
                     partID += 1
-    if cancelFlag.get() == '1':
-        if path.exists(fileName.get()):
-            os.remove(fileName.get())
-        elif path.exists(fileName.get() + '.yaml'):
-            os.remove(fileName.get() + '.yaml')
-        quit()
+    check_cancel(cancelFlag.get())
     # END OF AGV OPTIONS
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF ORDERS
@@ -1089,12 +1083,7 @@ if __name__ == "__main__":
     ordersInfo.mainloop()
     allOrders.reverse()
     partC = 0
-    if cancelFlag.get() == '1':
-        if path.exists(fileName.get()):
-            os.remove(fileName.get())
-        elif path.exists(fileName.get() + '.yaml'):
-            os.remove(fileName.get() + '.yaml')
-        quit()
+    check_cancel(cancelFlag.get())
     with open(saveFileName, "a") as o:
         if len(allOrders) > 0:
             o.write("\n\norders:\n")
@@ -1165,12 +1154,7 @@ if __name__ == "__main__":
         cancelOverBins = tk.Button(overBinsWind, text="Cancel", command=cancel_over_bins)
         cancelOverBins.pack(pady=20)
         overBinsWind.mainloop()
-        if cancelFlag.get() == '1':
-            if path.exists(fileName.get()):
-                os.remove(fileName.get())
-            elif path.exists(fileName.get() + '.yaml'):
-                os.remove(fileName.get() + '.yaml')
-            quit()
+        check_cancel(cancelFlag.get())
         if len(modelsOverBinsInfo) > 0:
             modelsOverBinsInfo.reverse()
             with open(saveFileName, "a") as o:
@@ -1199,12 +1183,7 @@ if __name__ == "__main__":
         cancelOverStations = tk.Button(overStationsWind, text="Cancel", command=cancel_over_stations)
         cancelOverStations.pack(pady=20)
         overStationsWind.mainloop()
-        if cancelFlag.get() == '1':
-            if path.exists(fileName.get()):
-                os.remove(fileName.get())
-            elif path.exists(fileName.get() + '.yaml'):
-                os.remove(fileName.get() + '.yaml')
-            quit()
+        check_cancel(cancelFlag.get())
         if len(modelsOverStationsInfo) > 0:
             modelsOverStationsInfo.reverse()
             with open(saveFileName, "a") as o:
@@ -1230,12 +1209,7 @@ if __name__ == "__main__":
         cancelBeltCycle = tk.Button(beltCyclesWind, text="Cancel", command=cancel_belt_cycles)
         cancelBeltCycle.pack(pady=20)
         beltCyclesWind.mainloop()
-        if cancelFlag.get() == '1':
-            if path.exists(fileName.get()):
-                os.remove(fileName.get())
-            elif path.exists(fileName.get() + '.yaml'):
-                os.remove(fileName.get() + '.yaml')
-            quit()
+        check_cancel(cancelFlag.get())
         if len(beltCycleInfo) > 0:
             beltCycleInfo.reverse()
             with open(saveFileName, "a") as o:
@@ -1267,12 +1241,7 @@ if __name__ == "__main__":
     cancelFaultyProd = tk.Button(faultyWind, text="Cancel", command=cancel_faulty_products)
     cancelFaultyProd.pack(pady=20)
     faultyWind.mainloop()
-    if cancelFlag.get() == '1':
-        if path.exists(fileName.get()):
-            os.remove(fileName.get())
-        elif path.exists(fileName.get() + '.yaml'):
-            os.remove(fileName.get() + '.yaml')
-        quit()
+    check_cancel(cancelFlag.get())
     if faultySkipFlag.get() == '0' and len(faultyProdList) > 0:
         faultyProdList.reverse()
         with open(saveFileName, 'a') as o:
@@ -1301,12 +1270,7 @@ if __name__ == "__main__":
     cancelDrops = tk.Button(dropsWind, text="Cancel", command=cancel_drops)
     cancelDrops.pack(pady=20)
     dropsWind.mainloop()
-    if cancelFlag.get() == '1':
-        if path.exists(fileName.get()):
-            os.remove(fileName.get())
-        elif path.exists(fileName.get() + '.yaml'):
-            os.remove(fileName.get() + '.yaml')
-        quit()
+    check_cancel(cancelFlag.get())
     dropCount = 0
     if dropsSkipFlag.get() == '0' and len(dropsInfo) > 0:
         dropsInfo.reverse()
@@ -1355,12 +1319,7 @@ if __name__ == "__main__":
     cancelSensorBlackout = tk.Button(sensorBlackoutWind, text="Cancel", command=cancel_sensor_blackout)
     cancelSensorBlackout.pack(pady=20)
     sensorBlackoutWind.mainloop()
-    if cancelFlag.get() == '1':
-        if path.exists(fileName.get()):
-            os.remove(fileName.get())
-        elif path.exists(fileName.get() + '.yaml'):
-            os.remove(fileName.get() + '.yaml')
-        quit()
+    check_cancel(cancelFlag.get())
     if sensor_blackout_skip_flag.get() == '0':
         with open(saveFileName, 'a') as o:
             o.write("\nsensor_blackout:\n")
