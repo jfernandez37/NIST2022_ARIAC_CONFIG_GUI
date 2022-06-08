@@ -1,7 +1,7 @@
 import tkinter as tk
 import os.path
 from os import path
-from functools import partial  # needed for the active dropdown menu in kitting
+from functools import partial  # needed for passing parameters to functions in buttons
 
 orderCount = []  # Used in counter in new_order function
 tempKits = []  # holds kitting information for orders
