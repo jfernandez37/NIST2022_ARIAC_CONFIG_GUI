@@ -32,6 +32,10 @@ modelsOverStationsInfo = []  # holds all the information from the models over st
 beltCycleInfo = []  # holds all the information from the belt cycle function
 faultyProdList = []  # holds all the information for the faulty product menu
 dropsInfo = []  # holds all the information for the drops menu
+agv1Prods = []
+agv2Prods = []
+agv3Prods = []
+agv4Prods = []
 
 
 def tf():  # cycles through the true or false button for the over bins option
@@ -128,7 +132,7 @@ def add_product():  # adds a product in agv_infos
     product_menu = tk.OptionMenu(product_info, agv_id, "agv1", "agv2", "agv3", "agv4")
     product_menu.pack()
     product_type = tk.StringVar(product_info)
-    product_type.set("assembly_battery_red")
+    product_type.set(prodList[0])
     product_type_menu_label = tk.Label(product_info, text="Choose the product type:")
     product_type_menu_label.pack()
     product_type_menu = tk.OptionMenu(product_info, product_type, *prodList)
@@ -162,21 +166,21 @@ def add_product():  # adds a product in agv_infos
     prod_save.pack(pady=20)
     product_info.mainloop()
     if agv_id.get() == 'agv1':
-        agv1ProdTypes.set(agv1ProdTypes.get() + ' ' + product_type.get())
-        agv1Coords.set(agv1Coords.get() + ' ' + "[" + x_val.get() + ',' + y_val.get() + ',' + z_val.get() + "]")
-        agv1Rot.set(agv1Rot.get() + ' ' + '[' + r_x_val.get() + ',' + r_y_val.get() + ',' + r_z_val.get() + ']')
+        agv1Prods.append(Products(product_type.get(),
+                                  str("["+x_val.get()+", "+y_val.get()+", "+z_val.get()+"]"),
+                                  str("["+r_x_val.get()+","+r_y_val.get()+", "+r_z_val.get()+"]")))
     if agv_id.get() == 'agv2':
-        agv2ProdTypes.set(agv2ProdTypes.get() + ' ' + product_type.get())
-        agv2Coords.set(agv2Coords.get() + ' ' + "[" + x_val.get() + ',' + y_val.get() + ',' + z_val.get() + "]")
-        agv2Rot.set(agv2Rot.get() + ' ' + '[' + r_x_val.get() + ',' + r_y_val.get() + ',' + r_z_val.get() + ']')
+        agv2Prods.append(Products(product_type.get(),
+                                  str("[" + x_val.get() + ", " + y_val.get() + ", " + z_val.get() + "]"),
+                                  str("[" + r_x_val.get() + "," + r_y_val.get() + ", " + r_z_val.get() + "]")))
     if agv_id.get() == 'agv3':
-        agv3ProdTypes.set(agv3ProdTypes.get() + ' ' + product_type.get())
-        agv3Coords.set(agv3Coords.get() + ' ' + "[" + x_val.get() + ',' + y_val.get() + ',' + z_val.get() + "]")
-        agv3Rot.set(agv3Rot.get() + ' ' + '[' + r_x_val.get() + ',' + r_y_val.get() + ',' + r_z_val.get() + ']')
+        agv3Prods.append(Products(product_type.get(),
+                                  str("[" + x_val.get() + ", " + y_val.get() + ", " + z_val.get() + "]"),
+                                  str("[" + r_x_val.get() + "," + r_y_val.get() + ", " + r_z_val.get() + "]")))
     if agv_id.get() == 'agv4':
-        agv4ProdTypes.set(agv4ProdTypes.get() + ' ' + product_type.get())
-        agv4Coords.set(agv4Coords.get() + ' ' + "[" + x_val.get() + ',' + y_val.get() + ',' + z_val.get() + "]")
-        agv4Rot.set(agv4Rot.get() + ' ' + '[' + r_x_val.get() + ',' + r_y_val.get() + ',' + r_z_val.get() + ']')
+        agv4Prods.append(Products(product_type.get(),
+                                  str("[" + x_val.get() + ", " + y_val.get() + ", " + z_val.get() + "]"),
+                                  str("[" + r_x_val.get() + "," + r_y_val.get() + ", " + r_z_val.get() + "]")))
 
 
 def new_order():  # this menu pops up to make a new order for the user
@@ -292,7 +296,6 @@ def kitting():  # allows the user to add kitting to an order
 
 
 def get_k_products():  # adds a product to kitting
-    temp_pid = "part_100"
     k_products = tk.Toplevel()
     x_val_k = tk.StringVar()
     x_val_k.set('0')
@@ -337,7 +340,7 @@ def get_k_products():  # adds a product to kitting
     kitting_prod_exit = tk.Button(k_products, text="Save and Exit", command=k_products.destroy)
     kitting_prod_exit.pack(pady=20)
     k_products.mainloop()
-    kitProds.append(Products(temp_pid, k_product_info.get(),
+    kitProds.append(Products(k_product_info.get(),
                              str("["+x_val_k.get()+", "+y_val_k.get()+', '+z_val_k.get()+"]"),
                              str("["+r_x_val_k.get()+", "+r_y_val_k.get()+", "+z_val_k.get()+"]")))
 
@@ -365,7 +368,6 @@ def assembly():  # adds assembly to an order
 
 
 def get_a_products():  # adds a product to assembly
-    temp_pid = "part_100"
     a_products = tk.Toplevel()
     x_val_a = tk.StringVar()
     x_val_a.set('0')
@@ -410,7 +412,7 @@ def get_a_products():  # adds a product to assembly
     assemb_prod_exit = tk.Button(a_products, text="Save and Exit", command=a_products.destroy)
     assemb_prod_exit.pack(pady=20)
     a_products.mainloop()
-    assembProds.append(Products(temp_pid, a_product_info.get(),
+    assembProds.append(Products(a_product_info.get(),
                        str("[" + x_val_a.get() + ", " + y_val_a.get() + ', ' + z_val_a.get() + "]"),
                        str("[" + r_x_val_a.get() + ", " + r_y_val_a.get() + ", " + z_val_a.get() + "]")))
 
@@ -773,8 +775,7 @@ class Assembly:  # for organizing the data from the assembly menu
 
 
 class Products:  # for organizing the data for all products
-    def __init__(self, pid, p_type, xyz, rpy):
-        self.id = pid
+    def __init__(self, p_type, xyz, rpy):
         self.pType = p_type
         self.xyz = xyz
         self.rpy = rpy
@@ -985,48 +986,24 @@ if __name__ == "__main__":
     agv1Label.pack()
     agv1Menu = tk.OptionMenu(agvInfo, agv1, *agv1List)
     agv1Menu.pack()
-    agv1ProdTypes = tk.StringVar()
-    agv1ProdTypes.set('')
-    agv1Coords = tk.StringVar()
-    agv1Coords.set('')
-    agv1Rot = tk.StringVar()
-    agv1Rot.set('')
     agv2 = tk.StringVar()
     agv2.set("ks2")
     agv2Label = tk.Label(agvInfo, text="AGV2 Location:")
     agv2Label.pack()
     agv2Menu = tk.OptionMenu(agvInfo, agv2, *agv2List)
     agv2Menu.pack()
-    agv2ProdTypes = tk.StringVar()
-    agv2ProdTypes.set('')
-    agv2Coords = tk.StringVar()
-    agv2Coords.set('')
-    agv2Rot = tk.StringVar()
-    agv2Rot.set('')
     agv3 = tk.StringVar()
     agv3.set("ks3")
     agv3Label = tk.Label(agvInfo, text="AGV3 Location:")
     agv3Label.pack()
     agv3Menu = tk.OptionMenu(agvInfo, agv3, *agv3List)
     agv3Menu.pack()
-    agv3ProdTypes = tk.StringVar()
-    agv3ProdTypes.set('')
-    agv3Coords = tk.StringVar()
-    agv3Coords.set('')
-    agv3Rot = tk.StringVar()
-    agv3Rot.set('')
     agv4 = tk.StringVar()
     agv4.set("ks4")
     agv4Label = tk.Label(agvInfo, text="AGV4 Location:")
     agv4Label.pack()
     agv4Menu = tk.OptionMenu(agvInfo, agv4, *agv4List)
     agv4Menu.pack()
-    agv4ProdTypes = tk.StringVar()
-    agv4ProdTypes.set('')
-    agv4Coords = tk.StringVar()
-    agv4Coords.set('')
-    agv4Rot = tk.StringVar()
-    agv4Rot.set('')
     productButton = tk.Button(agvInfo, text="Add Product", command=add_product)
     productButton.pack(pady=20)
     agvNext = tk.Button(agvInfo, text="Next", command=agvInfo.destroy)
@@ -1036,115 +1013,65 @@ if __name__ == "__main__":
     cancelAgv.pack(pady=20)
     agvInfo.mainloop()
     partID = 0
-    index = 0
-    agv1Prod = []
-    agv2Prod = []
-    agv3Prod = []
-    agv4Prod = []
-    agv1CArr = agv1Coords.get().split(" ")
-    agv2CArr = agv2Coords.get().split(" ")
-    agv3CArr = agv3Coords.get().split(" ")
-    agv4CArr = agv4Coords.get().split(" ")
-    agv1CArr.reverse()
-    agv2CArr.reverse()
-    agv3CArr.reverse()
-    agv4CArr.reverse()
-    agv1RArr = agv1Rot.get().split(' ')
-    agv2RArr = agv2Rot.get().split(' ')
-    agv3RArr = agv3Rot.get().split(' ')
-    agv4RArr = agv4Rot.get().split(' ')
-    agv1RArr.reverse()
-    agv2RArr.reverse()
-    agv3RArr.reverse()
-    agv4RArr.reverse()
-    agv1Types = agv1ProdTypes.get().split(' ')
-    agv2Types = agv2ProdTypes.get().split(' ')
-    agv3Types = agv3ProdTypes.get().split(' ')
-    agv4Types = agv4ProdTypes.get().split(' ')
-    agv1Types.reverse()
-    agv2Types.reverse()
-    agv3Types.reverse()
-    agv4Types.reverse()
     with open(saveFileName, "a") as o:
         o.write("\n\nagv_infos:\n")
         o.write("\tagv1:\n")
         o.write("\t\tlocation: " + agv1.get() + "\n")
-        if len(agv1ProdTypes.get()) != 0:
+        if len(agv1Prods) > 0:
+            agv1Prods.reverse()
             o.write("\t\tproducts:\n")
-            for i in agv1Types:
+            for i in agv1Prods:
                 if i != '':
                     o.write("\t\t\tpart_" + str(partID) + ":\n")
-                    tempID = "part_" + str(partID)
-                    o.write("\t\t\t\ttype: " + i + "\n")
+                    o.write("\t\t\t\ttype: " + i.pType + "\n")
                     o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + agv1CArr[index] + "\n")
-                    o.write("\t\t\t\t\trpy: " + agv1RArr[index] + "\n")
+                    o.write("\t\t\t\t\txyz: " + i.xyz + "\n")
+                    o.write("\t\t\t\t\trpy: " + i.rpy + "\n")
                     partID += 1
-                    agv1Prod.append(Products(tempID, i, agv1CArr[index], agv1RArr[index]))
-                    index += 1
-        index = 0
         o.write("\tagv2:\n")
         o.write("\t\tlocation: " + agv2.get() + "\n")
-        if len(agv2ProdTypes.get()) != 0:
+        if len(agv2Prods) > 0:
+            agv2Prods.reverse()
             o.write("\t\tproducts:\n")
-            for i in agv2Types:
+            for i in agv2Prods:
                 if i != '':
                     o.write("\t\t\tpart_" + str(partID) + ":\n")
-                    tempID = "part_" + str(partID)
-                    o.write("\t\t\t\ttype: " + i + "\n")
+                    o.write("\t\t\t\ttype: " + i.pType + "\n")
                     o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + agv2CArr[index] + "\n")
-                    o.write("\t\t\t\t\trpy: " + agv2RArr[index] + "\n")
+                    o.write("\t\t\t\t\txyz: " + i.xyz + "\n")
+                    o.write("\t\t\t\t\trpy: " + i.rpy + "\n")
                     partID += 1
-                    agv2Prod.append(Products(tempID, i, agv2CArr[index], agv2RArr[index]))
-                    index += 1
-        index = 0
         o.write("\tagv3:\n")
         o.write("\t\tlocation: " + agv3.get() + "\n")
-        if len(agv3ProdTypes.get()) != 0:
+        if len(agv3Prods) > 0:
+            agv3Prods.reverse()
             o.write("\t\tproducts:\n")
-            for i in agv3Types:
+            for i in agv3Prods:
                 if i != '':
                     o.write("\t\t\tpart_" + str(partID) + ":\n")
-                    tempID = "part_" + str(partID)
-                    o.write("\t\t\t\ttype: " + i + "\n")
+                    o.write("\t\t\t\ttype: " + i.pType + "\n")
                     o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + agv3CArr[index] + "\n")
-                    o.write("\t\t\t\t\trpy: " + agv3RArr[index] + "\n")
+                    o.write("\t\t\t\t\txyz: " + i.xyz + "\n")
+                    o.write("\t\t\t\t\trpy: " + i.rpy + "\n")
                     partID += 1
-                    agv3Prod.append(Products(tempID, i, agv3CArr[index], agv3RArr[index]))
-                    index += 1
-        index = 0
         o.write("\tagv4:\n")
         o.write("\t\tlocation: " + agv4.get() + "\n")
-        if len(agv4ProdTypes.get()) != 0:
+        if len(agv4Prods) > 0:
             o.write("\t\tproducts:\n")
-            for i in agv4Types:
+            for i in agv4Prods:
                 if i != '':
                     o.write("\t\t\tpart_" + str(partID) + ":\n")
-                    tempID = "part_" + str(partID)
-                    o.write("\t\t\t\ttype: " + i + "\n")
+                    o.write("\t\t\t\ttype: " + i.pType + "\n")
                     o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + agv4CArr[index] + "\n")
-                    o.write("\t\t\t\t\trpy: " + agv4RArr[index] + "\n")
+                    o.write("\t\t\t\t\txyz: " + i.xyz + "\n")
+                    o.write("\t\t\t\t\trpy: " + i.rpy + "\n")
                     partID += 1
-                    agv4Prod.append(Products(tempID, i, agv4CArr[index], agv4RArr[index]))
-                    index += 1
     if cancelFlag.get() == '1':
         if path.exists(fileName.get()):
             os.remove(fileName.get())
         elif path.exists(fileName.get() + '.yaml'):
             os.remove(fileName.get() + '.yaml')
         quit()
-    allProd = []
-    for i in agv1Prod:
-        allProd.append(i)
-    for i in agv2Prod:
-        allProd.append(i)
-    for i in agv3Prod:
-        allProd.append(i)
-    for i in agv4Prod:
-        allProd.append(i)
     # END OF AGV OPTIONS
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF ORDERS
