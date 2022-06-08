@@ -88,24 +88,9 @@ def tl():  # cycles through the options for the time limit option
         timeLimit.set("500")
 
 
-def tray_skip():  # skips the tray menu
-    skipFlag.set("1")
-    trayInfo.destroy()
-
-
-def faulty_skip():  # skips the faulty products menu
-    faultySkipFlag.set("1")
-    faultyWind.destroy()
-
-
-def drops_skip():  # skips the drops menu
-    dropsSkipFlag.set("1")
-    dropsWind.destroy()
-
-
-def sensor_blackout_skip():  # skips the sensor blackout menu
-    sensor_blackout_skip_flag.set('1')
-    sensorBlackoutWind.destroy()
+def skip_wind(flag, window):
+    flag.set('1')
+    window.destroy()
 
 
 def get_file_name_next():  # checks to see if the file name the user selects exists or is empty
@@ -755,59 +740,9 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
                            drop_prod.get(), robot_type.get()))
 
 
-def cancel_file():  # cancels the program from the file name menu
+def cancel_wind(window):
     cancelFlag.set('1')
-    getFileName.destroy()
-
-
-def cancel_options():  # cancels the program from the options menu
-    cancelFlag.set('1')
-    options.destroy()
-
-
-def cancel_tray():  # cancels the program from the table tray menu
-    cancelFlag.set('1')
-    trayInfo.destroy()
-
-
-def cancel_agv():  # cancels the program from the agv menu
-    cancelFlag.set('1')
-    agvInfo.destroy()
-
-
-def cancel_orders():  # cancels the program from the orders menu
-    cancelFlag.set('1')
-    ordersInfo.destroy()
-
-
-def cancel_over_bins():  # cancels the program from the models over bins menu
-    cancelFlag.set('1')
-    overBinsWind.destroy()
-
-
-def cancel_over_stations():  # cancels the program from the models over stations menu
-    cancelFlag.set('1')
-    overStationsWind.destroy()
-
-
-def cancel_belt_cycles():  # cancels the program from the belt models menu
-    cancelFlag.set('1')
-    beltCyclesWind.destroy()
-
-
-def cancel_faulty_products():  # cancels the program from the faulty products menu
-    cancelFlag.set('1')
-    faultyWind.destroy()
-
-
-def cancel_drops():  # cancels the program from the faulty products menu
-    cancelFlag.set('1')
-    dropsWind.destroy()
-
-
-def cancel_sensor_blackout():  # cancels the program from the sensor blackout menu
-    cancelFlag.set('1')
-    sensorBlackoutWind.destroy()
+    window.destroy()
 
 
 class Order:  # for organizing the data from the order menu
@@ -900,6 +835,7 @@ if __name__ == "__main__":
     fileNameTextBox.pack()
     fileExit = tk.Button(getFileName, text="Next", command=get_file_name_next)
     fileExit.pack(pady=20)
+    cancel_file = partial(cancel_wind, getFileName)
     cancelFile = tk.Button(getFileName, text="Cancel", command=cancel_file)
     cancelFile.pack(pady=20)
     getFileName.mainloop()
@@ -949,6 +885,7 @@ if __name__ == "__main__":
     timeLimitButton.pack(pady=5)
     nextButton = tk.Button(options, text="Next", command=options.destroy)
     nextButton.pack(pady=20)
+    cancel_options = partial(cancel_wind, options)
     cancelOptions = tk.Button(options, text="Cancel", command=cancel_options)
     cancelOptions.pack(pady=20)
     options.mainloop()
@@ -1010,14 +947,16 @@ if __name__ == "__main__":
     table2qMenu.pack()
     trayNext = tk.Button(trayInfo, text="Next", command=trayInfo.destroy)
     trayNext.pack(pady=20)
-    skipFlag = tk.StringVar()
-    skipFlag.set("0")
+    traySkipFlag = tk.StringVar()
+    traySkipFlag.set("0")
+    tray_skip = partial(skip_wind, traySkipFlag, trayInfo)
     skipButton = tk.Button(trayInfo, text="Skip", command=tray_skip)
     skipButton.pack()
+    cancel_tray = partial(cancel_wind, trayInfo)
     cancelTray = tk.Button(trayInfo, text="Cancel", command=cancel_tray)
     cancelTray.pack()
     trayInfo.mainloop()
-    if skipFlag.get() == "0":
+    if traySkipFlag.get() == "0":
         with open(saveFileName, "a") as o:
             if (table1.get() != "" and table1q.get() != "") or (table2.get() != "" and table2q.get() != ""):
                 o.write("\n\n\ntable_tray_infos:\n")
@@ -1092,6 +1031,7 @@ if __name__ == "__main__":
     productButton.pack(pady=20)
     agvNext = tk.Button(agvInfo, text="Next", command=agvInfo.destroy)
     agvNext.pack(pady=20)
+    cancel_agv = partial(cancel_wind, agvInfo)
     cancelAgv = tk.Button(agvInfo, text="Cancel", command=cancel_agv)
     cancelAgv.pack(pady=20)
     agvInfo.mainloop()
@@ -1216,6 +1156,7 @@ if __name__ == "__main__":
     newOrder.pack(pady=20)
     ordersNext = tk.Button(ordersInfo, text="Next", command=ordersInfo.destroy)
     ordersNext.pack(pady=20)
+    cancel_orders = partial(cancel_wind, ordersInfo)
     cancelOrders = tk.Button(ordersInfo, text="Cancel", command=cancel_orders)
     cancelOrders.pack(pady=20)
     ordersInfo.mainloop()
@@ -1293,6 +1234,7 @@ if __name__ == "__main__":
         addBinButton.pack(pady=20)
         overBinsNext = tk.Button(overBinsWind, text="Next", command=overBinsWind.destroy)
         overBinsNext.pack(pady=20)
+        cancel_over_bins = partial(cancel_wind, overBinsWind)
         cancelOverBins = tk.Button(overBinsWind, text="Cancel", command=cancel_over_bins)
         cancelOverBins.pack(pady=20)
         overBinsWind.mainloop()
@@ -1326,6 +1268,7 @@ if __name__ == "__main__":
         addStationButton.pack(pady=20)
         overStationsNext = tk.Button(overStationsWind, text="Next", command=overStationsWind.destroy)
         overStationsNext.pack(pady=20)
+        cancel_over_stations = partial(cancel_wind, overStationsWind)
         cancelOverStations = tk.Button(overStationsWind, text="Cancel", command=cancel_over_stations)
         cancelOverStations.pack(pady=20)
         overStationsWind.mainloop()
@@ -1356,6 +1299,7 @@ if __name__ == "__main__":
         addBeltCycle.pack(pady=20)
         beltCycleNext = tk.Button(beltCyclesWind, text="Next", command=beltCyclesWind.destroy)
         beltCycleNext.pack(pady=20)
+        cancel_belt_cycles = partial(cancel_wind, beltCyclesWind)
         cancelBeltCycle = tk.Button(beltCyclesWind, text="Cancel", command=cancel_belt_cycles)
         cancelBeltCycle.pack(pady=20)
         beltCyclesWind.mainloop()
@@ -1387,10 +1331,12 @@ if __name__ == "__main__":
     faultyWindLabel.pack()
     addProd = tk.Button(faultyWind, text="Add Product", command=add_faulty_prod)
     addProd.pack(pady=20)
+    faulty_skip = partial(skip_wind, faultySkipFlag, faultyWind)
     skipFaultyProd = tk.Button(faultyWind, text="Skip", command=faulty_skip)
     skipFaultyProd.pack(pady=20)
     faultyProdNext = tk.Button(faultyWind, text="Next", command=faultyWind.destroy)
     faultyProdNext.pack(pady=20)
+    cancel_faulty_products = partial(cancel_wind, faultyWind)
     cancelFaultyProd = tk.Button(faultyWind, text="Cancel", command=cancel_faulty_products)
     cancelFaultyProd.pack(pady=20)
     faultyWind.mainloop()
@@ -1419,10 +1365,12 @@ if __name__ == "__main__":
     dropsWindLabel.pack()
     addDrop = tk.Button(dropsWind, text="Add New Drop Region", command=add_drop_region)
     addDrop.pack()
+    drops_skip = partial(skip_wind, dropsSkipFlag, dropsWind)
     skipDrops = tk.Button(dropsWind, text="Skip", command=drops_skip)
     skipDrops.pack(pady=20)
     dropsNext = tk.Button(dropsWind, text="Next", command=dropsWind.destroy)
     dropsNext.pack(pady=20)
+    cancel_drops = partial(cancel_wind, dropsWind)
     cancelDrops = tk.Button(dropsWind, text="Cancel", command=cancel_drops)
     cancelDrops.pack(pady=20)
     dropsWind.mainloop()
@@ -1471,10 +1419,12 @@ if __name__ == "__main__":
     durationLabel.pack()
     durationEntry = tk.Entry(sensorBlackoutWind, textvariable=duration)
     durationEntry.pack()
+    sensor_blackout_skip = partial(skip_wind, sensor_blackout_skip_flag, sensorBlackoutWind)
     sensorBlackoutSkip = tk.Button(sensorBlackoutWind, text="Skip and Exit", command=sensor_blackout_skip)
     sensorBlackoutSkip.pack(pady=20)
     sensorBlackoutSE = tk.Button(sensorBlackoutWind, text="Save and Exit", command=sensorBlackoutWind.destroy)
     sensorBlackoutSE.pack(pady=20)
+    cancel_sensor_blackout = partial(cancel_wind, sensorBlackoutWind)
     cancelSensorBlackout = tk.Button(sensorBlackoutWind, text="Cancel", command=cancel_sensor_blackout)
     cancelSensorBlackout.pack(pady=20)
     sensorBlackoutWind.mainloop()
@@ -1490,4 +1440,3 @@ if __name__ == "__main__":
             o.write("\tproduct_count: "+prodCount.get()+"\n")
             o.write("\tduration: "+duration.get()+"\n")
             o.write("\n")
-            
