@@ -2,6 +2,7 @@ import tkinter as tk
 import os.path
 from os import path
 from functools import partial  # needed for passing parameters to functions in buttons
+from PIL import Image, ImageTk
 
 orderCount = []  # Used in counter in new_order function
 tempKits = []  # holds kitting information for orders
@@ -830,6 +831,11 @@ class Drops:  # for organizing the data from the drops menu
 
 if __name__ == "__main__":
     getFileName = tk.Tk()
+    frame = tk.Frame(getFileName)
+    frame.pack()
+    nistLogo = ImageTk.PhotoImage(Image.open("C:\\NISTguiImages\\NIST_logo.png"))
+    logoImgLabel = tk.Label(frame, image=nistLogo)
+    logoImgLabel.pack()
     cancelFlag = tk.StringVar()
     cancelFlag.set('0')
     getFileName.title("NIST ARIAC CONFIG GUI")
