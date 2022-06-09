@@ -831,11 +831,12 @@ class Drops:  # for organizing the data from the drops menu
 
 if __name__ == "__main__":
     getFileName = tk.Tk()
+    getFileName.geometry("600x400")
     frame = tk.Frame(getFileName)
     frame.pack()
     nistLogo = ImageTk.PhotoImage(Image.open("C:\\NISTguiImages\\NIST_logo.png"))
     logoImgLabel = tk.Label(frame, image=nistLogo)
-    logoImgLabel.pack()
+    logoImgLabel.pack(pady=20)
     cancelFlag = tk.StringVar()
     cancelFlag.set('0')
     getFileName.title("NIST ARIAC CONFIG GUI")
