@@ -819,8 +819,8 @@ class BeltCycle:  # for organizing the data from the belt models menu
 
 
 class Drops:  # for organizing the data from the drops menu
-    def __init__(self, frame, min_xyz, max_xyz, dest_xyz, dest_rpy, type_to_drop, robot_type):
-        self.frame = frame
+    def __init__(self, drops_frame, min_xyz, max_xyz, dest_xyz, dest_rpy, type_to_drop, robot_type):
+        self.frame = drops_frame
         self.minXyz = min_xyz
         self.maxXyz = max_xyz
         self.destXyz = dest_xyz
@@ -829,14 +829,19 @@ class Drops:  # for organizing the data from the drops menu
         self.robotType = robot_type
 
 
+class PresentProducts:  # holds the products which from bins
+    def __init__(self, product_type, num):
+        self.pType = product_type
+        self.pNum = num
+
+
 if __name__ == "__main__":
     getFileName = tk.Tk()
-    getFileName.geometry("600x400")
     frame = tk.Frame(getFileName)
     frame.pack()
     nistLogo = ImageTk.PhotoImage(Image.open("C:\\NISTguiImages\\NIST_logo.png"))
     logoImgLabel = tk.Label(frame, image=nistLogo)
-    logoImgLabel.pack(pady=20)
+    logoImgLabel.pack()
     cancelFlag = tk.StringVar()
     cancelFlag.set('0')
     getFileName.title("NIST ARIAC CONFIG GUI")
