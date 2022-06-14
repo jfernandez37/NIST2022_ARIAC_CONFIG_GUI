@@ -268,7 +268,7 @@ def update_id_range(a, b, c, d, e, f):
     for binProd in binProds:
         if binProd.pType == b.get():
             break
-        bin_prods_ind +=1
+        bin_prods_ind += 1
     c.set('1')
     for num in range(int(binProds[bin_prods_ind].pNum)):
         temp_num = str(num + 1)
@@ -642,17 +642,26 @@ def add_belt():  # adds a belt to belt models
 def add_faulty_prod():  # adds a faulty product for the faulty product challenge
     faulty_prod_window = tk.Toplevel()
     temp_prod = tk.StringVar()
-    temp_prod.set(prodList[0])
     prod_id = tk.StringVar()
-    prod_id.set('0')
-    faulty_prod_menu = tk.OptionMenu(faulty_prod_window, temp_prod, *prodList)
+    prod_id.set('1')
+    available_prod_list = []
+    id_range = []
+    binProds.reverse()
+    for product in binProds:
+        available_prod_list.append(product.pType)
+    temp_prod.set(available_prod_list[0])
+    faulty_prod_menu = tk.OptionMenu(faulty_prod_window, temp_prod, *available_prod_list)
     faulty_prod_menu.pack()
     prod_id_label = tk.Label(faulty_prod_window, text="Enter the product id")
     prod_id_label.pack()
-    prod_id_entry = tk.Entry(faulty_prod_window, textvariable=prod_id)
-    prod_id_entry.pack()
+    for num in range(int(binProds[0].pNum)):
+        id_range.append(num+1)
+    prod_id_menu = tk.OptionMenu(faulty_prod_window, prod_id, *id_range)
+    prod_id_menu.pack()
     faulty_prod_save = tk.Button(faulty_prod_window, text="Save and Exit", command=faulty_prod_window.destroy)
     faulty_prod_save.pack(pady=20)
+    update_id_with_arg = partial(update_id_range, prod_id_menu, temp_prod, prod_id)
+    temp_prod.trace('w', update_id_with_arg)
     faulty_prod_window.mainloop()
     faultyProdList.append(str(temp_prod.get()+"_"+prod_id.get()))
 
