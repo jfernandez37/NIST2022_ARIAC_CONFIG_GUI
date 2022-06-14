@@ -839,7 +839,7 @@ if __name__ == "__main__":
     getFileName = tk.Tk()
     frame = tk.Frame(getFileName)
     frame.pack()
-    nistLogo = ImageTk.PhotoImage(Image.open("C:\\NISTguiImages\\NIST_logo.png"))
+    nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images\\NIST_logo.png"))
     logoImgLabel = tk.Label(frame, image=nistLogo)
     logoImgLabel.pack()
     cancelFlag = tk.StringVar()
