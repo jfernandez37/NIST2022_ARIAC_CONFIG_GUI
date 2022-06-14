@@ -2,7 +2,7 @@ import tkinter as tk
 import os.path
 from os import path
 from functools import partial  # needed for passing parameters to functions in buttons
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk  # needed for images in gui
 
 orderCount = []  # Used in counter in new_order function
 tempKits = []  # holds kitting information for orders
@@ -37,6 +37,7 @@ agv1Prods = []
 agv2Prods = []
 agv3Prods = []
 agv4Prods = []
+binProds = []
 
 
 def tf():  # cycles through the true or false button for the over bins option
@@ -258,6 +259,20 @@ def update_dest(a, b, c, d, e, f):  # switches the options present based off of 
         c.set(kAgv4List[0])
         for dest in kAgv4List:
             menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
+
+
+def update_id_range(a, b, c, d, e, f):
+    menu = a['menu']
+    menu.delete(0, 'end')
+    bin_prods_ind = 0
+    for binProd in binProds:
+        if binProd.pType == b.get():
+            break
+        bin_prods_ind +=1
+    c.set('1')
+    for num in range(int(binProds[bin_prods_ind].pNum)):
+        temp_num = str(num + 1)
+        menu.add_command(label=temp_num, command=lambda temp_num=temp_num: c.set(temp_num))
 
 
 def kitting():  # allows the user to add kitting to an order
@@ -503,6 +518,7 @@ def add_bin():  # adds a bin for models over bins
                                            str("["+x_val_e.get()+", "+y_val_e.get()+", "+z_val_e.get()+"]"),
                                            str("["+r_x_val_b.get()+", "+r_y_val_b.get()+", "+r_z_val_b.get()+"]"),
                                            width, width))
+    binProds.append(PresentProducts(bin_prod.get(), str(int(width)**2)))
 
 
 def add_station():  # adds a station to models over stations
