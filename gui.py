@@ -44,36 +44,36 @@ def tf():  # cycles through the true or false button for the over bins option
     if tfOverBins.config('text')[-1] == 'True':
         tfOverBins.config(text='False')
         overBins.set("false")
-    elif tfOverBins.config('text')[-1] == 'None':
+    elif tfOverBins.config('text')[-1] == 'Skip':
         tfOverBins.config(text='True')
         overBins.set("true")
     else:
-        tfOverBins.config(text='None')
-        overBins.set("none")
+        tfOverBins.config(text='Skip')
+        overBins.set("skip")
 
 
 def tf2():  # cycles through the true or false button for the over stations option
     if tfOverStations.config('text')[-1] == 'True':
         tfOverStations.config(text='False')
         overStations.set("false")
-    elif tfOverStations.config('text')[-1] == 'None':
+    elif tfOverStations.config('text')[-1] == 'Skip':
         tfOverStations.config(text='True')
         overStations.set("true")
     else:
-        tfOverStations.config(text='None')
-        overStations.set("none")
+        tfOverStations.config(text='Skip')
+        overStations.set("skip")
 
 
 def tf3():  # cycles through the true or false button for the gazebo state logging option
     if tfStateLogging.config('text')[-1] == 'True':
         tfStateLogging.config(text='False')
         stateLogging.set("false")
-    elif tfStateLogging.config('text')[-1] == 'None':
+    elif tfStateLogging.config('text')[-1] == 'Skip':
         tfStateLogging.config(text='True')
         stateLogging.set("true")
     else:
-        tfStateLogging.config(text='None')
-        stateLogging.set("none")
+        tfStateLogging.config(text='Skip')
+        stateLogging.set("skip")
 
 
 def cgt():  # cycles through the options for the current gripper type option
@@ -902,7 +902,7 @@ if __name__ == "__main__":
     tfOverBins.pack(pady=5)
     beltCycles = tk.StringVar()
     beltCycles.set("0")
-    popCycleLabel = tk.Label(options, text="Enter the belt population cycles (enter none to skip):")
+    popCycleLabel = tk.Label(options, text="Enter the belt population cycles (enter skip to skip):")
     popCycleLabel.pack()
     popCycleBox = tk.Entry(options, textvariable=beltCycles)
     popCycleBox.pack()
@@ -941,13 +941,13 @@ if __name__ == "__main__":
         saveFileName += '.yaml'
     with open(saveFileName, "a") as o:
         o.write("options:\n")
-        if overBins.get() != 'none':
+        if overBins.get() != 'skip':
             o.write("\tinsert_models_over_bins: " + overBins.get() + "\n")
-        if beltCycles.get() != 'none':
+        if beltCycles.get() != 'skip':
             o.write("\tbelt_population_cycles: " + beltCycles.get() + "\n")
-        if overStations.get() != 'none':
+        if overStations.get() != 'skip':
             o.write("\tinsert_models_over_stations: " + overStations.get() + "\n")
-        if stateLogging.get() != 'none':
+        if stateLogging.get() != 'skip':
             o.write("\tgazebo_state_logging: " + stateLogging.get() + "\n")
         o.write("\t# mandatory: gripper_tray or gripper_part\n")
         o.write("\tcurrent_gripper_type: " + gripperType.get() + "\n")
