@@ -33,12 +33,12 @@ modelsOverStationsInfo = []  # holds all the information from the models over st
 beltCycleInfo = []  # holds all the information from the belt cycle function
 faultyProdList = []  # holds all the information for the faulty product menu
 dropsInfo = []  # holds all the information for the drops menu
-agv1Prods = []
-agv2Prods = []
-agv3Prods = []
-agv4Prods = []
-binProds = []
-optionsLabels = []
+agv1Prods = []  # holds the products on agv1
+agv2Prods = []  # holds the products on agv2
+agv3Prods = []  # holds the products on agv3
+agv4Prods = []  # holds the products on agv4
+binProds = []  # holds the products which are present in bins
+nameLabels = []  # holds temporary flags to be deleted
 
 
 def tf():  # cycles through the true or false button for the over bins option
@@ -102,22 +102,22 @@ def skip_wind(flag, window):  # function for skipping a window
 
 def get_file_name_next():  # checks to see if the file name the user selects exists or is empty
     if fileName.get() == "" and reqFlag.get() == "0":
-        for label in optionsLabels:
+        for label in nameLabels:
             label.destroy()
-        optionsLabels.clear()
+        nameLabels.clear()
         req_label = tk.Label(getFileName, text="This field is required. Please enter a non-empty file name")
         req_label.pack()
-        optionsLabels.append(req_label)
+        nameLabels.append(req_label)
         reqFlag.set('1')
         existFlag.set('0')
     elif (path.exists(fileName.get()) or path.exists(fileName.get() + '.yaml')) and existFlag.get() == '0':
-        for label in optionsLabels:
+        for label in nameLabels:
             label.destroy()
-        optionsLabels.clear()
+        nameLabels.clear()
         exist_label = tk.Label(getFileName,
                                text="A file with this name already exists. Please enter another file name.")
         exist_label.pack()
-        optionsLabels.append(exist_label)
+        nameLabels.append(exist_label)
         existFlag.set('1')
         reqFlag.set('0')
     elif fileName.get() != '' and not (path.exists(fileName.get()) or path.exists(fileName.get() + '.yaml')):
