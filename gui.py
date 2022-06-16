@@ -38,6 +38,7 @@ agv2Prods = []
 agv3Prods = []
 agv4Prods = []
 binProds = []
+optionsLabels = []
 
 
 def tf():  # cycles through the true or false button for the over bins option
@@ -101,15 +102,25 @@ def skip_wind(flag, window):  # function for skipping a window
 
 def get_file_name_next():  # checks to see if the file name the user selects exists or is empty
     if fileName.get() == "" and reqFlag.get() == "0":
+        for label in optionsLabels:
+            label.destroy()
+        optionsLabels.clear()
         req_label = tk.Label(getFileName, text="This field is required. Please enter a non-empty file name")
         req_label.pack()
+        optionsLabels.append(req_label)
         reqFlag.set('1')
-    if (path.exists(fileName.get()) or path.exists(fileName.get() + '.yaml')) and existFlag.get() == '0':
+        existFlag.set('0')
+    elif (path.exists(fileName.get()) or path.exists(fileName.get() + '.yaml')) and existFlag.get() == '0':
+        for label in optionsLabels:
+            label.destroy()
+        optionsLabels.clear()
         exist_label = tk.Label(getFileName,
                                text="A file with this name already exists. Please enter another file name.")
         exist_label.pack()
+        optionsLabels.append(exist_label)
         existFlag.set('1')
-    elif fileName.get() != '':
+        reqFlag.set('0')
+    elif fileName.get() != '' and not (path.exists(fileName.get()) or path.exists(fileName.get() + '.yaml')):
         getFileName.destroy()
 
 
