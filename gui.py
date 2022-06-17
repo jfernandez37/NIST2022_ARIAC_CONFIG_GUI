@@ -288,6 +288,10 @@ def update_id_range(a, b, c, d, e, f):
 
 def kitting():  # allows the user to add kitting to an order
     kitting_wind = tk.Toplevel()
+    second_tray = tk.StringVar()
+    second_tray.set('')
+    second_agv = tk.StringVar()
+    second_agv.set('')
     ship_count = tk.StringVar()
     ship_count.set('1')
     trays = tk.StringVar()
@@ -319,7 +323,8 @@ def kitting():  # allows the user to add kitting to an order
     update_with_arg = partial(update_dest, get_k_dest, k_agv, k_destination)
     k_agv.trace('w', update_with_arg)
     kitting_wind.mainloop()
-    tempKits.append(Kitting(ship_count.get(), trays.get(), k_agv.get(), k_destination.get(), kitProds))
+    tempKits.append(Kitting(ship_count.get(), trays.get(), second_tray.get(), k_agv.get(),
+                            second_agv.get(), k_destination.get(), kitProds))
 
 
 def get_k_products():  # adds a product to kitting
@@ -805,10 +810,12 @@ class Order:  # for organizing the data from the order menu
 
 
 class Kitting:  # for organizing the data from the kitting menu
-    def __init__(self, ship_count, trays, agvs, destinations, products):
+    def __init__(self, ship_count, tray, second_tray, agv, second_agv, destinations, products):
         self.shipmentCount = ship_count
-        self.trays = trays
-        self.agvs = agvs
+        self.tray = tray
+        self.secondTray = second_tray
+        self.agv = agv
+        self.secondAgv = second_agv
         self.destinations = destinations
         self.products = products
 
