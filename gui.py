@@ -308,7 +308,7 @@ def update_kitting_ship(second_tray, second_agv, ship_count, second_dest, window
         second_get_agv.pack()
         second_k_dest_label = tk.Label(window, text="Enter the second Kitting destination")
         second_k_dest_label.pack()
-        second_get_k_dest = tk.OptionMenu(window, second_dest, *agv1List)
+        second_get_k_dest = tk.OptionMenu(window, second_dest, *kAgv1List)
         second_get_k_dest.pack()
         second_update_with_arg = partial(update_dest, second_get_k_dest, second_agv, second_dest)
         second_agv.trace('w', second_update_with_arg)
