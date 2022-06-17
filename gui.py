@@ -1152,8 +1152,8 @@ if __name__ == "__main__":
                 if len(i.kitting) != 0:
                     o.write("\t\tkitting:\n")
                     o.write("\t\t\tshipment_count: " + i.kitting[orderInd].shipmentCount + "\n")
-                    o.write("\t\t\ttrays: " + i.kitting[orderInd].trays + "\n")
-                    o.write("\t\t\tagvs: " + i.kitting[orderInd].agvs + "\n")
+                    o.write("\t\t\ttrays: " + i.kitting[orderInd].tray + "\n")
+                    o.write("\t\t\tagvs: " + i.kitting[orderInd].agv + "\n")
                     o.write("\t\t\tdestinations: " + i.kitting[orderInd].destinations + "\n")
                     o.write("\t\t\tproducts:\n")
                     if len(kProdInd)-1 == orderInd:
