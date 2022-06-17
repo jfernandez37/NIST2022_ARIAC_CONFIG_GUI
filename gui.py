@@ -920,6 +920,7 @@ class PresentProducts:  # holds the products which from bins
 if __name__ == "__main__":
     getFileName = tk.Tk()
     frame = tk.Frame(getFileName)
+    getFileName.geometry("500x600")
     frame.pack()
     nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images\\NIST_logo.png"))
     logoImgLabel = tk.Label(frame, image=nistLogo)
@@ -950,7 +951,7 @@ if __name__ == "__main__":
     # BEGINNING OF OPTIONS
     options = tk.Tk()
     options.title("Options")
-    options.geometry("800x500")
+    options.geometry("500x600")
     overBins = tk.StringVar()
     overBins.set("true")
     overBinsLabel = tk.Label(options, text="Insert models over bins:")
@@ -1015,7 +1016,7 @@ if __name__ == "__main__":
     # BEGINNING OF TABLE_TRAY_INFOS
     trayInfo = tk.Tk()
     trayInfo.title("Tray Information")
-    trayInfo.geometry("500x500")
+    trayInfo.geometry("500x600")
     trayInstructions = tk.Label(trayInfo, text="If you would like to skip a tray, leave it blank, leave it blank")
     trayInstructions.pack()
     table1 = tk.StringVar()
@@ -1072,6 +1073,7 @@ if __name__ == "__main__":
     # -----------------------------------------------------------------------------------
     # BEGINNING OF GETTING AGV_INFOS
     agvInfo = tk.Tk()
+    agvInfo.geometry("500x600")
     agvInfo.title("AGV Information")
     agv1 = tk.StringVar()
     agv1.set("ks1")
@@ -1165,6 +1167,7 @@ if __name__ == "__main__":
     # BEGINNING OF ORDERS
     orderID = 0
     ordersInfo = tk.Tk()
+    ordersInfo.geometry("500x600")
     allOrders = []
     ordersInfo.title("Orders Information")
     newOrder = tk.Button(ordersInfo, text="New Order", command=new_order)
@@ -1249,6 +1252,7 @@ if __name__ == "__main__":
     # BEGINNING OF MODELS OVER BINS
     if overBins.get() == 'true':
         overBinsWind = tk.Tk()
+        overBinsWind.geometry("500x600")
         overBinsWind.title("Models Over Bins Menu")
         addBinButton = tk.Button(overBinsWind, text="Add bin", command=add_bin)
         addBinButton.pack(pady=20)
@@ -1278,6 +1282,7 @@ if __name__ == "__main__":
     # BEGINNING OF MODELS OVER STATIONS
     if overStations.get() == 'true':
         overStationsWind = tk.Tk()
+        overStationsWind.geometry("500x600")
         overStationsWind.title("Models Over Stations Menu")
         addStationButton = tk.Button(overStationsWind, text="Add station", command=add_station)
         addStationButton.pack(pady=20)
@@ -1304,6 +1309,7 @@ if __name__ == "__main__":
     # BEGINNING OF BELT MODELS
     if beltCycles.get() != '0':
         beltCyclesWind = tk.Tk()
+        beltCyclesWind.geometry("500x600")
         beltCyclesWind.title("Belt Cycles Menu")
         addBeltCycle = tk.Button(beltCyclesWind, text="Add belt cycle", command=add_belt)
         addBeltCycle.pack(pady=20)
@@ -1329,6 +1335,7 @@ if __name__ == "__main__":
     # -----------------------------------------------------------------------------------
     # BEGINNING OF FAULTY PRODUCTS
     faultyWind = tk.Tk()
+    faultyWind.geometry("500x600")
     faultyWind.title("Faulty Products Menu")
     faultySkipFlag = tk.StringVar()
     faultySkipFlag.set('0')
@@ -1358,7 +1365,7 @@ if __name__ == "__main__":
     # BEGINNING OF DROPS
     dropsWind = tk.Tk()
     dropsWind.title("Drops Menu")
-    dropsWind.geometry("500x500")
+    dropsWind.geometry("500x600")
     dropsSkipFlag = tk.StringVar()
     dropsSkipFlag.set('0')
     dropsWindLabel = tk.Label(dropsWind, text="This is needed for the Faulty Gripper Challenge")
@@ -1399,7 +1406,7 @@ if __name__ == "__main__":
     # BEGINNING OF SENSOR BLACKOUT
     sensorBlackoutWind = tk.Tk()
     sensorBlackoutWind.title("Sensor Blackout")
-    sensorBlackoutWind.geometry("500x500")
+    sensorBlackoutWind.geometry("500x600")
     prodCount = tk.StringVar()
     prodCount.set('0')
     duration = tk.StringVar()
