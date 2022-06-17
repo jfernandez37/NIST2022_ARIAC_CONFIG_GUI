@@ -26,8 +26,8 @@ kAgv2List = ['[ks2]', '[as1]', '[as2]']  # all possible locations for agv2 in th
 kAgv3List = ['[ks3]', '[as3]', '[as4]']  # all possible locations for agv3 in the kitting format
 kAgv4List = ['[ks4]', '[as3]', '[as4]']  # all possible locations for agv4 in the kitting format
 allStations = ['ks1', 'ks2', 'ks3', 'ks4', 'as1', 'as2', 'as3', 'as4']  # list of all locations
-trayTypes = ["[movable_tray_dark_wood]", "[movable_tray_light_wood]",
-             "[movable_tray_metal_rusty]", "[movable_tray_metal_shiny]"]  # list of all tray types
+trayTypes = ["movable_tray_dark_wood", "movable_tray_light_wood",
+             "movable_tray_metal_rusty", "movable_tray_metal_shiny"]  # list of all tray types
 modelsOverBinsInfo = []  # holds the information from the models over bins function
 modelsOverStationsInfo = []  # holds all the information from the models over stations function
 beltCycleInfo = []  # holds all the information from the belt cycle function
@@ -39,6 +39,7 @@ agv3Prods = []  # holds the products on agv3
 agv4Prods = []  # holds the products on agv4
 binProds = []  # holds the products which are present in bins
 nameLabels = []  # holds temporary flags to be deleted
+kittingShipTempInput = []
 
 
 def tf():  # cycles through the true or false button for the over bins option
@@ -254,15 +255,15 @@ def new_order():  # this menu pops up to make a new order for the user
 def update_dest(a, b, c, d, e, f):  # switches the options present based off of the agv selected
     menu = a['menu']
     menu.delete(0, 'end')
-    if b.get() == '[agv1]':
+    if b.get() == 'agv1':
         c.set(kAgv1List[0])
         for dest in kAgv1List:
             menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
-    elif b.get() == '[agv2]':
+    elif b.get() == 'agv2':
         c.set(kAgv2List[0])
         for dest in kAgv2List:
             menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
-    elif b.get() == '[agv3]':
+    elif b.get() == 'agv3':
         c.set(kAgv3List[0])
         for dest in kAgv3List:
             menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
@@ -286,31 +287,66 @@ def update_id_range(a, b, c, d, e, f):
         menu.add_command(label=temp_num, command=lambda temp_num=temp_num: c.set(temp_num))
 
 
+def update_kitting_ship(second_tray, second_agv, ship_count, second_dest, window, d,e,f):
+    if ship_count.get() == '1':
+        second_tray.set('')
+        second_agv.set('')
+        second_dest.set('')
+        for entry in kittingShipTempInput:
+            entry.destroy()
+    else:
+        second_tray.set(trayTypes[0])
+        second_agv.set('agv1')
+        second_dest.set(agv1List[0])
+        second_k_tray = tk.Label(window, text="Second Kitting Tray")
+        second_k_tray.pack()
+        second_get_tray = tk.OptionMenu(window, second_tray, *trayTypes)
+        second_get_tray.pack()
+        second_k_agv_label = tk.Label(window, text="Enter the second Kitting agv")
+        second_k_agv_label.pack()
+        second_get_agv = tk.OptionMenu(window, second_agv, "agv1", "agv2", "agv3", "agv4")
+        second_get_agv.pack()
+        second_k_dest_label = tk.Label(window, text="Enter the second Kitting destination")
+        second_k_dest_label.pack()
+        second_get_k_dest = tk.OptionMenu(window, second_dest, *agv1List)
+        second_get_k_dest.pack()
+        second_update_with_arg = partial(update_dest, second_get_k_dest, second_agv, second_dest)
+        second_agv.trace('w', second_update_with_arg)
+        kittingShipTempInput.append(second_k_tray)
+        kittingShipTempInput.append(second_get_tray)
+        kittingShipTempInput.append(second_k_agv_label)
+        kittingShipTempInput.append(second_get_agv)
+        kittingShipTempInput.append(second_k_dest_label)
+        kittingShipTempInput.append(second_get_k_dest)
+
+
 def kitting():  # allows the user to add kitting to an order
     kitting_wind = tk.Toplevel()
     second_tray = tk.StringVar()
     second_tray.set('')
     second_agv = tk.StringVar()
     second_agv.set('')
+    second_dest = tk.StringVar()
+    second_dest.set('')
     ship_count = tk.StringVar()
     ship_count.set('1')
     trays = tk.StringVar()
-    trays.set('[movable_tray_metal_rusty]')
+    trays.set('movable_tray_metal_rusty')
     k_agv = tk.StringVar()
-    k_agv.set('[agv1]')
+    k_agv.set('agv1')
     k_destination = tk.StringVar()
     k_destination.set('[ks1]')  # list of as choices
     k_ship_count = tk.Label(kitting_wind, text="Enter the shipping count")
     k_ship_count.pack()
     ship_count_menu = tk.OptionMenu(kitting_wind, ship_count, "1", "2")
     ship_count_menu.pack()
-    k_trays = tk.Label(kitting_wind, text="Kitting Trays")
+    k_trays = tk.Label(kitting_wind, text="Kitting Tray")
     k_trays.pack()
     get_tray = tk.OptionMenu(kitting_wind, trays, *trayTypes)
     get_tray.pack()
     k_agv_label = tk.Label(kitting_wind, text="Enter the Kitting agv")
     k_agv_label.pack()
-    get_agv = tk.OptionMenu(kitting_wind, k_agv, "[agv1]", "[agv2]", "[agv3]", "[agv4]")
+    get_agv = tk.OptionMenu(kitting_wind, k_agv, "agv1", "agv2", "agv3", "agv4")
     get_agv.pack()
     k_dest_label = tk.Label(kitting_wind, text="Enter the Kitting destination")
     k_dest_label.pack()
@@ -321,10 +357,12 @@ def kitting():  # allows the user to add kitting to an order
     order_kitting = tk.Button(kitting_wind, text="Save and Exit", command=kitting_wind.destroy)
     order_kitting.pack(pady=20)
     update_with_arg = partial(update_dest, get_k_dest, k_agv, k_destination)
+    update_ship = partial(update_kitting_ship, second_tray, second_agv, ship_count, second_dest, kitting_wind)
     k_agv.trace('w', update_with_arg)
+    ship_count.trace('w', update_ship)
     kitting_wind.mainloop()
     tempKits.append(Kitting(ship_count.get(), trays.get(), second_tray.get(), k_agv.get(),
-                            second_agv.get(), k_destination.get(), kitProds))
+                            second_agv.get(), k_destination.get(), second_dest.get(), kitProds))
 
 
 def get_k_products():  # adds a product to kitting
@@ -810,13 +848,14 @@ class Order:  # for organizing the data from the order menu
 
 
 class Kitting:  # for organizing the data from the kitting menu
-    def __init__(self, ship_count, tray, second_tray, agv, second_agv, destinations, products):
+    def __init__(self, ship_count, tray, second_tray, agv, second_agv, destinations, second_dest, products):
         self.shipmentCount = ship_count
         self.tray = tray
         self.secondTray = second_tray
         self.agv = agv
         self.secondAgv = second_agv
         self.destinations = destinations
+        self.secondDest = second_dest
         self.products = products
 
 
@@ -1152,9 +1191,19 @@ if __name__ == "__main__":
                 if len(i.kitting) != 0:
                     o.write("\t\tkitting:\n")
                     o.write("\t\t\tshipment_count: " + i.kitting[orderInd].shipmentCount + "\n")
-                    o.write("\t\t\ttrays: " + i.kitting[orderInd].tray + "\n")
-                    o.write("\t\t\tagvs: " + i.kitting[orderInd].agv + "\n")
-                    o.write("\t\t\tdestinations: " + i.kitting[orderInd].destinations + "\n")
+                    o.write("\t\t\ttrays: [" + i.kitting[orderInd].tray)
+                    if i.kitting[orderInd].secondTray != '':
+                        o.write(", "+i.kitting[orderInd].secondTray)
+                    o.write("]\n")
+                    o.write("\t\t\tagvs: [" + i.kitting[orderInd].agv)
+                    if i.kitting[orderInd].secondAgv != '':
+                        o.write(", "+i.kitting[orderInd].secondAgv)
+                    o.write("]\n")
+                    o.write("\t\t\tdestinations: " + i.kitting[orderInd].destinations.replace("]", ''))
+                    if i.kitting[orderInd].secondDest != '':
+                        o.write(", "+i.kitting[orderInd].secondDest.replace("[", '')+"\n")
+                    else:
+                        o.write("]\n")
                     o.write("\t\t\tproducts:\n")
                     if len(kProdInd)-1 == orderInd:
                         for k in i.kitting[orderInd].products[kProdInd[orderInd]:]:
