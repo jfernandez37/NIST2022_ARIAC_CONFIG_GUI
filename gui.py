@@ -297,7 +297,7 @@ def update_kitting_ship(second_tray, second_agv, ship_count, second_dest, window
     else:
         second_tray.set(trayTypes[0])
         second_agv.set('agv1')
-        second_dest.set(agv1List[0])
+        second_dest.set(kAgv1List[0])
         second_k_tray = tk.Label(window, text="Second Kitting Tray")
         second_k_tray.pack()
         second_get_tray = tk.OptionMenu(window, second_tray, *trayTypes)
