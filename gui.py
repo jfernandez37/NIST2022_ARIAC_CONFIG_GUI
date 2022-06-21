@@ -1,10 +1,9 @@
-# test 1
 import tkinter as tk
 import os.path
 from os import path
 from functools import partial  # needed for passing parameters to functions in buttons
 from PIL import Image, ImageTk  # needed for images in gui
-# test 2
+
 orderCount = []  # Used in counter in new_order function
 tempKits = []  # holds kitting information for orders
 tempAssemb = []  # holds assembly information for orders
