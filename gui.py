@@ -1000,15 +1000,15 @@ if __name__ == "__main__":
     with open(saveFileName, "a") as o:
         o.write("options:\n")
         if overBins.get() != 'skip':
-            o.write("\tinsert_models_over_bins: " + overBins.get() + "\n")
+            o.write(" insert_models_over_bins: " + overBins.get() + "\n")
         if beltCycles.get() != 'skip':
-            o.write("\tbelt_population_cycles: " + beltCycles.get() + "\n")
+            o.write(" belt_population_cycles: " + beltCycles.get() + "\n")
         if overStations.get() != 'skip':
-            o.write("\tinsert_models_over_stations: " + overStations.get() + "\n")
+            o.write(" insert_models_over_stations: " + overStations.get() + "\n")
         if stateLogging.get() != 'skip':
-            o.write("\tgazebo_state_logging: " + stateLogging.get() + "\n")
-        o.write("\t# mandatory: gripper_tray or gripper_part\n")
-        o.write("\tcurrent_gripper_type: " + gripperType.get() + "\n")
+            o.write(" gazebo_state_logging: " + stateLogging.get() + "\n")
+        o.write(" # mandatory: gripper_tray or gripper_part\n")
+        o.write(" current_gripper_type: " + gripperType.get() + "\n")
         o.write("time_limit: " + timeLimit.get() + "\n")
     check_cancel(cancelFlag.get())
     # END OF GETTING OPTIONS
@@ -1061,13 +1061,13 @@ if __name__ == "__main__":
             if (table1.get() != "" and table1q.get() != "") or (table2.get() != "" and table2q.get() != ""):
                 o.write("\n\n\ntable_tray_infos:\n")
             if table1.get() != "" and table1q.get() != "":
-                o.write("\ttable_1:\n")
-                o.write("\t\ttray_model: " + table1.get() + "\n")
-                o.write("\t\tquantity: " + table1q.get() + "\n")
+                o.write(" table_1:\n")
+                o.write("  tray_model: " + table1.get() + "\n")
+                o.write("  quantity: " + table1q.get() + "\n")
             if table2.get() != "" and table2q.get() != "":
-                o.write("\ttable_2:\n")
-                o.write("\t\ttray_model: " + table2.get() + "\n")
-                o.write("\t\tquantity: " + table2q.get() + "\n")
+                o.write(" table_2:\n")
+                o.write("  tray_model: " + table2.get() + "\n")
+                o.write("  quantity: " + table2q.get() + "\n")
     check_cancel(cancelFlag.get())
     # END OF TABLE MENUS
     # -----------------------------------------------------------------------------------
@@ -1110,56 +1110,56 @@ if __name__ == "__main__":
     partID = 0
     with open(saveFileName, "a") as o:
         o.write("\n\nagv_infos:\n")
-        o.write("\tagv1:\n")
-        o.write("\t\tlocation: " + agv1.get() + "\n")
+        o.write(" agv1:\n")
+        o.write("  location: " + agv1.get() + "\n")
         if len(agv1Prods) > 0:
             agv1Prods.reverse()
-            o.write("\t\tproducts:\n")
+            o.write("  products:\n")
             for i in agv1Prods:
                 if i != '':
-                    o.write("\t\t\tpart_" + str(partID) + ":\n")
-                    o.write("\t\t\t\ttype: " + i.pType + "\n")
-                    o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + i.xyz + "\n")
-                    o.write("\t\t\t\t\trpy: " + i.rpy + "\n")
+                    o.write("   part_" + str(partID) + ":\n")
+                    o.write("    type: " + i.pType + "\n")
+                    o.write("    pose: \n")
+                    o.write("     xyz: " + i.xyz + "\n")
+                    o.write("     rpy: " + i.rpy + "\n")
                     partID += 1
-        o.write("\tagv2:\n")
-        o.write("\t\tlocation: " + agv2.get() + "\n")
+        o.write(" agv2:\n")
+        o.write("  location: " + agv2.get() + "\n")
         if len(agv2Prods) > 0:
             agv2Prods.reverse()
-            o.write("\t\tproducts:\n")
+            o.write("  products:\n")
             for i in agv2Prods:
                 if i != '':
-                    o.write("\t\t\tpart_" + str(partID) + ":\n")
-                    o.write("\t\t\t\ttype: " + i.pType + "\n")
-                    o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + i.xyz + "\n")
-                    o.write("\t\t\t\t\trpy: " + i.rpy + "\n")
+                    o.write("   part_" + str(partID) + ":\n")
+                    o.write("    type: " + i.pType + "\n")
+                    o.write("    pose: \n")
+                    o.write("     xyz: " + i.xyz + "\n")
+                    o.write("     rpy: " + i.rpy + "\n")
                     partID += 1
-        o.write("\tagv3:\n")
-        o.write("\t\tlocation: " + agv3.get() + "\n")
+        o.write(" agv3:\n")
+        o.write("  location: " + agv3.get() + "\n")
         if len(agv3Prods) > 0:
             agv3Prods.reverse()
-            o.write("\t\tproducts:\n")
+            o.write("  products:\n")
             for i in agv3Prods:
                 if i != '':
-                    o.write("\t\t\tpart_" + str(partID) + ":\n")
-                    o.write("\t\t\t\ttype: " + i.pType + "\n")
-                    o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + i.xyz + "\n")
-                    o.write("\t\t\t\t\trpy: " + i.rpy + "\n")
+                    o.write("   part_" + str(partID) + ":\n")
+                    o.write("    type: " + i.pType + "\n")
+                    o.write("    pose: \n")
+                    o.write("     xyz: " + i.xyz + "\n")
+                    o.write("     rpy: " + i.rpy + "\n")
                     partID += 1
-        o.write("\tagv4:\n")
-        o.write("\t\tlocation: " + agv4.get() + "\n")
+        o.write(" agv4:\n")
+        o.write("  location: " + agv4.get() + "\n")
         if len(agv4Prods) > 0:
-            o.write("\t\tproducts:\n")
+            o.write("  products:\n")
             for i in agv4Prods:
                 if i != '':
-                    o.write("\t\t\tpart_" + str(partID) + ":\n")
-                    o.write("\t\t\t\ttype: " + i.pType + "\n")
-                    o.write("\t\t\t\tpose: \n")
-                    o.write("\t\t\t\t\txyz: " + i.xyz + "\n")
-                    o.write("\t\t\t\t\trpy: " + i.rpy + "\n")
+                    o.write("   part_" + str(partID) + ":\n")
+                    o.write("    type: " + i.pType + "\n")
+                    o.write("    pose: \n")
+                    o.write("     xyz: " + i.xyz + "\n")
+                    o.write("     rpy: " + i.rpy + "\n")
                     partID += 1
     check_cancel(cancelFlag.get())
     # END OF AGV OPTIONS
@@ -1185,66 +1185,66 @@ if __name__ == "__main__":
         if len(allOrders) > 0:
             o.write("\n\norders:\n")
             for i in allOrders:
-                o.write("\torder_"+str(orderID)+":\n")
-                o.write("\t\tpriority: " + i.priority+"\n")
-                o.write("\t\tkitting_robot_health: " + i.kittingHealth+"\n")
-                o.write("\t\tassembly_robot_health: " + i.assemblyHealth+"\n")
-                o.write("\t\tannouncement_condition: " + i.announcementCondition+"\n")
-                o.write("\t\tannouncement_condition_value: "+i.conditionValue+"\n")
+                o.write(" order_"+str(orderID)+":\n")
+                o.write("  priority: " + i.priority+"\n")
+                o.write("  kitting_robot_health: " + i.kittingHealth+"\n")
+                o.write("  assembly_robot_health: " + i.assemblyHealth+"\n")
+                o.write("  announcement_condition: " + i.announcementCondition+"\n")
+                o.write("  announcement_condition_value: "+i.conditionValue+"\n")
                 if len(i.kitting) != 0:
-                    o.write("\t\tkitting:\n")
-                    o.write("\t\t\tshipment_count: " + i.kitting[orderInd].shipmentCount + "\n")
-                    o.write("\t\t\ttrays: [" + i.kitting[orderInd].tray)
+                    o.write("  kitting:\n")
+                    o.write("   shipment_count: " + i.kitting[orderInd].shipmentCount + "\n")
+                    o.write("   trays: [" + i.kitting[orderInd].tray)
                     if i.kitting[orderInd].secondTray != '':
                         o.write(", "+i.kitting[orderInd].secondTray)
                     o.write("]\n")
-                    o.write("\t\t\tagvs: [" + i.kitting[orderInd].agv)
+                    o.write("   agvs: [" + i.kitting[orderInd].agv)
                     if i.kitting[orderInd].secondAgv != '':
                         o.write(", "+i.kitting[orderInd].secondAgv)
                     o.write("]\n")
-                    o.write("\t\t\tdestinations: " + i.kitting[orderInd].destinations.replace("]", ''))
+                    o.write("   destinations: " + i.kitting[orderInd].destinations.replace("]", ''))
                     if i.kitting[orderInd].secondDest != '':
                         o.write(", "+i.kitting[orderInd].secondDest.replace("[", '')+"\n")
                     else:
                         o.write("]\n")
-                    o.write("\t\t\tproducts:\n")
+                    o.write("   products:\n")
                     if len(kProdInd)-1 == orderInd:
                         for k in i.kitting[orderInd].products[kProdInd[orderInd]:]:
-                            o.write("\t\t\t\tpart_" + str(partC) + ":\n")
+                            o.write("    part_" + str(partC) + ":\n")
                             partC += 1
-                            o.write("\t\t\t\t\ttype: " + k.pType + "\n")
-                            o.write("\t\t\t\t\tpose:\n")
-                            o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
-                            o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+                            o.write("     type: " + k.pType + "\n")
+                            o.write("     pose:\n")
+                            o.write("      xyz: " + k.xyz + "\n")
+                            o.write("      rpy: " + k.rpy + "\n")
                     else:
                         for k in i.kitting[orderInd].products[kProdInd[orderInd]: kProdInd[orderInd + 1]]:
-                            o.write("\t\t\t\tpart_" + str(partC) + ":\n")
+                            o.write("    part_" + str(partC) + ":\n")
                             partC += 1
-                            o.write("\t\t\t\t\ttype: " + k.pType + "\n")
-                            o.write("\t\t\t\t\tpose:\n")
-                            o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
-                            o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+                            o.write("     type: " + k.pType + "\n")
+                            o.write("     pose:\n")
+                            o.write("      xyz: " + k.xyz + "\n")
+                            o.write("      rpy: " + k.rpy + "\n")
                 if len(i.assembly) != 0:
-                    o.write("\t\tassembly:\n")
-                    o.write("\t\t\tshipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
-                    o.write("\t\t\tstations: " + i.assembly[orderInd].stations + '\n')
-                    o.write("\t\t\tproducts:\n")
+                    o.write("  assembly:\n")
+                    o.write("   shipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
+                    o.write("   stations: " + i.assembly[orderInd].stations + '\n')
+                    o.write("   products:\n")
                     if len(aProdInd)-1 == orderInd:
                         for k in i.assembly[orderInd].products[aProdInd[orderInd]:]:
-                            o.write("\t\t\t\t part_" + str(partC) + ":\n")
+                            o.write("     part_" + str(partC) + ":\n")
                             partC += 1
-                            o.write("\t\t\t\t\ttype: " + k.pType + "\n")
-                            o.write("\t\t\t\t\tpose:\n")
-                            o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
-                            o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+                            o.write("     type: " + k.pType + "\n")
+                            o.write("     pose:\n")
+                            o.write("      xyz: " + k.xyz + "\n")
+                            o.write("      rpy: " + k.rpy + "\n")
                     else:
                         for k in i.assembly[orderInd].products[aProdInd[orderInd]: aProdInd[orderInd+1]]:
-                            o.write("\t\t\t\tpart_" + str(partC) + ":\n")
+                            o.write("    part_" + str(partC) + ":\n")
                             partC += 1
-                            o.write("\t\t\t\t\ttype: " + k.pType + "\n")
-                            o.write("\t\t\t\t\tpose:\n")
-                            o.write("\t\t\t\t\t\txyz: " + k.xyz + "\n")
-                            o.write("\t\t\t\t\t\trpy: " + k.rpy + "\n")
+                            o.write("     type: " + k.pType + "\n")
+                            o.write("     pose:\n")
+                            o.write("      xyz: " + k.xyz + "\n")
+                            o.write("      rpy: " + k.rpy + "\n")
                 orderID += 1
             o.write("\n")
     # END OF ORDERS
@@ -1268,14 +1268,14 @@ if __name__ == "__main__":
             with open(saveFileName, "a") as o:
                 o.write("\nmodels_over_bins:\n")
                 for i in modelsOverBinsInfo:
-                    o.write("\t"+i.binNum+":\n")
-                    o.write("\t\tmodels:\n")
-                    o.write("\t\t\t"+i.product+":\n")
-                    o.write("\t\t\t\txyz_start: "+i.xyz_start+"\n")
-                    o.write("\t\t\t\txyz_end: "+i.xyz_end+"\n")
-                    o.write("\t\t\t\trpy: "+i.rpy+"\n")
-                    o.write("\t\t\t\tnum_models_x: "+i.num_mod_x+"\n")
-                    o.write("\t\t\t\tnum_models_y: "+i.num_mod_y+"\n")
+                    o.write(" "+i.binNum+":\n")
+                    o.write("  models:\n")
+                    o.write("   "+i.product+":\n")
+                    o.write("    xyz_start: "+i.xyz_start+"\n")
+                    o.write("    xyz_end: "+i.xyz_end+"\n")
+                    o.write("    rpy: "+i.rpy+"\n")
+                    o.write("    num_models_x: "+i.num_mod_x+"\n")
+                    o.write("    num_models_y: "+i.num_mod_y+"\n")
                 o.write("\n")
     # END OF MODELS OVER BINS
     # ----------------------------------------------------------------------------------------------------------------------
@@ -1298,11 +1298,11 @@ if __name__ == "__main__":
             with open(saveFileName, "a") as o:
                 o.write("\nmodels_over_stations:\n")
                 for i in modelsOverStationsInfo:
-                    o.write("\t"+i.station+":\n")
-                    o.write("\t\tmodels:\n")
-                    o.write("\t\t\t"+i.part+":\n")
-                    o.write("\t\t\t\txyz: "+i.xyz+"\n")
-                    o.write("\t\t\t\trpy: "+i.rpy+"\n")
+                    o.write(" "+i.station+":\n")
+                    o.write("  models:\n")
+                    o.write("   "+i.part+":\n")
+                    o.write("    xyz: "+i.xyz+"\n")
+                    o.write("    rpy: "+i.rpy+"\n")
                 o.write("\n")
     # END OF MODELS OVER STATIONS
     # ----------------------------------------------------------------------------------------------------------------------
@@ -1325,11 +1325,11 @@ if __name__ == "__main__":
             with open(saveFileName, "a") as o:
                 o.write("\nbelt_models:\n")
                 for i in beltCycleInfo:
-                    o.write("\t"+i.part+":\n")
-                    o.write("\t\t"+i.time+":\n")
-                    o.write("\t\t\tpose:\n")
-                    o.write("\t\t\t\txyz: "+i.xyz+"\n")
-                    o.write("\t\t\t\trpy: "+i.rpy+"\n")
+                    o.write(" "+i.part+":\n")
+                    o.write("  "+i.time+":\n")
+                    o.write("   pose:\n")
+                    o.write("    xyz: "+i.xyz+"\n")
+                    o.write("    rpy: "+i.rpy+"\n")
                 o.write("\n")
     # END OF BELT CYCLES
     # -----------------------------------------------------------------------------------
@@ -1358,7 +1358,7 @@ if __name__ == "__main__":
         with open(saveFileName, 'a') as o:
             o.write("\nfaulty_products:\n")
             for prod in faultyProdList:
-                o.write("\t- "+prod+"\n")
+                o.write(" - "+prod+"\n")
             o.write("\n")
     # END OF FAULTY PRODUCTS
     # --------------------------------------------------------------------------
@@ -1386,20 +1386,20 @@ if __name__ == "__main__":
     if dropsSkipFlag.get() == '0' and len(dropsInfo) > 0:
         dropsInfo.reverse()
         with open(saveFileName, 'a') as o:
-            o.write("\ndrops:\n\tdrop_regions:\n")
+            o.write("\ndrops:\n drop_regions:\n")
             for drop in dropsInfo:
-                o.write("\t\tshipping_box_"+str(dropCount)+"_impending:\n")
+                o.write("  shipping_box_"+str(dropCount)+"_impending:\n")
                 dropCount += 1
-                o.write("\t\t\tframe: "+drop.frame+"\n")
-                o.write("\t\t\tmin:\n")
-                o.write("\t\t\t\txyz: "+drop.minXyz+"\n")
-                o.write("\t\t\tmax:\n")
-                o.write("\t\t\t\txyz: "+drop.maxXyz+'\n')
-                o.write("\t\t\tdestination:\n")
-                o.write("\t\t\t\txyz: "+drop.destXyz+"\n")
-                o.write("\t\t\t\trpy: "+drop.destRpy+"\n")
-                o.write("\t\t\tproduct_type_to_drop: "+drop.typeToDrop+"\n")
-                o.write("\t\t\trobot_type: "+drop.robotType+"\n")
+                o.write("   frame: "+drop.frame+"\n")
+                o.write("   min:\n")
+                o.write("    xyz: "+drop.minXyz+"\n")
+                o.write("   max:\n")
+                o.write("    xyz: "+drop.maxXyz+'\n')
+                o.write("   destination:\n")
+                o.write("    xyz: "+drop.destXyz+"\n")
+                o.write("    rpy: "+drop.destRpy+"\n")
+                o.write("   product_type_to_drop: "+drop.typeToDrop+"\n")
+                o.write("   robot_type: "+drop.robotType+"\n")
             o.write("\n")
     # END OF DROPS
     # --------------------------------------------------------------------------
@@ -1434,6 +1434,6 @@ if __name__ == "__main__":
     if sensor_blackout_skip_flag.get() == '0':
         with open(saveFileName, 'a') as o:
             o.write("\nsensor_blackout:\n")
-            o.write("\tproduct_count: "+prodCount.get()+"\n")
-            o.write("\tduration: "+duration.get()+"\n")
+            o.write(" product_count: "+prodCount.get()+"\n")
+            o.write(" duration: "+duration.get()+"\n")
             o.write("\n")
