@@ -30,6 +30,40 @@
         "time_limit": {
             "description": "Time limit to use for the simulation",
             "type": "integer"
+        },
+        "table_tray_infos": {
+            "description": "Infos on which trays start on the tables",
+            "type": "object",
+            "properties": {
+                "table_1": {
+                    "description": "Holds infromation about table_1",
+                    "type": "object",
+                    "properties": {
+                        "tray_model": {
+                            "description": "Holds what kind of tray",
+                            "type": "string"
+                        },
+                        "quantity": {
+                            "description": "Holds the number of trays on table_1",
+                            "type": "integer"
+                        }
+                    }
+                },
+                "table_2": {
+                    "description": "Holds infromation about table_2",
+                    "type": "object",
+                    "properties": {
+                        "tray_model": {
+                            "description": "Holds what kind of tray",
+                            "type": "string"
+                        },
+                        "quantity": {
+                            "description": "Holds the number of trays on table_2",
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
         }
     }
 }
