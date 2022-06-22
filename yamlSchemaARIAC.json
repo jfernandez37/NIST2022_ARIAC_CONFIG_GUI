@@ -24,7 +24,7 @@
                 "current_gripper_type": {
                     "description": "Gripper type to use",
                     "type": "string"
-                },
+                }
             }
         },
         "time_limit": {
