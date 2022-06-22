@@ -5,6 +5,31 @@
     "type": "object",
     "additionalProperties": false,
     "properties": {
-        ""
+        "options": {
+            "description": "general options for ARIAC",
+            "type": "object",
+            "properties": {
+                "insert_models_over_bins": {
+                    "description": "Models over bins option",
+                    "type": "boolean"
+                },
+                "insert_models_over_stations": {
+                    "description": "Models over stations option",
+                    "type": "boolean"
+                },
+                "belt_population_cycles": {
+                    "description": "Number of belt population cycles",
+                    "type": "integer"
+                },
+                "current_gripper_type": {
+                    "description": "Gripper type to use",
+                    "type": "string"
+                },
+            }
+        },
+        "time_limit": {
+            "description": "Time limit to use for the simulation",
+            "type": "integer"
+        }
     }
 }
