@@ -64,6 +64,172 @@
                     }
                 }
             }
+        },
+        "agv_infos": {
+            "description": "holds the locations and products on an agv",
+            "type": "object",
+            "properties": {
+                "agv1": {
+                    "description": "information about agv1",
+                    "type": "object",
+                    "properties": {
+                        "location": {
+                            "description": "location of agv1",
+                            "type": "string"
+                        },
+                        "products": {
+                            "description": "products on agv1",
+                            "type": "object",
+                            "properties": {
+                                "part": {
+                                    "description": "holds information on the product",
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "description": "type of product",
+                                            "type": "string"
+                                        },
+                                        "pose": {
+                                            "description": "holds the xyz and rpy of the product",
+                                            "type": "object",
+                                            "properties": {
+                                                "xyz": {
+                                                    "description": "holds the xyz of the product",
+                                                    "type": "array"
+                                                },
+                                                "rpy": {
+                                                    "description": "holds the rpy of the product",
+                                                    "type": "array"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "agv2": {
+                    "description": "information about agv2",
+                    "type": "object",
+                    "properties": {
+                        "location": {
+                            "description": "location of agv2",
+                            "type": "string"
+                        },
+                        "products": {
+                            "description": "products on agv2",
+                            "type": "object",
+                            "properties": {
+                                "part": {
+                                    "description": "holds information on the product",
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "description": "type of product",
+                                            "type": "string"
+                                        },
+                                        "pose": {
+                                            "description": "holds the xyz and rpy of the product",
+                                            "type": "object",
+                                            "properties": {
+                                                "xyz": {
+                                                    "description": "holds the xyz of the product",
+                                                    "type": "array"
+                                                },
+                                                "rpy": {
+                                                    "description": "holds the rpy of the product",
+                                                    "type": "array"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "agv3": {
+                    "description": "information about agv3",
+                    "type": "object",
+                    "properties": {
+                        "location": {
+                            "description": "location of agv3",
+                            "type": "string"
+                        },
+                        "products": {
+                            "description": "products on agv3",
+                            "type": "object",
+                            "properties": {
+                                "part": {
+                                    "description": "holds information on the product",
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "description": "type of product",
+                                            "type": "string"
+                                        },
+                                        "pose": {
+                                            "description": "holds the xyz and rpy of the product",
+                                            "type": "object",
+                                            "properties": {
+                                                "xyz": {
+                                                    "description": "holds the xyz of the product",
+                                                    "type": "array"
+                                                },
+                                                "rpy": {
+                                                    "description": "holds the rpy of the product",
+                                                    "type": "array"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "agv4": {
+                    "description": "information about agv4",
+                    "type": "object",
+                    "properties": {
+                        "location": {
+                            "description": "location of agv4",
+                            "type": "string"
+                        },
+                        "products": {
+                            "description": "products on agv4",
+                            "type": "object",
+                            "properties": {
+                                "part": {
+                                    "description": "holds information on the product",
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "description": "type of product",
+                                            "type": "string"
+                                        },
+                                        "pose": {
+                                            "description": "holds the xyz and rpy of the product",
+                                            "type": "object",
+                                            "properties": {
+                                                "xyz": {
+                                                    "description": "holds the xyz of the product",
+                                                    "type": "array"
+                                                },
+                                                "rpy": {
+                                                    "description": "holds the rpy of the product",
+                                                    "type": "array"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
