@@ -1,0 +1,10 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "Yaml schema for NIST ARIAC",
+    "description": "Yaml schema for NIST ARIAC, used to validate output form yaml gui",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        ""
+    }
+}
