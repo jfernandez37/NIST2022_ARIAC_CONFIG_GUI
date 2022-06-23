@@ -230,6 +230,134 @@
                     }
                 }
             }
+        },
+        "orders": {
+            "description": "holds the orders information",
+            "type": "object",
+            "properties": {
+                "order_":{
+                    "description": "singular order",
+                    "type": "object",
+                    "properties": {
+                        "priority": {
+                            "description": "priority of the order, either 1 or 3",
+                            "type": "integer"
+                        },
+                        "kitting_robot_health":{
+                            "description": "enables or disables the kitting robot",
+                            "type": "number"
+                        },
+                        "assembly_robot_health": {
+                            "description": "enables or disables the assembly robot",
+                            "type": "number"
+                        },
+                        "announcement_condition:": {
+                            "description": "announcement condition",
+                            "type": "string"
+                        },
+                        "announcement_condition_value": {
+                            "description": "value for announcement condition",
+                            "type": "number"
+                        },
+                        "kitting": {
+                            "description": "specificaitons for kitting",
+                            "type": "object",
+                            "properties": {
+                                "shipment_count": {
+                                    "description": "number of shipments",
+                                    "type": "integer"
+                                },
+                                "trays": {
+                                    "description": "list of tray types needed for the kitting order",
+                                    "type": "array"
+                                },
+                                "agvs": {
+                                    "description": "list of agvs needed for the kitting order",
+                                    "type": "array"
+                                },
+                                "destinations": {
+                                    "description": "list of destinations for the kitting orders",
+                                    "type": "array"
+                                },
+                                "products": {
+                                    "description": "products for the kitting order",
+                                    "type": "object",
+                                    "properties": {
+                                        "part": {
+                                            "description": "holds information on the product",
+                                            "type": "object",
+                                            "properties": {
+                                                "type": {
+                                                    "description": "type of product",
+                                                    "type": "string"
+                                                },
+                                                "pose": {
+                                                    "description": "holds the xyz and rpy of the product",
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "xyz": {
+                                                            "description": "holds the xyz of the product",
+                                                            "type": "array"
+                                                        },
+                                                        "rpy": {
+                                                            "description": "holds the rpy of the product",
+                                                            "type": "array"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "assembly": {
+                            "description": "specifications for assembly order",
+                            "type": "object",
+                            "properties": {
+                                "shipment_count": {
+                                    "description": "number of shipments",
+                                    "type": "integer"
+                                },
+                                "stations": {
+                                    "description": "list of stations used in the assembly order",
+                                    "type": "array"
+                                },
+                                "products": {
+                                    "description": "products for the kitting order",
+                                    "type": "object",
+                                    "properties": {
+                                        "part": {
+                                            "description": "holds information on the product",
+                                            "type": "object",
+                                            "properties": {
+                                                "type": {
+                                                    "description": "type of product",
+                                                    "type": "string"
+                                                },
+                                                "pose": {
+                                                    "description": "holds the xyz and rpy of the product",
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "xyz": {
+                                                            "description": "holds the xyz of the product",
+                                                            "type": "array"
+                                                        },
+                                                        "rpy": {
+                                                            "description": "holds the rpy of the product",
+                                                            "type": "array"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
