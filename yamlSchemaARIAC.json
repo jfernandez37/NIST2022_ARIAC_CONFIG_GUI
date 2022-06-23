@@ -235,7 +235,7 @@
             "description": "holds the orders information",
             "type": "object",
             "properties": {
-                "order_":{
+                "order":{
                     "description": "singular order",
                     "type": "object",
                     "properties": {
