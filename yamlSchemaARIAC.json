@@ -402,6 +402,38 @@
                     }
                 }
             }
+        },
+        "models_over_stations": {
+            "description": "models over stations options",
+            "type": "object",
+            "properties": {
+                "station": {
+                    "description": "holds the information about the station",
+                    "type": "object",
+                    "properties": {
+                        "models": {
+                            "description": "holds information about the simulation models at the stations",
+                            "type": "object",
+                            "properties": {
+                                "part": {
+                                    "description": "holds infromation about the part",
+                                    "type": "object",
+                                    "properties": {
+                                        "xyz": {
+                                            "description": "xyz coordinates of the part",
+                                            "type": "array"
+                                        },
+                                        "rpy": {
+                                            "description": "orientation of the part",
+                                            "type": "array"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
