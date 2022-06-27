@@ -358,6 +358,50 @@
                     }
                 }
             }
+        },
+        "models_over_bins": {
+            "description": "models over bins descriptions",
+            "type": "object",
+            "properties": {
+                "bin": {
+                    "description": "describes a bin",
+                    "type": "object",
+                    "properties": {
+                        "models": {
+                            "description": "holds the infromation about the products on the bins",
+                            "type": "object",
+                            "properties": {
+                                "part_name": {
+                                    "description": "holds the name of a part",
+                                    "type": "object",
+                                    "properties": {
+                                        "xyz_start": {
+                                            "description": "where the product will start in the bin",
+                                            "type": "array"
+                                        },
+                                        "xyz_end": {
+                                            "description": "where the product will end",
+                                            "type": "array"
+                                        },
+                                        "rpy": {
+                                            "description": "orientation of the parts in the bin",
+                                            "type": "array"
+                                        },
+                                        "num_models_x": {
+                                            "description": "the number of parts in the x plane",
+                                            "type": "integer"
+                                        },
+                                        "num_models_y": {
+                                            "description": "the number of parts in the y plane",
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }   
+                        }
+                    }
+                }
+            }
         }
     }
 }
