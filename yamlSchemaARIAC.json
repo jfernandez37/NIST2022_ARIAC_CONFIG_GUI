@@ -362,8 +362,8 @@
         "models_over_bins": {
             "description": "models over bins descriptions",
             "type": "object",
-            "properties": {
-                "bin": {
+            "patternProperties": {
+                "^(bin[0-9]+)+$": {
                     "description": "describes a bin",
                     "type": "object",
                     "properties": {
@@ -421,6 +421,38 @@
                                     "properties": {
                                         "xyz": {
                                             "description": "xyz coordinates of the part",
+                                            "type": "array"
+                                        },
+                                        "rpy": {
+                                            "description": "orientation of the part",
+                                            "type": "array"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "belt_models": {
+            "description": "belt models options",
+            "type": "object",
+            "properties": {
+                "part": {
+                    "description": "name of the part",
+                    "type": "object",
+                    "patternProperties": {
+                        "^([0-9].[0-9]+)+": {
+                            "description": "frequency on the belt",
+                            "type": "object",
+                            "properties": {
+                                "pose": {
+                                    "description": "gives information about the location and orientation of the part",
+                                    "type": "object",
+                                    "properties": {
+                                        "xyz": {
+                                            "description": "location of the part",
                                             "type": "array"
                                         },
                                         "rpy": {
