@@ -80,8 +80,8 @@
                         "products": {
                             "description": "products on agv1",
                             "type": "object",
-                            "properties": {
-                                "part": {
+                            "patternProperties": {
+                                "^(part_[0-9]+)+$": {
                                     "description": "holds information on the product",
                                     "type": "object",
                                     "properties": {
@@ -120,8 +120,8 @@
                         "products": {
                             "description": "products on agv2",
                             "type": "object",
-                            "properties": {
-                                "part": {
+                            "patternProperties": {
+                                "^(part_[0-9]+)+$": {
                                     "description": "holds information on the product",
                                     "type": "object",
                                     "properties": {
@@ -160,8 +160,8 @@
                         "products": {
                             "description": "products on agv3",
                             "type": "object",
-                            "properties": {
-                                "part": {
+                            "patternProperties": {
+                                "^(part_[0-9]+)+$": {
                                     "description": "holds information on the product",
                                     "type": "object",
                                     "properties": {
@@ -200,8 +200,8 @@
                         "products": {
                             "description": "products on agv4",
                             "type": "object",
-                            "properties": {
-                                "part": {
+                            "patternProperties": {
+                                "^(part_[0-9]+)+$": {
                                     "description": "holds information on the product",
                                     "type": "object",
                                     "properties": {
