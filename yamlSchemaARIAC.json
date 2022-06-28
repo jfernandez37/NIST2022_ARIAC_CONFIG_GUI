@@ -107,7 +107,8 @@
                                 }
                             }
                         }
-                    }
+                    },
+                    "required": ["location"]
                 },
                 "agv2": {
                     "description": "information about agv2",
@@ -147,7 +148,8 @@
                                 }
                             }
                         }
-                    }
+                    },
+                    "required": ["location"]
                 },
                 "agv3": {
                     "description": "information about agv3",
@@ -187,7 +189,8 @@
                                 }
                             }
                         }
-                    }
+                    },
+                    "required": ["location"]
                 },
                 "agv4": {
                     "description": "information about agv4",
@@ -227,7 +230,8 @@
                                 }
                             }
                         }
-                    }
+                    },
+                    "required": ["location"]
                 }
             }
         },
@@ -464,6 +468,16 @@
                             }
                         }
                     }
+                }
+            }
+        },
+        "faulty_products": {
+            "description": "list of faulty products",
+            "type": "object",
+            "properties": {
+                "-": {
+                    "description": "part that is faulty",
+                    "type": "string"
                 }
             }
         }
