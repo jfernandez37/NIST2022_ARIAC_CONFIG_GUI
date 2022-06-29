@@ -11,11 +11,18 @@
             "properties": {
                 "insert_models_over_bins": {
                     "description": "Models over bins option",
-                    "type": "boolean"
+                    "type": "string",
+                    "enum": ["true", "false"]
                 },
                 "insert_models_over_stations": {
                     "description": "Models over stations option",
-                    "type": "boolean"
+                    "type": "string",
+                    "enum": ["true", "false"]
+                },
+                "gazebo_state_logging": {
+                    "description": "option for if gazebo logs the state of the simulation",
+                    "type": "string",
+                    "enum": ["true", "false"]
                 },
                 "belt_population_cycles": {
                     "description": "Number of belt population cycles",
@@ -23,13 +30,15 @@
                 },
                 "current_gripper_type": {
                     "description": "Gripper type to use",
-                    "type": "string"
+                    "type": "string",
+                    "enum": ["gripper_tray", "gripper_part"]
                 }
             }
         },
         "time_limit": {
             "description": "Time limit to use for the simulation",
-            "type": "integer"
+            "type": "integer",
+            "enum": [-1, 500]
         },
         "table_tray_infos": {
             "description": "Infos on which trays start on the tables",
@@ -40,12 +49,14 @@
                     "type": "object",
                     "properties": {
                         "tray_model": {
-                            "description": "Holds what kind of tray",
-                            "type": "string"
+                            "description": "Holds what kind of tray on table 1",
+                            "type": "string",
+                            "enum": ["movable_tray_metal_shiny", "metal_tray_metal_rusty", "movable_tray_dark_wood", "movable_tray_light_wood"]
                         },
                         "quantity": {
                             "description": "Holds the number of trays on table_1",
-                            "type": "integer"
+                            "type": "integer",
+                            "enum": [1, 2, 3]
                         }
                     }
                 },
@@ -54,12 +65,14 @@
                     "type": "object",
                     "properties": {
                         "tray_model": {
-                            "description": "Holds what kind of tray",
-                            "type": "string"
+                            "description": "Holds what kind of tray on table 2",
+                            "type": "string",
+                            "enum": ["movable_tray_metal_shiny", "metal_tray_metal_rusty", "movable_tray_dark_wood", "movable_tray_light_wood"]
                         },
                         "quantity": {
                             "description": "Holds the number of trays on table_2",
-                            "type": "integer"
+                            "type": "integer",
+                            "enum": [1, 2, 3]
                         }
                     }
                 }
@@ -75,7 +88,8 @@
                     "properties": {
                         "location": {
                             "description": "location of agv1",
-                            "type": "string"
+                            "type": "string",
+                            "enum": ["ks1", "as1", "as2"]
                         },
                         "products": {
                             "description": "products on agv1",
@@ -116,7 +130,8 @@
                     "properties": {
                         "location": {
                             "description": "location of agv2",
-                            "type": "string"
+                            "type": "string",
+                            "enum": ["ks2", "as1", "as2"]
                         },
                         "products": {
                             "description": "products on agv2",
@@ -157,7 +172,8 @@
                     "properties": {
                         "location": {
                             "description": "location of agv3",
-                            "type": "string"
+                            "type": "string",
+                            "enum": ["ks3", "as3", "as4"]
                         },
                         "products": {
                             "description": "products on agv3",
@@ -198,7 +214,8 @@
                     "properties": {
                         "location": {
                             "description": "location of agv4",
-                            "type": "string"
+                            "type": "string",
+                            "enum": ["ks4", "as3", "as4"]
                         },
                         "products": {
                             "description": "products on agv4",
@@ -238,14 +255,15 @@
         "orders": {
             "description": "holds the orders information",
             "type": "object",
-            "properties": {
-                "order":{
+            "patternProperties": {
+                "^(order_[0-9]+)+$":{
                     "description": "singular order",
                     "type": "object",
                     "properties": {
                         "priority": {
                             "description": "priority of the order, either 1 or 3",
-                            "type": "integer"
+                            "type": "integer",
+                            "enum": [1,3]
                         },
                         "kitting_robot_health":{
                             "description": "enables or disables the kitting robot",
@@ -269,7 +287,8 @@
                             "properties": {
                                 "shipment_count": {
                                     "description": "number of shipments",
-                                    "type": "integer"
+                                    "type": "integer",
+                                    "enum": [1, 2]
                                 },
                                 "trays": {
                                     "description": "list of tray types needed for the kitting order",
@@ -321,7 +340,8 @@
                             "properties": {
                                 "shipment_count": {
                                     "description": "number of shipments",
-                                    "type": "integer"
+                                    "type": "integer",
+                                    "enum": [1, 2]
                                 },
                                 "stations": {
                                     "description": "list of stations used in the assembly order",
@@ -393,11 +413,13 @@
                                         },
                                         "num_models_x": {
                                             "description": "the number of parts in the x plane",
-                                            "type": "integer"
+                                            "type": "integer",
+                                            "enum": [2, 3]
                                         },
                                         "num_models_y": {
                                             "description": "the number of parts in the y plane",
-                                            "type": "integer"
+                                            "type": "integer",
+                                            "enum": [2, 3]
                                         }
                                     }
                                 }
