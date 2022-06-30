@@ -502,6 +502,63 @@
                     "type": "string"
                 }
             }
+        },
+        "drops": {
+            "description": "drops options",
+            "type": "object",
+            "properties": {
+                "drop_regions": {
+                    "description": "gives information of the location of the drop",
+                    "type": "object",
+                    "patternProperties": {
+                        "^(shipping_box_[0-9]_impeding+)+":{
+                            "description": "identifies the drops",
+                            "type": "object",
+                            "properties": {
+                                "frame": {
+                                    "type": "string"
+                                },
+                                "min": {
+                                    "type": "object",
+                                    "properties": {
+                                        "xyz": {
+                                            "type": "array"
+                                        }
+                                    }
+                                },
+                                "max": {
+                                    "type": "object",
+                                    "properties": {
+                                        "xyz": {
+                                            "type": "array"
+                                        }
+                                    }
+                                },
+                                "destination": {
+                                    "type": "object",
+                                    "properties": {
+                                        "xyz": {
+                                            "type": "array"
+                                        },
+                                        "rpy": {
+                                            "type": "array"
+                                        }
+                                    }
+                                },
+                                "product_type_to_drop": {
+                                    "description": "type of object to drop",
+                                    "type": "string"
+                                },
+                                "robot_type": {
+                                    "description": "type of robot involved in the drop",
+                                    "type": "string",
+                                    "enum": ["kitting", "gantry"]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "additionalItems": false
