@@ -559,6 +559,20 @@
                     }
                 }
             }
+        },
+        "sensor_blackout": {
+            "description": "options for a sensor blackout",
+            "type": "object",
+            "properties": {
+                "product_count": {
+                    "description": "gives the number of productrs after the second product is placed",
+                    "type": "integer"
+                },
+                "duration": {
+                    "description": "how long the sensor blackout lasts",
+                    "type":"integer"
+                }
+            }
         }
     },
     "additionalItems": false
