@@ -1234,10 +1234,10 @@ if __name__ == "__main__":
                         for k in i.assembly[orderInd].products[aProdInd[orderInd]:]:
                             o.write("     part_" + str(partC) + ":\n")
                             partC += 1
-                            o.write("     type: " + k.pType + "\n")
-                            o.write("     pose:\n")
-                            o.write("      xyz: " + k.xyz + "\n")
-                            o.write("      rpy: " + k.rpy + "\n")
+                            o.write("      type: " + k.pType + "\n")
+                            o.write("      pose:\n")
+                            o.write("       xyz: " + k.xyz + "\n")
+                            o.write("       rpy: " + k.rpy + "\n")
                     else:
                         for k in i.assembly[orderInd].products[aProdInd[orderInd]: aProdInd[orderInd+1]]:
                             o.write("    part_" + str(partC) + ":\n")
