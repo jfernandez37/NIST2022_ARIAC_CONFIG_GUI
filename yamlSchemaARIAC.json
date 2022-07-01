@@ -3,7 +3,6 @@
     "title": "Yaml schema for NIST ARIAC",
     "description": "Yaml schema for NIST ARIAC, used to validate output form yaml gui",
     "type": "object",
-    "additionalProperties": false,
     "properties": {
         "options": {
             "description": "general options for ARIAC",
@@ -432,8 +431,8 @@
         "models_over_stations": {
             "description": "models over stations options",
             "type": "object",
-            "properties": {
-                "station": {
+            "patternProperties": {
+                "^([a-z][a-z][1-4]+)+$": {
                     "description": "holds the information about the station",
                     "type": "object",
                     "properties": {
