@@ -998,7 +998,7 @@ if __name__ == "__main__":
     if '.yaml' not in saveFileName:
         saveFileName += '.yaml'
     with open(saveFileName, "a") as o:
-        o.write("# yaml-language-server: $schema=file:///d%3A/vs_code_git/NIST2022_ARIAC_CONFIG_GUI/yamlSchemaARIAC.json\n") 
+        o.write("# yaml-language-server: $schema=yamlSchemaARIAC.json\n") 
         o.write("options:\n")
         if overBins.get() != 'skip':
             o.write(" insert_models_over_bins: " + overBins.get() + "\n")
@@ -1389,7 +1389,7 @@ if __name__ == "__main__":
         with open(saveFileName, 'a') as o:
             o.write("\ndrops:\n drop_regions:\n")
             for drop in dropsInfo:
-                o.write("  shipping_box_"+str(dropCount)+"_impending:\n")
+                o.write("  shipping_box_"+str(dropCount)+"_impeding:\n")
                 dropCount += 1
                 o.write("   frame: "+drop.frame+"\n")
                 o.write("   min:\n")
