@@ -998,7 +998,7 @@ if __name__ == "__main__":
     if '.yaml' not in saveFileName:
         saveFileName += '.yaml'
     with open(saveFileName, "a") as o:
-        o.write("# yaml-language-server: $schema=file:///d%3A/vs_code_git/NIST2022_ARIAC_CONFIG_GUI/yamlSchemaARIAC.json \n") 
+        o.write("# yaml-language-server: $schema=file:///d%3A/vs_code_git/NIST2022_ARIAC_CONFIG_GUI/yamlSchemaARIAC.json\n") 
         o.write("options:\n")
         if overBins.get() != 'skip':
             o.write(" insert_models_over_bins: " + overBins.get() + "\n")
