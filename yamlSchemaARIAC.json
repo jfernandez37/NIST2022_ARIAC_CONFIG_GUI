@@ -304,8 +304,8 @@
                                 "products": {
                                     "description": "products for the kitting order",
                                     "type": "object",
-                                    "properties": {
-                                        "part": {
+                                    "patternProperties": {
+                                        "^(part_[0-9]+)+$": {
                                             "description": "holds information on the product",
                                             "type": "object",
                                             "properties": {
@@ -349,8 +349,8 @@
                                 "products": {
                                     "description": "products for the kitting order",
                                     "type": "object",
-                                    "properties": {
-                                        "part": {
+                                    "patternProperties": {
+                                        "^(part_[0-9]+)+$": {
                                             "description": "holds information on the product",
                                             "type": "object",
                                             "properties": {
