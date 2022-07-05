@@ -393,8 +393,8 @@
                         "models": {
                             "description": "holds the infromation about the products on the bins",
                             "type": "object",
-                            "properties": {
-                                "part_name": {
+                            "patternProperties": {
+                                "^[a-z]+_[a-z]+_[a-z]+": {
                                     "description": "holds the name of a part",
                                     "type": "object",
                                     "properties": {
@@ -439,8 +439,8 @@
                         "models": {
                             "description": "holds information about the simulation models at the stations",
                             "type": "object",
-                            "properties": {
-                                "part": {
+                            "patternProperties": {
+                                "^[a-z]+_[a-z]+_[a-z]+": {
                                     "description": "holds infromation about the part",
                                     "type": "object",
                                     "properties": {
