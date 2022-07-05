@@ -178,7 +178,7 @@ def add_product():  # adds a product in agv_infos
     z_val_entry.pack()
     r_x_val_label = tk.Label(product_info, text="Enter the x rotation value")
     r_x_val_label.pack()
-    r_x_val_slide = ttk.Scale(product_info, from_=0, to=10, orient="horizontal", variable=r_x_val)
+    r_x_val_slide = ttk.Scale(product_info, from_=0, to=5, orient="horizontal", variable=r_x_val)
     r_x_val_slide.pack()
     get_current_x_rpy = partial(get_current_val, r_x_val)
     r_x_val_current = tk.Label(product_info, text="Current value = "+get_current_x_rpy())
@@ -200,7 +200,7 @@ def add_product():  # adds a product in agv_infos
     if agv_id.get() == 'agv1':
         agv1Prods.append(Products(product_type.get(),
                                   str("["+x_val.get()+", "+y_val.get()+", "+z_val.get()+"]"),
-                                  str("["+str(round_twentieth(float(r_x_val.get())))+","+r_y_val.get()+", "+r_z_val.get()+"]")))
+                                  str("["+str(round_twentieth(float(r_x_val.get())))+", "+r_y_val.get()+", "+r_z_val.get()+"]")))
     if agv_id.get() == 'agv2':
         agv2Prods.append(Products(product_type.get(),
                                   str("[" + x_val.get() + ", " + y_val.get() + ", " + z_val.get() + "]"),
@@ -208,11 +208,11 @@ def add_product():  # adds a product in agv_infos
     if agv_id.get() == 'agv3':
         agv3Prods.append(Products(product_type.get(),
                                   str("[" + x_val.get() + ", " + y_val.get() + ", " + z_val.get() + "]"),
-                                  str("[" + r_x_val.get() + "," + r_y_val.get() + ", " + r_z_val.get() + "]")))
+                                  str("[" + r_x_val.get() + ", " + r_y_val.get() + ", " + r_z_val.get() + "]")))
     if agv_id.get() == 'agv4':
         agv4Prods.append(Products(product_type.get(),
                                   str("[" + x_val.get() + ", " + y_val.get() + ", " + z_val.get() + "]"),
-                                  str("[" + r_x_val.get() + "," + r_y_val.get() + ", " + r_z_val.get() + "]")))
+                                  str("[" + r_x_val.get() + ", " + r_y_val.get() + ", " + r_z_val.get() + "]")))
 
 
 def new_order():  # this menu pops up to make a new order for the user
