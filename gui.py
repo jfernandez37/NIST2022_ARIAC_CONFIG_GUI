@@ -1,4 +1,6 @@
+from pydoc import TextRepr
 import tkinter as tk
+import tkinter.ttk as ttk
 import os.path
 from os import path
 from functools import partial  # needed for passing parameters to functions in buttons
@@ -125,6 +127,14 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
         getFileName.destroy()
 
 
+def update_rpy_label(label, func, c, d, e):
+    label.configure(text="Current value = "+func())
+
+
+def get_current_rpy(val):
+     return '{: .2f}'.format(float(val.get()))
+
+
 def add_product():  # adds a product in agv_infos
     product_info = tk.Toplevel()
     x_val = tk.StringVar()
@@ -165,16 +175,21 @@ def add_product():  # adds a product in agv_infos
     z_val_entry.pack()
     r_x_val_label = tk.Label(product_info, text="Enter the x rotation value")
     r_x_val_label.pack()
-    r_x_val_entry = tk.Entry(product_info, textvariable=r_x_val)
-    r_x_val_entry.pack()
+    r_x_val_slide = ttk.Scale(product_info, from_=0, to=100, orient="horizontal", variable=r_x_val)
+    r_x_val_slide.pack()
+    get_current_x_rpy = partial(get_current_rpy, r_x_val)
+    r_x_val_current = tk.Label(product_info, text="Current value = "+get_current_x_rpy())
+    r_x_val_current.pack()
+    update_rpy_x_label = partial(update_rpy_label, r_x_val_current, get_current_x_rpy)
+    r_x_val.trace('w', update_rpy_x_label)
     r_y_val_label = tk.Label(product_info, text="Enter the y rotation value")
     r_y_val_label.pack()
-    r_y_val_entry = tk.Entry(product_info, textvariable=r_y_val)
-    r_y_val_entry.pack()
+    r_y_val_slide = tk.Entry(product_info, textvariable=r_y_val)
+    r_y_val_slide.pack()
     r_z_val_label = tk.Label(product_info, text="Enter the z rotation value")
     r_z_val_label.pack()
-    r_z_val_entry = tk.Entry(product_info, textvariable=r_z_val)
-    r_z_val_entry.pack()
+    r_z_val_slide = tk.Entry(product_info, textvariable=r_z_val)
+    r_z_val_slide.pack()
     product_info.geometry("500x500")
     prod_save = tk.Button(product_info, text="Save and Exit", command=product_info.destroy)
     prod_save.pack(pady=20)
