@@ -127,11 +127,11 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
         getFileName.destroy()
 
 
-def update_rpy_label(label, func, c, d, e):
+def update_val_label(label, func, c, d, e):
     label.configure(text="Current value = "+func())
 
 
-def get_current_rpy(val):
+def get_current_val(val):
      return '{: .2f}'.format(float(val.get()))
 
 
@@ -177,10 +177,10 @@ def add_product():  # adds a product in agv_infos
     r_x_val_label.pack()
     r_x_val_slide = ttk.Scale(product_info, from_=0, to=100, orient="horizontal", variable=r_x_val)
     r_x_val_slide.pack()
-    get_current_x_rpy = partial(get_current_rpy, r_x_val)
+    get_current_x_rpy = partial(get_current_val, r_x_val)
     r_x_val_current = tk.Label(product_info, text="Current value = "+get_current_x_rpy())
     r_x_val_current.pack()
-    update_rpy_x_label = partial(update_rpy_label, r_x_val_current, get_current_x_rpy)
+    update_rpy_x_label = partial(update_val_label, r_x_val_current, get_current_x_rpy)
     r_x_val.trace('w', update_rpy_x_label)
     r_y_val_label = tk.Label(product_info, text="Enter the y rotation value")
     r_y_val_label.pack()
