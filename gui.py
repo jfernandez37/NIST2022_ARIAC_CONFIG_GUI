@@ -42,6 +42,7 @@ agv4Prods = []  # holds the products on agv4
 binProds = []  # holds the products which are present in bins
 nameLabels = []  # holds temporary flags to be deleted
 kittingShipTempInput = []
+round_slide = .05
 
 
 def get_final_num(num):
@@ -49,7 +50,7 @@ def get_final_num(num):
 
 
 def round_twentieth(num):
-    return round(round(num/0.05)*0.05,-int(math.floor(math.log10(0.05))))
+    return round(round(num/round_slide)*round_slide,-int(math.floor(math.log10(round_slide))))
 
 
 def tf():  # cycles through the true or false button for the over bins option
