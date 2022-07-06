@@ -223,16 +223,16 @@ def add_product():  # adds a product in agv_infos
                                   str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
     if agv_id.get() == 'agv2':
         agv2Prods.append(Products(product_type.get(),
-                                  str("[" + x_val.get() + ", " + y_val.get() + ", " + z_val.get() + "]"),
-                                  str("[" + r_x_val.get() + "," + r_y_val.get() + ", " + r_z_val.get() + "]")))
+                                  str("["+get_final_num(x_val)+", "+get_final_num(y_val)+", "+get_final_num(z_val)+"]"),
+                                  str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
     if agv_id.get() == 'agv3':
         agv3Prods.append(Products(product_type.get(),
-                                  str("[" + x_val.get() + ", " + y_val.get() + ", " + z_val.get() + "]"),
-                                  str("[" + r_x_val.get() + ", " + r_y_val.get() + ", " + r_z_val.get() + "]")))
+                                  str("["+get_final_num(x_val)+", "+get_final_num(y_val)+", "+get_final_num(z_val)+"]"),
+                                  str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
     if agv_id.get() == 'agv4':
         agv4Prods.append(Products(product_type.get(),
-                                  str("[" + x_val.get() + ", " + y_val.get() + ", " + z_val.get() + "]"),
-                                  str("[" + r_x_val.get() + ", " + r_y_val.get() + ", " + r_z_val.get() + "]")))
+                                  str("["+get_final_num(x_val)+", "+get_final_num(y_val)+", "+get_final_num(z_val)+"]"),
+                                  str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
 
 
 def new_order():  # this menu pops up to make a new order for the user
