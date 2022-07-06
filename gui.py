@@ -43,6 +43,11 @@ binProds = []  # holds the products which are present in bins
 nameLabels = []  # holds temporary flags to be deleted
 kittingShipTempInput = []
 
+
+def get_final_num(num):
+    return str(round_twentieth(float(num.get())))
+
+
 def round_twentieth(num):
     return round(round(num/0.05)*0.05,-int(math.floor(math.log10(0.05))))
 
@@ -166,16 +171,31 @@ def add_product():  # adds a product in agv_infos
     product_type_menu.pack()
     x_val_label = tk.Label(product_info, text="Enter the x value")
     x_val_label.pack()
-    x_val_entry = tk.Entry(product_info, textvariable=x_val)
-    x_val_entry.pack()
+    x_val_slide = ttk.Scale(product_info, from_=0, to=5, orient="horizontal", variable=x_val)
+    x_val_slide.pack()
+    get_current_x = partial(get_current_val, x_val)
+    x_val_current = tk.Label(product_info, text="Current value = "+get_current_x())
+    x_val_current.pack()
+    update_xyz_x_label = partial(update_val_label, x_val_current, get_current_x)
+    x_val.trace('w', update_xyz_x_label)
     y_val_label = tk.Label(product_info, text="Enter the y value")
     y_val_label.pack()
-    y_val_entry = tk.Entry(product_info, textvariable=y_val)
-    y_val_entry.pack()
+    y_val_slide = ttk.Scale(product_info, from_=0, to=5, orient="horizontal", variable=y_val)
+    y_val_slide.pack()
+    get_current_y = partial(get_current_val, y_val)
+    y_val_current = tk.Label(product_info, text="Current value = "+get_current_y())
+    y_val_current.pack()
+    update_xyz_y_label = partial(update_val_label, y_val_current, get_current_y)
+    y_val.trace('w', update_xyz_y_label)
     z_val_label = tk.Label(product_info, text="Enter the z value")
     z_val_label.pack()
-    z_val_entry = tk.Entry(product_info, textvariable=z_val)
+    z_val_entry = ttk.Scale(product_info, from_=0, to=5, orient="horizontal", variable=z_val)
     z_val_entry.pack()
+    get_current_z = partial(get_current_val, z_val)
+    z_val_current = tk.Label(product_info, text="Current value = "+get_current_z())
+    z_val_current.pack()
+    update_xyz_z_label = partial(update_val_label, z_val_current, get_current_z)
+    z_val.trace('w', update_xyz_z_label)
     r_x_val_label = tk.Label(product_info, text="Enter the x rotation value")
     r_x_val_label.pack()
     r_x_val_slide = ttk.Scale(product_info, from_=0, to=5, orient="horizontal", variable=r_x_val)
@@ -187,20 +207,20 @@ def add_product():  # adds a product in agv_infos
     r_x_val.trace('w', update_rpy_x_label)
     r_y_val_label = tk.Label(product_info, text="Enter the y rotation value")
     r_y_val_label.pack()
-    r_y_val_slide = tk.Entry(product_info, textvariable=r_y_val)
-    r_y_val_slide.pack()
+    r_y_val_entry = tk.Entry(product_info, textvariable=r_y_val)
+    r_y_val_entry.pack()
     r_z_val_label = tk.Label(product_info, text="Enter the z rotation value")
     r_z_val_label.pack()
-    r_z_val_slide = tk.Entry(product_info, textvariable=r_z_val)
-    r_z_val_slide.pack()
-    product_info.geometry("500x500")
+    r_z_val_entry = tk.Entry(product_info, textvariable=r_z_val)
+    r_z_val_entry.pack()
+    product_info.geometry("500x750")
     prod_save = tk.Button(product_info, text="Save and Exit", command=product_info.destroy)
     prod_save.pack(pady=20)
     product_info.mainloop()
     if agv_id.get() == 'agv1':
         agv1Prods.append(Products(product_type.get(),
-                                  str("["+x_val.get()+", "+y_val.get()+", "+z_val.get()+"]"),
-                                  str("["+str(round_twentieth(float(r_x_val.get())))+", "+r_y_val.get()+", "+r_z_val.get()+"]")))
+                                  str("["+get_final_num(x_val)+", "+get_final_num(y_val)+", "+get_final_num(z_val)+"]"),
+                                  str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
     if agv_id.get() == 'agv2':
         agv2Prods.append(Products(product_type.get(),
                                   str("[" + x_val.get() + ", " + y_val.get() + ", " + z_val.get() + "]"),
