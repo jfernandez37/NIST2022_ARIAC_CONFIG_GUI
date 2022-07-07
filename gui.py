@@ -42,14 +42,14 @@ agv4Prods = []  # holds the products on agv4
 binProds = []  # holds the products which are present in bins
 nameLabels = []  # holds temporary flags to be deleted
 kittingShipTempInput = []
-round_slide = .05
+round_slide = .05  # what coordinates are rounded to
 
 
-def get_final_num(num):
+def get_final_num(num):  # returns the final string for the coordinates
     return str(round_twentieth(float(num.get())))
 
 
-def round_twentieth(num):
+def round_twentieth(num):  # rounds number to the nearest twentieth (or round_slide)
     return round(round(num/round_slide)*round_slide,-int(math.floor(math.log10(round_slide))))
 
 
@@ -136,11 +136,11 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
         getFileName.destroy()
 
 
-def update_val_label(label, func, c, d, e):
+def update_val_label(label, func, c, d, e):  # for having the current number for the slider
     label.configure(text="Current value = "+func())
 
 
-def get_current_val(val):
+def get_current_val(val):  # gets the current number from the slider
      return '{: .2f}'.format(round_twentieth(float(val.get())))
 
 
@@ -312,7 +312,7 @@ def update_dest(a, b, c, d, e, f):  # switches the options present based off of 
             menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
 
 
-def update_id_range(a, b, c, d, e, f):
+def update_id_range(a, b, c, d, e, f):  # updates the ids for faulty products
     menu = a['menu']
     menu.delete(0, 'end')
     bin_prods_ind = 0
@@ -326,7 +326,7 @@ def update_id_range(a, b, c, d, e, f):
         menu.add_command(label=temp_num, command=lambda temp_num=temp_num: c.set(temp_num))
 
 
-def update_kitting_ship(second_tray, second_agv, ship_count, second_dest, window, d,e,f):
+def update_kitting_ship(second_tray, second_agv, ship_count, second_dest, window, d,e,f):  # updates the trays for kitting shipments
     if ship_count.get() == '1':
         second_tray.set('')
         second_agv.set('')
