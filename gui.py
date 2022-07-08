@@ -1434,32 +1434,33 @@ if __name__ == "__main__":
     # END OF BELT CYCLES
     # -----------------------------------------------------------------------------------
     # BEGINNING OF FAULTY PRODUCTS
-    faultyWind = tk.Tk()
-    faultyWind.geometry("500x600")
-    faultyWind.title("Faulty Products Menu")
-    faultySkipFlag = tk.StringVar()
-    faultySkipFlag.set('0')
-    faultyWindLabel = tk.Label(faultyWind, text="This is needed for the Faulty Product Challenge")
-    faultyWindLabel.pack()
-    addProd = tk.Button(faultyWind, text="Add Product", command=add_faulty_prod)
-    addProd.pack(pady=20)
-    faulty_skip = partial(skip_wind, faultySkipFlag, faultyWind)
-    skipFaultyProd = tk.Button(faultyWind, text="Skip", command=faulty_skip)
-    skipFaultyProd.pack(pady=20)
-    faultyProdNext = tk.Button(faultyWind, text="Next", command=faultyWind.destroy)
-    faultyProdNext.pack(pady=20)
-    cancel_faulty_products = partial(cancel_wind, faultyWind)
-    cancelFaultyProd = tk.Button(faultyWind, text="Cancel and Exit", command=cancel_faulty_products)
-    cancelFaultyProd.pack(pady=20)
-    faultyWind.mainloop()
-    check_cancel(cancelFlag.get())
-    if faultySkipFlag.get() == '0' and len(faultyProdList) > 0:
-        faultyProdList.reverse()
-        with open(saveFileName, 'a') as o:
-            o.write("\nfaulty_products:\n")
-            for prod in faultyProdList:
-                o.write(" - "+prod+"\n")
-            o.write("\n")
+    if len(binProds)>0:
+        faultyWind = tk.Tk()
+        faultyWind.geometry("500x600")
+        faultyWind.title("Faulty Products Menu")
+        faultySkipFlag = tk.StringVar()
+        faultySkipFlag.set('0')
+        faultyWindLabel = tk.Label(faultyWind, text="This is needed for the Faulty Product Challenge")
+        faultyWindLabel.pack()
+        addProd = tk.Button(faultyWind, text="Add Product", command=add_faulty_prod)
+        addProd.pack(pady=20)
+        faulty_skip = partial(skip_wind, faultySkipFlag, faultyWind)
+        skipFaultyProd = tk.Button(faultyWind, text="Skip", command=faulty_skip)
+        skipFaultyProd.pack(pady=20)
+        faultyProdNext = tk.Button(faultyWind, text="Next", command=faultyWind.destroy)
+        faultyProdNext.pack(pady=20)
+        cancel_faulty_products = partial(cancel_wind, faultyWind)
+        cancelFaultyProd = tk.Button(faultyWind, text="Cancel and Exit", command=cancel_faulty_products)
+        cancelFaultyProd.pack(pady=20)
+        faultyWind.mainloop()
+        check_cancel(cancelFlag.get())
+        if faultySkipFlag.get() == '0' and len(faultyProdList) > 0:
+            faultyProdList.reverse()
+            with open(saveFileName, 'a') as o:
+                o.write("\nfaulty_products:\n")
+                for prod in faultyProdList:
+                    o.write(" - "+prod+"\n")
+                o.write("\n")
     # END OF FAULTY PRODUCTS
     # --------------------------------------------------------------------------
     # BEGINNING OF DROPS
