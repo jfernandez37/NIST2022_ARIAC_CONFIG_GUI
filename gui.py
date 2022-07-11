@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import math
+import platform
 import os.path
 from os import path
 from functools import partial  # needed for passing parameters to functions in buttons
@@ -1021,7 +1022,10 @@ if __name__ == "__main__":
     frame = tk.Frame(getFileName)
     getFileName.geometry("500x600")
     frame.pack()
-    nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images\\NIST_logo.png"))
+    if platform.system()=="Windows OS":
+        nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images\\NIST_logo.png"))
+    else:
+        nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images/NIST_logo.png"))
     logoImgLabel = tk.Label(frame, image=nistLogo)
     logoImgLabel.pack()
     cancelFlag = tk.StringVar()
