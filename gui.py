@@ -704,16 +704,31 @@ def add_station():  # adds a station to models over stations
     station_product_type_menu.pack()
     x_val_stat_label = tk.Label(add_station_wind, text="Enter the x value")
     x_val_stat_label.pack()
-    x_val_stat_entry = tk.Entry(add_station_wind, textvariable=x_val_stat)
-    x_val_stat_entry.pack()
+    x_val_stat_slide = ttk.Scale(add_station_wind, from_=0, to=5, orient="horizontal", variable=x_val_stat)
+    x_val_stat_slide.pack()
+    get_current_x_stat = partial(get_current_val, x_val_stat)
+    x_val_stat_current = tk.Label(add_station_wind, text="Current value = "+get_current_x_stat())
+    x_val_stat_current.pack()
+    update_stat_x_label = partial(update_val_label, x_val_stat_current, get_current_x_stat)
+    x_val_stat.trace('w', update_stat_x_label)
     y_val_stat_label = tk.Label(add_station_wind, text="Enter the y value")
     y_val_stat_label.pack()
-    y_val_stat_entry = tk.Entry(add_station_wind, textvariable=y_val_stat)
-    y_val_stat_entry.pack()
+    y_val_stat_slide = ttk.Scale(add_station_wind, from_=0, to=5, orient="horizontal", variable=y_val_stat)
+    y_val_stat_slide.pack()
+    get_current_y_stat = partial(get_current_val, y_val_stat)
+    y_val_stat_current = tk.Label(add_station_wind, text="Current value = "+get_current_y_stat())
+    y_val_stat_current.pack()
+    update_stat_y_label = partial(update_val_label, y_val_stat_current, get_current_y_stat)
+    y_val_stat.trace('w', update_stat_y_label)
     z_val_stat_label = tk.Label(add_station_wind, text="Enter the z value")
     z_val_stat_label.pack()
-    z_val_stat_entry = tk.Entry(add_station_wind, textvariable=z_val_stat)
-    z_val_stat_entry.pack()
+    z_val_stat_slide = ttk.Scale(add_station_wind, from_=0, to=5, orient="horizontal", variable=z_val_stat)
+    z_val_stat_slide.pack()
+    get_current_z_stat = partial(get_current_val, z_val_stat)
+    z_val_stat_current = tk.Label(add_station_wind, text="Current value = "+get_current_z_stat())
+    z_val_stat_current.pack()
+    update_stat_z_label = partial(update_val_label, z_val_stat_current, get_current_z_stat)
+    z_val_stat.trace('w', update_stat_z_label)
     r_x_val_stat_label = tk.Label(add_station_wind, text="Enter the x rotation value")
     r_x_val_stat_label.pack()
     r_x_val_stat_entry = tk.Entry(add_station_wind, textvariable=r_x_val_stat)
@@ -730,8 +745,8 @@ def add_station():  # adds a station to models over stations
     add_stat_exit.pack(pady=20)
     add_station_wind.mainloop()
     modelsOverStationsInfo.append(ModelOverStation(station.get(), stat_prod.get(),
-                                                   str("["+x_val_stat.get()+", "+y_val_stat.get() +
-                                                       ", "+z_val_stat.get()+"]"),
+                                                   str("["+get_final_num(x_val_stat)+", "+get_final_num(y_val_stat) +
+                                                       ", "+get_final_num(z_val_stat)+"]"),
                                                    str("["+r_x_val_stat.get()+", "+r_y_val_stat.get() +
                                                        ", "+r_z_val_stat.get()+"]")))
 
