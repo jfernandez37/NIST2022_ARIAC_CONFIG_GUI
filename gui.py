@@ -1198,8 +1198,8 @@ if __name__ == "__main__":
     if saveFileName[0]=="~" and platform.system()=="Linux":
         os.chdir(Path.home())
         saveFileName.replace("~","")
-        print(saveFileName)
-    with open(saveFileName, "a") as o:
+        print(saveFileName[1:])
+    with open(saveFileName[1:], "a") as o:
         o.write("# yaml-language-server: $schema=yamlSchemaARIAC.json\n") 
         o.write("options:\n")
         if overBins.get() != 'skip':
