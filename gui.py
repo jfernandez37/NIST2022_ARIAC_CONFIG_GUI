@@ -45,6 +45,7 @@ binProds = []  # holds the products which are present in bins
 nameLabels = []  # holds temporary flags to be deleted
 kittingShipTempInput = []
 round_slide = .05  # what coordinates are rounded to
+invalidFileChar = ",;\"\'\\!@#$%^&*()"  # characters not allowed in file names
 
 
 def get_final_num(num):  # returns the final string for the coordinates
@@ -115,7 +116,34 @@ def skip_wind(flag, window):  # function for skipping a window
 
 
 def get_file_name_next():  # checks to see if the file name the user selects exists or is empty
-    if fileName.get() == "" and reqFlag.get() == "0":
+    inv_char_found = []
+    output_inv = ''
+    c=1
+    for i in fileName.get():
+        if i in invalidFileChar:
+            inv_char_found.append(i)
+    if len(inv_char_found)>0:
+        output_inv+=inv_char_found[0]
+        for i in inv_char_found[1:]:
+            c+=1
+            if c==len(inv_char_found):
+                output_inv+=", and "+i
+            else:
+                output_inv+=", "+i
+    if len(invalidFileChar)!=0 and invalidFlag.get()=='0':
+        for label in nameLabels:
+            label.destroy()
+        nameLabels.clear()
+        invalid_char_label = tk.Label(getFileName, text="The name entered contains invalid characters: "+output_inv)
+        invalid_char_label.pack()
+        nameLabels.append(invalid_char_label)
+        invalidFlag.set('1')
+        reqFlag.set('0')
+        existFlag.set('0')
+        inv_char_found.clear()
+        output_inv = ''
+        c=0
+    elif fileName.get() == "" and reqFlag.get() == "0":
         for label in nameLabels:
             label.destroy()
         nameLabels.clear()
@@ -134,7 +162,7 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
         nameLabels.append(exist_label)
         existFlag.set('1')
         reqFlag.set('0')
-    elif fileName.get() != '' and not (path.exists(fileName.get()) or path.exists(fileName.get() + '.yaml')):
+    elif fileName.get() != '' and not (path.exists(fileName.get()) or path.exists(fileName.get() + '.yaml')) and invalidFlag.get()!='1':
         getFileName.destroy()
 
 
@@ -1089,6 +1117,8 @@ if __name__ == "__main__":
     getFileName.title("NIST ARIAC CONFIG GUI")
     fileName = tk.StringVar()
     fileName.set("")
+    invalidFlag = tk.StringVar()
+    invalidFlag.set('0')
     reqFlag = tk.StringVar()
     reqFlag.set("0")
     existFlag = tk.StringVar()
