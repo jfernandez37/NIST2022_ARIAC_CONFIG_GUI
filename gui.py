@@ -983,7 +983,7 @@ def cancel_wind(window):  # cancels at any point in the program
     window.destroy()
 
 
-def check_cancel(cancel_flag):
+def check_cancel(cancel_flag):  # deletes the file if the user cancels from inside the program
     if cancel_flag == '1':
         if path.exists(fileName.get()):
             os.remove(fileName.get())
