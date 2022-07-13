@@ -5,6 +5,7 @@ import platform
 import os.path
 from os import path
 import os
+from pathlib import Path
 from functools import partial
 from turtle import update  # needed for passing parameters to functions in buttons
 from PIL import Image, ImageTk  # needed for images in gui
@@ -1195,7 +1196,7 @@ if __name__ == "__main__":
     if '.yaml' not in saveFileName:
         saveFileName += '.yaml'
     if saveFileName[0]=="~" and platform.system()=="Linux":
-        os.chdir('~/')
+        os.chdir(Path.home())
     with open(saveFileName, "a") as o:
         o.write("# yaml-language-server: $schema=yamlSchemaARIAC.json\n") 
         o.write("options:\n")
