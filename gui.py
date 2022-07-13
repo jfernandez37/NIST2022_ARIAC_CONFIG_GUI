@@ -3,7 +3,7 @@ import tkinter.ttk as ttk
 import math
 import platform
 import os.path
-from os import path
+from os import chdir, path
 import os
 from pathlib import Path
 from functools import partial
@@ -52,6 +52,7 @@ if platform.system()=="Windows": #allows paths as inputs for linux
 else:
     invalidFileChar = "`,;\"\'\\!@#$%^&*()"  # characters not allowed in file names for linux
 createdDir = []  # to deleted directories made if canceled
+pathIncrement = []  # gives the full path for recursive deletion
 
 
 
@@ -1027,9 +1028,13 @@ def check_cancel(cancel_flag):  # deletes the file if the user cancels from insi
             os.remove(fileName.get())
         elif path.exists(fileName.get() + '.yaml'):
             os.remove(fileName.get() + '.yaml')
+        for dir in pathIncrement:
+            chdir(dir)
+        chdir('../')
         createdDir.reverse()
         for dir in createdDir:
             os.rmdir(dir)
+            chdir('../')
         quit()
 
 
@@ -1207,6 +1212,7 @@ if __name__ == "__main__":
     if saveFileName.count("/")>0:
         tempFileName = saveFileName.split("/")
         for dir in tempFileName[:-1]:
+            pathIncrement.append(dir)
             if not path.exists(dir):
                 os.mkdir(dir)
                 os.chdir(dir)
