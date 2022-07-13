@@ -1200,7 +1200,7 @@ if __name__ == "__main__":
         saveFileName.replace("~","")
         saveFileName = saveFileName[2:]
         fileName.set(saveFileName)
-    if saveFileName.count("/")>1:
+    if saveFileName.count("/")>0:
         tempFileName = saveFileName.split("/")
         for dir in tempFileName[:-1]:
             print(dir)
