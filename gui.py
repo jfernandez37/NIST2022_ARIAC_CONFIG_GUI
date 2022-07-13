@@ -1200,6 +1200,13 @@ if __name__ == "__main__":
         saveFileName.replace("~","")
         saveFileName = saveFileName[2:]
         fileName.set(saveFileName)
+    if saveFileName.count("/")>1:
+        tempFileName = saveFileName.split("/")
+        for dir in tempFileName[:-1]:
+            if not path.exists(dir):
+                os.mkdir(dir)
+                os.chdir(dir)
+        os.chdir(Path.home())
     with open(saveFileName, "a") as o:
         o.write("# yaml-language-server: $schema=yamlSchemaARIAC.json\n") 
         o.write("options:\n")
