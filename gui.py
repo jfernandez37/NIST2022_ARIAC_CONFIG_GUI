@@ -1203,6 +1203,7 @@ if __name__ == "__main__":
     if saveFileName.count("/")>1:
         tempFileName = saveFileName.split("/")
         for dir in tempFileName[:-1]:
+            print(dir)
             if not path.exists(dir):
                 os.mkdir(dir)
                 os.chdir(dir)
