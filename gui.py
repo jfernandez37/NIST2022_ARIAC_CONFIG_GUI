@@ -51,6 +51,7 @@ if platform.system()=="Windows": #allows paths as inputs for linux
     invalidFileChar = "/~`,;\"\'\\!@#$%^&*()"  # characters not allowed in file names for windows
 else:
     invalidFileChar = "`,;\"\'\\!@#$%^&*()"  # characters not allowed in file names for linux
+createdDir = []  # to deleted directories made if canceled
 
 
 
@@ -1026,6 +1027,8 @@ def check_cancel(cancel_flag):  # deletes the file if the user cancels from insi
             os.remove(fileName.get())
         elif path.exists(fileName.get() + '.yaml'):
             os.remove(fileName.get() + '.yaml')
+        for dir in createdDir:
+            os.rmdir(dir)
         quit()
 
 
@@ -1206,6 +1209,7 @@ if __name__ == "__main__":
             if not path.exists(dir):
                 os.mkdir(dir)
                 os.chdir(dir)
+                createdDir.append(dir)
         os.chdir(Path.home())
     with open(saveFileName, "a") as o:
         o.write("# yaml-language-server: $schema=yamlSchemaARIAC.json\n") 
