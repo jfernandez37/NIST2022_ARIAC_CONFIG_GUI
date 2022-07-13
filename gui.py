@@ -1027,6 +1027,7 @@ def check_cancel(cancel_flag):  # deletes the file if the user cancels from insi
             os.remove(fileName.get())
         elif path.exists(fileName.get() + '.yaml'):
             os.remove(fileName.get() + '.yaml')
+        createdDir.reverse()
         for dir in createdDir:
             os.rmdir(dir)
         quit()
