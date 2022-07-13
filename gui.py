@@ -45,7 +45,11 @@ binProds = []  # holds the products which are present in bins
 nameLabels = []  # holds temporary flags to be deleted
 kittingShipTempInput = []
 round_slide = .05  # what coordinates are rounded to
-invalidFileChar = ",;\"\'\\!@#$%^&*()"  # characters not allowed in file names
+if platform.system()=="Windows": #allows paths as inputs for linux
+    invalidFileChar = "/~`,;\"\'\\!@#$%^&*()"  # characters not allowed in file names for windows
+else:
+    invalidFileChar = "`,;\"\'\\!@#$%^&*()"  # characters not allowed in file names for linux
+
 
 
 def get_final_num(num):  # returns the final string for the coordinates
@@ -130,7 +134,7 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
                 output_inv+=", and "+i
             else:
                 output_inv+=", "+i
-    if len(invalidFileChar)!=0 and invalidFlag.get()=='0':
+    if len(inv_char_found)!=0 and invalidFlag.get()=='0':
         for label in nameLabels:
             label.destroy()
         nameLabels.clear()
@@ -151,6 +155,7 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
         req_label.pack()
         nameLabels.append(req_label)
         reqFlag.set('1')
+        invalidFlag.set('0')
         existFlag.set('0')
     elif (path.exists(fileName.get()) or path.exists(fileName.get() + '.yaml')) and existFlag.get() == '0':
         for label in nameLabels:
@@ -161,9 +166,11 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
         exist_label.pack()
         nameLabels.append(exist_label)
         existFlag.set('1')
+        invalidFlag('0')
         reqFlag.set('0')
     elif fileName.get() != '' and not (path.exists(fileName.get()) or path.exists(fileName.get() + '.yaml')) and invalidFlag.get()!='1':
         getFileName.destroy()
+    invalidFlag.set('0')
 
 
 def update_val_label(label, func, c, d, e):  # for having the current number for the slider
@@ -1106,7 +1113,7 @@ if __name__ == "__main__":
     frame = tk.Frame(getFileName)
     getFileName.geometry("500x600")
     frame.pack()
-    if platform.system()=="Windows OS":
+    if platform.system()=="Windows":
         nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images\\NIST_logo.png"))
     else:
         nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images/NIST_logo.png"))
