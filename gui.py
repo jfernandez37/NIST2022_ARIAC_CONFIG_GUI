@@ -48,9 +48,9 @@ nameLabels = []  # holds temporary flags to be deleted
 kittingShipTempInput = []
 round_slide = .05  # what coordinates are rounded to
 if platform.system()=="Windows": #allows paths as inputs for linux
-    invalidFileChar = "/~`,;\"\'\\!@#$%^&*()"  # characters not allowed in file names for windows
+    invalidFileChar = " /~`,;\"\'\\!@#$%^&*()"  # characters not allowed in file names for windows
 else:
-    invalidFileChar = "`,;\"\'\\!@#$%^&*()"  # characters not allowed in file names for linux
+    invalidFileChar = " `,;\"\'\\!@#$%^&*()"  # characters not allowed in file names for linux
 createdDir = []  # to deleted directories made if canceled
 pathIncrement = []  # gives the full path for recursive deletion
 
@@ -131,13 +131,13 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
         if i in invalidFileChar:
             inv_char_found.append(i)
     if len(inv_char_found)>0:
-        output_inv+=inv_char_found[0]
+        output_inv+="\""+inv_char_found[0]+"\""
         for i in inv_char_found[1:]:
             c+=1
             if c==len(inv_char_found):
-                output_inv+=", and "+i
+                output_inv+=", and \""+i+"\""
             else:
-                output_inv+=", "+i
+                output_inv+=", \""+i+"\""
     if len(inv_char_found)!=0 and invalidFlag.get()=='0':
         for label in nameLabels:
             label.destroy()
