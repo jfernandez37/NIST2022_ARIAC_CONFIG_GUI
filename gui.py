@@ -48,9 +48,9 @@ nameLabels = []  # holds temporary flags to be deleted
 kittingShipTempInput = []
 round_slide = .05  # what coordinates are rounded to
 if platform.system()=="Windows": #allows paths as inputs for linux
-    invalidFileChar = " /~`,;\"\'\\!@#$%^&*()"  # characters not allowed in file names for windows
+    invalidFileChar = " /~`,;\"\'\\!@#$%^&*()+="  # characters not allowed in file names for windows
 else:
-    invalidFileChar = " `,;\"\'\\!@#$%^&*()"  # characters not allowed in file names for linux
+    invalidFileChar = " `,;\"\'\\!@#$%^&*()+="  # characters not allowed in file names for linux
 createdDir = []  # to deleted directories made if canceled
 pathIncrement = []  # gives the full path for recursive deletion
 
