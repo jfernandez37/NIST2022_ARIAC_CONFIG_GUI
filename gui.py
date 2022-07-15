@@ -802,6 +802,8 @@ def add_station():  # adds a station to models over stations
 
 def add_belt():  # adds a belt to belt models
     add_belt_wind = tk.Toplevel()
+    cancel_belt_flag = tk.StringVar()
+    cancel_belt_flag.set('0')
     belt_prod = tk.StringVar()
     belt_prod.set(prodList[0])
     belt_time = tk.StringVar()
@@ -865,10 +867,14 @@ def add_belt():  # adds a belt to belt models
     r_z_val_belt_label.pack()
     r_z_val_belt_entry = tk.Entry(add_belt_wind, textvariable=r_z_val_belt)
     r_z_val_belt_entry.pack()
+    cancel_belt_func = partial(cancel_func, add_belt_wind, cancel_belt_flag)
+    belt_cancel_button = tk.Button(add_belt_wind, text="Cancel", command=cancel_belt_func)
+    belt_cancel_button.pack()
     belt_save = tk.Button(add_belt_wind, text="Save and Exit", command=add_belt_wind.destroy)
     belt_save.pack(pady=20)
     add_belt_wind.mainloop()
-    beltCycleInfo.append(BeltCycle(belt_prod.get(), belt_time.get(),
+    if cancel_belt_flag.get()=="0":
+        beltCycleInfo.append(BeltCycle(belt_prod.get(), belt_time.get(),
                                    str("["+get_final_num(x_val_belt)+", "+get_final_num(y_val_belt)+", "+get_final_num(z_val_belt)+"]"),
                                    str("["+r_x_val_belt.get()+", "+r_y_val_belt.get()+", "+r_z_val_belt.get()+"]")))
 
