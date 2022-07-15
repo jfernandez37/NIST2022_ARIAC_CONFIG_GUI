@@ -177,6 +177,10 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
     invalidFlag.set('0')
 
 
+def cancel_func(wind, flag):
+    wind.destroy()
+    flag.set("1")
+
 def update_val_label(label, func, c, d, e):  # for having the current number for the slider
     label.configure(text="Current value = "+func())
 
@@ -187,6 +191,8 @@ def get_current_val(val):  # gets the current number from the slider
 
 def add_product():  # adds a product in agv_infos
     product_info = tk.Toplevel()
+    add_product_cancel_flag = tk.StringVar()
+    add_product_cancel_flag.set("0")
     x_val = tk.StringVar()
     x_val.set('0')
     y_val = tk.StringVar()
@@ -256,25 +262,29 @@ def add_product():  # adds a product in agv_infos
     r_z_val_entry = tk.Entry(product_info, textvariable=r_z_val)
     r_z_val_entry.pack()
     product_info.geometry("500x750")
+    cancel_prod_func = partial(cancel_func, product_info, add_product_cancel_flag)
+    cancel_prod_button = tk.Button(product_info, text="Cancel", command=cancel_prod_func)
+    cancel_prod_button.pack()
     prod_save = tk.Button(product_info, text="Save and Exit", command=product_info.destroy)
     prod_save.pack(pady=20)
     product_info.mainloop()
-    if agv_id.get() == 'agv1':
-        agv1Prods.append(Products(product_type.get(),
-                                  str("["+get_final_num(x_val)+", "+get_final_num(y_val)+", "+get_final_num(z_val)+"]"),
-                                  str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
-    if agv_id.get() == 'agv2':
-        agv2Prods.append(Products(product_type.get(),
-                                  str("["+get_final_num(x_val)+", "+get_final_num(y_val)+", "+get_final_num(z_val)+"]"),
-                                  str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
-    if agv_id.get() == 'agv3':
-        agv3Prods.append(Products(product_type.get(),
-                                  str("["+get_final_num(x_val)+", "+get_final_num(y_val)+", "+get_final_num(z_val)+"]"),
-                                  str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
-    if agv_id.get() == 'agv4':
-        agv4Prods.append(Products(product_type.get(),
-                                  str("["+get_final_num(x_val)+", "+get_final_num(y_val)+", "+get_final_num(z_val)+"]"),
-                                  str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
+    if add_product_cancel_flag.get()=="0":
+        if agv_id.get() == 'agv1':
+            agv1Prods.append(Products(product_type.get(),
+                                    str("["+get_final_num(x_val)+", "+get_final_num(y_val)+", "+get_final_num(z_val)+"]"),
+                                    str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
+        if agv_id.get() == 'agv2':
+            agv2Prods.append(Products(product_type.get(),
+                                    str("["+get_final_num(x_val)+", "+get_final_num(y_val)+", "+get_final_num(z_val)+"]"),
+                                    str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
+        if agv_id.get() == 'agv3':
+            agv3Prods.append(Products(product_type.get(),
+                                    str("["+get_final_num(x_val)+", "+get_final_num(y_val)+", "+get_final_num(z_val)+"]"),
+                                    str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
+        if agv_id.get() == 'agv4':
+            agv4Prods.append(Products(product_type.get(),
+                                    str("["+get_final_num(x_val)+", "+get_final_num(y_val)+", "+get_final_num(z_val)+"]"),
+                                    str("["+get_final_num(r_x_val)+", "+get_final_num(r_y_val)+", "+get_final_num(r_z_val)+"]")))
 
 
 def new_order():  # this menu pops up to make a new order for the user
@@ -1407,6 +1417,8 @@ if __name__ == "__main__":
         if len(allOrders) > 0:
             o.write("\n\norders:\n")
             for i in allOrders:
+                firstKitProd = 0
+                firstAssembProd = 0
                 o.write(" order_"+str(orderID)+":\n")
                 o.write("  priority: " + i.priority+"\n")
                 o.write("  kitting_robot_health: " + i.kittingHealth+"\n")
@@ -1430,8 +1442,10 @@ if __name__ == "__main__":
                     else:
                         o.write("]\n")
                     if len(kProdInd)-1 == orderInd:
-                        o.write("   products:\n")
                         for k in i.kitting[orderInd].products[kProdInd[orderInd]:]:
+                            if firstKitProd == 0:
+                                o.write("   products:\n")
+                                firstKitProd = 1
                             o.write("    part_" + str(partC) + ":\n")
                             partC += 1
                             o.write("     type: " + k.pType + "\n")
@@ -1451,8 +1465,10 @@ if __name__ == "__main__":
                     o.write("   shipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
                     o.write("   stations: " + i.assembly[orderInd].stations + '\n')
                     if len(aProdInd)-1 == orderInd:
-                        o.write("   products:\n")
                         for k in i.assembly[orderInd].products[aProdInd[orderInd]:]:
+                            if firstAssembProd==0:
+                                o.write("   products:\n")
+                                firstAssembProd = 1
                             o.write("     part_" + str(partC) + ":\n")
                             partC += 1
                             o.write("      type: " + k.pType + "\n")
@@ -1518,6 +1534,7 @@ if __name__ == "__main__":
         if len(modelsOverStationsInfo) > 0:
             modelsOverStationsInfo.reverse()
             with open(saveFileName, "a") as o:
+                print("test")
                 o.write("\nmodels_over_stations:\n")
                 for i in modelsOverStationsInfo:
                     o.write(" "+i.station+":\n")
