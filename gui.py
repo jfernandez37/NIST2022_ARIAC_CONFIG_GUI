@@ -1429,8 +1429,8 @@ if __name__ == "__main__":
                         o.write(", "+i.kitting[orderInd].secondDest.replace("[", '')+"\n")
                     else:
                         o.write("]\n")
-                    o.write("   products:\n")
                     if len(kProdInd)-1 == orderInd:
+                        o.write("   products:\n")
                         for k in i.kitting[orderInd].products[kProdInd[orderInd]:]:
                             o.write("    part_" + str(partC) + ":\n")
                             partC += 1
@@ -1450,8 +1450,8 @@ if __name__ == "__main__":
                     o.write("  assembly:\n")
                     o.write("   shipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
                     o.write("   stations: " + i.assembly[orderInd].stations + '\n')
-                    o.write("   products:\n")
                     if len(aProdInd)-1 == orderInd:
+                        o.write("   products:\n")
                         for k in i.assembly[orderInd].products[aProdInd[orderInd]:]:
                             o.write("     part_" + str(partC) + ":\n")
                             partC += 1
