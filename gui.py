@@ -926,6 +926,8 @@ def add_faulty_prod():  # adds a faulty product for the faulty product challenge
 
 def add_drop_region():  # adds a drop region for the faulty gripper challenge
     add_drop_wind = tk.Toplevel()
+    drop_cancel_flag = tk.StringVar()
+    drop_cancel_flag.set("0")
     temp_frame = tk.StringVar()
     temp_frame.set('')
     x_val_min = tk.StringVar()
@@ -998,13 +1000,8 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
     x_val_max.trace('w', update_max_x_label)
     y_val_max_label = tk.Label(add_drop_wind, text="Enter the max y value")
     y_val_max_label.pack()
-    y_val_max_slide = ttk.Scale(add_drop_wind, from_=0, to=5, orient="horizontal", variable=y_val_max)
-    y_val_max_slide.pack()
-    get_current_y_max = partial(get_current_val, y_val_max)
-    y_max_val_current = tk.Label(add_drop_wind, text="Current value = "+get_current_y_max())
-    y_max_val_current.pack()
-    update_max_y_label = partial(update_val_label, y_max_val_current, get_current_y_max)
-    y_val_max.trace('w', update_max_y_label)
+    y_val_max_entry = tk.Entry(add_drop_wind, text="Enter the max y value")
+    y_val_max_entry.pack()
     z_val_max_label = tk.Label(add_drop_wind, text="Enter the max z value")
     z_val_max_label.pack()
     z_val_max_entry = tk.Entry(add_drop_wind, textvariable=z_val_max)
@@ -1041,14 +1038,18 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
     drop_robot_type_label.pack()
     drop_robot_type_menu = tk.OptionMenu(add_drop_wind, robot_type, "kitting", "gantry")
     drop_robot_type_menu.pack()
+    cancel_drop_func = partial(cancel_func, add_drop_wind, drop_cancel_flag)
+    cancel_drop_button = tk.Button(add_drop_wind, text="Cancel", command=cancel_drop_func)
+    cancel_drop_button.pack()
     add_drop_save = tk.Button(add_drop_wind, text="Save and Exit", command=add_drop_wind.destroy)
     add_drop_save.pack()
     add_drop_wind.mainloop()
-    dropsInfo.append(Drops(temp_frame.get(), str("["+get_final_num(x_val_min)+", "+get_final_num(y_val_min)+", "+get_final_num(z_val_min)+"]"),
-                           str("["+get_final_num(x_val_max)+", "+get_final_num(y_val_max)+", "+z_val_max.get()+"]"),
-                           str("["+x_val_dest.get()+", "+y_val_dest.get()+", "+z_val_dest.get()+"]"),
-                           str("["+r_x_val_dest.get()+", "+r_y_val_dest.get()+", "+r_z_val_dest.get()+"]"),
-                           drop_prod.get(), robot_type.get()))
+    if drop_cancel_flag.get()=="0":
+        dropsInfo.append(Drops(temp_frame.get(), str("["+get_final_num(x_val_min)+", "+get_final_num(y_val_min)+", "+get_final_num(z_val_min)+"]"),
+                            str("["+get_final_num(x_val_max)+", "+y_val_max.get()+", "+z_val_max.get()+"]"),
+                            str("["+x_val_dest.get()+", "+y_val_dest.get()+", "+z_val_dest.get()+"]"),
+                            str("["+r_x_val_dest.get()+", "+r_y_val_dest.get()+", "+r_z_val_dest.get()+"]"),
+                            drop_prod.get(), robot_type.get()))
 
 
 def cancel_wind(window):  # cancels at any point in the program
