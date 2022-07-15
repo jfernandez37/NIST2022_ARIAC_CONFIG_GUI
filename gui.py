@@ -609,6 +609,8 @@ def get_a_products():  # adds a product to assembly
 
 def add_bin():  # adds a bin for models over bins
     add_bin_wind = tk.Toplevel()
+    cancel_bin_flag = tk.StringVar()
+    cancel_bin_flag.set('0')
     bin_prod = tk.StringVar()
     bin_prod.set(prodList[0])
     bin_num = tk.StringVar()
@@ -711,22 +713,28 @@ def add_bin():  # adds a bin for models over bins
     b_dim_label.pack()
     b_dim_menu = tk.OptionMenu(add_bin_wind, dim, '2x2', '3x3')
     b_dim_menu.pack()
+    cancel_bin_func = partial(cancel_func, add_bin_wind, cancel_bin_flag)
+    cancel_bin_button = tk.Button(add_bin_wind, text="Cancel", command=cancel_bin_func)
+    cancel_bin_button.pack()
     add_bin_exit = tk.Button(add_bin_wind, text="Save and Exit", command=add_bin_wind.destroy)
     add_bin_exit.pack(pady=20)
     add_bin_wind.mainloop()
     width = '2'
     if dim.get() == '3x3':
         width = '3'
-    modelsOverBinsInfo.append(ModelOverBin(bin_num.get(), bin_prod.get(),
-                                           str("["+get_final_num(x_val_s)+", "+get_final_num(y_val_s)+", "+get_final_num(z_val_s)+"]"),
-                                           str("["+get_final_num(x_val_e)+", "+get_final_num(y_val_e)+", "+get_final_num(z_val_e)+"]"),
-                                           str("["+r_x_val_b.get()+", "+r_y_val_b.get()+", "+r_z_val_b.get()+"]"),
-                                           width, width))
-    binProds.append(PresentProducts(bin_prod.get(), str(int(width)**2)))
+    if cancel_bin_flag.get() == "0":
+        modelsOverBinsInfo.append(ModelOverBin(bin_num.get(), bin_prod.get(),
+                                            str("["+get_final_num(x_val_s)+", "+get_final_num(y_val_s)+", "+get_final_num(z_val_s)+"]"),
+                                            str("["+get_final_num(x_val_e)+", "+get_final_num(y_val_e)+", "+get_final_num(z_val_e)+"]"),
+                                            str("["+r_x_val_b.get()+", "+r_y_val_b.get()+", "+r_z_val_b.get()+"]"),
+                                            width, width))
+        binProds.append(PresentProducts(bin_prod.get(), str(int(width)**2)))
 
 
 def add_station():  # adds a station to models over stations
     add_station_wind = tk.Toplevel()
+    cancel_station_flag = tk.StringVar()
+    cancel_station_flag.set("0")
     x_val_stat = tk.StringVar()
     x_val_stat.set('0')
     y_val_stat = tk.StringVar()
@@ -790,14 +798,18 @@ def add_station():  # adds a station to models over stations
     r_z_val_stat_label.pack()
     r_z_val_stat_entry = tk.Entry(add_station_wind, textvariable=r_z_val_stat)
     r_z_val_stat_entry.pack()
+    cancel_station_func = partial(cancel_func, add_station_wind, cancel_station_flag)
+    cancel_stat_button = tk.Button(add_station_wind, text="Cancel", command=cancel_station_func)
+    cancel_stat_button.pack()
     add_stat_exit = tk.Button(add_station_wind, text="Save and Exit", command=add_station_wind.destroy)
     add_stat_exit.pack(pady=20)
     add_station_wind.mainloop()
-    modelsOverStationsInfo.append(ModelOverStation(station.get(), stat_prod.get(),
-                                                   str("["+get_final_num(x_val_stat)+", "+get_final_num(y_val_stat) +
-                                                       ", "+get_final_num(z_val_stat)+"]"),
-                                                   str("["+r_x_val_stat.get()+", "+r_y_val_stat.get() +
-                                                       ", "+r_z_val_stat.get()+"]")))
+    if cancel_station_flag.get()=="0":
+        modelsOverStationsInfo.append(ModelOverStation(station.get(), stat_prod.get(),
+                                                    str("["+get_final_num(x_val_stat)+", "+get_final_num(y_val_stat) +
+                                                        ", "+get_final_num(z_val_stat)+"]"),
+                                                    str("["+r_x_val_stat.get()+", "+r_y_val_stat.get() +
+                                                        ", "+r_z_val_stat.get()+"]")))
 
 
 def add_belt():  # adds a belt to belt models
