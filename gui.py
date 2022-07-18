@@ -55,7 +55,7 @@ createdDir = []  # to deleted directories made if canceled
 pathIncrement = []  # gives the full path for recursive deletion
 
 
-def correct_file_name(tempFileName, a, b , c):
+def correct_file_name(tempFileName, a, b , c):  # deletes any invalid characters in file name
     tempStr = tempFileName.get()
     for char in invalidFileChar:
         if char in tempStr:
