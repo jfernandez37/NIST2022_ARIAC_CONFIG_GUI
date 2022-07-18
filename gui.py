@@ -75,36 +75,36 @@ def tf():  # cycles through the true or false button for the over bins option
     if tfOverBins.config('text')[-1] == 'True':
         tfOverBins.config(text='False')
         overBins.set("false")
-    elif tfOverBins.config('text')[-1] == 'Skip':
+    elif tfOverBins.config('text')[-1] == 'False':
         tfOverBins.config(text='True')
         overBins.set("true")
-    else:
-        tfOverBins.config(text='Skip')
-        overBins.set("skip")
+    #else:
+        #tfOverBins.config(text='Skip')
+        #overBins.set("skip")
 
 
 def tf2():  # cycles through the true or false button for the over stations option
     if tfOverStations.config('text')[-1] == 'True':
         tfOverStations.config(text='False')
         overStations.set("false")
-    elif tfOverStations.config('text')[-1] == 'Skip':
+    elif tfOverStations.config('text')[-1] == 'False':
         tfOverStations.config(text='True')
         overStations.set("true")
-    else:
-        tfOverStations.config(text='Skip')
-        overStations.set("skip")
+    #else:
+        #tfOverStations.config(text='Skip')
+        #overStations.set("skip")
 
 
 def tf3():  # cycles through the true or false button for the gazebo state logging option
     if tfStateLogging.config('text')[-1] == 'True':
         tfStateLogging.config(text='False')
         stateLogging.set("false")
-    elif tfStateLogging.config('text')[-1] == 'Skip':
+    elif tfStateLogging.config('text')[-1] == 'False':
         tfStateLogging.config(text='True')
         stateLogging.set("true")
-    else:
-        tfStateLogging.config(text='Skip')
-        stateLogging.set("skip")
+    #else:
+        #tfStateLogging.config(text='Skip')
+        #stateLogging.set("skip")
 
 
 def cgt():  # cycles through the options for the current gripper type option
