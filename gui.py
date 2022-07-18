@@ -310,7 +310,7 @@ def new_order():  # this menu pops up to make a new order for the user
     if len(orderCount) > 1:
         get_priority_label = tk.Label(add_order, text="Enter the priority of the order")
         get_priority_label.pack()
-        get_priority = tk.Entry(add_order, textvariable=temp_priority)
+        get_priority = tk.OptionMenu(add_order, temp_priority, "1", "3")
         get_priority.pack()
     get_k_health_label = tk.Label(add_order, text="Select the kitting health of the order")
     get_k_health_label.pack()
