@@ -307,7 +307,7 @@ def new_order():  # this menu pops up to make a new order for the user
     temp_announcement_cond.set('time')
     temp_ann_val = tk.StringVar()
     temp_ann_val.set('0')
-    if len(orderCount) > 1:
+    if len(orderCount) > 1:  # only occurs for order_1
         get_priority_label = tk.Label(add_order, text="Enter the priority of the order")
         get_priority_label.pack()
         get_priority = tk.OptionMenu(add_order, temp_priority, "1", "3")
@@ -320,7 +320,7 @@ def new_order():  # this menu pops up to make a new order for the user
     get_a_health_label.pack()
     get_a_health = tk.OptionMenu(add_order, temp_a_health, "0", "1")
     get_a_health.pack()
-    if len(orderCount) > 1:
+    if len(orderCount) > 1:  # only occurs for order_1
         get_announcement_condition_label = tk.Label(add_order, text="Enter the announcement condition of the order")
         get_announcement_condition_label.pack()
         get_announcement_condition = tk.Entry(add_order, textvariable=temp_announcement_cond)
