@@ -48,12 +48,19 @@ nameLabels = []  # holds temporary flags to be deleted
 kittingShipTempInput = []
 round_slide = .05  # what coordinates are rounded to
 if platform.system()=="Windows": #allows paths as inputs for linux
-    invalidFileChar = " /~`,;\"\'\\!@#$%^&*()+="  # characters not allowed in file names for windows
+    invalidFileChar = " /~`,;\"\'\\!@#$%^&*()+=[]"  # characters not allowed in file names for windows
 else:
-    invalidFileChar = " `,;\"\'\\!@#$%^&*()+="  # characters not allowed in file names for linux
+    invalidFileChar = " `,;\"\'\\!@#$%^&*()+=[]"  # characters not allowed in file names for linux
 createdDir = []  # to deleted directories made if canceled
 pathIncrement = []  # gives the full path for recursive deletion
 
+
+def correct_file_name(tempFileName, a, b , c):
+    tempStr = tempFileName.get()
+    for char in invalidFileChar:
+        if char in tempStr:
+            tempStr = tempStr.replace(char, '')
+    tempFileName.set(tempStr)
 
 
 def get_final_num(num):  # returns the final string for the coordinates
@@ -1176,6 +1183,7 @@ if __name__ == "__main__":
     reqFlag.set("0")
     existFlag = tk.StringVar()
     existFlag.set("0")
+    fileNameCorrectFunc = partial(correct_file_name, fileName)
     fileNameLabel = tk.Label(getFileName, text="Enter the file name you would like to save as:")
     fileNameLabel.pack()
     fileNameTextBox = tk.Entry(getFileName, textvariable=fileName)
@@ -1185,6 +1193,7 @@ if __name__ == "__main__":
     cancelFile.pack(side=tk.BOTTOM, pady=20)
     fileExit = tk.Button(getFileName, text="Next", command=get_file_name_next)
     fileExit.pack(side=tk.BOTTOM, pady=20)
+    fileName.trace('w', fileNameCorrectFunc)
     getFileName.mainloop()
     if cancelFlag.get() == '1':
         quit()
