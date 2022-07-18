@@ -302,7 +302,7 @@ def new_order():  # this menu pops up to make a new order for the user
     temp_k_health = tk.StringVar()
     temp_k_health.set('1')
     temp_a_health = tk.StringVar()
-    temp_a_health.set('1')
+    temp_a_health.set('Regular')
     temp_announcement_cond = tk.StringVar()
     temp_announcement_cond.set('time')
     temp_ann_val = tk.StringVar()
@@ -310,7 +310,7 @@ def new_order():  # this menu pops up to make a new order for the user
     if len(orderCount) > 1:  # only occurs for order_1
         get_priority_label = tk.Label(add_order, text="Enter the priority of the order")
         get_priority_label.pack()
-        get_priority = tk.OptionMenu(add_order, temp_priority, "1", "3")
+        get_priority = tk.OptionMenu(add_order, temp_priority, "Regular", "High Priority")
         get_priority.pack()
     get_k_health_label = tk.Label(add_order, text="Select the kitting health of the order")
     get_k_health_label.pack()
@@ -336,11 +336,15 @@ def new_order():  # this menu pops up to make a new order for the user
     order_save = tk.Button(add_order, text="Save and Exit", command=add_order.destroy)
     order_save.pack(pady=20)
     add_order.mainloop()
+    if temp_priority.get()=="Regular":
+        priority_val = 1
+    else:
+        priority_val=3
     if len(orderCount) == 1:
         allOrders.append(Order('1', temp_k_health.get(), temp_a_health.get(),
                                "time", temp_ann_val.get(), tempKits, tempAssemb))
     else:
-        allOrders.append(Order(temp_priority.get(), temp_k_health.get(), temp_a_health.get(),
+        allOrders.append(Order(str(priority_val), temp_k_health.get(), temp_a_health.get(),
                                temp_announcement_cond.get(), temp_ann_val.get(), tempKits, tempAssemb))
     if len(tempKits) != 0:  # checks if there are products present to avoid errors
         kProdInd.append(len(tempKits[len(allOrders)-1].products)-1)
@@ -1059,6 +1063,7 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
 
 
 def cancel_wind(window):  # cancels at any point in the program
+    """"""
     cancelFlag.set('1')
     window.destroy()
 
