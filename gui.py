@@ -296,7 +296,6 @@ def add_product():  # adds a product in agv_infos
 
 def new_order():  # this menu pops up to make a new order for the user
     orderCount.append(0)
-    print(len(orderCount))
     add_order = tk.Toplevel()
     temp_priority = tk.StringVar()
     temp_priority.set('1')
