@@ -1574,7 +1574,6 @@ if __name__ == "__main__":
         if len(modelsOverStationsInfo) > 0:
             modelsOverStationsInfo.reverse()
             with open(saveFileName, "a") as o:
-                print("test")
                 o.write("\nmodels_over_stations:\n")
                 for i in modelsOverStationsInfo:
                     o.write(" "+i.station+":\n")
