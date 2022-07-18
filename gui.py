@@ -1199,6 +1199,8 @@ if __name__ == "__main__":
     fileExit.pack(side=tk.BOTTOM, pady=20)
     fileName.trace('w', fileNameCorrectFunc)
     getFileName.mainloop()
+    if platform.system()=="Linux":
+        fileName.set("~/ariac_ws/src/ARIAC/nist_gear/config/my_files/"+fileName.get())
     if cancelFlag.get() == '1':
         quit()
     # END OF GETTING THE NAME OF THE FILE
