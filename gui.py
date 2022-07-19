@@ -7,7 +7,6 @@ from os import chdir, path
 import os
 from pathlib import Path
 from functools import partial
-from turtle import update  # needed for passing parameters to functions in buttons
 from PIL import Image, ImageTk  # needed for images in gui
 
 orderCount = []  # Used in counter in new_order function
