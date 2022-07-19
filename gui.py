@@ -274,19 +274,22 @@ def add_product():  # adds a product in agv_infos
 
 
 def new_order():  # this menu pops up to make a new order for the user
+    global tempKits
+    global tempAssemb
     orderCount.append(0)
     add_order = tk.Toplevel()
     temp_priority = tk.StringVar()
-    temp_priority.set('1')
+    temp_priority.set('Regular')
     temp_k_health = tk.StringVar()
     temp_k_health.set('1')
     temp_a_health = tk.StringVar()
-    temp_a_health.set('Regular')
+    temp_a_health.set('1')
     temp_announcement_cond = tk.StringVar()
     temp_announcement_cond.set('time')
     temp_ann_val = tk.StringVar()
     temp_ann_val.set('0')
     if len(orderCount) > 1:  # only occurs for order_1
+        print(orderCount)
         get_priority_label = tk.Label(add_order, text="Enter the priority of the order")
         get_priority_label.pack()
         get_priority = tk.OptionMenu(add_order, temp_priority, "Regular", "High Priority")
@@ -322,13 +325,17 @@ def new_order():  # this menu pops up to make a new order for the user
     if len(orderCount) == 1:
         allOrders.append(Order('1', temp_k_health.get(), temp_a_health.get(),
                                "time", temp_ann_val.get(), tempKits, tempAssemb))
+        tempKits = []
+        tempAssemb = []
     else:
         allOrders.append(Order(str(priority_val), temp_k_health.get(), temp_a_health.get(),
                                temp_announcement_cond.get(), temp_ann_val.get(), tempKits, tempAssemb))
-    if len(tempKits) != 0:  # checks if there are products present to avoid errors
-        kProdInd.append(len(tempKits[len(allOrders)-1].products)-1)
-    if len(tempAssemb) != 0:
-        aProdInd.append(len(tempAssemb[len(allOrders)-1].products)-1)
+        tempKits = []
+        tempAssemb = []
+    #if len(tempKits) != 0:  # checks if there are products present to avoid errors
+        #kProdInd.append(len(tempKits[len(allOrders)-1].products)-1)
+    #if len(tempAssemb) != 0:
+        #aProdInd.append(len(tempAssemb[len(allOrders)-1].products)-1)
 
 
 def update_dest(a, b, c, d, e, f):  # switches the options present based off of the agv selected
@@ -1350,48 +1357,30 @@ if __name__ == "__main__":
                         o.write(", "+i.kitting[orderInd].secondDest.replace("[", '')+"\n")
                     else:
                         o.write("]\n")
-                    if len(kProdInd)-1 == orderInd:
-                        for k in i.kitting[orderInd].products[kProdInd[orderInd]:]:
-                            if firstKitProd == 0:
-                                o.write("   products:\n")
-                                firstKitProd = 1
-                            o.write("    part_" + str(partC) + ":\n")
-                            partC += 1
-                            o.write("     type: " + k.pType + "\n")
-                            o.write("     pose:\n")
-                            o.write("      xyz: " + k.xyz + "\n")
-                            o.write("      rpy: " + k.rpy + "\n")
-                    else:
-                        for k in i.kitting[orderInd].products[kProdInd[orderInd]: kProdInd[orderInd + 1]]:
-                            o.write("    part_" + str(partC) + ":\n")
-                            partC += 1
-                            o.write("     type: " + k.pType + "\n")
-                            o.write("     pose:\n")
-                            o.write("      xyz: " + k.xyz + "\n")
-                            o.write("      rpy: " + k.rpy + "\n")
+                    for k in i.kitting[orderInd].products:
+                        if firstKitProd == 0:
+                            o.write("   products:\n")
+                            firstKitProd = 1
+                        o.write("    part_" + str(partC) + ":\n")
+                        partC += 1
+                        o.write("     type: " + k.pType + "\n")
+                        o.write("     pose:\n")
+                        o.write("      xyz: " + k.xyz + "\n")
+                        o.write("      rpy: " + k.rpy + "\n")
                 if len(i.assembly) != 0:
                     o.write("  assembly:\n")
                     o.write("   shipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
                     o.write("   stations: " + i.assembly[orderInd].stations + '\n')
-                    if len(aProdInd)-1 == orderInd:
-                        for k in i.assembly[orderInd].products[aProdInd[orderInd]:]:
-                            if firstAssembProd==0:
-                                o.write("   products:\n")
-                                firstAssembProd = 1
-                            o.write("     part_" + str(partC) + ":\n")
-                            partC += 1
-                            o.write("      type: " + k.pType + "\n")
-                            o.write("      pose:\n")
-                            o.write("       xyz: " + k.xyz + "\n")
-                            o.write("       rpy: " + k.rpy + "\n")
-                    else:
-                        for k in i.assembly[orderInd].products[aProdInd[orderInd]: aProdInd[orderInd+1]]:
-                            o.write("    part_" + str(partC) + ":\n")
-                            partC += 1
-                            o.write("     type: " + k.pType + "\n")
-                            o.write("     pose:\n")
-                            o.write("      xyz: " + k.xyz + "\n")
-                            o.write("      rpy: " + k.rpy + "\n")
+                    for k in i.assembly[orderInd].products:
+                        if firstAssembProd==0:
+                            o.write("   products:\n")
+                            firstAssembProd = 1
+                        o.write("     part_" + str(partC) + ":\n")
+                        partC += 1
+                        o.write("      type: " + k.pType + "\n")
+                        o.write("      pose:\n")
+                        o.write("       xyz: " + k.xyz + "\n")
+                        o.write("       rpy: " + k.rpy + "\n")
                 orderID += 1
             o.write("\n")
     # END OF ORDERS
