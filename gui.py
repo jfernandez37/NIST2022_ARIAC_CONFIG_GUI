@@ -52,6 +52,7 @@ else:
     invalidFileChar = " `,;\"\'\\!@#$%^&*()+=[]"  # characters not allowed in file names for linux
 createdDir = []  # to deleted directories made if canceled
 pathIncrement = []  # gives the full path for recursive deletion
+firstLengths = []  # holds the number of products in the first order
 
 
 def correct_file_name(tempFileName, a, b , c):  # deletes any invalid characters in file name
@@ -176,7 +177,7 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
         exist_label.pack()
         nameLabels.append(exist_label)
         existFlag.set('1')
-        invalidFlag('0')
+        invalidFlag.set('0')
         reqFlag.set('0')
     elif fileName.get() != '' and not (path.exists(fileName.get()) or path.exists(fileName.get() + '.yaml')) and invalidFlag.get()!='1':
         getFileName.destroy()
@@ -289,7 +290,6 @@ def new_order():  # this menu pops up to make a new order for the user
     temp_ann_val = tk.StringVar()
     temp_ann_val.set('0')
     if len(orderCount) > 1:  # only occurs for order_1
-        print(orderCount)
         get_priority_label = tk.Label(add_order, text="Enter the priority of the order")
         get_priority_label.pack()
         get_priority = tk.OptionMenu(add_order, temp_priority, "Regular", "High Priority")
@@ -318,6 +318,9 @@ def new_order():  # this menu pops up to make a new order for the user
     order_save = tk.Button(add_order, text="Save and Exit", command=add_order.destroy)
     order_save.pack(pady=20)
     add_order.mainloop()
+    if len(firstLengths)==0:
+        firstLengths.append(len(tempKits))
+        firstLengths.append(len(tempAssemb))
     if temp_priority.get()=="Regular":
         priority_val = 1
     else:
@@ -1357,30 +1360,54 @@ if __name__ == "__main__":
                         o.write(", "+i.kitting[orderInd].secondDest.replace("[", '')+"\n")
                     else:
                         o.write("]\n")
-                    for k in i.kitting[orderInd].products:
-                        if firstKitProd == 0:
-                            o.write("   products:\n")
-                            firstKitProd = 1
-                        o.write("    part_" + str(partC) + ":\n")
-                        partC += 1
-                        o.write("     type: " + k.pType + "\n")
-                        o.write("     pose:\n")
-                        o.write("      xyz: " + k.xyz + "\n")
-                        o.write("      rpy: " + k.rpy + "\n")
+                    if orderID==1:
+                        for k in i.kitting[orderInd].products[:firstLengths[0]]:
+                            if firstKitProd == 0:
+                                o.write("   products:\n")
+                                firstKitProd = 1
+                            o.write("    part_" + str(partC) + ":\n")
+                            partC += 1
+                            o.write("     type: " + k.pType + "\n")
+                            o.write("     pose:\n")
+                            o.write("      xyz: " + k.xyz + "\n")
+                            o.write("      rpy: " + k.rpy + "\n")
+                    else:
+                        for k in i.kitting[orderInd].products[-1*firstLengths[0]:]:
+                            if firstKitProd == 0:
+                                o.write("   products:\n")
+                                firstKitProd = 1
+                            o.write("    part_" + str(partC) + ":\n")
+                            partC += 1
+                            o.write("     type: " + k.pType + "\n")
+                            o.write("     pose:\n")
+                            o.write("      xyz: " + k.xyz + "\n")
+                            o.write("      rpy: " + k.rpy + "\n")
                 if len(i.assembly) != 0:
                     o.write("  assembly:\n")
                     o.write("   shipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
                     o.write("   stations: " + i.assembly[orderInd].stations + '\n')
-                    for k in i.assembly[orderInd].products:
-                        if firstAssembProd==0:
-                            o.write("   products:\n")
-                            firstAssembProd = 1
-                        o.write("     part_" + str(partC) + ":\n")
-                        partC += 1
-                        o.write("      type: " + k.pType + "\n")
-                        o.write("      pose:\n")
-                        o.write("       xyz: " + k.xyz + "\n")
-                        o.write("       rpy: " + k.rpy + "\n")
+                    if orderID==1:
+                        for k in i.assembly[orderInd].products[:firstLengths[1]]:
+                            if firstAssembProd==0:
+                                o.write("   products:\n")
+                                firstAssembProd = 1
+                            o.write("     part_" + str(partC) + ":\n")
+                            partC += 1
+                            o.write("      type: " + k.pType + "\n")
+                            o.write("      pose:\n")
+                            o.write("       xyz: " + k.xyz + "\n")
+                            o.write("       rpy: " + k.rpy + "\n")
+                    else:
+                        for k in i.assembly[orderInd].products[-1*firstLengths[1]:]:
+                            if firstAssembProd==0:
+                                o.write("   products:\n")
+                                firstAssembProd = 1
+                            o.write("     part_" + str(partC) + ":\n")
+                            partC += 1
+                            o.write("      type: " + k.pType + "\n")
+                            o.write("      pose:\n")
+                            o.write("       xyz: " + k.xyz + "\n")
+                            o.write("       rpy: " + k.rpy + "\n")
                 orderID += 1
             o.write("\n")
     # END OF ORDERS
