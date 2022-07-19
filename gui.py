@@ -319,8 +319,18 @@ def new_order():  # this menu pops up to make a new order for the user
     order_save.pack(pady=20)
     add_order.mainloop()
     if len(firstLengths)==0:
-        firstLengths.append(len(tempKits))
-        firstLengths.append(len(tempAssemb))
+        if len(tempKits)>1:
+            firstLengths.append(len(tempKits[1].products))
+        elif len(tempKits)>0:
+            firstLengths.append(len(tempKits[0].products))
+        else:
+            firstLengths.append(0)
+        if len(tempAssemb)>1:
+            firstLengths.append(len(tempAssemb[1].products))
+        elif len(tempAssemb)>0:
+            firstLengths.append(len(tempAssemb[0].products))
+        else:
+            firstLengths.append(0)
     if temp_priority.get()=="Regular":
         priority_val = 1
     else:
@@ -1332,6 +1342,15 @@ if __name__ == "__main__":
     allOrders.reverse()
     partC = 0
     check_cancel(cancelFlag.get())
+    if len(allOrders)> 0:
+        if len(allOrders[0].kitting)>0:
+            allOrders[0].kitting[0].products.reverse()
+            if len(allOrders[0].kitting[0].products) != firstLengths[0]:
+                firstLengths[0] = len(allOrders[0].kitting[0].products) - firstLengths[0]
+        if len(allOrders[0].assembly)>0:
+            allOrders[0].assembly[0].products.reverse()
+            if len(allOrders[0].kitting[0].products)!= firstLengths[1]:
+                firstLengths[1] = len(allOrders[0].assembly[0].products) - firstLengths[1]
     with open(saveFileName, "a") as o:
         if len(allOrders) > 0:
             o.write("\n\norders:\n")
@@ -1360,7 +1379,7 @@ if __name__ == "__main__":
                         o.write(", "+i.kitting[orderInd].secondDest.replace("[", '')+"\n")
                     else:
                         o.write("]\n")
-                    if orderID==1:
+                    if orderID==0:
                         for k in i.kitting[orderInd].products[:firstLengths[0]]:
                             if firstKitProd == 0:
                                 o.write("   products:\n")
@@ -1372,7 +1391,7 @@ if __name__ == "__main__":
                             o.write("      xyz: " + k.xyz + "\n")
                             o.write("      rpy: " + k.rpy + "\n")
                     else:
-                        for k in i.kitting[orderInd].products[-1*firstLengths[0]:]:
+                        for k in i.kitting[orderInd].products[firstLengths[0]:]:
                             if firstKitProd == 0:
                                 o.write("   products:\n")
                                 firstKitProd = 1
@@ -1386,7 +1405,7 @@ if __name__ == "__main__":
                     o.write("  assembly:\n")
                     o.write("   shipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
                     o.write("   stations: " + i.assembly[orderInd].stations + '\n')
-                    if orderID==1:
+                    if orderID==0:
                         for k in i.assembly[orderInd].products[:firstLengths[1]]:
                             if firstAssembProd==0:
                                 o.write("   products:\n")
@@ -1398,7 +1417,7 @@ if __name__ == "__main__":
                             o.write("       xyz: " + k.xyz + "\n")
                             o.write("       rpy: " + k.rpy + "\n")
                     else:
-                        for k in i.assembly[orderInd].products[-1*firstLengths[1]:]:
+                        for k in i.assembly[orderInd].products[firstLengths[1]:]:
                             if firstAssembProd==0:
                                 o.write("   products:\n")
                                 firstAssembProd = 1
