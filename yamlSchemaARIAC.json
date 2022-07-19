@@ -248,7 +248,8 @@
                         }
                     },
                     "required": ["location"]
-                }
+                },
+                "additionalItems": false
             }
         },
         "orders": {
