@@ -26,4 +26,4 @@ if __name__ == "__main__":
     activateButtonFunc = partial(activateButton, saveButton, arrFlag)
     arrFlag.trace('w', activateButtonFunc)
     root.mainloop()
-    print("OUT OF LOOP. Final Arr: "+ arr)
+    print("OUT OF LOOP. Final Arr length: "+ str(len(arr)))
