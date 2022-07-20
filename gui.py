@@ -63,6 +63,10 @@ def correct_file_name(tempFileName, a, b , c):  # deletes any invalid characters
     tempFileName.set(tempStr)
 
 
+def activateButton(button, parFlag, c, d, e):
+    if parFlag.get() == '1':
+        button.config(state=tk.NORMAL)
+
 def get_final_num(num):  # returns the final string for the coordinates
     return str(round_twentieth(float(num.get())))
 
@@ -315,8 +319,10 @@ def new_order():  # this menu pops up to make a new order for the user
     order_kitting.pack(pady=20)
     order_assembly = tk.Button(add_order, text="Assembly", command=assembly)
     order_assembly.pack(pady=20)
-    order_save = tk.Button(add_order, text="Save and Exit", command=add_order.destroy)
+    order_save = tk.Button(add_order, text="Save and Exit", command=add_order.destroy, state=tk.DISABLED)
     order_save.pack(pady=20)
+    orderActButtonFunc = partial(activateButton, order_save, orderFlag)
+    orderFlag.trace('w', orderActButtonFunc)
     add_order.mainloop()
     if len(firstLengths)==0:
         if len(tempKits)>1:
@@ -451,12 +457,14 @@ def kitting():  # allows the user to add kitting to an order
     k_dest_label.pack()
     get_k_dest = tk.OptionMenu(kitting_wind, k_destination, *agv1List)
     get_k_dest.pack()
-    order_kitting = tk.Button(kitting_wind, text="Save and Exit", command=kitting_wind.destroy)
+    order_kitting = tk.Button(kitting_wind, text="Save and Exit", command=kitting_wind.destroy, state=tk.DISABLED)
     order_kitting.pack(side=tk.BOTTOM, pady=20)
     add_k_products = tk.Button(kitting_wind, text="Add Product", command=get_k_products)
     add_k_products.pack(side=tk.BOTTOM, pady=20)
     update_with_arg = partial(update_dest, get_k_dest, k_agv, k_destination)
     update_ship = partial(update_kitting_ship, second_tray, second_agv, ship_count, second_dest, kitting_wind)
+    kitActButtonFunc = partial(activateButton, order_kitting, kitProdsFlag)
+    kitProdsFlag.trace('w', kitActButtonFunc)
     k_agv.trace('w', update_with_arg)
     ship_count.trace('w', update_ship)
     kitting_wind.mainloop()
@@ -508,6 +516,9 @@ def get_k_products():  # adds a product to kitting
     y_rpy_val_k_entry.pack()
     kitting_prod_exit = tk.Button(k_products, text="Save and Exit", command=k_products.destroy)
     kitting_prod_exit.pack(pady=20)
+    kitProdsFlag.set('1')
+    orderFlag.set('1')
+    orderNextFlag.set('1')
     k_products.mainloop()
     kitProds.append(Products(k_product_info.get(),
                              str("["+x_val_k.get()+", "+y_val_k.get()+', '+z_val_k.get()+"]"),
@@ -530,8 +541,10 @@ def assembly():  # adds assembly to an order
     a_stations_entry.pack()
     add_a_products = tk.Button(assemb_wind, text="Add Product", command=get_a_products)
     add_a_products.pack(pady=20)
-    order_assemb = tk.Button(assemb_wind, text="Save and Exit", command=assemb_wind.destroy)
+    order_assemb = tk.Button(assemb_wind, text="Save and Exit", command=assemb_wind.destroy, state=tk.DISABLED)
     order_assemb.pack(pady=20)
+    assembActButtonFunc = partial(activateButton, order_assemb, assembProdsFlag)
+    assembProdsFlag.trace('w', assembActButtonFunc)
     assemb_wind.mainloop()
     tempAssemb.append(Assembly(a_ship_count.get(), a_stations.get(), assembProds))
 
@@ -580,6 +593,9 @@ def get_a_products():  # adds a product to assembly
     y_rpy_val_a_entry.pack()
     assemb_prod_exit = tk.Button(a_products, text="Save and Exit", command=a_products.destroy)
     assemb_prod_exit.pack(pady=20)
+    assembProdsFlag.set('1')
+    orderFlag.set('1')
+    orderNextFlag.set('1')
     a_products.mainloop()
     assembProds.append(Products(a_product_info.get(),
                        str("[" + x_val_a.get() + ", " + y_val_a.get() + ', ' + z_val_a.get() + "]"),
@@ -1056,6 +1072,14 @@ class PresentProducts:  # holds the products which from bins
 
 if __name__ == "__main__":
     getFileName = tk.Tk()
+    assembProdsFlag = tk.StringVar()
+    assembProdsFlag.set('0')
+    kitProdsFlag = tk.StringVar()
+    kitProdsFlag.set('0')
+    orderFlag = tk.StringVar()
+    orderFlag.set('0')
+    orderNextFlag = tk.StringVar()
+    orderNextFlag.set('0')
     frame = tk.Frame(getFileName)
     getFileName.geometry("500x600")
     frame.pack()
@@ -1333,8 +1357,10 @@ if __name__ == "__main__":
     ordersInfo.title("Orders Information")
     newOrder = tk.Button(ordersInfo, text="New Order", command=new_order)
     newOrder.pack(pady=20)
-    ordersNext = tk.Button(ordersInfo, text="Next", command=ordersInfo.destroy)
+    ordersNext = tk.Button(ordersInfo, text="Next", command=ordersInfo.destroy, state=tk.DISABLED)
     ordersNext.pack(pady=20)
+    enableOrdersNext = partial(activateButton, ordersNext, orderNextFlag)
+    orderNextFlag.trace('w', enableOrdersNext)
     cancel_orders = partial(cancel_wind, ordersInfo)
     cancelOrders = tk.Button(ordersInfo, text="Cancel and Exit", command=cancel_orders)
     cancelOrders.pack(pady=20)
