@@ -1084,9 +1084,9 @@ if __name__ == "__main__":
     getFileName.geometry("500x600")
     frame.pack()
     if platform.system()=="Windows":
-        nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images\\NIST_logo.png"))
+        nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images\\new_NIST_logo.png"))
     else:
-        nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images/NIST_logo.png"))
+        nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images/new_NIST_logo.png"))
     logoImgLabel = tk.Label(frame, image=nistLogo)
     logoImgLabel.pack()
     cancelFlag = tk.StringVar()
