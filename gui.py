@@ -71,6 +71,7 @@ def activateButton(button, parFlag, c, d, e):
 def deactivateButton(button, parFlag, c, d, e):
     if parFlag.get() =='1':
         button.config(state=tk.DISABLED)
+        button.destroy()
 
 
 def get_final_num(num):  # returns the final string for the coordinates
