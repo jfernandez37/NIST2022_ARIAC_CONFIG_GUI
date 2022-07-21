@@ -984,9 +984,8 @@ def check_cancel(cancel_flag):  # deletes the file if the user cancels from insi
         chdir('../')
         createdDir.reverse()
         for dir in createdDir:
-            if len(os.listdir(dir))==0:
+            if len(os.listdir(dir))!=0:
                 break
-                print("test")
             os.rmdir(dir)
             chdir('../')
         quit()
