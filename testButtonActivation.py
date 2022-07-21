@@ -6,12 +6,16 @@ arr = []
 def increaseArr(arrFlag):
     arr.append(0)
     print(arr)
-    if len(arr)>=5:
+    if len(arr)%5==0:
         arrFlag.set('1')
+    else:
+        arrFlag.set('0')
 
 def activateButton(button, parFlag, c, d, e):
     if parFlag.get() == '1':
         button.config(state=tk.NORMAL)
+    else:
+        button.config(state=tk.DISABLED)
 
 
 if __name__ == "__main__":
