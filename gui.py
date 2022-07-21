@@ -67,6 +67,12 @@ def activateButton(button, parFlag, c, d, e):
     if parFlag.get() == '1':
         button.config(state=tk.NORMAL)
 
+
+def deactivateButton(button, parFlag, c, d, e):
+    if parFlag.get() =='1':
+        button.config(state=tk.DISABLED)
+
+
 def get_final_num(num):  # returns the final string for the coordinates
     return str(round_twentieth(float(num.get())))
 
@@ -283,6 +289,8 @@ def new_order():  # this menu pops up to make a new order for the user
     global tempAssemb
     orderCount.append(0)
     add_order = tk.Toplevel()
+    kittingFlag.set('0')
+    kittingFlag.set('0')
     temp_priority = tk.StringVar()
     temp_priority.set('Regular')
     temp_k_health = tk.StringVar()
@@ -322,7 +330,11 @@ def new_order():  # this menu pops up to make a new order for the user
     order_save = tk.Button(add_order, text="Save and Exit", command=add_order.destroy, state=tk.DISABLED)
     order_save.pack(pady=20)
     orderActButtonFunc = partial(activateButton, order_save, orderFlag)
+    deactivateKitting = partial(deactivateButton, order_kitting, kittingFlag)
+    deactivateAssemb = partial(deactivateButton, order_assembly, assembFlag)
     orderFlag.trace('w', orderActButtonFunc)
+    kittingFlag.trace('w', deactivateKitting)
+    assembFlag.trace('w', deactivateAssemb)
     add_order.mainloop()
     if len(firstLengths)==0:
         if len(tempKits)>1:
@@ -467,6 +479,7 @@ def kitting():  # allows the user to add kitting to an order
     kitProdsFlag.trace('w', kitActButtonFunc)
     k_agv.trace('w', update_with_arg)
     ship_count.trace('w', update_ship)
+    kittingFlag.set('1')
     kitting_wind.mainloop()
     tempKits.append(Kitting(ship_count.get(), trays.get(), second_tray.get(), k_agv.get(),
                             second_agv.get(), k_destination.get(), second_dest.get(), kitProds))
@@ -545,6 +558,7 @@ def assembly():  # adds assembly to an order
     order_assemb.pack(pady=20)
     assembActButtonFunc = partial(activateButton, order_assemb, assembProdsFlag)
     assembProdsFlag.trace('w', assembActButtonFunc)
+    assembFlag.set('1')
     assemb_wind.mainloop()
     tempAssemb.append(Assembly(a_ship_count.get(), a_stations.get(), assembProds))
 
@@ -1082,6 +1096,10 @@ if __name__ == "__main__":
     orderFlag.set('0')
     orderNextFlag = tk.StringVar()
     orderNextFlag.set('0')
+    kittingFlag = tk.StringVar()
+    kittingFlag.set('0')
+    assembFlag = tk.StringVar()
+    assembFlag.set('0')
     frame = tk.Frame(getFileName)
     getFileName.geometry("500x600")
     frame.pack()
