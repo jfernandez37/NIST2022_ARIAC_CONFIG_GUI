@@ -10,18 +10,15 @@
             "properties": {
                 "insert_models_over_bins": {
                     "description": "Models over bins option",
-                    "type": "boolean",
-                    "enum": ["true", "false"]
+                    "type": "boolean"
                 },
                 "insert_models_over_stations": {
                     "description": "Models over stations option",
-                    "type": "boolean",
-                    "enum": ["true", "false"]
+                    "type": "boolean"
                 },
                 "gazebo_state_logging": {
                     "description": "option for if gazebo logs the state of the simulation",
-                    "type": "boolean",
-                    "enum": ["true", "false"]
+                    "type": "boolean"
                 },
                 "belt_population_cycles": {
                     "description": "Number of belt population cycles",
