@@ -1442,7 +1442,7 @@ if __name__ == "__main__":
                 firstLengths[0] = len(allOrders[0].kitting[0].products) - firstLengths[0]
         if len(allOrders[0].assembly)>0:
             allOrders[0].assembly[0].products.reverse()
-            if len(allOrders[0].kitting[0].products)!= firstLengths[1]:
+            if len(allOrders[0].assembly[0].products)!= firstLengths[1]:
                 firstLengths[1] = len(allOrders[0].assembly[0].products) - firstLengths[1]
     with open(saveFileName, "a") as o:
         if len(allOrders) > 0:
