@@ -64,6 +64,11 @@ def correct_file_name(tempFileName, a, b , c):  # deletes any invalid characters
     tempFileName.set(tempStr)
 
 
+def exitAndFlag(window, parFlag):
+    """Exits the given window and activates the given flag"""
+    parFlag.set('1')
+    window.destroy()
+
 def activateButton(button, parFlag, c, d, e):
     """Depending on the status of the flag, it will activate a deactivated button"""
     if parFlag.get() == '1':
@@ -347,7 +352,8 @@ def new_order():  # this menu pops up to make a new order for the user
     order_kitting.pack(pady=20)
     order_assembly = tk.Button(add_order, text="Assembly", command=assembly, state=tk.NORMAL)
     order_assembly.pack(pady=20)
-    order_save = tk.Button(add_order, text="Save and Exit", command=add_order.destroy, state=tk.DISABLED)
+    orderExitFunc = partial(exitAndFlag, add_order, orderNextFlag)
+    order_save = tk.Button(add_order, text="Save and Exit", command=orderExitFunc, state=tk.DISABLED)
     order_save.pack(pady=20)
     orderActButtonFunc = partial(activateButton, order_save, orderFlag)
     deactivateKitting = partial(deactivateButton, order_kitting, kittingFlag)
@@ -493,7 +499,8 @@ def kitting():  # allows the user to add kitting to an order
     k_dest_label.pack()
     get_k_dest = tk.OptionMenu(kitting_wind, k_destination, *agv1List)
     get_k_dest.pack()
-    order_kitting = tk.Button(kitting_wind, text="Save and Exit", command=kitting_wind.destroy, state=tk.DISABLED)
+    kittingAddedFunc = partial(exitAndFlag, kitting_wind, orderFlag)
+    order_kitting = tk.Button(kitting_wind, text="Save and Exit", command=kittingAddedFunc, state=tk.DISABLED)
     order_kitting.pack(side=tk.BOTTOM, pady=20)
     add_k_products = tk.Button(kitting_wind, text="Add Product", command=get_k_products)
     add_k_products.pack(side=tk.BOTTOM, pady=20)
@@ -552,11 +559,9 @@ def get_k_products():  # adds a product to kitting
     y_rpy_val_k_label.pack()
     y_rpy_val_k_entry = tk.Entry(k_products, textvariable=y_rpy_val_k)
     y_rpy_val_k_entry.pack()
-    kitting_prod_exit = tk.Button(k_products, text="Save and Exit", command=k_products.destroy)
+    exitFunc = partial(exitAndFlag, k_products, kitProdsFlag)
+    kitting_prod_exit = tk.Button(k_products, text="Save and Exit", command=exitFunc)
     kitting_prod_exit.pack(pady=20)
-    kitProdsFlag.set('1')
-    orderFlag.set('1')
-    orderNextFlag.set('1')
     k_products.mainloop()
     kitProds.append(Products(k_product_info.get(),
                              str("["+x_val_k.get()+", "+y_val_k.get()+', '+z_val_k.get()+"]"),
@@ -580,7 +585,8 @@ def assembly():  # adds assembly to an order
     a_stations_entry.pack()
     add_a_products = tk.Button(assemb_wind, text="Add Product", command=get_a_products)
     add_a_products.pack(pady=20)
-    order_assemb = tk.Button(assemb_wind, text="Save and Exit", command=assemb_wind.destroy, state=tk.DISABLED)
+    exitAssemb = partial(exitAndFlag, assemb_wind, orderFlag)
+    order_assemb = tk.Button(assemb_wind, text="Save and Exit", command=exitAssemb, state=tk.DISABLED)
     order_assemb.pack(pady=20)
     assembActButtonFunc = partial(activateButton, order_assemb, assembProdsFlag)
     assembProdsFlag.trace('w', assembActButtonFunc)
@@ -632,11 +638,9 @@ def get_a_products():  # adds a product to assembly
     y_rpy_val_a_label.pack()
     y_rpy_val_a_entry = tk.Entry(a_products, textvariable=y_rpy_val_a)
     y_rpy_val_a_entry.pack()
-    assemb_prod_exit = tk.Button(a_products, text="Save and Exit", command=a_products.destroy)
+    exitAssembProd = partial(exitAndFlag, a_products, assembProdsFlag)
+    assemb_prod_exit = tk.Button(a_products, text="Save and Exit", command=exitAssembProd)
     assemb_prod_exit.pack(pady=20)
-    assembProdsFlag.set('1')
-    orderFlag.set('1')
-    orderNextFlag.set('1')
     a_products.mainloop()
     assembProds.append(Products(a_product_info.get(),
                        str("[" + x_val_a.get() + ", " + y_val_a.get() + ', ' + z_val_a.get() + "]"),
