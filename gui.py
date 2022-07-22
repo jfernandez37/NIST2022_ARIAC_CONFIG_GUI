@@ -390,6 +390,7 @@ def new_order():  # this menu pops up to make a new order for the user
 
 
 def update_dest(a, b, c, d, e, f):  # switches the options present based off of the agv selected
+    """Updates the possible stations for agvs"""
     menu = a['menu']
     menu.delete(0, 'end')
     if b.get() == 'agv1':
@@ -411,6 +412,7 @@ def update_dest(a, b, c, d, e, f):  # switches the options present based off of 
 
 
 def update_id_range(a, b, c, d, e, f):  # updates the ids for faulty products
+    """Updates the range of possible id's based on bins"""
     menu = a['menu']
     menu.delete(0, 'end')
     bin_prods_ind = 0
@@ -425,6 +427,7 @@ def update_id_range(a, b, c, d, e, f):  # updates the ids for faulty products
 
 
 def update_kitting_ship(second_tray, second_agv, ship_count, second_dest, window, d,e,f):  # updates the trays for kitting shipments
+    """Updates the kitting menu based on the shipment count"""
     if ship_count.get() == '1':
         second_tray.set('')
         second_agv.set('')
@@ -458,6 +461,7 @@ def update_kitting_ship(second_tray, second_agv, ship_count, second_dest, window
 
 
 def kitting():  # allows the user to add kitting to an order
+    """Adds a new kitting order to the orders. Returned through tempKits"""
     kitting_wind = tk.Toplevel()
     second_tray = tk.StringVar()
     second_tray.set('')
@@ -506,6 +510,7 @@ def kitting():  # allows the user to add kitting to an order
 
 
 def get_k_products():  # adds a product to kitting
+    """Adds products to a kitting order. Returned through kitProds"""
     k_products = tk.Toplevel()
     x_val_k = tk.StringVar()
     x_val_k.set('0')
@@ -559,6 +564,7 @@ def get_k_products():  # adds a product to kitting
 
 
 def assembly():  # adds assembly to an order
+    """Adds an assembly order. Returned through tempAssemb"""
     assemb_wind = tk.Toplevel()
     a_ship_count = tk.StringVar()
     a_ship_count.set('1')
@@ -584,6 +590,7 @@ def assembly():  # adds assembly to an order
 
 
 def get_a_products():  # adds a product to assembly
+    """Adds a product to an assembly order. Returned through assembProds"""
     a_products = tk.Toplevel()
     x_val_a = tk.StringVar()
     x_val_a.set('0')
@@ -637,6 +644,7 @@ def get_a_products():  # adds a product to assembly
 
 
 def add_bin():  # adds a bin for models over bins
+    """Adds a bin in the models over bins section. Returned through modelsOverBinsInfo and binProds"""
     add_bin_wind = tk.Toplevel()
     cancel_bin_flag = tk.StringVar()
     cancel_bin_flag.set('0')
@@ -731,6 +739,7 @@ def add_bin():  # adds a bin for models over bins
 
 
 def add_station():  # adds a station to models over stations
+    """Adds a station to models over stations returns through models over stations info"""
     add_station_wind = tk.Toplevel()
     cancel_station_flag = tk.StringVar()
     cancel_station_flag.set("0")
@@ -797,6 +806,7 @@ def add_station():  # adds a station to models over stations
 
 
 def add_belt():  # adds a belt to belt models
+    """Adds a belt to belt models. Uses beltCycleInfo to return"""
     add_belt_wind = tk.Toplevel()
     cancel_belt_flag = tk.StringVar()
     cancel_belt_flag.set('0')
@@ -861,6 +871,7 @@ def add_belt():  # adds a belt to belt models
 
 
 def add_faulty_prod():  # adds a faulty product for the faulty product challenge
+    """Adds a faulty product for the faulty product challenge. Returned through faultyProdList"""
     faulty_prod_window = tk.Toplevel()
     cancel_faulty_flag = tk.StringVar()
     cancel_faulty_flag.set('0')
@@ -894,6 +905,7 @@ def add_faulty_prod():  # adds a faulty product for the faulty product challenge
 
 
 def add_drop_region():  # adds a drop region for the faulty gripper challenge
+    """Adds a drop region for the faulty gripper challenge. Returned through dropsInfo"""
     add_drop_wind = tk.Toplevel()
     drop_cancel_flag = tk.StringVar()
     drop_cancel_flag.set("0")
@@ -1002,19 +1014,21 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
 
 
 def cancel_wind(window):  # cancels at any point in the program
-    """"""
+    """Used to chancel a window"""
     cancelFlag.set('1')
     window.destroy()
 
 
 def check_cancel(cancel_flag):  # deletes the file if the user cancels from inside the program
+    """Checks if the program is canceled. If it is, the program removes the file and quits. If directories have been created,
+    those are removed as well"""
     if cancel_flag == '1':
+        for dir in pathIncrement:
+            chdir(dir)
         if path.exists(fileName.get()):
             os.remove(fileName.get())
         elif path.exists(fileName.get() + '.yaml'):
             os.remove(fileName.get() + '.yaml')
-        for dir in pathIncrement:
-            chdir(dir)
         chdir('../')
         createdDir.reverse()
         for dir in createdDir:
@@ -1026,6 +1040,7 @@ def check_cancel(cancel_flag):  # deletes the file if the user cancels from insi
 
 
 class Order:  # for organizing the data from the order menu
+    """Holds the information for an order"""
     def __init__(self, priority, k_health, a_health, an_cond, cond_val, kit_info, assem_info):
         self.priority = priority
         self.kittingHealth = k_health
@@ -1037,6 +1052,7 @@ class Order:  # for organizing the data from the order menu
 
 
 class Kitting:  # for organizing the data from the kitting menu
+    """Holds the information for a kitting order"""
     def __init__(self, ship_count, tray, second_tray, agv, second_agv, destinations, second_dest, products):
         self.shipmentCount = ship_count
         self.tray = tray
@@ -1049,6 +1065,7 @@ class Kitting:  # for organizing the data from the kitting menu
 
 
 class Assembly:  # for organizing the data from the assembly menu
+    """Holds the information for an assembly order"""
     def __init__(self, ship_count, stations, products):
         self.shipmentCount = ship_count
         self.stations = stations
@@ -1056,6 +1073,7 @@ class Assembly:  # for organizing the data from the assembly menu
 
 
 class Products:  # for organizing the data for all products
+    """Holds the information for a product"""
     def __init__(self, p_type, xyz, rpy):
         self.pType = p_type
         self.xyz = xyz
@@ -1063,6 +1081,7 @@ class Products:  # for organizing the data for all products
 
 
 class ModelOverBin:  # for organizing the data from the models over bins menu
+    """Holds the information for a bin for models over bins"""
     def __init__(self, bin_num, prod_temp, start, end, rpy, num_mod_x, num_mod_y):
         self.binNum = bin_num
         self.product = prod_temp
@@ -1074,6 +1093,7 @@ class ModelOverBin:  # for organizing the data from the models over bins menu
 
 
 class ModelOverStation:  # for organizing the data from the models over stations menu
+    """Holds the information for a station for the models over stations"""
     def __init__(self, station, part, xyz, rpy):
         self.station = station
         self.part = part
@@ -1082,6 +1102,7 @@ class ModelOverStation:  # for organizing the data from the models over stations
 
 
 class BeltCycle:  # for organizing the data from the belt models menu
+    """Holds the information for a belt cycle"""
     def __init__(self, part, time, xyz, rpy):
         self.part = part
         self.time = time
@@ -1090,6 +1111,7 @@ class BeltCycle:  # for organizing the data from the belt models menu
 
 
 class Drops:  # for organizing the data from the drops menu
+    """Holds the information for a drop region"""
     def __init__(self, drops_frame, min_xyz, max_xyz, dest_xyz, dest_rpy, type_to_drop, robot_type):
         self.frame = drops_frame
         self.minXyz = min_xyz
@@ -1101,6 +1123,7 @@ class Drops:  # for organizing the data from the drops menu
 
 
 class PresentProducts:  # holds the products which from bins
+    """Holds the products which are present in the program"""
     def __init__(self, product_type, num):
         self.pType = product_type
         self.pNum = num
