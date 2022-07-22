@@ -56,6 +56,7 @@ firstLengths = []  # holds the number of products in the first order
 
 
 def correct_file_name(tempFileName, a, b , c):  # deletes any invalid characters in file name
+    """This function removes any characters which can not be used in the file name. It does so as the user is typing"""
     tempStr = tempFileName.get()
     for char in invalidFileChar:
         if char in tempStr:
@@ -64,25 +65,28 @@ def correct_file_name(tempFileName, a, b , c):  # deletes any invalid characters
 
 
 def activateButton(button, parFlag, c, d, e):
+    """Depending on the status of the flag, it will activate a deactivated button"""
     if parFlag.get() == '1':
         button.config(state=tk.NORMAL)
 
 
 def deactivateButton(button, parFlag, c, d, e):
+    """Depending on the status of the flag, it will deactivate an activated button"""
     if parFlag.get() =='1':
         button.config(state=tk.DISABLED)
-        button.destroy()
-
 
 def get_final_num(num):  # returns the final string for the coordinates
+    """For returning the number for the sliders. Not used anymore"""
     return str(round_twentieth(float(num.get())))
 
 
 def round_twentieth(num):  # rounds number to the nearest twentieth (or round_slide)
+    """Rounds a number to the nearest 0.05. This function was used for the sliders and is not used any more"""
     return round(round(num/round_slide)*round_slide,-int(math.floor(math.log10(round_slide))))
 
 
 def tf():  # cycles through the true or false button for the over bins option
+    """Cycles through the options for the Models Over Bins Button"""
     if tfOverBins.config('text')[-1] == 'True':
         tfOverBins.config(text='False')
         overBins.set("false")
@@ -95,6 +99,7 @@ def tf():  # cycles through the true or false button for the over bins option
 
 
 def tf2():  # cycles through the true or false button for the over stations option
+    """Cycles through the options for the Models Over Stations Button"""
     if tfOverStations.config('text')[-1] == 'True':
         tfOverStations.config(text='False')
         overStations.set("false")
@@ -107,6 +112,7 @@ def tf2():  # cycles through the true or false button for the over stations opti
 
 
 def tf3():  # cycles through the true or false button for the gazebo state logging option
+    """Cycles through the options for the Gazebo State Logging"""
     if tfStateLogging.config('text')[-1] == 'True':
         tfStateLogging.config(text='False')
         stateLogging.set("false")
@@ -119,6 +125,7 @@ def tf3():  # cycles through the true or false button for the gazebo state loggi
 
 
 def cgt():  # cycles through the options for the current gripper type option
+    """Cycles through the options for the Gripper Type button"""
     if gripperTypeButton.config('text')[-1] == 'Gripper Tray':
         gripperTypeButton.config(text='Gripper Part')
         gripperType.set("gripper_part")
@@ -128,6 +135,7 @@ def cgt():  # cycles through the options for the current gripper type option
 
 
 def tl():  # cycles through the options for the time limit option
+    """Cycles through the options for the Time Limit button"""
     if timeLimitButton.config('text')[-1] == '500':
         timeLimitButton.config(text='-1')
         timeLimit.set("-1")
@@ -137,11 +145,14 @@ def tl():  # cycles through the options for the time limit option
 
 
 def skip_wind(flag, window):  # function for skipping a window
+    """Sets a given flag and destroys a windos for skip buttons"""
     flag.set('1')
     window.destroy()
 
 
 def get_file_name_next():  # checks to see if the file name the user selects exists or is empty
+    """Reads the file name and puts a message on the window if invalid characters are found
+    the file is empty, or if the file inputted already exists"""
     inv_char_found = []
     output_inv = ''
     c=1
@@ -196,18 +207,22 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
 
 
 def cancel_func(wind, flag):
+    """Sets flag to 1 and destroys a window for when the user wants to cancel and exit"""
     wind.destroy()
     flag.set("1")
 
 def update_val_label(label, func, c, d, e):  # for having the current number for the slider
+    """Live label for the current value of a slider. Not being used"""
     label.configure(text="Current value = "+func())
 
 
 def get_current_val(val):  # gets the current number from the slider
-     return '{: .2f}'.format(round_twentieth(float(val.get())))
+    """Gets the current value of a slider rounded to a twentieth for the live label. Not being used right now"""
+    return '{: .2f}'.format(round_twentieth(float(val.get())))
 
 
 def add_product():  # adds a product in agv_infos
+    """Adds a product in the agv_infos section. Returns the value through arrays depending on which AGV the user decides to put the product on"""
     product_info = tk.Toplevel()
     add_product_cancel_flag = tk.StringVar()
     add_product_cancel_flag.set("0")
@@ -286,6 +301,10 @@ def add_product():  # adds a product in agv_infos
 
 
 def new_order():  # this menu pops up to make a new order for the user
+    """Adds a new order. Returns the order using the all orders array. Different values are returned for the first order
+    different components of the menu are present for the second order selection"""
+    if len(orderCount)>=1:
+        secondOrderFlag.set('1')
     global tempKits
     global tempAssemb
     orderCount.append(0)
@@ -1089,6 +1108,8 @@ class PresentProducts:  # holds the products which from bins
 
 if __name__ == "__main__":
     getFileName = tk.Tk()
+    secondOrderFlag = tk.StringVar()
+    secondOrderFlag.set('0')
     assembProdsFlag = tk.StringVar()
     assembProdsFlag.set('0')
     kitProdsFlag = tk.StringVar()
@@ -1382,6 +1403,8 @@ if __name__ == "__main__":
     ordersNext.pack(pady=20)
     enableOrdersNext = partial(activateButton, ordersNext, orderNextFlag)
     orderNextFlag.trace('w', enableOrdersNext)
+    deactivateNewOrder = partial(deactivateButton, newOrder, secondOrderFlag)
+    secondOrderFlag.trace('w', deactivateNewOrder)
     cancel_orders = partial(cancel_wind, ordersInfo)
     cancelOrders = tk.Button(ordersInfo, text="Cancel and Exit", command=cancel_orders)
     cancelOrders.pack(pady=20)
