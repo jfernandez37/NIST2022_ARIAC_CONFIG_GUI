@@ -1440,10 +1440,15 @@ if __name__ == "__main__":
             allOrders[0].kitting[0].products.reverse()
             if len(allOrders[0].kitting[0].products) != firstLengths[0]:
                 firstLengths[0] = len(allOrders[0].kitting[0].products) - firstLengths[0]
+        else:
+            firstLengths[0]=0
         if len(allOrders[0].assembly)>0:
             allOrders[0].assembly[0].products.reverse()
             if len(allOrders[0].assembly[0].products)!= firstLengths[1]:
                 firstLengths[1] = len(allOrders[0].assembly[0].products) - firstLengths[1]
+        else:
+            firstLengths[1]=0
+    print(firstLengths)
     with open(saveFileName, "a") as o:
         if len(allOrders) > 0:
             o.write("\n\norders:\n")
