@@ -1448,7 +1448,6 @@ if __name__ == "__main__":
                 firstLengths[1] = len(allOrders[0].assembly[0].products) - firstLengths[1]
         else:
             firstLengths[1]=0
-    print(firstLengths)
     with open(saveFileName, "a") as o:
         if len(allOrders) > 0:
             o.write("\n\norders:\n")
