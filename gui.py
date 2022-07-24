@@ -1134,6 +1134,7 @@ class PresentProducts:  # holds the products which from bins
 
 
 if __name__ == "__main__":
+    """Main part of program. Goes through the main windows of the program and holds all global tkinter stringvars"""
     getFileName = tk.Tk()
     secondOrderFlag = tk.StringVar()
     secondOrderFlag.set('0')
