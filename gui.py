@@ -7,6 +7,7 @@ from os import chdir, path
 import os
 from pathlib import Path
 from functools import partial
+from turtle import update
 from PIL import Image, ImageTk  # needed for images in gui
 
 orderCount = []  # Used in counter in new_order function
@@ -53,6 +54,9 @@ else:
 createdDir = []  # to deleted directories made if canceled
 pathIncrement = []  # gives the full path for recursive deletion
 firstLengths = []  # holds the number of products in the first order
+breakdowns = []  # holds the robot breakdowns for the robot breakdown order
+breakdownAGVs = ['agv1', 'agv2', 'agv3', 'agv4']
+breakdownAll = ['agv1', 'agv2', 'agv3', 'agv4', 'as1', 'as2', 'as3', 'as4']
 
 
 def correct_file_name(tempFileName, a, b , c):  # deletes any invalid characters in file name
@@ -415,6 +419,22 @@ def update_dest(a, b, c, d, e, f):  # switches the options present based off of 
         c.set(kAgv4List[0])
         for dest in kAgv4List:
             menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
+
+
+def update_bd_locations(dropdown, numProds, robot_type, location, d, e, f):
+    """Updates the locations of the robot on breakdown"""
+    print("test")
+    menu = dropdown['menu']
+    menu.delete(0, 'end')
+    if numProds.get()!='4'and robot_type.get()=='assembly_robot':
+        location.set(breakdownAGVs[0])
+        for i in breakdownAGVs:
+            menu.add_command(label=i, command=lambda i=i: location.set(i))
+    else:
+        location.set(breakdownAll[0])
+        for i in breakdownAll:
+            menu.add_command(label=i, command=lambda i=i: location.set(i))
+
 
 
 def update_id_range(a, b, c, d, e, f):  # updates the ids for faulty products
@@ -1017,6 +1037,41 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
                             drop_prod.get(), robot_type.get()))
 
 
+def add_robot_breakdown():
+    add_robot_bd_wind = tk.Toplevel()
+    bd_cancel_flag = tk.StringVar()
+    bd_cancel_flag.set('0')
+    robo_type = tk.StringVar()
+    robo_type.set("kitting_robot")
+    location = tk.StringVar()
+    location.set("agv1")
+    numberProds = tk.StringVar()
+    numberProds.set('1')
+    order_ID = tk.StringVar()
+    order_ID.set('0')
+    if len(orderCount)==2:
+        order_ID_dropdown = tk.OptionMenu(add_robot_bd_wind, order_ID, "0", "1")
+        order_ID_dropdown.pack()
+    robo_type_dropdown = tk.OptionMenu(add_robot_bd_wind, robo_type, "kitting_robot", "assembly_robot")
+    robo_type_dropdown.pack()
+    location_dropdown = tk.OptionMenu(add_robot_bd_wind, location, *breakdownAll)
+    location_dropdown.pack()
+    numProdDropdown = tk.OptionMenu(add_robot_bd_wind, numberProds, "1", "2", "3", "4")
+    numProdDropdown.pack()
+    update_loc_rtype = partial(update_bd_locations, location_dropdown, numberProds, robo_type, location)
+    robo_type.trace('w', update_loc_rtype)
+    update_loc_numprod = partial(update_bd_locations, location_dropdown, numberProds, robo_type, location)
+    numberProds.trace('w', update_loc_numprod)
+    cancel_bd = partial(cancel_func, add_robot_bd_wind, bd_cancel_flag)
+    cancel_drop_button = tk.Button(add_robot_bd_wind, text="Cancel", command=cancel_bd)
+    cancel_drop_button.pack()
+    add_drop_save = tk.Button(add_robot_bd_wind, text="Save and Exit", command=add_robot_bd_wind.destroy)
+    add_drop_save.pack()
+    add_robot_bd_wind.mainloop()
+    if bd_cancel_flag.get()=='0':
+        breakdowns.append(RobotBreakdown(order_ID.get(), robo_type.get(), location.get(), numberProds.get()))
+
+
 def cancel_wind(window):  # cancels at any point in the program
     """Used to chancel a window"""
     cancelFlag.set('1')
@@ -1133,9 +1188,24 @@ class PresentProducts:  # holds the products which from bins
         self.pNum = num
 
 
+class RobotBreakdown:
+    """Holds the information about robot breakdowns for the robot breakdown challenge"""
+    def __init__(self, orderID, robot_type, location, number_of_products):
+        self.orderID = orderID
+        self.robotType=robot_type
+        self.location = location
+        self.numberProd = number_of_products
+
+
 if __name__ == "__main__":
     """Main part of program. Goes through the main windows of the program and holds all global tkinter stringvars"""
     getFileName = tk.Tk()
+    faultySkipFlag = tk.StringVar()
+    faultySkipFlag.set('0')
+    dropsSkipFlag = tk.StringVar()
+    dropsSkipFlag.set('0')
+    sensor_blackout_skip_flag = tk.StringVar()
+    sensor_blackout_skip_flag.set('0')
     secondOrderFlag = tk.StringVar()
     secondOrderFlag.set('0')
     assembProdsFlag = tk.StringVar()
@@ -1427,6 +1497,8 @@ if __name__ == "__main__":
     challengeWind = tk.Tk()
     challengeWind.geometry("500x600")
     challengeWind.title("Challenge Selection Window")
+    robotBreakdownSelection = tk.StringVar()
+    robotBreakdownSelection.set('0')
     faultyProdSelection = tk.StringVar()
     faultyProdSelection.set('0')
     dropSelection = tk.StringVar()
@@ -1442,6 +1514,8 @@ if __name__ == "__main__":
     faultyGripperCheckbox.pack()
     sensorBlackoutCheckbox = tk.Checkbutton(challengeWind, text='Sensor Blackout', variable=sensorBlackoutSelection, onvalue='1', offvalue='0')
     sensorBlackoutCheckbox.pack()
+    robotBreakdownCheckbox = tk.Checkbutton(challengeWind, text="Robot Breakdown", variable=robotBreakdownSelection, onvalue='1', offvalue='0')
+    robotBreakdownCheckbox.pack()
     challengeNext = tk.Button(challengeWind, text="Next", command=challengeWind.destroy)
     challengeNext.pack(pady=20)
     cancel_challenge_func = partial(cancel_wind, challengeWind)
@@ -1456,8 +1530,6 @@ if __name__ == "__main__":
         faultyWind = tk.Tk()
         faultyWind.geometry("500x600")
         faultyWind.title("Faulty Products Menu")
-        faultySkipFlag = tk.StringVar()
-        faultySkipFlag.set('0')
         faultyWindLabel = tk.Label(faultyWind, text="This is needed for the Faulty Product Challenge")
         faultyWindLabel.pack()
         addProd = tk.Button(faultyWind, text="Add Product", command=add_faulty_prod)
@@ -1479,8 +1551,6 @@ if __name__ == "__main__":
         dropsWind = tk.Tk()
         dropsWind.title("Drops Menu")
         dropsWind.geometry("500x600")
-        dropsSkipFlag = tk.StringVar()
-        dropsSkipFlag.set('0')
         dropsWindLabel = tk.Label(dropsWind, text="This is needed for the Faulty Gripper Challenge")
         dropsWindLabel.pack()
         addDrop = tk.Button(dropsWind, text="Add New Drop Region", command=add_drop_region)
@@ -1506,8 +1576,6 @@ if __name__ == "__main__":
         prodCount.set('0')
         duration = tk.StringVar()
         duration.set('0')
-        sensor_blackout_skip_flag = tk.StringVar()
-        sensor_blackout_skip_flag.set('0')
         prodCountLabel = tk.Label(sensorBlackoutWind, text="Enter the product count for the sensor blackout")
         prodCountLabel.pack()
         prodCountEntry = tk.Entry(sensorBlackoutWind, textvariable=prodCount)
@@ -1528,9 +1596,27 @@ if __name__ == "__main__":
         check_cancel(cancelFlag.get())
     #END OF SENSOR BLACKOUT
     #-------------------------------------------------------------------------------------------
+    #BEGINNING OF ROBOT BREAKDOWN
+    if robotBreakdownSelection.get()=='1':
+        bdWind = tk.Tk()
+        bdWind.title("Drops Menu")
+        bdWind.geometry("500x600")
+        bdWindLabel = tk.Label(bdWind, text="This is needed for the Robot Breakdown Challenge")
+        bdWindLabel.pack()
+        addBD = tk.Button(bdWind, text="Add New Robot Breakdown", command=add_robot_breakdown)
+        addBD.pack()
+        bdNext = tk.Button(bdWind, text="Next", command=bdWind.destroy)
+        bdNext.pack(pady=20)
+        cancelBDFunc = partial(cancel_wind, bdWind)
+        cancelBD = tk.Button(bdWind, text="Cancel and Exit", command=cancelBDFunc)
+        cancelBD.pack(pady=20)
+        bdWind.mainloop()
+        check_cancel(cancelFlag.get())
+    #END OF ROBOT BREAKDOWN
+    #-------------------------------------------------------------------------------------------
     #BEGINNING OF FILE WRITING
     with open(saveFileName, "a") as o:
-        o.write("# yaml-language-server: $schema=yamlSchemaARIAC.json\n") 
+        o.write("# yaml-language-server: $schema=yamlSchemaARIAC.json\n")  # implements the yaml schema to check the file
         o.write("options:\n")
         if overBins.get() != 'skip':
             o.write(" insert_models_over_bins: " + overBins.get() + "\n")
@@ -1619,6 +1705,9 @@ if __name__ == "__main__":
                 o.write("  priority: " + i.priority+"\n")
                 o.write("  kitting_robot_health: " + i.kittingHealth+"\n")
                 o.write("  assembly_robot_health: " + i.assemblyHealth+"\n")
+                for breakdown in breakdowns:
+                    if breakdown.orderID == str(orderID):
+                        o.write("  disable_robot: ["+breakdown.robotType+", "+breakdown.location +", "+ breakdown.numberProd+"]\n")
                 o.write("  announcement_condition: " + i.announcementCondition+"\n")
                 o.write("  announcement_condition_value: "+i.conditionValue+"\n")
                 if len(i.kitting) != 0:
