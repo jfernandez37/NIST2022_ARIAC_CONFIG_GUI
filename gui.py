@@ -1256,11 +1256,8 @@ if __name__ == "__main__":
     existFlag = tk.StringVar()
     existFlag.set("0")
     fileNameCorrectFunc = partial(correct_file_name, fileName)
-    fileNameLabel = tk.Label(getFileName, text="Enter the file name you would like to save as:")
-    fileNameLabel.pack()
-    fileNameTextBox = tk.Entry(getFileName, textvariable=fileName)
-    fileNameTextBox.pack()
-    openFileExp = tk.Button(getFileName, text="Save file", command=make_file)
+    saveAndExit = partial(make_file, getFileName)
+    openFileExp = tk.Button(getFileName, text="Save file", command=saveAndExit)
     openFileExp.pack()
     cancel_file = partial(cancel_wind, getFileName)
     cancelFile = tk.Button(getFileName, text="Cancel and Exit", command=cancel_file)
@@ -1269,10 +1266,21 @@ if __name__ == "__main__":
     fileExit.pack(side=tk.BOTTOM, pady=20)
     fileName.trace('w', fileNameCorrectFunc)
     getFileName.mainloop()
-    if platform.system()=="Linux":
-        fileName.set("~/ariac_ws/src/ARIAC/nist_gear/config/my_files/"+fileName.get())
-    if cancelFlag.get() == '1':
-        quit()
+    path=''
+    if platform.system()=="Windows":
+        brokenPath=fileNameVar.get().split("\\")
+        for i in brokenPath[:-1]:
+            path+=i+"\\"
+        fileNameStr=brokenPath[len(brokenPath)-1]
+        chdir(path)
+        saveFileName=fileNameStr
+    else:
+        brokenPath=fileNameVar.get().split("/")
+        for i in brokenPath[:-1]:
+            path+=i+"/"
+        fileNameStr=brokenPath[len(brokenPath)-1]
+        chdir(path)
+        saveFileName=fileNameStr
     # END OF GETTING THE NAME OF THE FILE
     # ----------------------------------------------------------------------------------------------
     # BEGINNING OF OPTIONS
@@ -1321,23 +1329,6 @@ if __name__ == "__main__":
     cancelOptions = tk.Button(options, text="Cancel and Exit", command=cancel_options)
     cancelOptions.pack(pady=20)
     options.mainloop()
-    saveFileName = fileName.get()
-    if '.yaml' not in saveFileName:
-        saveFileName += '.yaml'
-    if saveFileName[0]=="~" and platform.system()=="Linux":
-        os.chdir(Path.home())
-        saveFileName.replace("~","")
-        saveFileName = saveFileName[2:]
-        fileName.set(saveFileName)
-    if saveFileName.count("/")>0:
-        tempFileName = saveFileName.split("/")
-        for dir in tempFileName[:-1]:
-            pathIncrement.append(dir)
-            if not path.exists(dir):
-                os.mkdir(dir)
-                os.chdir(dir)
-                createdDir.append(dir)
-        os.chdir(Path.home())
     check_cancel(cancelFlag.get())
     # END OF GETTING OPTIONS
     # ----------------------------------------------------------------------------------------------------------------------
