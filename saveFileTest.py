@@ -20,6 +20,8 @@ def make_file(wind):
     
 
 if __name__=="__main__":
+    path=""
+    fileNameStr=''
     root = tk.Tk()
     fileNameVar = tk.StringVar()
     save_and_exit = partial(make_file, root)
@@ -27,3 +29,13 @@ if __name__=="__main__":
     save_file.pack()
     root.mainloop()
     print(fileNameVar.get())
+    if platform.system()=="Windows":
+        brokenPath=fileNameVar.get().split("\\")
+        for i in brokenPath[:-1]:
+            path+=i+"\\"
+        fileNameStr=brokenPath[len(brokenPath)-1]
+        print(path)
+        print(fileNameStr)
+        chdir(path)
+        with open(fileNameStr,'a') as o:
+            o.write("test")
