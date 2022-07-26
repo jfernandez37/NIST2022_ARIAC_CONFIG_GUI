@@ -1527,8 +1527,9 @@ if __name__ == "__main__":
     sensorBlackoutCheckbox.pack()
     robotBreakdownCheckbox = tk.Checkbutton(challengeWind, text="Robot Breakdown", variable=robotBreakdownSelection, onvalue='1', offvalue='0')
     robotBreakdownCheckbox.pack()
-    humanCheckbox = tk.Checkbutton(challengeWind, text='Human Obstacles', variable=humanSelection, onvalue='1', offvalue='0')
-    humanCheckbox.pack()
+    if len(kitProds)>0 and len(assembProds)>0:
+        humanCheckbox = tk.Checkbutton(challengeWind, text='Human Obstacles', variable=humanSelection, onvalue='1', offvalue='0')
+        humanCheckbox.pack()
     challengeNext = tk.Button(challengeWind, text="Next", command=challengeWind.destroy)
     challengeNext.pack(pady=20)
     cancel_challenge_func = partial(cancel_wind, challengeWind)
@@ -1612,7 +1613,7 @@ if __name__ == "__main__":
     #BEGINNING OF ROBOT BREAKDOWN
     if robotBreakdownSelection.get()=='1':
         bdWind = tk.Tk()
-        bdWind.title("Drops Menu")
+        bdWind.title("Breakdown Menu")
         bdWind.geometry("500x600")
         bdWindLabel = tk.Label(bdWind, text="This is needed for the Robot Breakdown Challenge")
         bdWindLabel.pack()
@@ -1626,6 +1627,34 @@ if __name__ == "__main__":
         bdWind.mainloop()
         check_cancel(cancelFlag.get())
     #END OF ROBOT BREAKDOWN
+    #-------------------------------------------------------------------------------------------
+    #BEGINNING OF HUMAN OBSTACLES
+    if humanSelection.get()=='1':
+        humanWind = tk.Tk()
+        human2Wait = tk.StringVar()
+        human2Wait.set("")
+        human4Wait = tk.StringVar()
+        human4Wait.set("")
+        humanWind.title("Human Menu")
+        humanWind.geometry("500x600")
+        humanWindLabel = tk.Label(humanWind, text="This is needed for the Human Obstacles Challenge. Leave blank to not add the human")
+        humanWindLabel.pack()
+        human2Label=tk.Label(humanWind, text="Human at as2")
+        human2Label.pack()
+        human2Entry=tk.Entry(humanWind, textvariable=human2Wait)
+        human2Entry.pack()
+        human4Label=tk.Label(humanWind, text="Human at as4")
+        human4Label.pack()
+        human4Entry=tk.Entry(humanWind, textvariable=human4Wait)
+        human4Entry.pack()
+        humanWindNext = tk.Button(humanWind, text="Next", command=humanWind.destroy)
+        humanWindNext.pack(pady=20)
+        cancelHumanWindFunc = partial(cancel_wind, humanWind)
+        cancelHuman = tk.Button(humanWind, text="Cancel and Exit", command=cancelHumanWindFunc)
+        cancelHuman.pack(pady=20)
+        humanWind.mainloop()
+        check_cancel(cancelFlag.get())
+    #END OF HUMAN OBSTACLES
     #-------------------------------------------------------------------------------------------
     #BEGINNING OF FILE WRITING
     with open(saveFileName, "a") as o:
@@ -1642,6 +1671,22 @@ if __name__ == "__main__":
         o.write(" # mandatory: gripper_tray or gripper_part\n")
         o.write(" current_gripper_type: " + gripperType.get() + "\n")
         o.write("time_limit: " + timeLimit.get() + "\n")
+    if humanSelection.get()=='1':
+        with open(saveFileName, "a") as o:
+            if human2Wait.get()!='' or human4Wait.get()!='':
+                o.write("\n\n\naisle_layout:\n")
+                if human2Wait.get()!='':
+                    o.write(" person_1: #located at as2\n")
+                    o.write("  location: 3\n")
+                    o.write("  start_time: 0.\n")
+                    o.write("  move_time: 5.\n")
+                    o.write("  wait_time: "+human2Wait.get()+".\n")
+                if human4Wait.get()!='':
+                    o.write(" person2: #located at as4\n")
+                    o.write("  location: -3\n")
+                    o.write("  start_time: 16.\n")
+                    o.write("  move_time: 5.\n")
+                    o.write("  wait_time: "+human4Wait.get()+".\n")
     if traySkipFlag.get() == "0":
         with open(saveFileName, "a") as o:
             if (table1.get() != "" and table1q.get() != "") or (table2.get() != "" and table2q.get() != ""):
@@ -1764,7 +1809,7 @@ if __name__ == "__main__":
                 if len(i.assembly) != 0:
                     o.write("  assembly:\n")
                     o.write("   shipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
-                    o.write("   stations: " + i.assembly[orderInd].stations + '\n')
+                    o.write("   stations: [" + i.assembly[orderInd].stations + ']\n')
                     if orderID==0:
                         for k in i.assembly[orderInd].products[:firstLengths[1]]:
                             if firstAssembProd==0:
@@ -1825,7 +1870,7 @@ if __name__ == "__main__":
                     o.write("    xyz: "+i.xyz+"\n")
                     o.write("    rpy: "+i.rpy+"\n")
                 o.write("\n")
-    if faultySkipFlag.get() == '0' and len(faultyProdList) > 0:
+    if faultySkipFlag.get() == '0' and len(faultyProdList) > 0 and faultyProdSelection.get()=='1':
             faultyProdList.reverse()
             with open(saveFileName, 'a') as o:
                 o.write("\nfaulty_products:\n")
@@ -1833,7 +1878,7 @@ if __name__ == "__main__":
                     o.write(" - "+prod+"\n")
                 o.write("\n")
     dropCount = 0
-    if dropsSkipFlag.get() == '0' and len(dropsInfo) > 0:
+    if dropsSkipFlag.get() == '0' and len(dropsInfo) > 0 and dropSelection.get()=='1':
             dropsInfo.reverse()
             with open(saveFileName, 'a') as o:
                 o.write("\ndrops:\n drop_regions:\n")
@@ -1851,7 +1896,7 @@ if __name__ == "__main__":
                     o.write("   product_type_to_drop: "+drop.typeToDrop+"\n")
                     o.write("   robot_type: "+drop.robotType+"\n")
                 o.write("\n")    
-    if sensor_blackout_skip_flag.get() == '0':
+    if sensor_blackout_skip_flag.get() == '0' and sensorBlackoutSelection.get()=='1':
             with open(saveFileName, 'a') as o:
                 o.write("\nsensor_blackout:\n")
                 o.write(" product_count: "+prodCount.get()+"\n")
