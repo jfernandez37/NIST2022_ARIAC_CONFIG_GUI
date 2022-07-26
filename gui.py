@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog
 import tkinter.ttk as ttk
 import math
 import platform
@@ -57,6 +58,14 @@ firstLengths = []  # holds the number of products in the first order
 breakdowns = []  # holds the robot breakdowns for the robot breakdown order
 breakdownAGVs = ['agv1', 'agv2', 'agv3', 'agv4']
 breakdownAll = ['agv1', 'agv2', 'agv3', 'agv4', 'as1', 'as2', 'as3', 'as4']
+
+
+def make_file(wind):
+    file=filedialog.asksaveasfile(defaultextension=".yaml", filetypes=[("YAML file", ".yaml")])
+    if file:
+        fileNameVar.set(str(os.path.abspath(file.name)))
+        file.close
+        wind.destroy()
 
 
 def correct_file_name(tempFileName, a, b , c):  # deletes any invalid characters in file name
@@ -1205,6 +1214,7 @@ class RobotBreakdown:
 if __name__ == "__main__":
     """Main part of program. Goes through the main windows of the program and holds all global tkinter stringvars"""
     getFileName = tk.Tk()
+    fileNameVar = tk.StringVar()
     faultySkipFlag = tk.StringVar()
     faultySkipFlag.set('0')
     dropsSkipFlag = tk.StringVar()
@@ -1250,6 +1260,8 @@ if __name__ == "__main__":
     fileNameLabel.pack()
     fileNameTextBox = tk.Entry(getFileName, textvariable=fileName)
     fileNameTextBox.pack()
+    openFileExp = tk.Button(getFileName, text="Save file", command=make_file)
+    openFileExp.pack()
     cancel_file = partial(cancel_wind, getFileName)
     cancelFile = tk.Button(getFileName, text="Cancel and Exit", command=cancel_file)
     cancelFile.pack(side=tk.BOTTOM, pady=20)
