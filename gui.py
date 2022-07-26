@@ -8,7 +8,6 @@ from os import chdir, path
 import os
 from pathlib import Path
 from functools import partial
-from turtle import update
 from PIL import Image, ImageTk  # needed for images in gui
 
 orderCount = []  # Used in counter in new_order function
@@ -58,6 +57,17 @@ firstLengths = []  # holds the number of products in the first order
 breakdowns = []  # holds the robot breakdowns for the robot breakdown order
 breakdownAGVs = ['agv1', 'agv2', 'agv3', 'agv4']
 breakdownAll = ['agv1', 'agv2', 'agv3', 'agv4', 'as1', 'as2', 'as3', 'as4']
+leftColumn=0
+rightColumn=1
+
+
+def update_options_yaml(a, b, c):
+    yamlMOB.config(text=" insert_models_over_bins: "+overBins.get())
+    yamlMOS.config(text=" insert_models_over_stations: "+overStations.get())
+    yamlBeltOptions.config(text=" belt_population_cycles: "+beltCycles.get())
+    yamlGazLogging.config(text=" gazebo_state_logging: "+stateLogging.get())
+    yamlGripperType.config(text="current_gripper_type: "+gripperType.get())
+    yamlTimeLim.config(text="time_limit: "+timeLimit.get())
 
 
 def make_file(wind):
@@ -1044,7 +1054,7 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
 
 def add_robot_breakdown():
     add_robot_bd_wind = tk.Toplevel()
-    add_robot_bd_wind.geometry("500x600")
+    add_robot_bd_wind.geometry("650x600")
     bd_cancel_flag = tk.StringVar()
     bd_cancel_flag.set('0')
     robo_type = tk.StringVar()
@@ -1236,7 +1246,7 @@ if __name__ == "__main__":
     assembFlag = tk.StringVar()
     assembFlag.set('0')
     frame = tk.Frame(getFileName)
-    getFileName.geometry("500x600")
+    getFileName.geometry("650x600")
     frame.pack()
     if platform.system()=="Windows":
         nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images\\new_NIST_logo.png"))
@@ -1266,68 +1276,92 @@ if __name__ == "__main__":
     fileExit.pack(side=tk.BOTTOM, pady=20)
     fileName.trace('w', fileNameCorrectFunc)
     getFileName.mainloop()
-    path=''
+    tempFilePath=''
     if platform.system()=="Windows":
         brokenPath=fileNameVar.get().split("\\")
         for i in brokenPath[:-1]:
-            path+=i+"\\"
+            tempFilePath+=i+"\\"
         fileNameStr=brokenPath[len(brokenPath)-1]
-        chdir(path)
+        chdir(tempFilePath)
         saveFileName=fileNameStr
     else:
         brokenPath=fileNameVar.get().split("/")
         for i in brokenPath[:-1]:
-            path+=i+"/"
+            tempFilePath+=i+"/"
         fileNameStr=brokenPath[len(brokenPath)-1]
-        chdir(path)
+        chdir(tempFilePath)
         saveFileName=fileNameStr
+    fileName.set(saveFileName)
     # END OF GETTING THE NAME OF THE FILE
     # ----------------------------------------------------------------------------------------------
     # BEGINNING OF OPTIONS
     options = tk.Tk()
     options.title("Options")
-    options.geometry("500x600")
+    options.geometry("650x600")
     overBins = tk.StringVar()
     overBins.set("true")
     overBinsLabel = tk.Label(options, text="Insert models over bins:")
-    overBinsLabel.pack()
+    overBinsLabel.grid(column=leftColumn, sticky=tk.W)
     tfOverBins = tk.Button(text="True", width=12, command=tf)
-    tfOverBins.pack(pady=5)
-    beltCycles = tk.StringVar()
-    beltCycles.set("0")
-    popCycleLabel = tk.Label(options, text="Enter the belt population cycles (enter skip to skip):")
-    popCycleLabel.pack()
-    popCycleBox = tk.Entry(options, textvariable=beltCycles)
-    popCycleBox.pack()
+    tfOverBins.grid(column=leftColumn, sticky=tk.W, pady=5)
     overStations = tk.StringVar()
     overStations.set("true")
     overStationsLabel = tk.Label(options, text="Insert models over stations:")
-    overStationsLabel.pack()
+    overStationsLabel.grid(column=leftColumn, sticky=tk.W)
     tfOverStations = tk.Button(text="True", width=12, command=tf2)
-    tfOverStations.pack(pady=5)
+    tfOverStations.grid(column=leftColumn, sticky=tk.W, pady=5)
+    beltCycles = tk.StringVar()
+    beltCycles.set("0")
+    popCycleLabel = tk.Label(options, text="Enter the belt population cycles (enter skip to skip):")
+    popCycleLabel.grid(column=leftColumn, sticky=tk.W)
+    popCycleBox = tk.Entry(options, textvariable=beltCycles)
+    popCycleBox.grid(column=leftColumn, sticky=tk.W)
     stateLogging = tk.StringVar()
     stateLogging.set("true")
     stateLoggingLabel = tk.Label(options, text="Gazebo state logging:")
-    stateLoggingLabel.pack()
+    stateLoggingLabel.grid(column=leftColumn, sticky=tk.W)
     tfStateLogging = tk.Button(text="True", width=12, command=tf3)
-    tfStateLogging.pack(pady=5)
+    tfStateLogging.grid(column=leftColumn, sticky=tk.W, pady=5)
     gripperType = tk.StringVar()
     gripperType.set("gripper_tray")
     gripperTypeLabel = tk.Label(options, text="Gripper type:")
-    gripperTypeLabel.pack()
+    gripperTypeLabel.grid(column=leftColumn, sticky=tk.W)
     gripperTypeButton = tk.Button(text="Gripper Tray", width=12, command=cgt)
-    gripperTypeButton.pack(pady=5)
+    gripperTypeButton.grid(column=leftColumn, sticky=tk.W, pady=5)
     timeLimit = tk.StringVar()
     timeLimit.set("500")
     timeLimitLabel = tk.Label(options, text="Time limit (-1-No time limit | 500-time used in qualifiers and finals):")
-    timeLimitLabel.pack()
+    timeLimitLabel.grid(column=leftColumn, sticky=tk.W)
     timeLimitButton = tk.Button(text="500", width=12, command=tl)
-    timeLimitButton.pack(pady=5)
+    timeLimitButton.grid(column=leftColumn, sticky=tk.W, pady=5)
     nextButton = tk.Button(options, text="Next", command=options.destroy)
-    nextButton.pack(pady=20)
+    nextButton.grid(column=leftColumn, sticky=tk.W, pady=20)
     cancel_options = partial(cancel_wind, options)
     cancelOptions = tk.Button(options, text="Cancel and Exit", command=cancel_options)
-    cancelOptions.pack(pady=20)
+    cancelOptions.grid(column=leftColumn, sticky=tk.W, pady=20)
+    #end of options and menu | beginning of sample yaml output
+    optionsHeader=tk.Label(options, text="options:")
+    optionsHeader.grid(column=rightColumn, row=0, sticky=tk.W)
+    yamlMOB = tk.Label(options, text=" insert_models_over_bins: "+overBins.get())
+    yamlMOB.grid(column=rightColumn, row=1, sticky=tk.W)
+    yamlMOS = tk.Label(options, text=" insert_models_over_stations: "+overStations.get())
+    yamlMOS.grid(column=rightColumn, row=2, sticky=tk.W)
+    yamlBeltOptions = tk.Label(options, text=" belt_population_cycles: "+beltCycles.get())
+    yamlBeltOptions.grid(column=rightColumn, row=3, sticky=tk.W)
+    yamlGazLogging = tk.Label(options, text=" gazebo_state_logging: "+stateLogging.get())
+    yamlGazLogging.grid(column=rightColumn, row=4, sticky=tk.W)
+    yamlOptionsComment = tk.Label(options, text=" # mandatory: gripper_tray or gripper_part")
+    yamlOptionsComment.grid(column=rightColumn, row=5, sticky=tk.W)
+    yamlGripperType = tk.Label(options, text="current_gripper_type: "+gripperType.get())
+    yamlGripperType.grid(column=rightColumn, row=6, sticky=tk.W)
+    yamlTimeLim = tk.Label(options, text="time_limit: "+timeLimit.get())
+    yamlTimeLim.grid(column=rightColumn, row=7, sticky=tk.W)
+    overBins.trace('w', update_options_yaml)
+    overStations.trace('w', update_options_yaml)
+    beltCycles.trace('w', update_options_yaml)
+    stateLogging.trace('w', update_options_yaml)
+    gripperType.trace('w', update_options_yaml)
+    timeLimit.trace('w', update_options_yaml)
     options.mainloop()
     check_cancel(cancelFlag.get())
     # END OF GETTING OPTIONS
@@ -1335,7 +1369,7 @@ if __name__ == "__main__":
     # BEGINNING OF TABLE_TRAY_INFOS
     trayInfo = tk.Tk()
     trayInfo.title("Tray Information")
-    trayInfo.geometry("500x600")
+    trayInfo.geometry("650x600")
     trayInstructions = tk.Label(trayInfo, text="If you would like to skip a tray, leave it blank, leave it blank")
     trayInstructions.pack()
     table1 = tk.StringVar()
@@ -1380,7 +1414,7 @@ if __name__ == "__main__":
     # -----------------------------------------------------------------------------------
     # BEGINNING OF GETTING AGV_INFOS
     agvInfo = tk.Tk()
-    agvInfo.geometry("500x600")
+    agvInfo.geometry("650x600")
     agvInfo.title("AGV Information")
     agv1 = tk.StringVar()
     agv1.set("ks1")
@@ -1420,7 +1454,7 @@ if __name__ == "__main__":
     # BEGINNING OF ORDERS
     orderID = 0
     ordersInfo = tk.Tk()
-    ordersInfo.geometry("500x600")
+    ordersInfo.geometry("650x600")
     allOrders = []
     ordersInfo.title("Orders Information")
     newOrder = tk.Button(ordersInfo, text="New Order", command=new_order)
@@ -1456,7 +1490,7 @@ if __name__ == "__main__":
     # BEGINNING OF MODELS OVER BINS
     if overBins.get() == 'true':
         overBinsWind = tk.Tk()
-        overBinsWind.geometry("500x600")
+        overBinsWind.geometry("650x600")
         overBinsWind.title("Models Over Bins Menu")
         addBinButton = tk.Button(overBinsWind, text="Add bin", command=add_bin)
         addBinButton.pack(pady=20)
@@ -1472,7 +1506,7 @@ if __name__ == "__main__":
     # BEGINNING OF MODELS OVER STATIONS
     if overStations.get() == 'true':
         overStationsWind = tk.Tk()
-        overStationsWind.geometry("500x600")
+        overStationsWind.geometry("650x600")
         overStationsWind.title("Models Over Stations Menu")
         addStationButton = tk.Button(overStationsWind, text="Add station", command=add_station)
         addStationButton.pack(pady=20)
@@ -1488,7 +1522,7 @@ if __name__ == "__main__":
     # BEGINNING OF BELT MODELS
     if beltCycles.get() != '0':
         beltCyclesWind = tk.Tk()
-        beltCyclesWind.geometry("500x600")
+        beltCyclesWind.geometry("650x600")
         beltCyclesWind.title("Belt Cycles Menu")
         addBeltCycle = tk.Button(beltCyclesWind, text="Add belt cycle", command=add_belt)
         addBeltCycle.pack(pady=20)
@@ -1503,7 +1537,7 @@ if __name__ == "__main__":
     # -----------------------------------------------------------------------------------
     # BEGINNING OF AGILITY CHALLENGE SELECTION
     challengeWind = tk.Tk()
-    challengeWind.geometry("500x600")
+    challengeWind.geometry("650x600")
     challengeWind.title("agility challenge Selection Window")
     robotBreakdownSelection = tk.StringVar()
     robotBreakdownSelection.set('0')
@@ -1541,7 +1575,7 @@ if __name__ == "__main__":
     # BEGINNING OF FAULTY PRODUCTS
     if len(binProds)>0 and faultyProdSelection.get()=='1':
         faultyWind = tk.Tk()
-        faultyWind.geometry("500x600")
+        faultyWind.geometry("650x600")
         faultyWind.title("Faulty Products Menu")
         faultyWindLabel = tk.Label(faultyWind, text="This is needed for the Faulty Product Agility Challenge")
         faultyWindLabel.pack()
@@ -1563,7 +1597,7 @@ if __name__ == "__main__":
     if dropSelection.get()=='1':
         dropsWind = tk.Tk()
         dropsWind.title("Drops Menu")
-        dropsWind.geometry("500x600")
+        dropsWind.geometry("650x600")
         dropsWindLabel = tk.Label(dropsWind, text="This is needed for the Faulty Gripper Agility Challenge")
         dropsWindLabel.pack()
         addDrop = tk.Button(dropsWind, text="Add New Drop Region", command=add_drop_region)
@@ -1584,7 +1618,7 @@ if __name__ == "__main__":
     if sensorBlackoutSelection.get()=='1':
         sensorBlackoutWind = tk.Tk()
         sensorBlackoutWind.title("Sensor Blackout")
-        sensorBlackoutWind.geometry("500x600")
+        sensorBlackoutWind.geometry("650x600")
         prodCount = tk.StringVar()
         prodCount.set('0')
         duration = tk.StringVar()
@@ -1613,7 +1647,7 @@ if __name__ == "__main__":
     if robotBreakdownSelection.get()=='1':
         bdWind = tk.Tk()
         bdWind.title("Breakdown Menu")
-        bdWind.geometry("500x600")
+        bdWind.geometry("650x600")
         bdWindLabel = tk.Label(bdWind, text="This is needed for the Robot Breakdown Agility Challenge")
         bdWindLabel.pack()
         addBD = tk.Button(bdWind, text="Add New Robot Breakdown", command=add_robot_breakdown)
@@ -1635,7 +1669,7 @@ if __name__ == "__main__":
         human4Wait = tk.StringVar()
         human4Wait.set("")
         humanWind.title("Human Menu")
-        humanWind.geometry("500x600")
+        humanWind.geometry("650x600")
         humanWindLabel = tk.Label(humanWind, text="This is needed for the Human Obstacles Agility Challenge. Leave blank to not add the human")
         humanWindLabel.pack()
         human2Label=tk.Label(humanWind, text="Human at as2")
