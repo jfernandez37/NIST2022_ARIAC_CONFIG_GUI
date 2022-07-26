@@ -1194,7 +1194,7 @@ class PresentProducts:  # holds the products which from bins
 
 
 class RobotBreakdown:
-    """Holds the information about robot breakdowns for the robot breakdown challenge"""
+    """Holds the information about robot breakdowns for the robot breakdown agility challenge"""
     def __init__(self, orderID, robot_type, location, number_of_products):
         self.orderID = orderID
         self.robotType=robot_type
@@ -1498,10 +1498,10 @@ if __name__ == "__main__":
         check_cancel(cancelFlag.get())
     # END OF BELT CYCLES
     # -----------------------------------------------------------------------------------
-    # BEGINNING OF CHALLENGE SELECTION
+    # BEGINNING OF AGILITY CHALLENGE SELECTION
     challengeWind = tk.Tk()
     challengeWind.geometry("500x600")
-    challengeWind.title("Challenge Selection Window")
+    challengeWind.title("agility challenge Selection Window")
     robotBreakdownSelection = tk.StringVar()
     robotBreakdownSelection.set('0')
     faultyProdSelection = tk.StringVar()
@@ -1512,7 +1512,7 @@ if __name__ == "__main__":
     sensorBlackoutSelection.set('0')
     humanSelection = tk.StringVar()
     humanSelection.set('0')
-    mainChallengeLabel = tk.Label(challengeWind, text="Please select the challenges you would like to do")
+    mainChallengeLabel = tk.Label(challengeWind, text="Please select the agility challenges you would like to do")
     mainChallengeLabel.pack()
     if len(binProds)>0:
         faultyProductCheckbox = tk.Checkbutton(challengeWind, text='Faulty Product', variable=faultyProdSelection, onvalue='1', offvalue='0')
@@ -1533,14 +1533,14 @@ if __name__ == "__main__":
     cancelChallenge.pack(pady=20)
     challengeWind.mainloop()
     check_cancel(cancelFlag.get())
-    # END OF CHALLENGE SELECTION
+    # END OF AGILITY CHALLENGE SELECTION
     # -----------------------------------------------------------------------------------
     # BEGINNING OF FAULTY PRODUCTS
     if len(binProds)>0 and faultyProdSelection.get()=='1':
         faultyWind = tk.Tk()
         faultyWind.geometry("500x600")
         faultyWind.title("Faulty Products Menu")
-        faultyWindLabel = tk.Label(faultyWind, text="This is needed for the Faulty Product Challenge")
+        faultyWindLabel = tk.Label(faultyWind, text="This is needed for the Faulty Product Agility Challenge")
         faultyWindLabel.pack()
         addProd = tk.Button(faultyWind, text="Add Product", command=add_faulty_prod)
         addProd.pack(pady=20)
@@ -1561,7 +1561,7 @@ if __name__ == "__main__":
         dropsWind = tk.Tk()
         dropsWind.title("Drops Menu")
         dropsWind.geometry("500x600")
-        dropsWindLabel = tk.Label(dropsWind, text="This is needed for the Faulty Gripper Challenge")
+        dropsWindLabel = tk.Label(dropsWind, text="This is needed for the Faulty Gripper Agility Challenge")
         dropsWindLabel.pack()
         addDrop = tk.Button(dropsWind, text="Add New Drop Region", command=add_drop_region)
         addDrop.pack()
@@ -1586,7 +1586,7 @@ if __name__ == "__main__":
         prodCount.set('0')
         duration = tk.StringVar()
         duration.set('0')
-        prodCountLabel = tk.Label(sensorBlackoutWind, text="Enter the product count for the sensor blackout")
+        prodCountLabel = tk.Label(sensorBlackoutWind, text="Enter the product count for the Sensor Blackout Agility Challenge")
         prodCountLabel.pack()
         prodCountEntry = tk.Entry(sensorBlackoutWind, textvariable=prodCount)
         prodCountEntry.pack()
@@ -1611,7 +1611,7 @@ if __name__ == "__main__":
         bdWind = tk.Tk()
         bdWind.title("Breakdown Menu")
         bdWind.geometry("500x600")
-        bdWindLabel = tk.Label(bdWind, text="This is needed for the Robot Breakdown Challenge")
+        bdWindLabel = tk.Label(bdWind, text="This is needed for the Robot Breakdown Agility Challenge")
         bdWindLabel.pack()
         addBD = tk.Button(bdWind, text="Add New Robot Breakdown", command=add_robot_breakdown)
         addBD.pack()
@@ -1633,7 +1633,7 @@ if __name__ == "__main__":
         human4Wait.set("")
         humanWind.title("Human Menu")
         humanWind.geometry("500x600")
-        humanWindLabel = tk.Label(humanWind, text="This is needed for the Human Obstacles Challenge. Leave blank to not add the human")
+        humanWindLabel = tk.Label(humanWind, text="This is needed for the Human Obstacles Agility Challenge. Leave blank to not add the human")
         humanWindLabel.pack()
         human2Label=tk.Label(humanWind, text="Human at as2")
         human2Label.pack()
