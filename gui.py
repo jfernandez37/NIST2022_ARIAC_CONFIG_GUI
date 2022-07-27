@@ -1140,7 +1140,7 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
 
 def add_robot_breakdown():
     add_robot_bd_wind = tk.Toplevel()
-    add_robot_bd_wind.geometry("650x850")
+    add_robot_bd_wind.geometry("850x600")
     bd_cancel_flag = tk.StringVar()
     bd_cancel_flag.set('0')
     robo_type = tk.StringVar()
@@ -1332,7 +1332,7 @@ if __name__ == "__main__":
     assembFlag = tk.StringVar()
     assembFlag.set('0')
     frame = tk.Frame(getFileName)
-    getFileName.geometry("650x850")
+    getFileName.geometry("850x600")
     frame.pack()
     if platform.system()=="Windows":
         nistLogo = ImageTk.PhotoImage(Image.open("GUI_Images\\new_NIST_logo.png"))
@@ -1383,7 +1383,7 @@ if __name__ == "__main__":
     # BEGINNING OF OPTIONS
     options = tk.Tk()
     options.title("Options")
-    options.geometry("650x850")
+    options.geometry("850x600")
     overBins = tk.StringVar()
     overBins.set("true")
     overBinsLabel = tk.Label(options, text="Insert models over bins:")
@@ -1455,7 +1455,7 @@ if __name__ == "__main__":
     # BEGINNING OF TABLE_TRAY_INFOS
     trayInfo = tk.Tk()
     trayInfo.title("Tray Information")
-    trayInfo.geometry("650x850")
+    trayInfo.geometry("850x600")
     trayInstructions = tk.Label(trayInfo, text="If you would like to skip a tray, leave it blank, leave it blank")
     trayInstructions.grid(column=leftColumn)
     table1 = tk.StringVar()
@@ -1519,7 +1519,7 @@ if __name__ == "__main__":
     # -----------------------------------------------------------------------------------
     # BEGINNING OF GETTING AGV_INFOS
     agvInfo = tk.Tk()
-    agvInfo.geometry("650x850")
+    agvInfo.geometry("850x600")
     agvInfo.title("AGV Information")
     agv1 = tk.StringVar()
     agv1.set("ks1")
@@ -1582,7 +1582,7 @@ if __name__ == "__main__":
     # BEGINNING OF ORDERS
     orderID = 0
     ordersInfo = tk.Tk()
-    ordersInfo.geometry("650x850")
+    ordersInfo.geometry("850x600")
     allOrders = []
     ordersInfo.title("Orders Information")
     newOrder = tk.Button(ordersInfo, text="New Order", command=new_order)
@@ -1618,7 +1618,7 @@ if __name__ == "__main__":
     # BEGINNING OF MODELS OVER BINS
     if overBins.get() == 'true':
         overBinsWind = tk.Tk()
-        overBinsWind.geometry("650x850")
+        overBinsWind.geometry("850x600")
         overBinsWind.title("Models Over Bins Menu")
         addBinButton = tk.Button(overBinsWind, text="Add bin", command=add_bin)
         addBinButton.pack(pady=20)
@@ -1634,7 +1634,7 @@ if __name__ == "__main__":
     # BEGINNING OF MODELS OVER STATIONS
     if overStations.get() == 'true':
         overStationsWind = tk.Tk()
-        overStationsWind.geometry("650x850")
+        overStationsWind.geometry("850x600")
         overStationsWind.title("Models Over Stations Menu")
         addStationButton = tk.Button(overStationsWind, text="Add station", command=add_station)
         addStationButton.pack(pady=20)
@@ -1650,7 +1650,7 @@ if __name__ == "__main__":
     # BEGINNING OF BELT MODELS
     if beltCycles.get() != '0':
         beltCyclesWind = tk.Tk()
-        beltCyclesWind.geometry("650x850")
+        beltCyclesWind.geometry("850x600")
         beltCyclesWind.title("Belt Cycles Menu")
         addBeltCycle = tk.Button(beltCyclesWind, text="Add belt cycle", command=add_belt)
         addBeltCycle.pack(pady=20)
@@ -1665,7 +1665,7 @@ if __name__ == "__main__":
     # -----------------------------------------------------------------------------------
     # BEGINNING OF AGILITY CHALLENGE SELECTION
     challengeWind = tk.Tk()
-    challengeWind.geometry("650x850")
+    challengeWind.geometry("850x600")
     challengeWind.title("agility challenge Selection Window")
     robotBreakdownSelection = tk.StringVar()
     robotBreakdownSelection.set('0')
@@ -1703,7 +1703,7 @@ if __name__ == "__main__":
     # BEGINNING OF FAULTY PRODUCTS
     if len(binProds)>0 and faultyProdSelection.get()=='1':
         faultyWind = tk.Tk()
-        faultyWind.geometry("650x850")
+        faultyWind.geometry("850x600")
         faultyWind.title("Faulty Products Menu")
         faultyWindLabel = tk.Label(faultyWind, text="This is needed for the Faulty Product Agility Challenge")
         faultyWindLabel.pack()
@@ -1725,7 +1725,7 @@ if __name__ == "__main__":
     if dropSelection.get()=='1':
         dropsWind = tk.Tk()
         dropsWind.title("Drops Menu")
-        dropsWind.geometry("650x850")
+        dropsWind.geometry("850x600")
         dropsWindLabel = tk.Label(dropsWind, text="This is needed for the Faulty Gripper Agility Challenge")
         dropsWindLabel.pack()
         addDrop = tk.Button(dropsWind, text="Add New Drop Region", command=add_drop_region)
@@ -1746,7 +1746,7 @@ if __name__ == "__main__":
     if sensorBlackoutSelection.get()=='1':
         sensorBlackoutWind = tk.Tk()
         sensorBlackoutWind.title("Sensor Blackout")
-        sensorBlackoutWind.geometry("650x850")
+        sensorBlackoutWind.geometry("850x600")
         prodCount = tk.StringVar()
         prodCount.set('0')
         duration = tk.StringVar()
@@ -1784,7 +1784,7 @@ if __name__ == "__main__":
     if robotBreakdownSelection.get()=='1':
         bdWind = tk.Tk()
         bdWind.title("Breakdown Menu")
-        bdWind.geometry("650x850")
+        bdWind.geometry("850x600")
         bdWindLabel = tk.Label(bdWind, text="This is needed for the Robot Breakdown Agility Challenge")
         bdWindLabel.pack()
         addBD = tk.Button(bdWind, text="Add New Robot Breakdown", command=add_robot_breakdown)
@@ -1806,7 +1806,7 @@ if __name__ == "__main__":
         human4Wait = tk.StringVar()
         human4Wait.set("")
         humanWind.title("Human Menu")
-        humanWind.geometry("650x850")
+        humanWind.geometry("850x600")
         humanWindLabel = tk.Label(humanWind, text="This is needed for the Human Obstacles Agility Challenge. Leave blank to not add the human")
         humanWindLabel.grid(column=leftColumn)
         human2Label=tk.Label(humanWind, text="Human at as2")
