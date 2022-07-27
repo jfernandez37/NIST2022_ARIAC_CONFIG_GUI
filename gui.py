@@ -73,11 +73,24 @@ def update_options_yaml(a, b, c):
 def update_tray_yaml(a, b, c):
     if (table1.get()!='' and table1q.get()!='') or (table2.get()!='' and table2q.get()!=''):
         agvHeader.config(text="table_tray_infos:")
-        if table1.get()!='' and table1q.get()!='':
+        if (table1.get()!='' and table1q.get()!='') and not (table2.get()!='' and table2q.get()!=''):
             table1Label.config(text="  table_1:")
             trayModel1.config(text="    tray_model: "+table1.get())
             quantity1.config(text="    quantity: "+table1q.get())
-        if table2.get()!='' and table2q.get()!='':
+            table2Label.config(text="")
+            trayModel2.config(text="")
+            quantity2.config(text="")
+        elif (table2.get()!='' and table2q.get()!='') and not (table1.get()!='' and table1q.get()!=''):
+            table1Label.config(text="  table_2:")
+            trayModel1.config(text="    tray_model: "+table2.get())
+            quantity1.config(text="    quantity: "+table2q.get())
+            table2Label.config(text="")
+            trayModel2.config(text="")
+            quantity2.config(text="")
+        else:
+            table1Label.config(text="  table_1:")
+            trayModel1.config(text="    tray_model: "+table1.get())
+            quantity1.config(text="    quantity: "+table1q.get())
             table2Label.config(text="  table_2:")
             trayModel2.config(text="    tray_model: "+table2.get())
             quantity2.config(text="    quantity: "+table2q.get())
