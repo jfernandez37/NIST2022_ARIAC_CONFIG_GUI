@@ -111,6 +111,11 @@ def update_agv_info(a, b, c):
     agv4_loaction.config(text="    location: "+agv4.get())
 
 
+def update_sensor_blackout(a, b, c):
+    prod_count_yaml.configure(text="  product_count: "+prodCount.get())
+    duration_yaml.configure(text="  duration: "+ duration.get())
+
+
 def make_file(wind):
     file=filedialog.asksaveasfile(defaultextension=".yaml", filetypes=[("YAML file", ".yaml")])
     if file:
@@ -1706,7 +1711,7 @@ if __name__ == "__main__":
         prodCount.set('0')
         duration = tk.StringVar()
         duration.set('0')
-        prodCountLabel = tk.Label(sensorBlackoutWind, text="Enter the product count for the Sensor Blackout Agility Challenge")
+        prodCountLabel = tk.Label(sensorBlackoutWind, text="Enter the product count for the Sensor Blackout Agility Challenge           ")
         prodCountLabel.grid(column=leftColumn)
         prodCountEntry = tk.Entry(sensorBlackoutWind, textvariable=prodCount)
         prodCountEntry.grid(column=leftColumn)
@@ -1716,12 +1721,21 @@ if __name__ == "__main__":
         durationEntry.grid(column=leftColumn)
         sensor_blackout_skip = partial(skip_wind, sensor_blackout_skip_flag, sensorBlackoutWind)
         sensorBlackoutSkip = tk.Button(sensorBlackoutWind, text="Skip and Exit", command=sensor_blackout_skip)
-        sensorBlackoutSkip.pack(pady=20)
+        sensorBlackoutSkip.grid(column=leftColumn, pady=20)
         sensorBlackoutSE = tk.Button(sensorBlackoutWind, text="Save and Exit", command=sensorBlackoutWind.destroy)
-        sensorBlackoutSE.pack(pady=20)
+        sensorBlackoutSE.grid(column=leftColumn, pady=20)
         cancel_sensor_blackout = partial(cancel_wind, sensorBlackoutWind)
         cancelSensorBlackout = tk.Button(sensorBlackoutWind, text="Cancel and Exit", command=cancel_sensor_blackout)
-        cancelSensorBlackout.pack(pady=20)
+        cancelSensorBlackout.grid(column=leftColumn, pady=20)
+        #end of options and menu | beginning of sample yaml output
+        sensor_blackout_header = tk.Label(sensorBlackoutWind, text="sensor_blackout:")
+        sensor_blackout_header.grid(column=rightColumn, row=0, sticky=tk.W)
+        prod_count_yaml = tk.Label(sensorBlackoutWind, text="  product_count: "+prodCount.get())
+        prod_count_yaml.grid(column=rightColumn, row=1, sticky=tk.W)
+        duration_yaml = tk.Label(sensorBlackoutWind, text="  duration: "+ duration.get())
+        duration_yaml.grid(column=rightColumn, row=2, sticky=tk.W)
+        prodCount.trace('w', update_sensor_blackout)
+        duration.trace('w', update_sensor_blackout)
         sensorBlackoutWind.mainloop()
         check_cancel(cancelFlag.get())
     #END OF SENSOR BLACKOUT
