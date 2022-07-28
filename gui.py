@@ -1355,7 +1355,7 @@ if __name__ == "__main__":
     existFlag.set("0")
     fileNameCorrectFunc = partial(correct_file_name, fileName)
     saveAndExit = partial(make_file, getFileName)
-    openFileExp = tk.Button(getFileName, text="Save file", command=saveAndExit)
+    openFileExp = tk.Button(getFileName, text="Create file", command=saveAndExit)
     openFileExp.pack()
     cancel_file = partial(cancel_wind, getFileName)
     cancelFile = tk.Button(getFileName, text="Cancel and Exit", command=cancel_file)
