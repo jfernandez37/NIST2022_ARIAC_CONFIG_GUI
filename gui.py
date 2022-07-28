@@ -62,6 +62,7 @@ rightColumn=2
 
 
 def update_options_yaml(a, b, c):
+    """Updates the live yaml file for the options window. This function runs anytime the user input changes"""
     yamlMOB.config(text="  insert_models_over_bins: "+overBins.get())
     yamlMOS.config(text="  insert_models_over_stations: "+overStations.get())
     yamlBeltOptions.config(text="  belt_population_cycles: "+beltCycles.get())
@@ -71,6 +72,7 @@ def update_options_yaml(a, b, c):
 
 
 def update_tray_yaml(a, b, c):
+    """Updates the live yaml file for the tray window. This function runs anytime the user input changes"""
     if (table1.get()!='' and table1q.get()!='') or (table2.get()!='' and table2q.get()!=''):
         agvHeader.config(text="table_tray_infos:")
         if (table1.get()!='' and table1q.get()!='') and not (table2.get()!='' and table2q.get()!=''):
@@ -105,6 +107,7 @@ def update_tray_yaml(a, b, c):
 
 
 def update_agv_info(a, b, c):
+    """Updates the live yaml file for the agv_info window. This function runs anytime the user input changes"""
     agv1_loaction.config(text="    location: "+agv1.get())
     agv2_loaction.config(text="    location: "+agv2.get())
     agv3_loaction.config(text="    location: "+agv3.get())
@@ -112,11 +115,13 @@ def update_agv_info(a, b, c):
 
 
 def update_sensor_blackout(a, b, c):
+    """Updates the live yaml file for the sensor_blackout window. This function runs anytime the user input changes"""
     prod_count_yaml.configure(text="  product_count: "+prodCount.get())
     duration_yaml.configure(text="  duration: "+ duration.get())
 
 
 def update_aisle_layout(a,b,c):
+    """Updates the live yaml file for the aisle_layout window. This function runs anytime the user input changes"""
     if human2Wait.get()!='' or human4Wait.get()!='':
         human_header.config(text="aisle_layout:")
         if human2Wait.get()!='' and human4Wait.get()=='':
