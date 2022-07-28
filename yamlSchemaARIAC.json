@@ -270,7 +270,11 @@
                             "description": "enables or disables the assembly robot",
                             "type": "number"
                         },
-                        "announcement_condition:": {
+                        "disable_robot":{
+                            "description": "disables a robot on a given condition for the robot breakdown challenge",
+                            "type": "array"
+                        },
+                        "announcement_condition": {
                             "description": "announcement condition",
                             "type": "string"
                         },
