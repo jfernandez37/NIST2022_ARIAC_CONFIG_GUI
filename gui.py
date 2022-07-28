@@ -157,15 +157,17 @@ def update_aisle_layout(a,b,c):
 
 
 def make_file(wind):
+    """Used for making a file for the user"""
     file=filedialog.asksaveasfile(defaultextension=".yaml", filetypes=[("YAML file", ".yaml")])
     if file:
-        fileNameVar.set(str(os.path.abspath(file.name)))
-        file.close
-        wind.destroy()
+        if str(os.path.abspath(file.name))!='':
+            fileNameVar.set(str(os.path.abspath(file.name)))
+            file.close
+            wind.destroy()
 
 
 def correct_file_name(tempFileName, a, b , c):  # deletes any invalid characters in file name
-    """This function removes any characters which can not be used in the file name. It does so as the user is typing"""
+    """This function removes any characters which can not be used in the file name. It does so as the user is typing. Not needed anymore"""
     tempStr = tempFileName.get()
     for char in invalidFileChar:
         if char in tempStr:
@@ -298,7 +300,7 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
         for label in nameLabels:
             label.destroy()
         nameLabels.clear()
-        req_label = tk.Label(getFileName, text="This field is required. Please enter a non-empty file name")
+        req_label = tk.Label(getFileName, text="This field is required. Please create a file")
         req_label.pack()
         nameLabels.append(req_label)
         reqFlag.set('1')
