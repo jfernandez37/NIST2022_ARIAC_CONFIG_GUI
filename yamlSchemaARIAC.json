@@ -36,6 +36,34 @@
             "type": "integer",
             "enum": [-1, 500]
         },
+        "aisle_layout":{
+            "description": "Information about human obstacles in the simulation",
+            "type":"object",
+            "patternProperties": {
+                "^(person_[1-2]+)+$": {
+                    "description": "Information about a human in the simulation",
+                    "type": "object",
+                    "properties": {
+                        "location":{
+                            "description": "Location of the human",
+                            "type": "number"
+                        },
+                        "start_time":{
+                            "description": "Time the human starts",
+                            "type":"number"
+                        },
+                        "move_time":{
+                            "description": "Time that the human moves",
+                            "type":"number"
+                        },
+                        "wait_time":{
+                            "description": "Time that the human waits",
+                            "type":"number"
+                        }
+                    }
+                }
+            }
+        },
         "table_tray_infos": {
             "description": "Infos on which trays start on the tables",
             "type": "object",
