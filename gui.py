@@ -395,7 +395,7 @@ def add_product():  # adds a product in agv_infos
     y_rpy_val_label.pack()
     y_rpy_val_entry = tk.Entry(product_info, textvariable=y_rpy_val)
     y_rpy_val_entry.pack()
-    product_info.geometry("500x750")
+    product_info.geometry("850x600")
     cancel_prod_func = partial(cancel_func, product_info, add_product_cancel_flag)
     cancel_prod_button = tk.Button(product_info, text="Cancel", command=cancel_prod_func)
     cancel_prod_button.pack()
