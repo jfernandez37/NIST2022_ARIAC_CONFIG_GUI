@@ -59,12 +59,30 @@ breakdownAGVs = ['agv1', 'agv2', 'agv3', 'agv4']
 breakdownAll = ['agv1', 'agv2', 'agv3', 'agv4', 'as1', 'as2', 'as3', 'as4']
 leftColumn=0
 rightColumn=2
+acceptedNum = "0123456789."
+
+
+def require_num(val, a, b , c):
+    perFlag=0
+    tempStr=val.get()
+    for i in tempStr:
+        if i not in acceptedNum:
+            tempStr=tempStr.replace(i, "")
+    if tempStr.count('.')>0:
+        for i in range(len(tempStr)):
+            if tempStr[i]=='.' and perFlag==0:
+                perFlag=1
+            elif tempStr[i]=='.':
+                tempStr=tempStr[:i]+tempStr[i+1:]
+                break
+    val.set(tempStr)
 
 
 def update_options_yaml(a, b, c):
     """Updates the live yaml file for the options window. This function runs anytime the user input changes"""
     yamlMOB.config(text="  insert_models_over_bins: "+overBins.get())
     yamlMOS.config(text="  insert_models_over_stations: "+overStations.get())
+    require_num(beltCycles, 1,2,3)
     yamlBeltOptions.config(text="  belt_population_cycles: "+beltCycles.get())
     yamlGazLogging.config(text="  gazebo_state_logging: "+stateLogging.get())
     yamlGripperType.config(text="  current_gripper_type: "+gripperType.get())
@@ -122,6 +140,8 @@ def update_sensor_blackout(a, b, c):
 
 def update_aisle_layout(a,b,c):
     """Updates the live yaml file for the aisle_layout window. This function runs anytime the user input changes"""
+    require_num(human2Wait)
+    require_num(human4Wait)
     if human2Wait.get()!='' or human4Wait.get()!='':
         human_header.config(text="aisle_layout:")
         if human2Wait.get()!='' and human4Wait.get()=='':
@@ -401,6 +421,12 @@ def add_product():  # adds a product in agv_infos
     cancel_prod_button.pack()
     prod_save = tk.Button(product_info, text="Save and Exit", command=product_info.destroy)
     prod_save.pack(pady=20)
+    x_val_num_func=partial(require_num, x_val)
+    x_val.trace('w', x_val_num_func)
+    y_val_num_func=partial(require_num, y_val)
+    y_val.trace('w', y_val_num_func)
+    z_val_num_func=partial(require_num, z_val)
+    z_val.trace('w', z_val_num_func)
     product_info.mainloop()
     if add_product_cancel_flag.get()=="0":
         if agv_id.get() == 'agv1':
@@ -694,6 +720,12 @@ def get_k_products():  # adds a product to kitting
     exitFunc = partial(exitAndFlag, k_products, kitProdsFlag)
     kitting_prod_exit = tk.Button(k_products, text="Save and Exit", command=exitFunc)
     kitting_prod_exit.pack(pady=20)
+    x_val_k_num_func=partial(require_num, x_val_k)
+    x_val_k.trace('w', x_val_k_num_func)
+    y_val_k_num_func=partial(require_num, y_val_k)
+    y_val_k.trace('w', y_val_k_num_func)
+    z_val_k_num_func=partial(require_num, z_val_k)
+    z_val_k.trace('w', z_val_k_num_func)
     k_products.mainloop()
     kitProds.append(Products(k_product_info.get(),
                              str("["+x_val_k.get()+", "+y_val_k.get()+', '+z_val_k.get()+"]"),
@@ -773,6 +805,12 @@ def get_a_products():  # adds a product to assembly
     exitAssembProd = partial(exitAndFlag, a_products, assembProdsFlag)
     assemb_prod_exit = tk.Button(a_products, text="Save and Exit", command=exitAssembProd)
     assemb_prod_exit.pack(pady=20)
+    x_val_a_num_func=partial(require_num, x_val_a)
+    x_val_a.trace('w', x_val_a_num_func)
+    y_val_a_num_func=partial(require_num, y_val_a)
+    y_val_a.trace('w', y_val_a_num_func)
+    z_val_a_num_func=partial(require_num, z_val_a)
+    z_val_a.trace('w', z_val_a_num_func)
     a_products.mainloop()
     assembProds.append(Products(a_product_info.get(),
                        str("[" + x_val_a.get() + ", " + y_val_a.get() + ', ' + z_val_a.get() + "]"),
@@ -861,6 +899,18 @@ def add_bin():  # adds a bin for models over bins
     cancel_bin_button.pack()
     add_bin_exit = tk.Button(add_bin_wind, text="Save and Exit", command=add_bin_wind.destroy)
     add_bin_exit.pack(pady=20)
+    x_val_s_num_func=partial(require_num, x_val_s)
+    x_val_s.trace('w', x_val_s_num_func)
+    y_val_s_num_func=partial(require_num, y_val_s)
+    y_val_s.trace('w', y_val_s_num_func)
+    z_val_s_num_func=partial(require_num, z_val_s)
+    z_val_s.trace('w', z_val_s_num_func)
+    x_val_e_num_func=partial(require_num, x_val_e)
+    x_val_e.trace('w', x_val_e_num_func)
+    y_val_e_num_func=partial(require_num, y_val_e)
+    y_val_e.trace('w', y_val_e_num_func)
+    z_val_e_num_func=partial(require_num, z_val_e)
+    z_val_e.trace('w', z_val_e_num_func)
     add_bin_wind.mainloop()
     width = '2'
     if dim.get() == '3x3':
@@ -932,6 +982,12 @@ def add_station():  # adds a station to models over stations
     cancel_stat_button.pack()
     add_stat_exit = tk.Button(add_station_wind, text="Save and Exit", command=add_station_wind.destroy)
     add_stat_exit.pack(pady=20)
+    x_val_stat_num_func=partial(require_num, x_val_stat)
+    x_val_stat.trace('w', x_val_stat_num_func)
+    y_val_stat_num_func=partial(require_num, y_val_stat)
+    y_val_stat.trace('w', y_val_stat_num_func)
+    z_val_stat_num_func=partial(require_num, z_val_stat)
+    z_val_stat.trace('w', z_val_stat_num_func)
     add_station_wind.mainloop()
     if cancel_station_flag.get()=="0":
         modelsOverStationsInfo.append(ModelOverStation(station.get(), stat_prod.get(),
@@ -1000,6 +1056,12 @@ def add_belt():  # adds a belt to belt models
     belt_save = tk.Button(add_belt_wind, text="Save and Exit", command=add_belt_wind.destroy)
     belt_save.pack(pady=20)
     add_belt_wind.mainloop()
+    x_val_belt_num_func=partial(require_num, x_val_belt)
+    x_val_belt.trace('w', x_val_belt_num_func)
+    y_val_belt_num_func=partial(require_num, y_val_belt)
+    y_val_belt.trace('w', y_val_belt_num_func)
+    z_val_belt_num_func=partial(require_num, z_val_belt)
+    z_val_belt.trace('w', z_val_belt_num_func)
     if cancel_belt_flag.get()=="0":
         beltCycleInfo.append(BeltCycle(belt_prod.get(), belt_time.get(),
                                    str("["+x_val_belt.get()+", "+y_val_belt.get()+", "+z_val_belt.get()+"]"),
@@ -1122,6 +1184,24 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
     cancel_drop_button.pack()
     add_drop_save = tk.Button(add_drop_wind, text="Save and Exit", command=add_drop_wind.destroy)
     add_drop_save.pack()
+    x_val_min_num_func=partial(require_num, x_val_min)
+    x_val_min.trace('w', x_val_min_num_func)
+    y_val_min_num_func=partial(require_num, y_val_min)
+    y_val_min.trace('w', y_val_min_num_func)
+    z_val_min_num_func=partial(require_num, z_val_min)
+    z_val_min.trace('w', z_val_min_num_func)
+    x_val_max_num_func=partial(require_num, x_val_max)
+    x_val_max.trace('w', x_val_max_num_func)
+    y_val_max_num_func=partial(require_num, y_val_max)
+    y_val_max.trace('w', y_val_max_num_func)
+    z_val_max_num_func=partial(require_num, z_val_max)
+    z_val_max.trace('w', z_val_max_num_func)
+    x_val_dest_num_func=partial(require_num, x_val_dest)
+    x_val_dest.trace('w', x_val_dest_num_func)
+    y_val_dest_num_func=partial(require_num, y_val_dest)
+    y_val_dest.trace('w', y_val_dest_num_func)
+    z_val_dest_num_func=partial(require_num, z_val_dest)
+    z_val_dest.trace('w', z_val_dest_num_func)
     add_drop_wind.mainloop()
     if bin_or_agv.get()=="bin":
         x_val_min.set("-.03")
