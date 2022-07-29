@@ -63,6 +63,7 @@ acceptedNum = "0123456789."
 
 
 def require_num(val, a, b , c):
+    """Makes sure a tkinter stringvar is numerical and has no more than one decimal point"""
     perFlag=0
     tempStr=val.get()
     for i in tempStr:
