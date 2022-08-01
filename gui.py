@@ -538,29 +538,29 @@ def new_order():  # this menu pops up to make a new order for the user
         #aProdInd.append(len(tempAssemb[len(allOrders)-1].products)-1)
 
 
-def update_dest(a, b, c, d, e, f):  # switches the options present based off of the agv selected
+def update_dest(dropdownMenu, agvSelection, currentStation, a, b, c):  # switches the options present based off of the agv selected
     """Updates the possible stations for agvs"""
-    menu = a['menu']
+    menu = dropdownMenu['menu']
     menu.delete(0, 'end')
-    if b.get() == 'agv1':
-        c.set(kAgv1List[0])
+    if agvSelection.get() == 'agv1':
+        currentStation.set(kAgv1List[0])
         for dest in kAgv1List:
-            menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
-    elif b.get() == 'agv2':
-        c.set(kAgv2List[0])
+            menu.add_command(label=dest, command=lambda dest=dest: currentStation.set(dest))
+    elif agvSelection.get() == 'agv2':
+        currentStation.set(kAgv2List[0])
         for dest in kAgv2List:
-            menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
-    elif b.get() == 'agv3':
-        c.set(kAgv3List[0])
+            menu.add_command(label=dest, command=lambda dest=dest: currentStation.set(dest))
+    elif agvSelection.get() == 'agv3':
+        currentStation.set(kAgv3List[0])
         for dest in kAgv3List:
-            menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
+            menu.add_command(label=dest, command=lambda dest=dest: currentStation.set(dest))
     else:
-        c.set(kAgv4List[0])
+        currentStation.set(kAgv4List[0])
         for dest in kAgv4List:
-            menu.add_command(label=dest, command=lambda dest=dest: c.set(dest))
+            menu.add_command(label=dest, command=lambda dest=dest: currentStation.set(dest))
 
 
-def update_bd_locations(dropdown, numProds, robot_type, location, d, e, f):
+def update_bd_locations(dropdown, numProds, robot_type, location, a, b, c):
     """Updates the locations of the robot on breakdown"""
     print("test")
     menu = dropdown['menu']
@@ -576,19 +576,19 @@ def update_bd_locations(dropdown, numProds, robot_type, location, d, e, f):
 
 
 
-def update_id_range(a, b, c, d, e, f):  # updates the ids for faulty products
+def update_id_range(dropdownMenu, currentProduct, currentID, a, b, c):  # updates the ids for faulty products
     """Updates the range of possible id's based on bins"""
-    menu = a['menu']
+    menu = dropdownMenu['menu']
     menu.delete(0, 'end')
     bin_prods_ind = 0
     for binProd in binProds:
-        if binProd.pType == b.get():
+        if binProd.pType == currentProduct.get():
             break
         bin_prods_ind += 1
-    c.set('1')
+    currentID.set('1')
     for num in range(int(binProds[bin_prods_ind].pNum)):
         temp_num = str(num + 1)
-        menu.add_command(label=temp_num, command=lambda temp_num=temp_num: c.set(temp_num))
+        menu.add_command(label=temp_num, command=lambda temp_num=temp_num: currentID.set(temp_num))
 
 
 def update_kitting_ship(second_tray, second_agv, ship_count, second_dest, window, d,e,f):  # updates the trays for kitting shipments
