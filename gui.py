@@ -1,3 +1,5 @@
+"""GUI for the creation of YAML files for NIST ARIAC. Notes: functions with variables like (a, b, c) have dummy variables. The
+tkinter trace function passes variables to functions which are not needed for the function to work properly"""
 import tkinter as tk
 from tkinter import filedialog
 import tkinter.ttk as ttk
@@ -1450,6 +1452,8 @@ if __name__ == "__main__":
     fileExit.pack(side=tk.BOTTOM, pady=20)
     fileName.trace('w', fileNameCorrectFunc)
     getFileName.mainloop()
+    if cancelFlag.get()=='1':
+        quit()
     tempFilePath=''
     if platform.system()=="Windows":
         brokenPath=fileNameVar.get().split("\\")
