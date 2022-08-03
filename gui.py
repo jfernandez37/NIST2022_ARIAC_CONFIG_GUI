@@ -64,6 +64,19 @@ rightColumn=2
 acceptedNum = "0123456789."
 
 
+def add_quotes(strVar):
+    """Formats the rpy values correctly"""
+    tempStr=strVar.get()
+    tempStr=tempStr.lower()
+    if 'pi' in tempStr:
+        tempStr=tempStr.replace("\"", "\'")
+        if tempStr[0]!="\'":
+            tempStr="\'"+tempStr
+        if tempStr[len(tempStr)-1]!="\'":
+            tempStr=tempStr+"\'"
+    strVar.set(tempStr)
+
+
 def require_num(val, a, b , c):
     """Makes sure a tkinter stringvar is numerical and has no more than one decimal point"""
     perFlag=0
@@ -431,6 +444,9 @@ def add_product():  # adds a product in agv_infos
     z_val_num_func=partial(require_num, z_val)
     z_val.trace('w', z_val_num_func)
     product_info.mainloop()
+    add_quotes(r_val)
+    add_quotes(p_val)
+    add_quotes(y_rpy_val)
     if add_product_cancel_flag.get()=="0":
         if agv_id.get() == 'agv1':
             agv1Prods.append(Products(product_type.get(),
@@ -730,6 +746,9 @@ def get_k_products():  # adds a product to kitting
     z_val_k_num_func=partial(require_num, z_val_k)
     z_val_k.trace('w', z_val_k_num_func)
     k_products.mainloop()
+    add_quotes(r_val_k)
+    add_quotes(p_val_k)
+    add_quotes(y_rpy_val_k)
     kitProds.append(Products(k_product_info.get(),
                              str("["+x_val_k.get()+", "+y_val_k.get()+', '+z_val_k.get()+"]"),
                              str("["+r_val_k.get()+", "+p_val_k.get()+", "+y_rpy_val_k.get()+"]")))
@@ -815,9 +834,12 @@ def get_a_products():  # adds a product to assembly
     z_val_a_num_func=partial(require_num, z_val_a)
     z_val_a.trace('w', z_val_a_num_func)
     a_products.mainloop()
+    add_quotes(r_val_a)
+    add_quotes(p_val_a)
+    add_quotes(y_rpy_val_a)
     assembProds.append(Products(a_product_info.get(),
                        str("[" + x_val_a.get() + ", " + y_val_a.get() + ', ' + z_val_a.get() + "]"),
-                       str("[" + r_val_a.get() + ", " + p_val_a.get() + ", " + z_val_a.get() + "]")))
+                       str("[" + r_val_a.get() + ", " + p_val_a.get() + ", " + y_rpy_val_a.get() + "]")))
 
 
 def add_bin():  # adds a bin for models over bins
@@ -915,6 +937,9 @@ def add_bin():  # adds a bin for models over bins
     z_val_e_num_func=partial(require_num, z_val_e)
     z_val_e.trace('w', z_val_e_num_func)
     add_bin_wind.mainloop()
+    add_quotes(r_val_b)
+    add_quotes(p_val_b)
+    add_quotes(y_rpy_val_b)
     width = '2'
     if dim.get() == '3x3':
         width = '3'
@@ -992,6 +1017,9 @@ def add_station():  # adds a station to models over stations
     z_val_stat_num_func=partial(require_num, z_val_stat)
     z_val_stat.trace('w', z_val_stat_num_func)
     add_station_wind.mainloop()
+    add_quotes(r_val_stat)
+    add_quotes(p_val_stat)
+    add_quotes(y_rpy_val_stat)
     if cancel_station_flag.get()=="0":
         modelsOverStationsInfo.append(ModelOverStation(station.get(), stat_prod.get(),
                                                     str("["+x_val_stat.get()+", "+y_val_stat.get() +
@@ -1058,13 +1086,16 @@ def add_belt():  # adds a belt to belt models
     belt_cancel_button.pack()
     belt_save = tk.Button(add_belt_wind, text="Save and Exit", command=add_belt_wind.destroy)
     belt_save.pack(pady=20)
-    add_belt_wind.mainloop()
     x_val_belt_num_func=partial(require_num, x_val_belt)
     x_val_belt.trace('w', x_val_belt_num_func)
     y_val_belt_num_func=partial(require_num, y_val_belt)
     y_val_belt.trace('w', y_val_belt_num_func)
     z_val_belt_num_func=partial(require_num, z_val_belt)
     z_val_belt.trace('w', z_val_belt_num_func)
+    add_belt_wind.mainloop()
+    add_quotes(r_val_belt)
+    add_quotes(p_val_belt)
+    add_quotes(y_rpy_val_belt)
     if cancel_belt_flag.get()=="0":
         beltCycleInfo.append(BeltCycle(belt_prod.get(), belt_time.get(),
                                    str("["+x_val_belt.get()+", "+y_val_belt.get()+", "+z_val_belt.get()+"]"),
@@ -1220,6 +1251,9 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
         x_val_max.set("0.3")
         y_val_max.set("0.3")
         z_val_max.set("0.5")
+    add_quotes(r_val_dest)
+    add_quotes(p_val_dest)
+    add_quotes(y_rpy_val_dest)
     if drop_cancel_flag.get()=="0":
         dropsInfo.append(Drops(temp_frame.get(), str("["+x_val_min.get()+", "+y_val_min.get()+", "+z_val_min.get()+"]"),
                             str("["+x_val_max.get()+", "+y_val_max.get()+", "+z_val_max.get()+"]"),
