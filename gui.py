@@ -87,9 +87,9 @@ def rpy_validation(r_val, p_val, y_val, button, a, b, c):
         temp_y_split=temp_y.split("/")
         if temp_y_split[0]=="pi" and temp_y_split[1].isnumeric():
             pi_flag_y=1
-    if (pi_flag_r==1 or temp_r.isnumeric()) and (pi_flag_p==1 or temp_p.isnumeric()) and (pi_flag_y==1 or temp_y.isnumeric()):
+    if (pi_flag_r==1 or temp_r.isnumeric()) and (pi_flag_p==1 or temp_p.isnumeric()) and (pi_flag_y==1 or temp_y.isnumeric()) and button['state']==tk.DISABLED:
         button.config(state=tk.NORMAL)
-    else:
+    elif button['state']==tk.NORMAL:
         button.config(state=tk.DISABLED)
 
 
