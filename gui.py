@@ -64,12 +64,42 @@ rightColumn=2
 acceptedNum = "0123456789."
 
 
+def rpy_validation(r_val, p_val, y_val, button, a, b, c):
+    """Validates all input for the rpy entries. Activates the save and exit button accordingly"""
+    temp_r=r_val.get()
+    temp_r=temp_r.replace(".","",1)
+    temp_p=p_val.get()
+    temp_p=temp_p.replace(".","",1)
+    temp_y=y_val.get()
+    temp_y=temp_y.replace(".","",1)
+    pi_flag_r=0
+    pi_flag_p=0
+    pi_flag_y=0
+    if temp_r.count("/")==1:
+        temp_r_split=temp_r.split("/")
+        if temp_r_split[0]=="pi" and temp_r_split[1].isnumeric():
+            pi_flag_r=1
+    if temp_p.count("/")==1:
+        temp_p_split=temp_p.split("/")
+        if temp_p_split[0]=="pi" and temp_r_split[1].isnumeric():
+            pi_flag_p=1
+    if temp_y.count("/")==1:
+        temp_y_split=temp_y.split("/")
+        if temp_y_split[0]=="pi" and temp_y_split[1].isnumeric():
+            pi_flag_y=1
+    if (pi_flag_r==1 or temp_r.isnumeric()) and (pi_flag_p==1 or temp_p.isnumeric()) and (pi_flag_y==1 or temp_y.isnumeric()):
+        button.config(state=tk.NORMAL)
+    else:
+        button.config(state=tk.DISABLED)
+
+
 def add_quotes(strVar):
     """Formats the rpy values correctly"""
     tempStr=strVar.get()
     tempStr=tempStr.lower()
     if 'pi' in tempStr:
-        tempStr=tempStr.replace("\"", "\'")
+        tempStr=tempStr.replace("\"", "")
+        tempStr=tempStr.replace("\'", "")
         if tempStr[0]!="\'":
             tempStr="\'"+tempStr
         if tempStr[len(tempStr)-1]!="\'":
@@ -443,6 +473,10 @@ def add_product():  # adds a product in agv_infos
     y_val.trace('w', y_val_num_func)
     z_val_num_func=partial(require_num, z_val)
     z_val.trace('w', z_val_num_func)
+    check_rpy = partial(rpy_validation, r_val, p_val, y_rpy_val, prod_save)
+    r_val.trace('w', check_rpy)
+    p_val.trace('w', check_rpy)
+    y_rpy_val.trace('w', check_rpy)
     product_info.mainloop()
     add_quotes(r_val)
     add_quotes(p_val)
@@ -745,6 +779,10 @@ def get_k_products():  # adds a product to kitting
     y_val_k.trace('w', y_val_k_num_func)
     z_val_k_num_func=partial(require_num, z_val_k)
     z_val_k.trace('w', z_val_k_num_func)
+    check_rpy = partial(rpy_validation, r_val_k, p_val_k, y_rpy_val_k, kitting_prod_exit)
+    r_val_k.trace('w', check_rpy)
+    p_val_k.trace('w', check_rpy)
+    y_rpy_val_k.trace('w', check_rpy)
     k_products.mainloop()
     add_quotes(r_val_k)
     add_quotes(p_val_k)
@@ -833,6 +871,10 @@ def get_a_products():  # adds a product to assembly
     y_val_a.trace('w', y_val_a_num_func)
     z_val_a_num_func=partial(require_num, z_val_a)
     z_val_a.trace('w', z_val_a_num_func)
+    check_rpy = partial(rpy_validation, r_val_a, p_val_a, y_rpy_val_a, assemb_prod_exit)
+    r_val_a.trace('w', check_rpy)
+    p_val_a.trace('w', check_rpy)
+    y_rpy_val_a.trace('w', check_rpy)
     a_products.mainloop()
     add_quotes(r_val_a)
     add_quotes(p_val_a)
@@ -936,6 +978,10 @@ def add_bin():  # adds a bin for models over bins
     y_val_e.trace('w', y_val_e_num_func)
     z_val_e_num_func=partial(require_num, z_val_e)
     z_val_e.trace('w', z_val_e_num_func)
+    check_rpy = partial(rpy_validation, r_val_b, p_val_b, y_rpy_val_b, add_bin_exit)
+    r_val_b.trace('w', check_rpy)
+    p_val_b.trace('w', check_rpy)
+    y_rpy_val_b.trace('w', check_rpy)
     add_bin_wind.mainloop()
     add_quotes(r_val_b)
     add_quotes(p_val_b)
@@ -1016,6 +1062,10 @@ def add_station():  # adds a station to models over stations
     y_val_stat.trace('w', y_val_stat_num_func)
     z_val_stat_num_func=partial(require_num, z_val_stat)
     z_val_stat.trace('w', z_val_stat_num_func)
+    check_rpy = partial(rpy_validation, r_val_stat, p_val_stat, y_rpy_val_stat, add_stat_exit)
+    r_val_stat.trace('w', check_rpy)
+    p_val_stat.trace('w', check_rpy)
+    y_rpy_val_stat.trace('w', check_rpy)
     add_station_wind.mainloop()
     add_quotes(r_val_stat)
     add_quotes(p_val_stat)
@@ -1092,6 +1142,10 @@ def add_belt():  # adds a belt to belt models
     y_val_belt.trace('w', y_val_belt_num_func)
     z_val_belt_num_func=partial(require_num, z_val_belt)
     z_val_belt.trace('w', z_val_belt_num_func)
+    check_rpy = partial(rpy_validation, r_val_belt, p_val_belt, y_rpy_val_belt, belt_save)
+    r_val_belt.trace('w', check_rpy)
+    p_val_belt.trace('w', check_rpy)
+    y_rpy_val_belt.trace('w', check_rpy)
     add_belt_wind.mainloop()
     add_quotes(r_val_belt)
     add_quotes(p_val_belt)
@@ -1236,6 +1290,10 @@ def add_drop_region():  # adds a drop region for the faulty gripper challenge
     y_val_dest.trace('w', y_val_dest_num_func)
     z_val_dest_num_func=partial(require_num, z_val_dest)
     z_val_dest.trace('w', z_val_dest_num_func)
+    check_rpy = partial(rpy_validation, r_val_dest, p_val_dest, y_rpy_val_dest, add_drop_save)
+    r_val_dest.trace('w', check_rpy)
+    p_val_dest.trace('w', check_rpy)
+    y_rpy_val_dest.trace('w', check_rpy)
     add_drop_wind.mainloop()
     if bin_or_agv.get()=="bin":
         x_val_min.set("-.03")
