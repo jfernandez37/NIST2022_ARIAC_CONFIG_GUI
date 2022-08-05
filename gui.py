@@ -60,8 +60,10 @@ breakdowns = []  # holds the robot breakdowns for the robot breakdown order
 breakdownAGVs = ['agv1', 'agv2', 'agv3', 'agv4']
 breakdownAll = ['agv1', 'agv2', 'agv3', 'agv4', 'as1', 'as2', 'as3', 'as4']
 leftColumn=0
+middleColumn=1 
+middleColumnWidth=10  # width of middle margin for live yaml windows
 rightColumn=2
-acceptedNum = "0123456789."
+acceptedNum = "0123456789."  # for requiring number input for xyz values
 
 
 def rpy_validation(r_val, p_val, y_val, button, a, b, c):
@@ -1610,6 +1612,8 @@ if __name__ == "__main__":
     cancelOptions = tk.Button(options, text="Cancel and Exit", command=cancel_options)
     cancelOptions.grid(column=leftColumn, pady=20)
     #end of options and menu | beginning of sample yaml output
+    optionsMiddleMargin = tk.Label(options, text=" "*middleColumnWidth)
+    optionsMiddleMargin.grid(column=middleColumn, row=0)
     optionsHeader=tk.Label(options, text="options:")
     optionsHeader.grid(column=rightColumn, row=0, sticky=tk.W)
     yamlMOB = tk.Label(options, text="  insert_models_over_bins: "+overBins.get())
@@ -1679,6 +1683,8 @@ if __name__ == "__main__":
     cancelTray = tk.Button(trayInfo, text="Cancel and Exit", command=cancel_tray)
     cancelTray.grid(column=leftColumn)
     #end of options and menu | beginning of sample yaml output
+    trayMiddleMargin = tk.Label(trayInfo, text=" "*middleColumnWidth)
+    trayMiddleMargin.grid(column=middleColumn, row=0)
     agvHeader=tk.Label(trayInfo, text="")
     agvHeader.grid(column=rightColumn, row=0, sticky=tk.W)
     table1Label=tk.Label(trayInfo, text="")
@@ -1737,6 +1743,8 @@ if __name__ == "__main__":
     cancelAgv = tk.Button(agvInfo, text="Cancel and Exit", command=cancel_agv)
     cancelAgv.grid(column=leftColumn, pady=20)
     #end of options and menu | beginning of sample yaml output
+    agvMiddleMargin = tk.Label(agvInfo, text=" "*middleColumnWidth)
+    agvMiddleMargin.grid(column=middleColumn, row=0)
     agv_header=tk.Label(agvInfo, text="agv_infos")
     agv_header.grid(column=rightColumn, row=0, sticky=tk.W)
     agv1_header=tk.Label(agvInfo, text="  agv1:")
@@ -1952,6 +1960,8 @@ if __name__ == "__main__":
         cancelSensorBlackout = tk.Button(sensorBlackoutWind, text="Cancel and Exit", command=cancel_sensor_blackout)
         cancelSensorBlackout.grid(column=leftColumn, pady=20)
         #end of options and menu | beginning of sample yaml output
+        sensorMiddleMargin = tk.Label(sensorBlackoutWind, text=" "*middleColumnWidth)
+        sensorMiddleMargin.grid(column=middleColumn, row=0)
         sensor_blackout_header = tk.Label(sensorBlackoutWind, text="sensor_blackout:")
         sensor_blackout_header.grid(column=rightColumn, row=0, sticky=tk.W)
         prod_count_yaml = tk.Label(sensorBlackoutWind, text="  product_count: "+prodCount.get())
@@ -2007,6 +2017,8 @@ if __name__ == "__main__":
         cancelHuman = tk.Button(humanWind, text="Cancel and Exit", command=cancelHumanWindFunc)
         cancelHuman.grid(column=leftColumn, pady=20)
         #end of options and menu | beginning of sample yaml output
+        humanMiddleMargin = tk.Label(humanWind, text=" "*middleColumnWidth)
+        humanMiddleMargin.grid(column=middleColumn, row=0)   
         human_header=tk.Label(humanWind, text="")
         human_header.grid(column=rightColumn, row=0, sticky=tk.W)
         person1_header = tk.Label(humanWind, text="")
