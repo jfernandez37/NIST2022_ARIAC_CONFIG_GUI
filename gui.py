@@ -1584,7 +1584,7 @@ if __name__ == "__main__":
     tfOverStations.grid(column=leftColumn, pady=5)
     beltCycles = tk.StringVar()
     beltCycles.set("0")
-    popCycleLabel = tk.Label(options, text="Enter the belt population cycles (enter skip to skip):")
+    popCycleLabel = tk.Label(options, text="Enter the belt population cycles (enter nothing to skip):")
     popCycleLabel.grid(column=leftColumn)
     popCycleBox = tk.Entry(options, textvariable=beltCycles)
     popCycleBox.grid(column=leftColumn)
