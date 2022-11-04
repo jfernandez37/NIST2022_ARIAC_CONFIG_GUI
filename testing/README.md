@@ -1,1 +1,1 @@
-Testing new features for the GUI
+For testing new features for the GUI
