@@ -11,6 +11,11 @@ import os
 from pathlib import Path
 from functools import partial
 from PIL import Image, ImageTk  # needed for images in gui
+from jsonschema import validate
+import json
+
+schemaFile=open('yamlSchemaAriac.json',)
+schema=json.load(schemaFile)
 
 orderCount = []  # Used in counter in new_order function
 tempKits = []  # holds kitting information for orders
