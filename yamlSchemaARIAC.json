@@ -64,7 +64,7 @@
                 }
             }
         },
-        "table_tray_infos": {
+        "movable_table_tray_infos": {
             "description": "Infos on which trays start on the tables",
             "type": "object",
             "properties": {
@@ -97,6 +97,42 @@
                             "description": "Holds the number of trays on table_2",
                             "type": "integer",
                             "enum": [1, 2, 3]
+                        }
+                    }
+                }
+            }
+        },
+        "gripper_info":{
+            "description": "Holds the information for the gripper",
+            "type": "object",
+            "properties": {
+                "gripper_battery_pump":{
+                    "description": "Holds information for the gripper battery pump",
+                    "type": "object",
+                    "properties": {
+                        "gripper_location":{
+                            "type": "string",
+                            "enum": ["changing_station", "ceiling_robot", "floor_robot"]
+                        }
+                    }
+                },
+                "gripper_regulator_sensor":{
+                    "description": "Holds information for the gripper regulator sensor",
+                    "type": "object",
+                    "properties": {
+                        "gripper_location":{
+                            "type": "string",
+                            "enum": ["changing_station", "ceiling_robot", "floor_robot"]
+                        }
+                    }
+                },
+                "gripper_tray":{
+                    "description": "Holds information for the gripper tray",
+                    "type": "object",
+                    "properties": {
+                        "gripper_location":{
+                            "type": "string",
+                            "enum": ["changing_station", "ceiling_robot", "floor_robot"]
                         }
                     }
                 }
