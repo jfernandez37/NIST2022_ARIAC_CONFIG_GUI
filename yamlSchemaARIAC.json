@@ -494,8 +494,8 @@
                 }
             }
         },
-        "models_over_stations": {
-            "description": "models over stations options",
+        "stations": {
+            "description": "stations options",
             "type": "object",
             "patternProperties": {
                 "^([a-z][a-z][1-4]+)+$": {
