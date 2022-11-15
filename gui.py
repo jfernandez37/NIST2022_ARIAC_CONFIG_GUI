@@ -2300,3 +2300,4 @@ if __name__ == "__main__":
                 o.write(" product_count: "+prodCount.get()+"\n")
                 o.write(" duration: "+duration.get()+"\n")
                 o.write("\n")
+    outputFile=open(saveFileName,)
