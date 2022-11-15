@@ -13,11 +13,9 @@ from functools import partial
 from PIL import Image, ImageTk  # needed for images in gui
 from jsonschema import validate
 import json
+import validateARIAC
 
 schemaFile=open('./yamlSchemaAriac.json',)  # opens the schema file
-schema=json.load(schemaFile)  # reads in the schema file as a json file
-for i in schema['properties']:
-    print(i)
 
 orderCount = []  # Used in counter in new_order function
 tempKits = []  # holds kitting information for orders
@@ -2301,3 +2299,4 @@ if __name__ == "__main__":
                 o.write(" duration: "+duration.get()+"\n")
                 o.write("\n")
     outputFile=open(saveFileName,)
+    validateARIAC.validateAriac(outputFile, schemaFile)
