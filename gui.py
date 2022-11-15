@@ -13,6 +13,7 @@ from functools import partial
 from PIL import Image, ImageTk  # needed for images in gui
 from jsonschema import validate
 import json
+import yaml
 import validateARIAC
 
 schemaFile=open('./yamlSchemaAriac.json',)  # opens the schema file
@@ -2287,6 +2288,7 @@ if __name__ == "__main__":
                     o.write("   max:\n")
                     o.write("    xyz: "+drop.maxXyz+'\n')
                     o.write("   destination:\n")
+
                     o.write("    xyz: "+drop.destXyz+"\n")
                     o.write("    rpy: "+drop.destRpy+"\n")
                     o.write("   product_type_to_drop: "+drop.typeToDrop+"\n")
@@ -2298,5 +2300,9 @@ if __name__ == "__main__":
                 o.write(" product_count: "+prodCount.get()+"\n")
                 o.write(" duration: "+duration.get()+"\n")
                 o.write("\n")
-    outputFile=open(saveFileName,)
-    validateARIAC.validateAriac(outputFile, schemaFile)
+    with open(saveFileName, "r") as yamlFile:
+        try:
+            outputFile=yaml.full_load(yamlFile)
+            validateARIAC.validateAriac(outputFile, schemaFile)
+        except yaml.YAMLError as exception:
+            raise exception
