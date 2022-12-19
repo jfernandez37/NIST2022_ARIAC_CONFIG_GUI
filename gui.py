@@ -16,7 +16,7 @@ import json
 import yaml
 import validateARIAC
 
-schemaFile=open('./yamlSchemaAriac.json',)  # opens the schema file
+schemaFile=open('./yamlSchemaARIAC.json',)  # opens the schema file
 
 orderCount = []  # Used in counter in new_order function
 tempKits = []  # holds kitting information for orders
