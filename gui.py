@@ -262,7 +262,6 @@ def tl():  # cycles through the options for the time limit option
         timeLimit.set("500")
 
 
-
 def get_file_name_next():  # checks to see if the file name the user selects exists or is empty
     """Reads the file name and puts a message on the window if invalid characters are found
     the file is empty, or if the file inputted already exists"""
@@ -317,11 +316,6 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
     elif fileName.get() != '' and not (path.exists(fileName.get()) or path.exists(fileName.get() + '.yaml')) and invalidFlag.get()!='1':
         getFileName.destroy()
     invalidFlag.set('0')
-
-
-def update_val_label(label, func, c, d, e):  # for having the current number for the slider
-    """Live label for the current value of a slider. Not being used"""
-    label.configure(text="Current value = "+func())
 
 
 def add_product():  # adds a product in agv_infos

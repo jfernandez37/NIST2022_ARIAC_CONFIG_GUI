@@ -55,3 +55,8 @@ def update_id_range(dropdownMenu, currentProduct, currentID, binProds, a, b, c):
     for num in range(int(binProds[bin_prods_ind].pNum)):
         temp_num = str(num + 1)
         menu.add_command(label=temp_num, command=lambda temp_num=temp_num: currentID.set(temp_num))
+
+
+def update_val_label(label, func, c, d, e):  # for having the current number for the slider
+    """Live label for the current value of a slider. Not being used"""
+    label.configure(text="Current value = "+func())
