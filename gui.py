@@ -62,10 +62,6 @@ binProds = []  # holds the products which are present in bins
 nameLabels = []  # holds temporary flags to be deleted
 kittingShipTempInput = []
 round_slide = .05  # what coordinates are rounded to
-if platform.system()=="Windows": #allows paths as inputs for linux
-    invalidFileChar = " /~`,;\"\'\\!@#$%^&*()+=[]"  # characters not allowed in file names for windows
-else:
-    invalidFileChar = " `,;\"\'\\!@#$%^&*()+=[]"  # characters not allowed in file names for linux
 createdDir = []  # to deleted directories made if canceled
 pathIncrement = []  # gives the full path for recursive deletion
 firstLengths = []  # holds the number of products in the first order
