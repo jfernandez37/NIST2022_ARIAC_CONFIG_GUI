@@ -21,6 +21,8 @@ from updateRanges import *
 from validationFunc import *
 from roboBreakdown import add_robot_breakdown
 from addDrop import add_drop_region
+from fileFunc import *
+
 schemaFile=open('./yamlSchemaARIAC.json',)  # opens the schema file
 
 orderCount = []  # Used in counter in new_order function
@@ -176,25 +178,6 @@ def update_aisle_layout(a,b,c):
         person2_start.config(text="")
         person2_move.config(text="")
         person2_wait.config(text="")
-
-
-def make_file(wind):
-    """Used for making a file for the user"""
-    file=filedialog.asksaveasfile(defaultextension=".yaml", filetypes=[("YAML file", ".yaml")])
-    if file:
-        if str(os.path.abspath(file.name))!='':
-            fileNameVar.set(str(os.path.abspath(file.name)))
-            file.close
-            wind.destroy()
-
-
-def correct_file_name(tempFileName, a, b , c):  # deletes any invalid characters in file name
-    """This function removes any characters which can not be used in the file name. It does so as the user is typing. Not needed anymore"""
-    tempStr = tempFileName.get()
-    for char in invalidFileChar:
-        if char in tempStr:
-            tempStr = tempStr.replace(char, '')
-    tempFileName.set(tempStr)
 
 
 def deactivateButton(button, parFlag, c, d, e):
@@ -1092,7 +1075,7 @@ if __name__ == "__main__":
     existFlag = tk.StringVar()
     existFlag.set("0")
     fileNameCorrectFunc = partial(correct_file_name, fileName)
-    saveAndExit = partial(make_file, getFileName)
+    saveAndExit = partial(make_file, getFileName, fileNameVar)
     openFileExp = tk.Button(getFileName, text="Create file", command=saveAndExit)
     openFileExp.pack()
     cancel_file = partial(cancel_wind, getFileName, cancelFlag)
