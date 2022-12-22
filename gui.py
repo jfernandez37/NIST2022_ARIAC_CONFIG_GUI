@@ -17,6 +17,7 @@ import yaml
 import validateARIAC
 from allClasses import Order, Kitting, Assembly, Products, ModelOverBin, ModelOverStation, BeltCycle, Drops, PresentProducts, RobotBreakdown
 from checkCancel import check_cancel, cancel_wind
+from updateRanges import update_dest, update_bd_locations, update_id_range
 schemaFile=open('./yamlSchemaARIAC.json',)  # opens the schema file
 
 orderCount = []  # Used in counter in new_order function
@@ -599,59 +600,6 @@ def new_order():  # this menu pops up to make a new order for the user
         #aProdInd.append(len(tempAssemb[len(allOrders)-1].products)-1)
 
 
-def update_dest(dropdownMenu, agvSelection, currentStation, a, b, c):  # switches the options present based off of the agv selected
-    """Updates the possible stations for agvs"""
-    menu = dropdownMenu['menu']
-    menu.delete(0, 'end')
-    if agvSelection.get() == 'agv1':
-        currentStation.set(kAgv1List[0])
-        for dest in kAgv1List:
-            menu.add_command(label=dest, command=lambda dest=dest: currentStation.set(dest))
-    elif agvSelection.get() == 'agv2':
-        currentStation.set(kAgv2List[0])
-        for dest in kAgv2List:
-            menu.add_command(label=dest, command=lambda dest=dest: currentStation.set(dest))
-    elif agvSelection.get() == 'agv3':
-        currentStation.set(kAgv3List[0])
-        for dest in kAgv3List:
-            menu.add_command(label=dest, command=lambda dest=dest: currentStation.set(dest))
-    else:
-        currentStation.set(kAgv4List[0])
-        for dest in kAgv4List:
-            menu.add_command(label=dest, command=lambda dest=dest: currentStation.set(dest))
-
-
-def update_bd_locations(dropdown, numProds, robot_type, location, a, b, c):
-    """Updates the locations of the robot on breakdown"""
-    print("test")
-    menu = dropdown['menu']
-    menu.delete(0, 'end')
-    if numProds.get()!='4'and robot_type.get()=='assembly_robot':
-        location.set(breakdownAGVs[0])
-        for i in breakdownAGVs:
-            menu.add_command(label=i, command=lambda i=i: location.set(i))
-    else:
-        location.set(breakdownAll[0])
-        for i in breakdownAll:
-            menu.add_command(label=i, command=lambda i=i: location.set(i))
-
-
-
-def update_id_range(dropdownMenu, currentProduct, currentID, a, b, c):  # updates the ids for faulty products
-    """Updates the range of possible id's based on bins"""
-    menu = dropdownMenu['menu']
-    menu.delete(0, 'end')
-    bin_prods_ind = 0
-    for binProd in binProds:
-        if binProd.pType == currentProduct.get():
-            break
-        bin_prods_ind += 1
-    currentID.set('1')
-    for num in range(int(binProds[bin_prods_ind].pNum)):
-        temp_num = str(num + 1)
-        menu.add_command(label=temp_num, command=lambda temp_num=temp_num: currentID.set(temp_num))
-
-
 def update_kitting_ship(second_tray, second_agv, ship_count, second_dest, window, d,e,f):  # updates the trays for kitting shipments
     """Updates the kitting menu based on the shipment count"""
     if ship_count.get() == '1':
@@ -1192,7 +1140,7 @@ def add_faulty_prod():  # adds a faulty product for the faulty product challenge
     cancel_faulty_button.pack()
     faulty_prod_save = tk.Button(faulty_prod_window, text="Save and Exit", command=faulty_prod_window.destroy)
     faulty_prod_save.pack(pady=20)
-    update_id_with_arg = partial(update_id_range, prod_id_menu, temp_prod, prod_id)
+    update_id_with_arg = partial(update_id_range, prod_id_menu, temp_prod, prod_id, binProds)
     temp_prod.trace('w', update_id_with_arg)
     faulty_prod_window.mainloop()
     if cancel_faulty_flag.get()=="0":
