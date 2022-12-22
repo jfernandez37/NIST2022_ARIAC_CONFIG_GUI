@@ -18,3 +18,8 @@ def check_cancel(cancel_flag, pathIncrement, fileName, createdDir):  # deletes t
             os.rmdir(dir)
             chdir('../')
         quit()
+
+def cancel_wind(window, cancelFlag):  # cancels at any point in the program
+    """Used to chancel a window"""
+    cancelFlag.set('1')
+    window.destroy()

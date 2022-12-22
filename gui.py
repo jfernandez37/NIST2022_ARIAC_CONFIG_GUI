@@ -16,7 +16,7 @@ import json
 import yaml
 import validateARIAC
 from allClasses import Order, Kitting, Assembly, Products, ModelOverBin, ModelOverStation, BeltCycle, Drops, PresentProducts, RobotBreakdown
-from checkCancel import check_cancel
+from checkCancel import check_cancel, cancel_wind
 schemaFile=open('./yamlSchemaARIAC.json',)  # opens the schema file
 
 orderCount = []  # Used in counter in new_order function
@@ -1373,12 +1373,6 @@ def add_robot_breakdown():
         breakdowns.append(RobotBreakdown(order_ID.get(), robo_type.get(), location.get(), numberProds.get()))
 
 
-def cancel_wind(window):  # cancels at any point in the program
-    """Used to chancel a window"""
-    cancelFlag.set('1')
-    window.destroy()
-
-
 if __name__ == "__main__":
     """Main part of program. Goes through the main windows of the program and holds all global tkinter stringvars"""
     getFileName = tk.Tk()
@@ -1427,7 +1421,7 @@ if __name__ == "__main__":
     saveAndExit = partial(make_file, getFileName)
     openFileExp = tk.Button(getFileName, text="Create file", command=saveAndExit)
     openFileExp.pack()
-    cancel_file = partial(cancel_wind, getFileName)
+    cancel_file = partial(cancel_wind, getFileName, cancelFlag)
     cancelFile = tk.Button(getFileName, text="Cancel and Exit", command=cancel_file)
     cancelFile.pack(side=tk.BOTTOM, pady=20)
     fileExit = tk.Button(getFileName, text="Next", command=get_file_name_next)
@@ -1496,7 +1490,7 @@ if __name__ == "__main__":
     timeLimitButton.grid(column=leftColumn, pady=5)
     nextButton = tk.Button(options, text="Next", command=options.destroy)
     nextButton.grid(column=leftColumn, pady=20)
-    cancel_options = partial(cancel_wind, options)
+    cancel_options = partial(cancel_wind, options, cancelFlag)
     cancelOptions = tk.Button(options, text="Cancel and Exit", command=cancel_options)
     cancelOptions.grid(column=leftColumn, pady=20)
     #end of options and menu | beginning of sample yaml output
@@ -1567,7 +1561,7 @@ if __name__ == "__main__":
     tray_skip = partial(skip_wind, traySkipFlag, trayInfo)
     skipButton = tk.Button(trayInfo, text="Skip", command=tray_skip)
     skipButton.grid(column=leftColumn)
-    cancel_tray = partial(cancel_wind, trayInfo)
+    cancel_tray = partial(cancel_wind, trayInfo, cancelFlag)
     cancelTray = tk.Button(trayInfo, text="Cancel and Exit", command=cancel_tray)
     cancelTray.grid(column=leftColumn)
     #end of options and menu | beginning of sample yaml output
@@ -1627,7 +1621,7 @@ if __name__ == "__main__":
     productButton.grid(column=leftColumn)
     agvNext = tk.Button(agvInfo, text="Next", command=agvInfo.destroy)
     agvNext.grid(column=leftColumn, pady=20)
-    cancel_agv = partial(cancel_wind, agvInfo)
+    cancel_agv = partial(cancel_wind, agvInfo, cancelFlag)
     cancelAgv = tk.Button(agvInfo, text="Cancel and Exit", command=cancel_agv)
     cancelAgv.grid(column=leftColumn, pady=20)
     #end of options and menu | beginning of sample yaml output
@@ -1673,7 +1667,7 @@ if __name__ == "__main__":
     orderNextFlag.trace('w', enableOrdersNext)
     deactivateNewOrder = partial(deactivateButton, newOrder, secondOrderFlag)
     secondOrderFlag.trace('w', deactivateNewOrder)
-    cancel_orders = partial(cancel_wind, ordersInfo)
+    cancel_orders = partial(cancel_wind, ordersInfo, cancelFlag)
     cancelOrders = tk.Button(ordersInfo, text="Cancel and Exit", command=cancel_orders)
     cancelOrders.pack(pady=20)
     ordersInfo.mainloop()
@@ -1704,7 +1698,7 @@ if __name__ == "__main__":
         addBinButton.pack(pady=20)
         overBinsNext = tk.Button(overBinsWind, text="Next", command=overBinsWind.destroy)
         overBinsNext.pack(pady=20)
-        cancel_over_bins = partial(cancel_wind, overBinsWind)
+        cancel_over_bins = partial(cancel_wind, overBinsWind, cancelFlag)
         cancelOverBins = tk.Button(overBinsWind, text="Cancel and Exit", command=cancel_over_bins)
         cancelOverBins.pack(pady=20)
         overBinsWind.mainloop()
@@ -1720,7 +1714,7 @@ if __name__ == "__main__":
         addStationButton.pack(pady=20)
         overStationsNext = tk.Button(overStationsWind, text="Next", command=overStationsWind.destroy)
         overStationsNext.pack(pady=20)
-        cancel_over_stations = partial(cancel_wind, overStationsWind)
+        cancel_over_stations = partial(cancel_wind, overStationsWind, cancelFlag)
         cancelOverStations = tk.Button(overStationsWind, text="Cancel and Exit", command=cancel_over_stations)
         cancelOverStations.pack(pady=20)
         overStationsWind.mainloop()
@@ -1736,7 +1730,7 @@ if __name__ == "__main__":
         addBeltCycle.pack(pady=20)
         beltCycleNext = tk.Button(beltCyclesWind, text="Next", command=beltCyclesWind.destroy)
         beltCycleNext.pack(pady=20)
-        cancel_belt_cycles = partial(cancel_wind, beltCyclesWind)
+        cancel_belt_cycles = partial(cancel_wind, beltCyclesWind, cancelFlag)
         cancelBeltCycle = tk.Button(beltCyclesWind, text="Cancel and Exit", command=cancel_belt_cycles)
         cancelBeltCycle.pack(pady=20)
         beltCyclesWind.mainloop()
@@ -1773,7 +1767,7 @@ if __name__ == "__main__":
         humanCheckbox.pack()
     challengeNext = tk.Button(challengeWind, text="Next", command=challengeWind.destroy)
     challengeNext.pack(pady=20)
-    cancel_challenge_func = partial(cancel_wind, challengeWind)
+    cancel_challenge_func = partial(cancel_wind, challengeWind, cancelFlag)
     cancelChallenge = tk.Button(challengeWind, text="Cancel and Exit", command=cancel_challenge_func)
     cancelChallenge.pack(pady=20)
     challengeWind.mainloop()
@@ -1794,7 +1788,7 @@ if __name__ == "__main__":
         skipFaultyProd.pack(pady=20)
         faultyProdNext = tk.Button(faultyWind, text="Next", command=faultyWind.destroy)
         faultyProdNext.pack(pady=20)
-        cancel_faulty_products = partial(cancel_wind, faultyWind)
+        cancel_faulty_products = partial(cancel_wind, faultyWind, cancelFlag)
         cancelFaultyProd = tk.Button(faultyWind, text="Cancel and Exit", command=cancel_faulty_products)
         cancelFaultyProd.pack(pady=20)
         faultyWind.mainloop()
@@ -1815,7 +1809,7 @@ if __name__ == "__main__":
         skipDrops.pack(pady=20)
         dropsNext = tk.Button(dropsWind, text="Next", command=dropsWind.destroy)
         dropsNext.pack(pady=20)
-        cancel_drops = partial(cancel_wind, dropsWind)
+        cancel_drops = partial(cancel_wind, dropsWind, cancelFlag)
         cancelDrops = tk.Button(dropsWind, text="Cancel and Exit", command=cancel_drops)
         cancelDrops.pack(pady=20)
         dropsWind.mainloop()
@@ -1844,7 +1838,7 @@ if __name__ == "__main__":
         sensorBlackoutSkip.grid(column=leftColumn, pady=20)
         sensorBlackoutSE = tk.Button(sensorBlackoutWind, text="Save and Exit", command=sensorBlackoutWind.destroy)
         sensorBlackoutSE.grid(column=leftColumn, pady=20)
-        cancel_sensor_blackout = partial(cancel_wind, sensorBlackoutWind)
+        cancel_sensor_blackout = partial(cancel_wind, sensorBlackoutWind, cancelFlag)
         cancelSensorBlackout = tk.Button(sensorBlackoutWind, text="Cancel and Exit", command=cancel_sensor_blackout)
         cancelSensorBlackout.grid(column=leftColumn, pady=20)
         #end of options and menu | beginning of sample yaml output
@@ -1873,7 +1867,7 @@ if __name__ == "__main__":
         addBD.pack()
         bdNext = tk.Button(bdWind, text="Next", command=bdWind.destroy)
         bdNext.pack(pady=20)
-        cancelBDFunc = partial(cancel_wind, bdWind)
+        cancelBDFunc = partial(cancel_wind, bdWind, cancelFlag)
         cancelBD = tk.Button(bdWind, text="Cancel and Exit", command=cancelBDFunc)
         cancelBD.pack(pady=20)
         bdWind.mainloop()
@@ -1901,7 +1895,7 @@ if __name__ == "__main__":
         human4Entry.grid(column=leftColumn)
         humanWindNext = tk.Button(humanWind, text="Next", command=humanWind.destroy)
         humanWindNext.grid(column=leftColumn, pady=20)
-        cancelHumanWindFunc = partial(cancel_wind, humanWind)
+        cancelHumanWindFunc = partial(cancel_wind, humanWind, cancelFlag)
         cancelHuman = tk.Button(humanWind, text="Cancel and Exit", command=cancelHumanWindFunc)
         cancelHuman.grid(column=leftColumn, pady=20)
         #end of options and menu | beginning of sample yaml output
