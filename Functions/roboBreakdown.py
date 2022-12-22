@@ -1,8 +1,8 @@
 from functools import partial
 import tkinter as tk
-from updateRanges import *
-from checkCancel import *
-from allClasses import RobotBreakdown
+from Functions.updateRanges import *
+from Functions.checkCancel import *
+from Functions.allClasses import RobotBreakdown
 def add_robot_breakdown(breakdowns, orderCount):
     add_robot_bd_wind = tk.Toplevel()
     add_robot_bd_wind.geometry("850x600")

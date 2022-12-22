@@ -1,9 +1,9 @@
 from functools import partial
 import tkinter as tk
-from updateRanges import *
-from checkCancel import *
-from allClasses import Drops
-from validationFunc import *
+from Functions.updateRanges import *
+from Functions.checkCancel import *
+from Functions.allClasses import Drops
+from Functions.validationFunc import *
 prodList = ["assembly_battery_red", "assembly_battery_green",
             "assembly_battery_blue", "assembly_pump_red", "assembly_pump_green",
             "assembly_pump_blue", "assembly_regulator_red",
