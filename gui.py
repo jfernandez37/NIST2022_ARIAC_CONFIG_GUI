@@ -16,7 +16,7 @@ import json
 import yaml
 import validateARIAC
 from allClasses import Order, Kitting, Assembly, Products, ModelOverBin, ModelOverStation, BeltCycle, Drops, PresentProducts, RobotBreakdown
-from checkCancel import check_cancel, cancel_wind
+from checkCancel import check_cancel, cancel_wind, cancel_func
 from updateRanges import update_dest, update_bd_locations, update_id_range
 schemaFile=open('./yamlSchemaARIAC.json',)  # opens the schema file
 
@@ -402,11 +402,6 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
         getFileName.destroy()
     invalidFlag.set('0')
 
-
-def cancel_func(wind, flag):
-    """Sets flag to 1 and destroys a window for when the user wants to cancel and exit"""
-    wind.destroy()
-    flag.set("1")
 
 def update_val_label(label, func, c, d, e):  # for having the current number for the slider
     """Live label for the current value of a slider. Not being used"""

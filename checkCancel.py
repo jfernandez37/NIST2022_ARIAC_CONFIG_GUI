@@ -23,3 +23,8 @@ def cancel_wind(window, cancelFlag):  # cancels at any point in the program
     """Used to chancel a window"""
     cancelFlag.set('1')
     window.destroy()
+
+def cancel_func(wind, flag):
+    """Sets flag to 1 and destroys a window for when the user wants to cancel and exit"""
+    wind.destroy()
+    flag.set("1")
