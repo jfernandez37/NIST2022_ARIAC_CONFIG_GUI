@@ -39,3 +39,8 @@ def activateButton(button, parFlag, c, d, e):
     """Depending on the status of the flag, it will activate a deactivated button"""
     if parFlag.get() == '1':
         button.config(state=tk.NORMAL)
+
+def skip_wind(flag, window):  # function for skipping a window
+    """Sets a given flag and destroys a windos for skip buttons"""
+    flag.set('1')
+    window.destroy()

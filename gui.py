@@ -262,11 +262,6 @@ def tl():  # cycles through the options for the time limit option
         timeLimit.set("500")
 
 
-def skip_wind(flag, window):  # function for skipping a window
-    """Sets a given flag and destroys a windos for skip buttons"""
-    flag.set('1')
-    window.destroy()
-
 
 def get_file_name_next():  # checks to see if the file name the user selects exists or is empty
     """Reads the file name and puts a message on the window if invalid characters are found
