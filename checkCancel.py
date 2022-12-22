@@ -1,5 +1,6 @@
 from os import chdir, path
 import os
+import tkinter as tk
 def check_cancel(cancel_flag, pathIncrement, fileName, createdDir):  # deletes the file if the user cancels from inside the program
     """Checks if the program is canceled. If it is, the program removes the file and quits. If directories have been created,
     those are removed as well"""
@@ -28,3 +29,13 @@ def cancel_func(wind, flag):
     """Sets flag to 1 and destroys a window for when the user wants to cancel and exit"""
     wind.destroy()
     flag.set("1")
+
+def exitAndFlag(window, parFlag):
+    """Exits the given window and activates the given flag"""
+    parFlag.set('1')
+    window.destroy()
+
+def activateButton(button, parFlag, c, d, e):
+    """Depending on the status of the flag, it will activate a deactivated button"""
+    if parFlag.get() == '1':
+        button.config(state=tk.NORMAL)

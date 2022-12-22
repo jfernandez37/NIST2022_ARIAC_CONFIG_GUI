@@ -197,17 +197,6 @@ def correct_file_name(tempFileName, a, b , c):  # deletes any invalid characters
     tempFileName.set(tempStr)
 
 
-def exitAndFlag(window, parFlag):
-    """Exits the given window and activates the given flag"""
-    parFlag.set('1')
-    window.destroy()
-
-def activateButton(button, parFlag, c, d, e):
-    """Depending on the status of the flag, it will activate a deactivated button"""
-    if parFlag.get() == '1':
-        button.config(state=tk.NORMAL)
-
-
 def deactivateButton(button, parFlag, c, d, e):
     """Depending on the status of the flag, it will deactivate an activated button"""
     if parFlag.get() =='1':
