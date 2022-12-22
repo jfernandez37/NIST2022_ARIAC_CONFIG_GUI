@@ -1,0 +1,47 @@
+from functools import partial
+import tkinter as tk
+from updateRanges import *
+from checkCancel import *
+from allClasses import RobotBreakdown
+def add_robot_breakdown(breakdowns, orderCount):
+    add_robot_bd_wind = tk.Toplevel()
+    add_robot_bd_wind.geometry("850x600")
+    bd_cancel_flag = tk.StringVar()
+    bd_cancel_flag.set('0')
+    robo_type = tk.StringVar()
+    robo_type.set("kitting_robot")
+    location = tk.StringVar()
+    location.set("agv1")
+    numberProds = tk.StringVar()
+    numberProds.set('1')
+    order_ID = tk.StringVar()
+    order_ID.set('0')
+    if orderCount==2:
+        bd_order_label=tk.Label(add_robot_bd_wind, text="Select an order for the breakdown")
+        bd_order_label.pack()
+        order_ID_dropdown = tk.OptionMenu(add_robot_bd_wind, order_ID, "0", "1")
+        order_ID_dropdown.pack()
+    robo_type_label = tk.Label(add_robot_bd_wind, text="Select the type of robot")
+    robo_type_label.pack()
+    robo_type_dropdown = tk.OptionMenu(add_robot_bd_wind, robo_type, "kitting_robot", "assembly_robot")
+    robo_type_dropdown.pack()
+    bd_location_label = tk.Label(add_robot_bd_wind, text="Select the location of the breakdown")
+    bd_location_label.pack()
+    location_dropdown = tk.OptionMenu(add_robot_bd_wind, location, *breakdownAll)
+    location_dropdown.pack()
+    bd_num_prod_label = tk.Label(add_robot_bd_wind, text="Select the number of products for the breakdown")
+    bd_num_prod_label.pack()
+    numProdDropdown = tk.OptionMenu(add_robot_bd_wind, numberProds, "1", "2", "3", "4")
+    numProdDropdown.pack()
+    update_loc_rtype = partial(update_bd_locations, location_dropdown, numberProds, robo_type, location)
+    robo_type.trace('w', update_loc_rtype)
+    update_loc_numprod = partial(update_bd_locations, location_dropdown, numberProds, robo_type, location)
+    numberProds.trace('w', update_loc_numprod)
+    cancel_bd = partial(cancel_func, add_robot_bd_wind, bd_cancel_flag)
+    cancel_drop_button = tk.Button(add_robot_bd_wind, text="Cancel", command=cancel_bd)
+    cancel_drop_button.pack()
+    add_drop_save = tk.Button(add_robot_bd_wind, text="Save and Exit", command=add_robot_bd_wind.destroy)
+    add_drop_save.pack()
+    add_robot_bd_wind.mainloop()
+    if bd_cancel_flag.get()=='0':
+        breakdowns.append(RobotBreakdown(order_ID.get(), robo_type.get(), location.get(), numberProds.get()))
