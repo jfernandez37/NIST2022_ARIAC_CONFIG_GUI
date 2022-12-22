@@ -14,14 +14,14 @@ from PIL import Image, ImageTk  # needed for images in gui
 from jsonschema import validate
 import json
 import yaml
-import validateARIAC
-from allClasses import *
-from checkCancel import *
-from updateRanges import *
-from validationFunc import *
-from roboBreakdown import add_robot_breakdown
-from addDrop import add_drop_region
-from fileFunc import *
+import Functions.validateARIAC as validateARIAC
+from Functions.allClasses import *
+from Functions.checkCancel import *
+from Functions.updateRanges import *
+from Functions.validationFunc import *
+from Functions.roboBreakdown import add_robot_breakdown
+from Functions.addDrop import add_drop_region
+from Functions.fileFunc import *
 
 schemaFile=open('./yamlSchemaARIAC.json',)  # opens the schema file
 
