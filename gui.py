@@ -16,7 +16,7 @@ import json
 import yaml
 import validateARIAC
 from allClasses import Order, Kitting, Assembly, Products, ModelOverBin, ModelOverStation, BeltCycle, Drops, PresentProducts, RobotBreakdown
-
+from checkCancel import check_cancel
 schemaFile=open('./yamlSchemaARIAC.json',)  # opens the schema file
 
 orderCount = []  # Used in counter in new_order function
@@ -1379,26 +1379,6 @@ def cancel_wind(window):  # cancels at any point in the program
     window.destroy()
 
 
-def check_cancel(cancel_flag):  # deletes the file if the user cancels from inside the program
-    """Checks if the program is canceled. If it is, the program removes the file and quits. If directories have been created,
-    those are removed as well"""
-    if cancel_flag == '1':
-        for dir in pathIncrement:
-            chdir(dir)
-        if path.exists(fileName.get()):
-            os.remove(fileName.get())
-        elif path.exists(fileName.get() + '.yaml'):
-            os.remove(fileName.get() + '.yaml')
-        chdir('../')
-        createdDir.reverse()
-        for dir in createdDir:
-            if len(os.listdir(dir))!=0:
-                break
-            os.rmdir(dir)
-            chdir('../')
-        quit()
-
-
 if __name__ == "__main__":
     """Main part of program. Goes through the main windows of the program and holds all global tkinter stringvars"""
     getFileName = tk.Tk()
@@ -1545,7 +1525,7 @@ if __name__ == "__main__":
     gripperType.trace('w', update_options_yaml)
     timeLimit.trace('w', update_options_yaml)
     options.mainloop()
-    check_cancel(cancelFlag.get())
+    check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     # END OF GETTING OPTIONS
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF TABLE_TRAY_INFOS
@@ -1612,7 +1592,7 @@ if __name__ == "__main__":
     table2.trace('w', update_tray_yaml)
     table2q.trace('w', update_tray_yaml)
     trayInfo.mainloop()
-    check_cancel(cancelFlag.get())
+    check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     # END OF TABLE MENUS
     # -----------------------------------------------------------------------------------
     # BEGINNING OF GETTING AGV_INFOS
@@ -1676,7 +1656,7 @@ if __name__ == "__main__":
     agv3.trace('w', update_agv_info)
     agv4.trace('w', update_agv_info)
     agvInfo.mainloop()
-    check_cancel(cancelFlag.get())
+    check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     # END OF AGV OPTIONS
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF ORDERS
@@ -1699,7 +1679,7 @@ if __name__ == "__main__":
     ordersInfo.mainloop()
     allOrders.reverse()
     partC = 0
-    check_cancel(cancelFlag.get())
+    check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     if len(allOrders)> 0:
         if len(allOrders[0].kitting)>0:
             allOrders[0].kitting[0].products.reverse()
@@ -1728,7 +1708,7 @@ if __name__ == "__main__":
         cancelOverBins = tk.Button(overBinsWind, text="Cancel and Exit", command=cancel_over_bins)
         cancelOverBins.pack(pady=20)
         overBinsWind.mainloop()
-        check_cancel(cancelFlag.get())
+        check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     # END OF MODELS OVER BINS
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF MODELS OVER STATIONS
@@ -1744,7 +1724,7 @@ if __name__ == "__main__":
         cancelOverStations = tk.Button(overStationsWind, text="Cancel and Exit", command=cancel_over_stations)
         cancelOverStations.pack(pady=20)
         overStationsWind.mainloop()
-        check_cancel(cancelFlag.get())
+        check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     # END OF MODELS OVER STATIONS
     # ----------------------------------------------------------------------------------------------------------------------
     # BEGINNING OF BELT MODELS
@@ -1760,7 +1740,7 @@ if __name__ == "__main__":
         cancelBeltCycle = tk.Button(beltCyclesWind, text="Cancel and Exit", command=cancel_belt_cycles)
         cancelBeltCycle.pack(pady=20)
         beltCyclesWind.mainloop()
-        check_cancel(cancelFlag.get())
+        check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     # END OF BELT CYCLES
     # -----------------------------------------------------------------------------------
     # BEGINNING OF AGILITY CHALLENGE SELECTION
@@ -1797,7 +1777,7 @@ if __name__ == "__main__":
     cancelChallenge = tk.Button(challengeWind, text="Cancel and Exit", command=cancel_challenge_func)
     cancelChallenge.pack(pady=20)
     challengeWind.mainloop()
-    check_cancel(cancelFlag.get())
+    check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     # END OF AGILITY CHALLENGE SELECTION
     # -----------------------------------------------------------------------------------
     # BEGINNING OF FAULTY PRODUCTS
@@ -1818,7 +1798,7 @@ if __name__ == "__main__":
         cancelFaultyProd = tk.Button(faultyWind, text="Cancel and Exit", command=cancel_faulty_products)
         cancelFaultyProd.pack(pady=20)
         faultyWind.mainloop()
-        check_cancel(cancelFlag.get())
+        check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     # END OF FAULTY PRODUCTS
     # --------------------------------------------------------------------------
     # BEGINNING OF DROPS
@@ -1839,7 +1819,7 @@ if __name__ == "__main__":
         cancelDrops = tk.Button(dropsWind, text="Cancel and Exit", command=cancel_drops)
         cancelDrops.pack(pady=20)
         dropsWind.mainloop()
-        check_cancel(cancelFlag.get())
+        check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     # END OF DROPS
     # --------------------------------------------------------------------------
     # BEGINNING OF SENSOR BLACKOUT
@@ -1879,7 +1859,7 @@ if __name__ == "__main__":
         prodCount.trace('w', update_sensor_blackout)
         duration.trace('w', update_sensor_blackout)
         sensorBlackoutWind.mainloop()
-        check_cancel(cancelFlag.get())
+        check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     #END OF SENSOR BLACKOUT
     #-------------------------------------------------------------------------------------------
     #BEGINNING OF ROBOT BREAKDOWN
@@ -1897,7 +1877,7 @@ if __name__ == "__main__":
         cancelBD = tk.Button(bdWind, text="Cancel and Exit", command=cancelBDFunc)
         cancelBD.pack(pady=20)
         bdWind.mainloop()
-        check_cancel(cancelFlag.get())
+        check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     #END OF ROBOT BREAKDOWN
     #-------------------------------------------------------------------------------------------
     #BEGINNING OF HUMAN OBSTACLES
@@ -1952,7 +1932,7 @@ if __name__ == "__main__":
         human2Wait.trace('w', update_aisle_layout)
         human4Wait.trace('w', update_aisle_layout)
         humanWind.mainloop()
-        check_cancel(cancelFlag.get())
+        check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     #END OF HUMAN OBSTACLES
     #-------------------------------------------------------------------------------------------
     #BEGINNING OF FILE WRITING
