@@ -212,15 +212,6 @@ def deactivateButton(button, parFlag, c, d, e):
     if parFlag.get() =='1':
         button.config(state=tk.DISABLED)
 
-def get_final_num(num):  # returns the final string for the coordinates
-    """For returning the number for the sliders. Not used anymore"""
-    return str(round_twentieth(float(num.get())))
-
-
-def round_twentieth(num):  # rounds number to the nearest twentieth (or round_slide)
-    """Rounds a number to the nearest 0.05. This function was used for the sliders and is not used any more"""
-    return round(round(num/round_slide)*round_slide,-int(math.floor(math.log10(round_slide))))
-
 
 def tf():  # cycles through the true or false button for the over bins option
     """Cycles through the options for the Models Over Bins Button"""
@@ -346,11 +337,6 @@ def get_file_name_next():  # checks to see if the file name the user selects exi
 def update_val_label(label, func, c, d, e):  # for having the current number for the slider
     """Live label for the current value of a slider. Not being used"""
     label.configure(text="Current value = "+func())
-
-
-def get_current_val(val):  # gets the current number from the slider
-    """Gets the current value of a slider rounded to a twentieth for the live label. Not being used right now"""
-    return '{: .2f}'.format(round_twentieth(float(val.get())))
 
 
 def add_product():  # adds a product in agv_infos
