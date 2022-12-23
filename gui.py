@@ -23,6 +23,7 @@ from Functions.roboBreakdown import add_robot_breakdown
 from Functions.addDrop import add_drop_region
 from Functions.fileFunc import *
 from Functions.faultyProd import add_faulty_prod
+from Functions.beltFunc import add_belt
 schemaFile=open('./yamlSchemaARIAC.json',)  # opens the schema file
 
 orderCount = []  # Used in counter in new_order function
@@ -914,84 +915,6 @@ def add_station():  # adds a station to models over stations
                                                         ", "+y_rpy_val_stat.get()+"]")))
 
 
-def add_belt():  # adds a belt to belt models
-    """Adds a belt to belt models. Uses beltCycleInfo to return"""
-    add_belt_wind = tk.Toplevel()
-    cancel_belt_flag = tk.StringVar()
-    cancel_belt_flag.set('0')
-    belt_prod = tk.StringVar()
-    belt_prod.set(prodList[0])
-    belt_time = tk.StringVar()
-    belt_time.set('1.0')
-    x_val_belt = tk.StringVar()
-    x_val_belt.set('0')
-    y_val_belt = tk.StringVar()
-    y_val_belt.set('0')
-    z_val_belt = tk.StringVar()
-    z_val_belt.set('0')
-    r_val_belt = tk.StringVar()
-    r_val_belt.set('0')
-    p_val_belt = tk.StringVar()
-    p_val_belt.set('0')
-    y_rpy_val_belt = tk.StringVar()
-    y_rpy_val_belt.set('0')
-    belt_product_label = tk.Label(add_belt_wind, text="Select the product for the belt")
-    belt_product_label.pack()
-    belt_product_type_menu = tk.OptionMenu(add_belt_wind, belt_prod, *prodList)
-    belt_product_type_menu.pack()
-    belt_time_label = tk.Label(add_belt_wind, text="Enter the wait time for the part")
-    belt_time_label.pack()
-    belt_time_entry = tk.Entry(add_belt_wind, textvariable=belt_time)
-    belt_time_entry.pack()
-    x_val_belt_label = tk.Label(add_belt_wind, text="Enter the x value")
-    x_val_belt_label.pack()
-    x_val_belt_entry = tk.Entry(add_belt_wind, textvariable=x_val_belt)
-    x_val_belt_entry.pack()
-    y_val_belt_label = tk.Label(add_belt_wind, text="Enter the y value")
-    y_val_belt_label.pack()
-    y_val_belt_entry = tk.Entry(add_belt_wind, textvariable=y_val_belt)
-    y_val_belt_entry.pack()
-    z_val_belt_label = tk.Label(add_belt_wind, text="Enter the z value")
-    z_val_belt_label.pack()
-    z_val_belt_entry = tk.Entry(add_belt_wind, textvariable=z_val_belt)
-    z_val_belt_entry.pack()
-    r_val_belt_label = tk.Label(add_belt_wind, text="Enter the r value")
-    r_val_belt_label.pack()
-    r_val_belt_entry = tk.Entry(add_belt_wind, textvariable=r_val_belt)
-    r_val_belt_entry.pack()
-    p_val_belt_label = tk.Label(add_belt_wind, text="Enter the p value")
-    p_val_belt_label.pack()
-    p_val_belt_entry = tk.Entry(add_belt_wind, textvariable=p_val_belt)
-    p_val_belt_entry.pack()
-    y_rpy_val_belt_label = tk.Label(add_belt_wind, text="Enter the y (rpy) value")
-    y_rpy_val_belt_label.pack()
-    y_rpy_val_belt_entry = tk.Entry(add_belt_wind, textvariable=y_rpy_val_belt)
-    y_rpy_val_belt_entry.pack()
-    cancel_belt_func = partial(cancel_func, add_belt_wind, cancel_belt_flag)
-    belt_cancel_button = tk.Button(add_belt_wind, text="Cancel", command=cancel_belt_func)
-    belt_cancel_button.pack()
-    belt_save = tk.Button(add_belt_wind, text="Save and Exit", command=add_belt_wind.destroy)
-    belt_save.pack(pady=20)
-    x_val_belt_num_func=partial(require_num, x_val_belt)
-    x_val_belt.trace('w', x_val_belt_num_func)
-    y_val_belt_num_func=partial(require_num, y_val_belt)
-    y_val_belt.trace('w', y_val_belt_num_func)
-    z_val_belt_num_func=partial(require_num, z_val_belt)
-    z_val_belt.trace('w', z_val_belt_num_func)
-    check_rpy = partial(rpy_validation, r_val_belt, p_val_belt, y_rpy_val_belt, belt_save)
-    r_val_belt.trace('w', check_rpy)
-    p_val_belt.trace('w', check_rpy)
-    y_rpy_val_belt.trace('w', check_rpy)
-    add_belt_wind.mainloop()
-    add_quotes(r_val_belt)
-    add_quotes(p_val_belt)
-    add_quotes(y_rpy_val_belt)
-    if cancel_belt_flag.get()=="0":
-        beltCycleInfo.append(BeltCycle(belt_prod.get(), belt_time.get(),
-                                   str("["+x_val_belt.get()+", "+y_val_belt.get()+", "+z_val_belt.get()+"]"),
-                                   str("["+r_val_belt.get()+", "+p_val_belt.get()+", "+y_rpy_val_belt.get()+"]")))
-
-
 if __name__ == "__main__":
     """Main part of program. Goes through the main windows of the program and holds all global tkinter stringvars"""
     getFileName = tk.Tk()
@@ -1345,7 +1268,8 @@ if __name__ == "__main__":
         beltCyclesWind = tk.Tk()
         beltCyclesWind.geometry("850x600")
         beltCyclesWind.title("Belt Cycles Menu")
-        addBeltCycle = tk.Button(beltCyclesWind, text="Add belt cycle", command=add_belt)
+        addBeltFunc=partial(add_belt, beltCycleInfo)
+        addBeltCycle = tk.Button(beltCyclesWind, text="Add belt cycle", command=addBeltFunc)
         addBeltCycle.pack(pady=20)
         beltCycleNext = tk.Button(beltCyclesWind, text="Next", command=beltCyclesWind.destroy)
         beltCycleNext.pack(pady=20)
