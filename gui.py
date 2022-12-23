@@ -1,15 +1,12 @@
 """GUI for the creation of YAML files for NIST ARIAC. Notes: functions with variables like (a, b, c) have dummy variables. The
 tkinter trace function passes variables to functions which are not needed for the function to work properly"""
 import tkinter as tk
-from tkinter import filedialog
 import tkinter.ttk as ttk
 import platform
-from os import chdir, path
-from pathlib import Path
+from os import chdir
 from functools import partial
 from PIL import Image, ImageTk  # needed for images in gui
 from jsonschema import validate
-import json
 import yaml
 import Functions.validateARIAC as validateARIAC
 from Functions.allClasses import *
@@ -23,6 +20,7 @@ from Functions.faultyProd import add_faulty_prod
 from Functions.beltFunc import add_belt
 from Functions.addProduct import add_product
 from Functions.stationFunc import add_station
+from binFunc import add_bin
 schemaFile=open('./yamlSchemaARIAC.json',)  # opens the schema file
 
 orderCount = []  # Used in counter in new_order function
@@ -578,118 +576,7 @@ def get_a_products():  # adds a product to assembly
                        str("[" + r_val_a.get() + ", " + p_val_a.get() + ", " + y_rpy_val_a.get() + "]")))
 
 
-def add_bin():  # adds a bin for models over bins
-    """Adds a bin in the models over bins section. Returned through modelsOverBinsInfo and binProds"""
-    add_bin_wind = tk.Toplevel()
-    cancel_bin_flag = tk.StringVar()
-    cancel_bin_flag.set('0')
-    bin_prod = tk.StringVar()
-    bin_prod.set(prodList[0])
-    bin_num = tk.StringVar()
-    bin_num.set('bin1')
-    dim = tk.StringVar()
-    dim.set('2x2')
-    x_val_s = tk.StringVar()
-    x_val_s.set('0')
-    y_val_s = tk.StringVar()
-    y_val_s.set('0')
-    z_val_s = tk.StringVar()
-    z_val_s.set('0')
-    x_val_e = tk.StringVar()
-    x_val_e.set('0')
-    y_val_e = tk.StringVar()
-    y_val_e.set('0')
-    z_val_e = tk.StringVar()
-    z_val_e.set('0')
-    r_val_b = tk.StringVar()
-    r_val_b.set('0')
-    p_val_b = tk.StringVar()
-    p_val_b.set('0')
-    y_rpy_val_b = tk.StringVar()
-    y_rpy_val_b.set('0')
-    b_num_label = tk.Label(add_bin_wind, text="Select the bin number")
-    b_num_label.pack()
-    b_num_menu = tk.OptionMenu(add_bin_wind, bin_num, 'bin1', 'bin2', 'bin3', 'bin4')
-    b_num_menu.pack()
-    b_product_label = tk.Label(add_bin_wind, text="Select the product for the bin")
-    b_product_label.pack()
-    b_product_type_menu = tk.OptionMenu(add_bin_wind, bin_prod, *prodList)
-    b_product_type_menu.pack()
-    x_val_s_label = tk.Label(add_bin_wind, text="Enter the start x value")
-    x_val_s_label.pack()
-    x_val_s_entry = tk.Entry(add_bin_wind, textvariable=x_val_s)
-    x_val_s_entry.pack()
-    y_val_s_label = tk.Label(add_bin_wind, text="Enter the start y value")
-    y_val_s_label.pack()
-    y_val_s_entry = tk.Entry(add_bin_wind, textvariable=y_val_s)
-    y_val_s_entry.pack()
-    z_val_s_label = tk.Label(add_bin_wind, text="Enter the start z value")
-    z_val_s_label.pack()
-    z_val_s_entry = tk.Entry(add_bin_wind, textvariable=z_val_s)
-    z_val_s_entry.pack()
-    x_val_e_label = tk.Label(add_bin_wind, text="Enter the end x value")
-    x_val_e_label.pack()
-    x_val_e_entry = tk.Entry(add_bin_wind, textvariable=x_val_e)
-    x_val_e_entry.pack()
-    y_val_e_label = tk.Label(add_bin_wind, text="Enter the end y value")
-    y_val_e_label.pack()
-    y_val_e_entry = tk.Entry(add_bin_wind, textvariable=y_val_e)
-    y_val_e_entry.pack()
-    z_val_e_label = tk.Label(add_bin_wind, text="Enter the end z value")
-    z_val_e_label.pack()
-    z_val_e_entry = tk.Entry(add_bin_wind, textvariable=z_val_e)
-    z_val_e_entry.pack()
-    r_val_b_label = tk.Label(add_bin_wind, text="Enter the r value")
-    r_val_b_label.pack()
-    r_val_b_entry = tk.Entry(add_bin_wind, textvariable=r_val_b)
-    r_val_b_entry.pack()
-    p_val_b_label = tk.Label(add_bin_wind, text="Enter the p value")
-    p_val_b_label.pack()
-    p_val_b_entry = tk.Entry(add_bin_wind, textvariable=p_val_b)
-    p_val_b_entry.pack()
-    y_rpy_val_b_label = tk.Label(add_bin_wind, text="Enter the y (rpy) value")
-    y_rpy_val_b_label.pack()
-    y_rpy_val_b_entry = tk.Entry(add_bin_wind, textvariable=y_rpy_val_b)
-    y_rpy_val_b_entry.pack()
-    b_dim_label = tk.Label(add_bin_wind, text="Select the dimensions for the bin")
-    b_dim_label.pack()
-    b_dim_menu = tk.OptionMenu(add_bin_wind, dim, '2x2', '3x3')
-    b_dim_menu.pack()
-    cancel_bin_func = partial(cancel_func, add_bin_wind, cancel_bin_flag)
-    cancel_bin_button = tk.Button(add_bin_wind, text="Cancel", command=cancel_bin_func)
-    cancel_bin_button.pack()
-    add_bin_exit = tk.Button(add_bin_wind, text="Save and Exit", command=add_bin_wind.destroy)
-    add_bin_exit.pack(pady=20)
-    x_val_s_num_func=partial(require_num, x_val_s)
-    x_val_s.trace('w', x_val_s_num_func)
-    y_val_s_num_func=partial(require_num, y_val_s)
-    y_val_s.trace('w', y_val_s_num_func)
-    z_val_s_num_func=partial(require_num, z_val_s)
-    z_val_s.trace('w', z_val_s_num_func)
-    x_val_e_num_func=partial(require_num, x_val_e)
-    x_val_e.trace('w', x_val_e_num_func)
-    y_val_e_num_func=partial(require_num, y_val_e)
-    y_val_e.trace('w', y_val_e_num_func)
-    z_val_e_num_func=partial(require_num, z_val_e)
-    z_val_e.trace('w', z_val_e_num_func)
-    check_rpy = partial(rpy_validation, r_val_b, p_val_b, y_rpy_val_b, add_bin_exit)
-    r_val_b.trace('w', check_rpy)
-    p_val_b.trace('w', check_rpy)
-    y_rpy_val_b.trace('w', check_rpy)
-    add_bin_wind.mainloop()
-    add_quotes(r_val_b)
-    add_quotes(p_val_b)
-    add_quotes(y_rpy_val_b)
-    width = '2'
-    if dim.get() == '3x3':
-        width = '3'
-    if cancel_bin_flag.get() == "0":
-        modelsOverBinsInfo.append(ModelOverBin(bin_num.get(), bin_prod.get(),
-                                            str("["+x_val_s.get()+", "+y_val_s.get()+", "+z_val_s.get()+"]"),
-                                            str("["+x_val_e.get()+", "+y_val_e.get()+", "+z_val_e.get()+"]"),
-                                            str("["+r_val_b.get()+", "+p_val_b.get()+", "+y_rpy_val_b.get()+"]"),
-                                            width, width))
-        binProds.append(PresentProducts(bin_prod.get(), str(int(width)**2)))
+
 
 
 
@@ -1018,7 +905,8 @@ if __name__ == "__main__":
         overBinsWind = tk.Tk()
         overBinsWind.geometry("850x600")
         overBinsWind.title("Models Over Bins Menu")
-        addBinButton = tk.Button(overBinsWind, text="Add bin", command=add_bin)
+        addBinFunc=partial(add_bin, modelsOverBinsInfo, binProds)
+        addBinButton = tk.Button(overBinsWind, text="Add bin", command=addBinFunc)
         addBinButton.pack(pady=20)
         overBinsNext = tk.Button(overBinsWind, text="Next", command=overBinsWind.destroy)
         overBinsNext.pack(pady=20)
