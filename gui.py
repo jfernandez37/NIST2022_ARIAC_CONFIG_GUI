@@ -3,9 +3,7 @@ tkinter trace function passes variables to functions which are not needed for th
 import tkinter as tk
 from tkinter import filedialog
 import tkinter.ttk as ttk
-import math
 import platform
-import os.path
 from os import chdir, path
 import os
 from pathlib import Path
