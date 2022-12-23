@@ -22,6 +22,7 @@ from Functions.fileFunc import *
 from Functions.faultyProd import add_faulty_prod
 from Functions.beltFunc import add_belt
 from Functions.addProduct import add_product
+from Functions.stationFunc import add_station
 schemaFile=open('./yamlSchemaARIAC.json',)  # opens the schema file
 
 orderCount = []  # Used in counter in new_order function
@@ -691,84 +692,7 @@ def add_bin():  # adds a bin for models over bins
         binProds.append(PresentProducts(bin_prod.get(), str(int(width)**2)))
 
 
-def add_station():  # adds a station to models over stations
-    """Adds a station to models over stations returns through models over stations info"""
-    add_station_wind = tk.Toplevel()
-    cancel_station_flag = tk.StringVar()
-    cancel_station_flag.set("0")
-    x_val_stat = tk.StringVar()
-    x_val_stat.set('0')
-    y_val_stat = tk.StringVar()
-    y_val_stat.set('0')
-    z_val_stat = tk.StringVar()
-    z_val_stat.set('0')
-    r_val_stat = tk.StringVar()
-    r_val_stat.set('0')
-    p_val_stat = tk.StringVar()
-    p_val_stat.set('0')
-    y_rpy_val_stat = tk.StringVar()
-    y_rpy_val_stat.set('0')
-    station = tk.StringVar()
-    station.set(allStations[0])
-    stat_prod = tk.StringVar()
-    stat_prod.set(prodList[0])
-    station_label = tk.Label(add_station_wind, text="Select the station")
-    station_label.pack()
-    station_menu = tk.OptionMenu(add_station_wind, station, *allStations)
-    station_menu.pack()
-    station_product_label = tk.Label(add_station_wind, text="Select the product for the station")
-    station_product_label.pack()
-    station_product_type_menu = tk.OptionMenu(add_station_wind, stat_prod, *prodList)
-    station_product_type_menu.pack()
-    x_val_stat_label = tk.Label(add_station_wind, text="Enter the x value")
-    x_val_stat_label.pack()
-    x_val_stat_entry = tk.Entry(add_station_wind, textvariable=x_val_stat)
-    x_val_stat_entry.pack()
-    y_val_stat_label = tk.Label(add_station_wind, text="Enter the y value")
-    y_val_stat_label.pack()
-    y_val_stat_entry = tk.Entry(add_station_wind, textvariable=y_val_stat)
-    y_val_stat_entry.pack()
-    z_val_stat_label = tk.Label(add_station_wind, text="Enter the z value")
-    z_val_stat_label.pack()
-    z_val_stat_entry = tk.Entry(add_station_wind, textvariable=z_val_stat)
-    z_val_stat_entry.pack()
-    r_val_stat_label = tk.Label(add_station_wind, text="Enter the r value")
-    r_val_stat_label.pack()
-    r_val_stat_entry = tk.Entry(add_station_wind, textvariable=r_val_stat)
-    r_val_stat_entry.pack()
-    p_val_stat_label = tk.Label(add_station_wind, text="Enter the p value")
-    p_val_stat_label.pack()
-    p_val_stat_entry = tk.Entry(add_station_wind, textvariable=p_val_stat)
-    p_val_stat_entry.pack()
-    y_rpy_val_stat_label = tk.Label(add_station_wind, text="Enter the y (rpy) value")
-    y_rpy_val_stat_label.pack()
-    y_rpy_val_stat_entry = tk.Entry(add_station_wind, textvariable=y_rpy_val_stat)
-    y_rpy_val_stat_entry.pack()
-    cancel_station_func = partial(cancel_func, add_station_wind, cancel_station_flag)
-    cancel_stat_button = tk.Button(add_station_wind, text="Cancel", command=cancel_station_func)
-    cancel_stat_button.pack()
-    add_stat_exit = tk.Button(add_station_wind, text="Save and Exit", command=add_station_wind.destroy)
-    add_stat_exit.pack(pady=20)
-    x_val_stat_num_func=partial(require_num, x_val_stat)
-    x_val_stat.trace('w', x_val_stat_num_func)
-    y_val_stat_num_func=partial(require_num, y_val_stat)
-    y_val_stat.trace('w', y_val_stat_num_func)
-    z_val_stat_num_func=partial(require_num, z_val_stat)
-    z_val_stat.trace('w', z_val_stat_num_func)
-    check_rpy = partial(rpy_validation, r_val_stat, p_val_stat, y_rpy_val_stat, add_stat_exit)
-    r_val_stat.trace('w', check_rpy)
-    p_val_stat.trace('w', check_rpy)
-    y_rpy_val_stat.trace('w', check_rpy)
-    add_station_wind.mainloop()
-    add_quotes(r_val_stat)
-    add_quotes(p_val_stat)
-    add_quotes(y_rpy_val_stat)
-    if cancel_station_flag.get()=="0":
-        modelsOverStationsInfo.append(ModelOverStation(station.get(), stat_prod.get(),
-                                                    str("["+x_val_stat.get()+", "+y_val_stat.get() +
-                                                        ", "+z_val_stat.get()+"]"),
-                                                    str("["+r_val_stat.get()+", "+p_val_stat.get() +
-                                                        ", "+y_rpy_val_stat.get()+"]")))
+
 
 
 if __name__ == "__main__":
@@ -1110,7 +1034,8 @@ if __name__ == "__main__":
         overStationsWind = tk.Tk()
         overStationsWind.geometry("850x600")
         overStationsWind.title("Models Over Stations Menu")
-        addStationButton = tk.Button(overStationsWind, text="Add station", command=add_station)
+        addStationFunc=partial(add_station, modelsOverStationsInfo)
+        addStationButton = tk.Button(overStationsWind, text="Add station", command=addStationFunc)
         addStationButton.pack(pady=20)
         overStationsNext = tk.Button(overStationsWind, text="Next", command=overStationsWind.destroy)
         overStationsNext.pack(pady=20)
