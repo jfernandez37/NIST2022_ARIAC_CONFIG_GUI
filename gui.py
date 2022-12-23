@@ -22,7 +22,7 @@ from Functions.validationFunc import *
 from Functions.roboBreakdown import add_robot_breakdown
 from Functions.addDrop import add_drop_region
 from Functions.fileFunc import *
-
+from Functions.faultyProd import add_faulty_prod
 schemaFile=open('./yamlSchemaARIAC.json',)  # opens the schema file
 
 orderCount = []  # Used in counter in new_order function
@@ -992,40 +992,6 @@ def add_belt():  # adds a belt to belt models
                                    str("["+r_val_belt.get()+", "+p_val_belt.get()+", "+y_rpy_val_belt.get()+"]")))
 
 
-def add_faulty_prod():  # adds a faulty product for the faulty product challenge
-    """Adds a faulty product for the faulty product challenge. Returned through faultyProdList"""
-    faulty_prod_window = tk.Toplevel()
-    cancel_faulty_flag = tk.StringVar()
-    cancel_faulty_flag.set('0')
-    temp_prod = tk.StringVar()
-    prod_id = tk.StringVar()
-    prod_id.set('1')
-    available_prod_list = []
-    id_range = []
-    binProds.reverse()
-    for product in binProds:
-        available_prod_list.append(product.pType)
-    temp_prod.set(available_prod_list[0])
-    faulty_prod_menu = tk.OptionMenu(faulty_prod_window, temp_prod, *available_prod_list)
-    faulty_prod_menu.pack()
-    prod_id_label = tk.Label(faulty_prod_window, text="Enter the product id")
-    prod_id_label.pack()
-    for num in range(int(binProds[0].pNum)):
-        id_range.append(num+1)
-    prod_id_menu = tk.OptionMenu(faulty_prod_window, prod_id, *id_range)
-    prod_id_menu.pack()
-    cancel_faulty_func = partial(cancel_func, faulty_prod_window, cancel_faulty_flag)
-    cancel_faulty_button = tk.Button(faulty_prod_window, text = "Cancel", command = cancel_faulty_func)
-    cancel_faulty_button.pack()
-    faulty_prod_save = tk.Button(faulty_prod_window, text="Save and Exit", command=faulty_prod_window.destroy)
-    faulty_prod_save.pack(pady=20)
-    update_id_with_arg = partial(update_id_range, prod_id_menu, temp_prod, prod_id, binProds)
-    temp_prod.trace('w', update_id_with_arg)
-    faulty_prod_window.mainloop()
-    if cancel_faulty_flag.get()=="0":
-        faultyProdList.append(str(temp_prod.get()+"_"+prod_id.get()))
-
-
 if __name__ == "__main__":
     """Main part of program. Goes through the main windows of the program and holds all global tkinter stringvars"""
     getFileName = tk.Tk()
@@ -1434,7 +1400,8 @@ if __name__ == "__main__":
         faultyWind.title("Faulty Products Menu")
         faultyWindLabel = tk.Label(faultyWind, text="This is needed for the Faulty Product Agility Challenge")
         faultyWindLabel.pack()
-        addProd = tk.Button(faultyWind, text="Add Product", command=add_faulty_prod)
+        faultyProdFunc=partial(add_faulty_prod, binProds, faultyProdList)
+        addProd = tk.Button(faultyWind, text="Add Product", command=faultyProdFunc)
         addProd.pack(pady=20)
         faulty_skip = partial(skip_wind, faultySkipFlag, faultyWind)
         skipFaultyProd = tk.Button(faultyWind, text="Skip", command=faulty_skip)
