@@ -136,3 +136,13 @@ if __name__=="__main__":
     timeVal.trace('w', validateTimeInput)
     timeWind.mainloop()
     check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
+    # END OF TIME LIMIT
+    # ----------------------------------------------------------------------------------------------
+    # START OF GETTING KITTING TRAYS
+    trayWind=tk.Tk()
+    saveTrayButton=tk.Button(trayWind, text="Save and Continue", command=trayWind.destroy)
+    saveTrayButton.grid(column=middleColumn,pady=20)
+    cancel_tray_command=partial(cancel_wind, trayWind, cancelFlag)
+    cancelTrayButton=tk.button(trayWind, text="Cancel and Exit", command=cancel_tray_command)
+    cancelTrayButton.grid(column=middleColumn,pady=20)
+    trayWind.mainloop()
