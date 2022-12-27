@@ -20,9 +20,9 @@ from Functions.faultyProd import add_faulty_prod
 from Functions.beltFunc import add_belt
 from Functions.addProduct import add_product
 from Functions.stationFunc import add_station
-from binFunc import add_bin
+from Functions.binFunc import add_bin
 from Functions.buttonFuncs import *
-from Functions.orderFuncs import *
+from Functions.orders.orderFuncs import *
 schemaFile=open('./yamlSchemaARIAC.json',)  # opens the schema file
 
 orderCount = []  # Used in counter in new_order function
