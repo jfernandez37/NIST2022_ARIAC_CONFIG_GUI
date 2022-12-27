@@ -14,7 +14,7 @@ trayTypes = ["movable_tray_dark_wood", "movable_tray_light_wood",
              "movable_tray_metal_rusty", "movable_tray_metal_shiny"]  # list of all tray types
 fkAgv1List = ['[ks1]', '[as1]', '[as2]']  # all possible locations for agv1 in the kitting format
 agv1List = ['ks1', 'as1', 'as2']  # all possible locations for agv1
-def assembly(orderFlag,assembProdsFlag,assembFlag, assembProds, tempAssemb):  # adds assembly to an order
+def assembly(orderFlag,assembProdsFlag,assembFlag, assembProds, tempAssemb, tempKits):  # adds assembly to an order
     """Adds an assembly order. Returned through tempAssemb"""
     assemb_wind = tk.Toplevel()
     a_ship_count = tk.StringVar()
@@ -39,7 +39,10 @@ def assembly(orderFlag,assembProdsFlag,assembFlag, assembProds, tempAssemb):  # 
     assembProdsFlag.trace('w', assembActButtonFunc)
     assembFlag.set('1')
     assemb_wind.mainloop()
-    tempAssemb.append(Assembly(a_ship_count.get(), a_stations.get(), assembProds))
+    Id=0
+    if len(tempKits)+len(tempAssemb)!=0:
+        Id=1
+    tempAssemb.append(Assembly(a_ship_count.get(), a_stations.get(), assembProds, Id))
 
 
 def get_a_products(assembProdsFlag, assembProds):  # adds a product to assembly

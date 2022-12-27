@@ -49,7 +49,7 @@ def update_kitting_ship(second_tray, second_agv, ship_count, second_dest, window
         kittingShipTempInput.append(second_get_k_dest)
 
 
-def kitting(kittingShipTempInput, orderFlag, kitProdsFlag,kittingFlag, kitProds,tempKits):  # allows the user to add kitting to an order
+def kitting(kittingShipTempInput, orderFlag, kitProdsFlag,kittingFlag, kitProds,tempKits,tempAssemb):  # allows the user to add kitting to an order
     """Adds a new kitting order to the orders. Returned through tempKits"""
     kitting_wind = tk.Toplevel()
     second_tray = tk.StringVar()
@@ -96,8 +96,11 @@ def kitting(kittingShipTempInput, orderFlag, kitProdsFlag,kittingFlag, kitProds,
     ship_count.trace('w', update_ship)
     kittingFlag.set('1')
     kitting_wind.mainloop()
+    Id=0
+    if (len(tempKits)+len(tempAssemb))!=0:
+        Id=1
     tempKits.append(Kitting(ship_count.get(), trays.get(), second_tray.get(), k_agv.get(),
-                            second_agv.get(), k_destination.get(), second_dest.get(), kitProds))
+                            second_agv.get(), k_destination.get(), second_dest.get(), kitProds,Id))
 
 
 def get_k_products(kitProdsFlag, kitProds):  # adds a product to kitting

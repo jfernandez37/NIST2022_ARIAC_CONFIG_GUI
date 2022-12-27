@@ -950,6 +950,7 @@ if __name__ == "__main__":
                             o.write("     pose:\n")
                             o.write("      xyz: " + k.xyz + "\n")
                             o.write("      rpy: " + k.rpy + "\n")
+                    print(i.kitting[orderInd].orderId)
                 if len(i.assembly) != 0:
                     o.write("  assembly:\n")
                     o.write("   shipment_count: " + i.assembly[orderInd].shipmentCount + '\n')
@@ -976,6 +977,7 @@ if __name__ == "__main__":
                             o.write("      pose:\n")
                             o.write("       xyz: " + k.xyz + "\n")
                             o.write("       rpy: " + k.rpy + "\n")
+                    print(i.assembly[orderInd].orderId)
                 orderID += 1
             o.write("\n")
     if len(modelsOverBinsInfo) > 0:

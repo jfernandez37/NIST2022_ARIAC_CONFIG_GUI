@@ -8,11 +8,12 @@ class Order:  # for organizing the data from the order menu
         self.conditionValue = cond_val
         self.kitting = kit_info
         self.assembly = assem_info
+        
 
 
 class Kitting:  # for organizing the data from the kitting menu
     """Holds the information for a kitting order"""
-    def __init__(self, ship_count, tray, second_tray, agv, second_agv, destinations, second_dest, products):
+    def __init__(self, ship_count, tray, second_tray, agv, second_agv, destinations, second_dest, products, orderId):
         self.shipmentCount = ship_count
         self.tray = tray
         self.secondTray = second_tray
@@ -21,14 +22,16 @@ class Kitting:  # for organizing the data from the kitting menu
         self.destinations = destinations
         self.secondDest = second_dest
         self.products = products
+        self.orderId=orderId
 
 
 class Assembly:  # for organizing the data from the assembly menu
     """Holds the information for an assembly order"""
-    def __init__(self, ship_count, stations, products):
+    def __init__(self, ship_count, stations, products, orderId):
         self.shipmentCount = ship_count
         self.stations = stations
         self.products = products
+        self.orderId = orderId
 
 
 class Products:  # for organizing the data for all products
