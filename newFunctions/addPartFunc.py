@@ -1,9 +1,9 @@
-from newClasses import *
+from newFunctions.newClasses import *
 import tkinter as tk
 from functools import partial
 from Functions.checkCancel import *
-from validationFunctions import *
-from updateAGVFuncs import updateAgvQudrants
+from newFunctions.validationFunctions import *
+from newFunctions.updateAGVFuncs import updateAgvQudrants
 agvList=["agv1", "agv2", "agv3", "agv4"]
 partTypes=["sensor", "pump", "regulator", "battery"]
 partColors=['green', 'red', 'purple','blue','orange']
