@@ -46,7 +46,8 @@ def addPart(agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadra
     partRotationEntry=tk.Entry(newPartWind, textvariable=partRotation)
     partRotationEntry.pack()
     #save and cancel buttons
-    saveNewPartButton=tk.Button(newPartWind, text="Save", command=newPartWind.destroy)
+    save_new_part=partial(updateAgvQudrants,agvSelection, partQuadrantSelectMenu, partQuadrant, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants, newPartWind)
+    saveNewPartButton=tk.Button(newPartWind, text="Save", command=save_new_part)
     saveNewPartButton.pack(pady=20)
     newPartCancelFlag=tk.StringVar()
     newPartCancelFlag.set("0")
@@ -56,8 +57,6 @@ def addPart(agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadra
     #trace functions
     validate_rotation=partial(validateRotationValue, partRotation, saveNewPartButton)
     partRotation.trace('w', validate_rotation)
-    update_agv_quadrants=partial(updateAgvQudrants,agvSelection, partQuadrantSelectMenu, partQuadrant, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants)
-    agvSelection.trace('w', update_agv_quadrants)
     newPartWind.mainloop()
     if newPartCancelFlag.get()=="0":
         add_quotes(partType)
@@ -66,13 +65,9 @@ def addPart(agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadra
             add_quotes(partRotation.get())
         if agvSelection.get()=='agv1':
             agv1Parts.append(Parts(partType.get(), partColor.get(), partQuadrant.get(), partRotation.get()))
-            agv1Quadrants.remove(partQuadrant.get())
         elif agvSelection.get()=='agv2':
             agv2Parts.append(Parts(partType.get(), partColor.get(), partQuadrant.get(), partRotation.get()))
-            agv2Quadrants.remove(partQuadrant.get())
         elif agvSelection.get()=='agv3':
             agv3Parts.append(Parts(partType.get(), partColor.get(), partQuadrant.get(), partRotation.get()))
-            agv3Quadrants.remove(partQuadrant.get())
         else:
             agv4Parts.append(Parts(partType.get(), partColor.get(), partQuadrant.get(), partRotation.get()))
-            agv4Quadrants.remove(partQuadrant.get())
