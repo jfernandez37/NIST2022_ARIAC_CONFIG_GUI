@@ -2,7 +2,7 @@ import tkinter as tk
 from Functions.checkCancel import *
 from functools import partial
 from newFunctions.validationFunctions import *
-from newClasses import *
+from newFunctions.newClasses import *
 partTypes=["sensor", "pump", "regulator", "battery"]
 partColors=['green', 'red', 'purple','blue','orange']
 allBins=[]
