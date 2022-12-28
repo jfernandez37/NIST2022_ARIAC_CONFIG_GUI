@@ -22,8 +22,9 @@ from Functions.buttonFuncs import *
 from Functions.orders.orderFuncs import *
 from newFunctions.timeFunctions import *
 from newClasses import *
-from addPartFunc import addPart
-from updateAGVFuncs import updateTrayIds
+from newFunctions.addPartFunc import addPart
+from newFunctions.updateAGVFuncs import updateTrayIds
+from addNewBin import addBin
 pathIncrement = []  # gives the full path for recursive deletion
 createdDir = []  # to deleted directories made if canceled
 leftColumn=0
@@ -41,6 +42,24 @@ agv1Quadrants=["0","1","2","3"]
 agv2Quadrants=["0","1","2","3"]
 agv3Quadrants=["0","1","2","3"]
 agv4Quadrants=["0","1","2","3"]
+bins=[]
+bin1Slots=[]
+bin2Slots=[]
+bin3Slots=[]
+bin4Slots=[]
+bin5Slots=[]
+bin6Slots=[]
+bin7Slots=[]
+bin8Slots=[]
+for i in range(9):
+    bin1Slots.append(str(i+1))
+    bin2Slots.append(str(i+1))
+    bin3Slots.append(str(i+1))
+    bin4Slots.append(str(i+1))
+    bin5Slots.append(str(i+1))
+    bin6Slots.append(str(i+1))
+    bin7Slots.append(str(i+1))
+    bin8Slots.append(str(i+1))
 if __name__=="__main__":
     getFileName = tk.Tk()
     fileNameVar = tk.StringVar()
@@ -255,4 +274,17 @@ if __name__=="__main__":
     agv4TrayId.trace('w', update_agv_ids)
     partsWind.mainloop()
     check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
-
+    # END OF PARTS
+    # ----------------------------------------------------------------------------------------------
+    # START OF BINS
+    binsWind=tk.Tk()
+    add_bin_func=partial(addBin,bins,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots)
+    addBinsButton=tk.Button(binsWind, text="Add Bins", command=add_bin_func)
+    addBinsButton.pack()
+    saveBinsButton=tk.Button(binsWind, text="Save and Continue", command=binsWind.destroy)
+    saveBinsButton.pack()
+    cancel_bins_command=partial(cancel_wind, binsWind, cancelFlag)
+    cancelBinsButton=tk.Button(binsWind, text="Cancel and Exit", command=cancel_bins_command)
+    cancelBinsButton.pack()
+    binsWind.mainloop()
+    check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
