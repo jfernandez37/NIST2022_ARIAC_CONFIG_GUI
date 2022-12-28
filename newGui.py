@@ -7,7 +7,6 @@ from PIL import Image, ImageTk  # needed for images in gui
 from jsonschema import validate
 import yaml
 import Functions.validateARIAC as validateARIAC
-from Functions.allClasses import *
 from Functions.checkCancel import *
 from Functions.updateRanges import *
 from Functions.validationFunc import *
@@ -22,6 +21,9 @@ from Functions.binFunc import add_bin
 from Functions.buttonFuncs import *
 from Functions.orders.orderFuncs import *
 from newFunctions.timeFunctions import *
+from newClasses import *
+from addPartFunc import addPart
+from updateAGVFuncs import updateTrayIds
 pathIncrement = []  # gives the full path for recursive deletion
 createdDir = []  # to deleted directories made if canceled
 leftColumn=0
@@ -29,6 +31,16 @@ middleColumn=1
 middleColumnWidth=62  # width of middle margin for live yaml windows
 rightColumn=2
 nameLabels = []  # holds temporary flags to be deleted
+agv1Parts=[]
+agv2Parts=[]
+agv3Parts=[]
+agv4Parts=[]
+agvTrayIds=["","0","1","2","3","4","5","6"]
+trayIds=["0","1","2","3","4","5","6"]
+agv1Quadrants=["0","1","2","3"]
+agv2Quadrants=["0","1","2","3"]
+agv3Quadrants=["0","1","2","3"]
+agv4Quadrants=["0","1","2","3"]
 if __name__=="__main__":
     getFileName = tk.Tk()
     fileNameVar = tk.StringVar()
@@ -198,5 +210,49 @@ if __name__=="__main__":
     cancelTrayButton=tk.Button(trayWind, text="Cancel and Exit", command=cancel_tray_command)
     cancelTrayButton.grid(column=middleColumn,pady=20)
     trayWind.mainloop()
+    check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
+    # END OF GETTING KITTING TRAYS
+    # ----------------------------------------------------------------------------------------------
+    # START OF PARTS
+    partsWind=tk.Tk()
+    partsWind.geometry("850x600")
+    agv1TrayId=tk.StringVar()
+    agv1TrayId.set(agvTrayIds[0])
+    agv2TrayId=tk.StringVar()
+    agv2TrayId.set(agvTrayIds[0])
+    agv3TrayId=tk.StringVar()
+    agv3TrayId.set(agvTrayIds[0])
+    agv4TrayId=tk.StringVar()
+    agv4TrayId.set(agvTrayIds[0])
+    agv1TrayLabel=tk.Label(partsWind, text="Select the tray Id for agv1")
+    agv1TrayLabel.pack()
+    agv1TrayIdSelect=tk.OptionMenu(partsWind, agv1TrayId, *agvTrayIds)
+    agv1TrayIdSelect.pack()
+    agv2TrayLabel=tk.Label(partsWind, text="Select the tray Id for agv2")
+    agv2TrayLabel.pack()
+    agv2TrayIdSelect=tk.OptionMenu(partsWind, agv2TrayId, *agvTrayIds)
+    agv2TrayIdSelect.pack()
+    agv3TrayLabel=tk.Label(partsWind, text="Select the tray Id for agv3")
+    agv3TrayLabel.pack()
+    agv3TrayIdSelect=tk.OptionMenu(partsWind, agv3TrayId, *agvTrayIds)
+    agv3TrayIdSelect.pack()
+    agv4TrayLabel=tk.Label(partsWind, text="Select the tray Id for agv4")
+    agv4TrayLabel.pack()
+    agv4TrayIdSelect=tk.OptionMenu(partsWind, agv4TrayId, *agvTrayIds)
+    agv4TrayIdSelect.pack()
+    add_new_part=partial(addPart,agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants)
+    addPartsButton=tk.Button(partsWind, text="Add part", command=add_new_part)
+    addPartsButton.pack()
+    savePartsButton=tk.Button(partsWind, text="Save and Continue", command=partsWind.destroy)
+    savePartsButton.pack()
+    cancel_parts_command=partial(cancel_wind, partsWind, cancelFlag)
+    cancelPartsButton=tk.Button(partsWind, text="Cancel and Exit", command=cancel_parts_command)
+    cancelPartsButton.pack()
+    update_agv_ids=partial(updateTrayIds,agv1TrayId, agv2TrayId, agv3TrayId, agv4TrayId, agv1TrayIdSelect, agv2TrayIdSelect, agv3TrayIdSelect, agv4TrayIdSelect,agvTrayIds)
+    agv1TrayId.trace('w', update_agv_ids)
+    agv2TrayId.trace('w', update_agv_ids)
+    agv3TrayId.trace('w', update_agv_ids)
+    agv4TrayId.trace('w', update_agv_ids)
+    partsWind.mainloop()
     check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
 
