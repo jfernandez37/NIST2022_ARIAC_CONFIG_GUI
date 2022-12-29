@@ -1,4 +1,4 @@
-from newClasses import *
+from newFunctions.newClasses import *
 import tkinter as tk
 from functools import partial
 from Functions.checkCancel import *

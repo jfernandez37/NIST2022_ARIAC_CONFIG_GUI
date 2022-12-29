@@ -21,10 +21,10 @@ from Functions.binFunc import add_bin
 from Functions.buttonFuncs import *
 from Functions.orders.orderFuncs import *
 from newFunctions.timeFunctions import *
-from newClasses import *
+from newFunctions.newClasses import *
 from newFunctions.addPartFunc import addPart
 from newFunctions.updateAGVFuncs import updateTrayIds
-from addNewBin import addBin
+from newFunctions.addNewBin import addBin
 pathIncrement = []  # gives the full path for recursive deletion
 createdDir = []  # to deleted directories made if canceled
 leftColumn=0
@@ -288,3 +288,6 @@ if __name__=="__main__":
     cancelBinsButton.pack()
     binsWind.mainloop()
     check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
+    # END OF BINS
+    # ----------------------------------------------------------------------------------------------
+    # START OF CONVEYOR BELT
