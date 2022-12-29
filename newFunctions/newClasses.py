@@ -14,3 +14,12 @@ class Bin:  # for holding information about present bins
         self.slots=slots
         self.rotation=rotation
         self.flipped=flipped
+
+class PartConv:  # for holding information about parts for the conveyor belt
+    """Holds data about parts for the conveyor belt"""
+    def __init__(self, type, color, number, offset, rotation):
+        self.type=type
+        self.color=color
+        self.number=number
+        self.offset=offset
+        self.rotation=rotation

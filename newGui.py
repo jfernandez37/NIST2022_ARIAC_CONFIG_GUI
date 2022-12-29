@@ -25,6 +25,7 @@ from newFunctions.newClasses import *
 from newFunctions.addPartFunc import addPart
 from newFunctions.updateAGVFuncs import updateTrayIds
 from newFunctions.addNewBin import addBin
+from addConvPart import addPartConv
 pathIncrement = []  # gives the full path for recursive deletion
 createdDir = []  # to deleted directories made if canceled
 leftColumn=0
@@ -51,6 +52,7 @@ bin5Slots=[]
 bin6Slots=[]
 bin7Slots=[]
 bin8Slots=[]
+convParts=[]
 for i in range(9):
     bin1Slots.append(str(i+1))
     bin2Slots.append(str(i+1))
@@ -60,6 +62,17 @@ for i in range(9):
     bin6Slots.append(str(i+1))
     bin7Slots.append(str(i+1))
     bin8Slots.append(str(i+1))
+
+def randOrSeq():  
+    """Cycles through the options for the conveyor belt order"""
+    if changeOrder.config('text')[-1] == 'random':
+        changeOrder.config(text='sequential')
+        convOrder.set("sequential")
+    elif changeOrder.config('text')[-1] == 'sequential':
+        changeOrder.config(text='random')
+        convOrder.set("random")
+
+
 if __name__=="__main__":
     getFileName = tk.Tk()
     fileNameVar = tk.StringVar()
@@ -280,14 +293,45 @@ if __name__=="__main__":
     binsWind=tk.Tk()
     add_bin_func=partial(addBin,bins,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots)
     addBinsButton=tk.Button(binsWind, text="Add Bins", command=add_bin_func)
-    addBinsButton.pack()
+    addBinsButton.pack(pady=20)
     saveBinsButton=tk.Button(binsWind, text="Save and Continue", command=binsWind.destroy)
-    saveBinsButton.pack()
+    saveBinsButton.pack(pady=20)
     cancel_bins_command=partial(cancel_wind, binsWind, cancelFlag)
     cancelBinsButton=tk.Button(binsWind, text="Cancel and Exit", command=cancel_bins_command)
-    cancelBinsButton.pack()
+    cancelBinsButton.pack(pady=20)
     binsWind.mainloop()
     check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     # END OF BINS
     # ----------------------------------------------------------------------------------------------
     # START OF CONVEYOR BELT
+    convWind=tk.Tk()
+    convWind.title("Conveyor Belt")
+    convWind.geometry("850x600")
+    conveyorBeltLabel=tk.Label(convWind, text="Conveyor Belt Settings")
+    conveyorBeltLabel.pack()
+    convActive=tk.StringVar()
+    convActive.set('0')
+    activeCheck=tk.Checkbutton(convWind, text="Active", variable=convActive, onvalue="1", offvalue="0", height=3, width=20)
+    activeCheck.pack()
+    spawnRate=tk.StringVar()
+    spawnRate.set('0')
+    spawnRateEntryLabel=tk.Label(convWind, text="Enter the spawn rate for the conveyor belt")
+    spawnRateEntryLabel.pack()
+    spawnRateEntry=tk.Entry(convWind, textvariable=spawnRate)
+    spawnRateEntry.pack()
+    convOrder=tk.StringVar()
+    convOrder.set("random")
+    changeOrder = tk.Button(text="random", command=randOrSeq)
+    changeOrder.pack(pady=10)
+    add_conv_part=partial(addPartConv, convParts)
+    addPartConvButton=tk.Button(convWind, text="Add part", command=add_conv_part)
+    addPartConvButton.pack(pady=20)
+    saveConvButton=tk.Button(convWind, text="Save and Continue", command=convWind.destroy)
+    saveConvButton.pack(pady=20)
+    cancel_conv_command=partial(cancel_wind, convWind, cancelFlag)
+    cancelConvButton=tk.Button(convWind, text="Cancel and Exit", command=cancel_conv_command)
+    cancelConvButton.pack(pady=20)
+    validate_spawn_rate=partial(require_num, spawnRate)
+    spawnRate.trace('w', validate_spawn_rate)
+    convWind.mainloop()
+    check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
