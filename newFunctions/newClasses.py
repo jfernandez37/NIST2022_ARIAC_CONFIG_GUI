@@ -23,3 +23,36 @@ class PartConv:  # for holding information about parts for the conveyor belt
         self.number=number
         self.offset=offset
         self.rotation=rotation
+
+class Order:  # for holding information about orders
+    def __init__(self, id, type, priority):
+        self.id=id
+        self.type=type
+        self.priority=priority
+
+class KittingTasks:
+    def __init__(self, orderNumber, agvNumber, trayId, destination):
+        self.orderNumber=orderNumber
+        self.agvNumber=agvNumber
+        self.trayId=trayId
+        self.destination=destination
+
+class AssemblyTasks:
+    def __init__(self, orderNumber, agvNumber, station):
+        self.orderNumber = orderNumber
+        self.agvNumber=agvNumber
+        self.station=station
+
+class KittingProds:
+    def __init__(self, type, color, quadrant):
+        self.type=type
+        self.color=color
+        self.quadrant=quadrant
+
+class AssemblyProds:
+    def __init__(self, type, color, xyz, rpy, direction):
+        self.type=type
+        self.color=color
+        self.xyz=xyz
+        self.rpy=rpy
+        self.direciton=direction
