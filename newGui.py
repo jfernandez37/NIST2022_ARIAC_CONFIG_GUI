@@ -25,7 +25,7 @@ from newFunctions.newClasses import *
 from newFunctions.addPartFunc import addPart
 from newFunctions.updateAGVFuncs import updateTrayIds
 from newFunctions.addNewBin import addBin
-from addConvPart import addPartConv
+from newFunctions.addConvPart import addPartConv
 pathIncrement = []  # gives the full path for recursive deletion
 createdDir = []  # to deleted directories made if canceled
 leftColumn=0
@@ -334,4 +334,15 @@ if __name__=="__main__":
     validate_spawn_rate=partial(require_num, spawnRate)
     spawnRate.trace('w', validate_spawn_rate)
     convWind.mainloop()
+    check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
+    # END OF CONVEYOR BELT
+    # ----------------------------------------------------------------------------------------------
+    # START OF ORDERS
+    ordersWind=tk.Tk()
+    saveOrdersButton=tk.Button(ordersWind, text="Save and Continue", command=ordersWind.destroy)
+    saveOrdersButton.pack(pady=20)
+    cancel_orders_command=partial(cancel_wind, ordersWind, cancelFlag)
+    cancelOrdersButton=tk.Button(convWind, text="Cancel and Exit", command=cancel_orders_command)
+    cancelOrdersButton.pack(pady=20)
+    ordersWind.mainloop()
     check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
