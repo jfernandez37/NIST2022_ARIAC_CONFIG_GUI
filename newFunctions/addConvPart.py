@@ -78,8 +78,8 @@ def addPartConv(convParts):
     convPartCancelFlag=tk.StringVar()
     convPartCancelFlag.set('0')
     cancel_new_conv_part=partial(cancel_func, partConvWind, convPartCancelFlag)
-    cancelNewPartButton=tk.Button(partConvWind, text="Cancel", command=cancel_new_conv_part)
-    cancelNewPartButton.pack(pady=20)
+    cancelNewConvButton=tk.Button(partConvWind, text="Cancel", command=cancel_new_conv_part)
+    cancelNewConvButton.pack(pady=20)
     #entry validation
     validate_rotation=partial(validateRotationValue, partRotation, saveConvButton)
     partRotation.trace('w', validate_rotation)
