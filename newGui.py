@@ -64,6 +64,11 @@ for i in range(9):
     bin6Slots.append(str(i+1))
     bin7Slots.append(str(i+1))
     bin8Slots.append(str(i+1))
+allOrders=[]
+kittingParts=[]
+assemblyParts=[]
+orderIds=[]
+orderCounter=[]
 
 def randOrSeq():  
     """Cycles through the options for the conveyor belt order"""
