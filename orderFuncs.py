@@ -31,6 +31,7 @@ def addNewOrder(orderCounter):
     timeConditionEntryLabel.pack()
     timeConditionEntry=tk.Label(newOrderWind, textvariable=timeCondition)
     timeConditionEntry.pack()
+    #order condition
     '''
     
     Filler for order_condition
@@ -42,6 +43,21 @@ def addNewOrder(orderCounter):
     orderPriority.set('1')
     orderPriorityCheckBox=tk.Checkbutton(newOrderWind, text="Priority", variable=orderPriority, onvalue="1", offvalue="0", height=1, width=20)
     orderPriorityCheckBox.pack()
+    #order challenges
+    '''
+    
+    Challenges
+    
+    
+    '''
+    #choose the tasks
+    '''
+    
+    
+    kitting or assembly task
+    
+    
+    '''
     #save and cancel buttons
     saveOrdButton=tk.Button(newOrderWind, text="Save and Exit", command=newOrderWind.destroy)
     saveOrdButton.pack()
