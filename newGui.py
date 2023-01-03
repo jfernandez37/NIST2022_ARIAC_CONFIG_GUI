@@ -411,3 +411,5 @@ if __name__=="__main__":
         writePartsToFile("agv3", agv3TrayId.get(), agv3Parts, saveFileName)
     if len(agv4Parts)>0:
             writePartsToFile("agv4", agv4TrayId.get(), agv4Parts, saveFileName)
+    with open(saveFileName, "a") as o:
+        o.write("\n\n")

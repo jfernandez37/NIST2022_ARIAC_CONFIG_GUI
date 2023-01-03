@@ -83,4 +83,3 @@ def writePartsToFile(name, id, partsList, saveFileName):
             o.write("        color: "+i.color+"\n")
             o.write("        quadrant: "+i.quadrant+"\n")
             o.write("        rotation: "+i.rotation+"\n")
-        o.write("\n\n")
