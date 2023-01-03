@@ -8,6 +8,7 @@ from newFunctions.newClasses import *
 orderTypes=["kitting", "assembly", "combined"]
 quadrants=["0","1","2","3"]
 currentQuadMenu=[]
+
 def generateOrderId(usedId):
     newId=''.join(random.choices(string.ascii_uppercase+string.digits,k=8))
     if newId in usedId:
@@ -16,14 +17,16 @@ def generateOrderId(usedId):
     usedId.append(newId)
     return newId
 
-def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox,a,b,c):
+def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox, orderQuadLabel, a,b,c):
     if orderNum!=" " and len(currentQuadMenu)==0:
         orderQuadrant.set('0')
         orderQuadMenu.pack(before=orderPriorityCheckBox)
+        orderQuadLabel.pack(before=orderQuadMenu)
         currentQuadMenu.append(0)
     else:
         orderQuadrant.set(' ')
         orderQuadMenu.pack_forget()
+        orderQuadLabel.pack_forget()
         for i in currentQuadMenu:
             currentQuadMenu.remove(i)
 
@@ -57,6 +60,8 @@ def addNewOrder(orderCounter):
     orderNumMenu.pack()
     orderQuadrant=tk.StringVar()
     orderQuadrant.set(" ")
+    orderQuadLabel=tk.Label(newOrderWind, text="Choose the quadrant for the order_condition announcement")
+    orderQuadLabel.pack_forget()
     orderQuadMenu=tk.OptionMenu(newOrderWind, orderQuadrant, *quadrants)
     orderQuadMenu.pack_forget()
     #Priority
@@ -87,7 +92,7 @@ def addNewOrder(orderCounter):
     cancel_new_ord_part=partial(cancel_func, newOrderWind, ordCancelFlag)
     cancelNewOrdButton=tk.Button(newOrderWind, text="Cancel", command=cancel_new_ord_part)
     cancelNewOrdButton.pack(pady=20)
-    order_quad_func=partial(updateQuadMenu, orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox)
+    order_quad_func=partial(updateQuadMenu, orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox, orderQuadLabel)
     orderNum.trace('w',order_quad_func)
     newOrderWind.mainloop()
     if ordCancelFlag.get()=="1":
