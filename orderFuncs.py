@@ -8,7 +8,7 @@ from newFunctions.newClasses import *
 orderTypes=["kitting", "assembly", "combined"]
 quadrants=["0","1","2","3"]
 currentQuadMenu=[]
-
+challengeList=['flipped_part', 'faulty_part', 'dropped_part', 'sensor_blackout', 'robot_malfunction']
 def generateOrderId(usedId):
     newId=''.join(random.choices(string.ascii_uppercase+string.digits,k=8))
     if newId in usedId:
@@ -16,6 +16,31 @@ def generateOrderId(usedId):
             newId=''.join(random.choices(string.ascii_uppercase+string.digits,k=8))
     usedId.append(newId)
     return newId
+
+def addOrderChallenge(allOrderChallenges, orderCounter):
+    orderChallengeWind=tk.Toplevel()
+    orderChallengeType=tk.StringVar()
+    orderChallengeType.set(challengeList[0])
+    orderChallengeTypeLabel=tk.Label(orderChallengeWind,text="Select the type of challenge")
+    orderChallengeTypeLabel.pack()
+    orderChallengeTypeMenu=tk.OptionMenu(orderChallengeWind, orderChallengeType, *challengeList)
+    orderChallengeTypeMenu.pack()
+    orderChallengeQuadrant=tk.StringVar()
+    orderChallengeQuadrant.set(quadrants[0])
+    orderChallengeQuadLabel=tk.Label(orderChallengeWind, text="Select the quadrant for the challenge")
+    orderChallengeQuadLabel.pack()
+    orderChallengeQuadMenu=tk.OptionMenu(orderChallengeWind, orderChallengeQuadrant, *quadrants)
+    orderChallengeQuadMenu.pack()
+    orderChallengeSave=tk.Button(orderChallengeWind, text="Save", command=orderChallengeWind.destroy)
+    orderChallengeSave.pack(pady=20)
+    orderChallengeCancelFlag=tk.StringVar()
+    orderChallengeCancelFlag.set('0')
+    cancel_order_challenge=partial(exitAndFlag, orderChallengeWind, orderChallengeCancelFlag)
+    orderChallengeCancel=tk.Button(orderChallengeWind, text="Cancel", command=cancel_order_challenge)
+    orderChallengeCancel.pack()
+    orderChallengeWind.mainloop()
+    if orderChallengeCancelFlag.get()=="0":
+        allOrderChallenges.append(OrderChallenge(str(len(orderCounter)),orderChallengeType.get(),orderChallengeQuadrant.get()))
 
 def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox, orderQuadLabel, a,b,c):
     if orderNum.get()!=" " and len(currentQuadMenu)==0:
@@ -31,7 +56,7 @@ def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox
             currentQuadMenu.remove(i)
 
 
-def addNewOrder(orderCounter):
+def addNewOrder(orderCounter, allOrderChallenges):
     orderCounter.append(0)
     newOrderWind=tk.Tk()
     #order type
@@ -71,12 +96,9 @@ def addNewOrder(orderCounter):
     orderPriorityCheckBox=tk.Checkbutton(newOrderWind, text="Priority", variable=orderPriority, onvalue="1", offvalue="0", height=1, width=20)
     orderPriorityCheckBox.pack()
     #order challenges
-    '''
-    
-    Challenges
-    
-    
-    '''
+    order_challenge_func=partial(addOrderChallenge, allOrderChallenges, orderCounter)
+    addOrderChallengeButton=tk.Button(newOrderWind, text="Add challenge", command=order_challenge_func)
+    addOrderChallengeButton.pack()
     #choose the tasks
     '''
     

@@ -70,7 +70,7 @@ kittingParts=[]
 assemblyParts=[]
 orderIds=[]
 orderCounter=[]
-
+allOrderChallenges=[]
 def randOrSeq():  
     """Cycles through the options for the conveyor belt order"""
     if changeOrder.config('text')[-1] == 'random':
@@ -299,6 +299,7 @@ if __name__=="__main__":
     # ----------------------------------------------------------------------------------------------
     # START OF BINS
     binsWind=tk.Tk()
+    binsWind.geometry("850x600")
     add_bin_func=partial(addBin,bins,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots)
     addBinsButton=tk.Button(binsWind, text="Add Bins", command=add_bin_func)
     addBinsButton.pack(pady=20)
@@ -347,7 +348,8 @@ if __name__=="__main__":
     # ----------------------------------------------------------------------------------------------
     # START OF ORDERS
     ordersWind=tk.Tk()
-    new_order_func=partial(addNewOrder, orderCounter)
+    ordersWind.geometry("850x600")
+    new_order_func=partial(addNewOrder, orderCounter, allOrderChallenges)
     newOrderButton=tk.Button(ordersWind, text="New Order", command=new_order_func)
     newOrderButton.pack()
     saveOrdersButton=tk.Button(ordersWind, text="Save and Continue", command=ordersWind.destroy)

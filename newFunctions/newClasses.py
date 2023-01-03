@@ -56,3 +56,9 @@ class AssemblyProds:
         self.xyz=xyz
         self.rpy=rpy
         self.direciton=direction
+
+class OrderChallenge:
+    def __init__(self, orderId, challengeType, quadrant):
+        self.ord=orderId
+        self.type=challengeType
+        self.quadrant=quadrant
