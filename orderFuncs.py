@@ -6,6 +6,8 @@ from functools import partial
 from newFunctions.validationFunctions import *
 from newFunctions.newClasses import *
 orderTypes=["kitting", "assembly", "combined"]
+quadrants=["0","1","2","3"]
+currentQuadMenu=[]
 def generateOrderId(usedId):
     newId=''.join(random.choices(string.ascii_uppercase+string.digits,k=8))
     if newId in usedId:
@@ -13,6 +15,18 @@ def generateOrderId(usedId):
             newId=''.join(random.choices(string.ascii_uppercase+string.digits,k=8))
     usedId.append(newId)
     return newId
+
+def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu,a,b,c):
+    if orderNum!=" " and len(currentQuadMenu)==0:
+        orderQuadrant.set('0')
+        orderQuadMenu.pack()
+        currentQuadMenu.append(0)
+    else:
+        orderQuadrant.set(' ')
+        orderQuadMenu.pack_forget()
+        for i in currentQuadMenu:
+            currentQuadMenu.remove(i)
+
 
 def addNewOrder(orderCounter):
     orderCounter.append(0)
@@ -29,15 +43,24 @@ def addNewOrder(orderCounter):
     timeCondition.set('0')
     timeConditionEntryLabel=tk.Label(newOrderWind, text="Enter the announcement time_condition")
     timeConditionEntryLabel.pack()
-    timeConditionEntry=tk.Label(newOrderWind, textvariable=timeCondition)
+    timeConditionEntry=tk.Entry(newOrderWind, textvariable=timeCondition)
     timeConditionEntry.pack()
     #order condition
-    '''
-    
-    Filler for order_condition
-    
-    
-    '''
+    orderNum=tk.StringVar()
+    orderNum.set("")
+    orderNums=[""]
+    for i in range(len(orderCounter)):
+        orderNums.append(str(i+1))
+    orderNumLabel=tk.Label(newOrderWind, text="Choose the order number for the order_condition announcement. Leave blank to skip.")
+    orderNumLabel.pack()
+    orderNumMenu=tk.OptionMenu(newOrderWind, orderNum, *orderNums)
+    orderNumMenu.pack()
+    orderQuadrant=tk.StringVar()
+    orderQuadrant.set(" ")
+    orderQuadMenu=tk.OptionMenu(newOrderWind, orderQuadrant, *quadrants)
+    orderQuadMenu.pack_forget()
+    order_quad_func=partial(updateQuadMenu, orderNum, orderQuadrant, orderQuadMenu)
+    orderNum.trace('w',order_quad_func)
     #Priority
     orderPriority=tk.StringVar()
     orderPriority.set('1')

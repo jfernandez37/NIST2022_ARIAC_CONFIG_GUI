@@ -26,6 +26,7 @@ from newFunctions.addPartFunc import addPart
 from newFunctions.updateAGVFuncs import updateTrayIds
 from newFunctions.addNewBin import addBin
 from newFunctions.addConvPart import addPartConv
+from orderFuncs import *
 
 CHECKBOXHEIGHT=1
 pathIncrement = []  # gives the full path for recursive deletion
@@ -346,10 +347,13 @@ if __name__=="__main__":
     # ----------------------------------------------------------------------------------------------
     # START OF ORDERS
     ordersWind=tk.Tk()
+    new_order_func=partial(addNewOrder, orderCounter)
+    newOrderButton=tk.Button(ordersWind, text="New Order", command=new_order_func)
+    newOrderButton.pack()
     saveOrdersButton=tk.Button(ordersWind, text="Save and Continue", command=ordersWind.destroy)
     saveOrdersButton.pack(pady=20)
     cancel_orders_command=partial(cancel_wind, ordersWind, cancelFlag)
-    cancelOrdersButton=tk.Button(convWind, text="Cancel and Exit", command=cancel_orders_command)
+    cancelOrdersButton=tk.Button(ordersWind, text="Cancel and Exit", command=cancel_orders_command)
     cancelOrdersButton.pack(pady=20)
     ordersWind.mainloop()
     check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
