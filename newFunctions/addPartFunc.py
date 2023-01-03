@@ -71,3 +71,16 @@ def addPart(agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadra
             agv3Parts.append(Parts(partType.get(), partColor.get(), partQuadrant.get(), partRotation.get()))
         else:
             agv4Parts.append(Parts(partType.get(), partColor.get(), partQuadrant.get(), partRotation.get()))
+
+
+def writePartsToFile(name, id, partsList, saveFileName):
+    with open(saveFileName, "a") as o:
+        o.write("    "+name+":\n")
+        o.write("      tray_id: "+ id+"\n")
+        o.write("      parts:\n")
+        for i in partsList:
+            o.write("      - type: "+i.pType+"\n")
+            o.write("        color: "+i.color+"\n")
+            o.write("        quadrant: "+i.quadrant+"\n")
+            o.write("        rotation: "+i.rotation+"\n")
+        o.write("\n\n")

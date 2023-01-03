@@ -23,7 +23,7 @@ from Functions.buttonFuncs import *
 from Functions.orders.orderFuncs import *
 from newFunctions.timeFunctions import *
 from newFunctions.newClasses import *
-from newFunctions.addPartFunc import addPart
+from newFunctions.addPartFunc import *
 from newFunctions.updateAGVFuncs import updateTrayIds
 from newFunctions.addNewBin import addBin
 from newFunctions.addConvPart import addPartConv
@@ -401,3 +401,13 @@ if __name__=="__main__":
             if kittingTraySlots[i]=="1":
                 tempStr+=str(i+1)+", "
         o.write(tempStr[:-2]+"]\n")
+        o.write("parts:\n")
+        o.write("  agvs:\n")
+    if len(agv1Parts)>0:
+        writePartsToFile("agv1", agv1TrayId.get(), agv1Parts, saveFileName)
+    if len(agv2Parts)>0:
+        writePartsToFile("agv2", agv2TrayId.get(), agv2Parts, saveFileName)
+    if len(agv3Parts)>0:
+        writePartsToFile("agv3", agv3TrayId.get(), agv3Parts, saveFileName)
+    if len(agv4Parts)>0:
+            writePartsToFile("agv4", agv4TrayId.get(), agv4Parts, saveFileName)
