@@ -18,12 +18,12 @@ def generateOrderId(usedId):
     return newId
 
 def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox, orderQuadLabel, a,b,c):
-    if orderNum!=" " and len(currentQuadMenu)==0:
+    if orderNum.get()!=" " and len(currentQuadMenu)==0:
         orderQuadrant.set('0')
         orderQuadMenu.pack(before=orderPriorityCheckBox)
         orderQuadLabel.pack(before=orderQuadMenu)
         currentQuadMenu.append(0)
-    else:
+    elif orderNum.get()==" ":
         orderQuadrant.set(' ')
         orderQuadMenu.pack_forget()
         orderQuadLabel.pack_forget()
@@ -50,16 +50,17 @@ def addNewOrder(orderCounter):
     timeConditionEntry.pack()
     #order condition
     orderNum=tk.StringVar()
-    orderNum.set("")
-    orderNums=[""]
-    for i in range(len(orderCounter)):
-        orderNums.append(str(i+1))
-    orderNumLabel=tk.Label(newOrderWind, text="Choose the order number for the order_condition announcement. Leave blank to skip.")
-    orderNumLabel.pack()
-    orderNumMenu=tk.OptionMenu(newOrderWind, orderNum, *orderNums)
-    orderNumMenu.pack()
+    orderNum.set(" ")
+    orderNums=[" "]
     orderQuadrant=tk.StringVar()
     orderQuadrant.set(" ")
+    if len(orderCounter)>1:
+        for i in range(len(orderCounter)-1):
+            orderNums.append(str(i+1))
+        orderNumLabel=tk.Label(newOrderWind, text="Choose the order number for the order_condition announcement. Leave blank to skip.")
+        orderNumLabel.pack()
+        orderNumMenu=tk.OptionMenu(newOrderWind, orderNum, *orderNums)
+        orderNumMenu.pack()
     orderQuadLabel=tk.Label(newOrderWind, text="Choose the quadrant for the order_condition announcement")
     orderQuadLabel.pack_forget()
     orderQuadMenu=tk.OptionMenu(newOrderWind, orderQuadrant, *quadrants)
