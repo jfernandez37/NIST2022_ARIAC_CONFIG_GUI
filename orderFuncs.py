@@ -16,10 +16,10 @@ def generateOrderId(usedId):
     usedId.append(newId)
     return newId
 
-def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu,a,b,c):
+def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox,a,b,c):
     if orderNum!=" " and len(currentQuadMenu)==0:
         orderQuadrant.set('0')
-        orderQuadMenu.pack()
+        orderQuadMenu.pack(before=orderPriorityCheckBox)
         currentQuadMenu.append(0)
     else:
         orderQuadrant.set(' ')
@@ -59,8 +59,6 @@ def addNewOrder(orderCounter):
     orderQuadrant.set(" ")
     orderQuadMenu=tk.OptionMenu(newOrderWind, orderQuadrant, *quadrants)
     orderQuadMenu.pack_forget()
-    order_quad_func=partial(updateQuadMenu, orderNum, orderQuadrant, orderQuadMenu)
-    orderNum.trace('w',order_quad_func)
     #Priority
     orderPriority=tk.StringVar()
     orderPriority.set('1')
@@ -89,6 +87,8 @@ def addNewOrder(orderCounter):
     cancel_new_ord_part=partial(cancel_func, newOrderWind, ordCancelFlag)
     cancelNewOrdButton=tk.Button(newOrderWind, text="Cancel", command=cancel_new_ord_part)
     cancelNewOrdButton.pack(pady=20)
+    order_quad_func=partial(updateQuadMenu, orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox)
+    orderNum.trace('w',order_quad_func)
     newOrderWind.mainloop()
     if ordCancelFlag.get()=="1":
         orderCounter.remove(0)
