@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import platform
+from datetime import datetime
 from os import chdir
 from functools import partial
 from PIL import Image, ImageTk  # needed for images in gui
@@ -71,6 +72,10 @@ assemblyParts=[]
 orderIds=[]
 orderCounter=[]
 allOrderChallenges=[]
+kittingTrayIds=[]
+kittingTraySlots=[]
+
+
 def randOrSeq():  
     """Cycles through the options for the conveyor belt order"""
     if changeOrder.config('text')[-1] == 'random':
@@ -251,6 +256,18 @@ if __name__=="__main__":
     cancelTrayButton.grid(column=middleColumn,pady=20)
     trayWind.mainloop()
     check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
+    kittingTrayIds.append(tray1.get())
+    kittingTrayIds.append(tray2.get())
+    kittingTrayIds.append(tray3.get())
+    kittingTrayIds.append(tray4.get())
+    kittingTrayIds.append(tray5.get())
+    kittingTrayIds.append(tray6.get())
+    kittingTraySlots.append(slot1.get())
+    kittingTraySlots.append(slot2.get())
+    kittingTraySlots.append(slot3.get())
+    kittingTraySlots.append(slot4.get())
+    kittingTraySlots.append(slot5.get())
+    kittingTraySlots.append(slot6.get())
     # END OF GETTING KITTING TRAYS
     # ----------------------------------------------------------------------------------------------
     # START OF PARTS
@@ -359,3 +376,28 @@ if __name__=="__main__":
     cancelOrdersButton.pack(pady=20)
     ordersWind.mainloop()
     check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
+    
+    # START TO WRITE TO FILE
+    tempStr=''
+    with open(saveFileName, "a") as o:
+        o.write("# Trial Name: "+saveFileName+"\n")
+        o.write("# ARIAC2023\n")
+        o.write("# "+datetime.now().strftime("%Y-%m-%d %H:%M:%S")+"\n\n")
+        o.write("# ENVIRONMENT SETUP\n")
+        if noTimeVal.get()=="1":
+            o.write("time_limit: -1")
+        else:
+            o.write("time_limit: "+timeVal.get())
+        o.write(" # options: -1 (no time limit) or number of seconds (max 500)\n")
+        o.write("kitting_trays: # Which kitting trays will be spawned\n")
+        o.write("  tray_ids: [")
+        for i in range(len(kittingTrayIds)):
+            if kittingTrayIds[i]=="1":
+                tempStr+=str(i+1)+", "
+        o.write(tempStr[:-2]+"]\n")
+        o.write("  slots: [")
+        tempStr=''
+        for i in range(len(kittingTraySlots)):
+            if kittingTraySlots[i]=="1":
+                tempStr+=str(i+1)+", "
+        o.write(tempStr[:-2]+"]\n")
