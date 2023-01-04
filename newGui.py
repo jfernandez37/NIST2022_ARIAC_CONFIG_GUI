@@ -11,14 +11,7 @@ import Functions.validateARIAC as validateARIAC
 from Functions.checkCancel import *
 from Functions.updateRanges import *
 from Functions.validationFunc import *
-from Functions.roboBreakdown import add_robot_breakdown
-from Functions.addDrop import add_drop_region
 from Functions.fileFunc import *
-from Functions.faultyProd import add_faulty_prod
-from Functions.beltFunc import add_belt
-from Functions.addProduct import add_product
-from Functions.stationFunc import add_station
-from Functions.binFunc import add_bin
 from Functions.buttonFuncs import *
 from Functions.orders.orderFuncs import *
 from newFunctions.timeFunctions import *
