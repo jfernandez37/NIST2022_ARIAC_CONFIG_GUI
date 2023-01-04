@@ -450,3 +450,20 @@ if __name__=="__main__":
         writeBinsToFile("bin7", bins, saveFileName)
     if binPresentFlags[7]==1:
         writeBinsToFile("bin8", bins, saveFileName)
+    with open(saveFileName, "a") as o:
+        o.write("\n  conveyor_belt: #population params for conveyor belt\n")
+        if convActive.get()=="1":
+            o.write("    active: true\n")
+        else:
+            o.write("    active: false\n")
+        o.write("    spawn_rate: "+spawnRate.get()+" # seconds between spawn\n")
+        o.write("    order: "+convOrder.get()+" # random or sequential\n")
+        if len(convParts)>0:
+            o.write("    parts_to_spawn:\n")
+            for part in convParts:
+                o.write("      - type: "+part.type)
+                o.write("\n        color: "+part.color)
+                o.write("\n        number: "+part.number)
+                o.write("\n        offset: "+part.offset+" # between -1 and 1")
+                o.write("\n        rotation: "+ part.rotation)
+                o.write("\n        # time_before_next_part: 2 # seconds")

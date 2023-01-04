@@ -52,18 +52,18 @@ def addPartConv(convParts):
     partColorSelectMenu=tk.OptionMenu(partConvWind, partColor, *partColors)
     partColorSelectMenu.pack()
     #number
-    number=tk.StringVar()
-    number.set('0')
+    numberParts=tk.StringVar()
+    numberParts.set('0')
     numberLabel=tk.Label(partConvWind, text="Enter the number of parts")
     numberLabel.pack()
-    numberEntry=tk.Entry(partConvWind, textvariable=number)
+    numberEntry=tk.Entry(partConvWind, textvariable=numberParts)
     numberEntry.pack()
     #offset
-    offset=tk.StringVar()
-    offset.set('0')
+    offsetParts=tk.StringVar()
+    offsetParts.set('0')
     offsetLabel=tk.Label(partConvWind, text="Enter the offset for the part")
     offsetLabel.pack()
-    offsetEntry=tk.Entry(partConvWind, textvariable=offset)
+    offsetEntry=tk.Entry(partConvWind, textvariable=offsetParts)
     offsetEntry.pack()
     #rotation entry
     partRotation=tk.StringVar()
@@ -83,7 +83,8 @@ def addPartConv(convParts):
     #entry validation
     validate_rotation=partial(validateRotationValue, partRotation, saveConvButton)
     partRotation.trace('w', validate_rotation)
-    validate_offset=partial(validateOffset, offset)
-    offset.trace('w', validate_offset)
+    validate_offset=partial(validateOffset, offsetParts)
+    offsetParts.trace('w', validate_offset)
     partConvWind.mainloop()
-    convParts.append(PartConv(partType.get(), partColor.get(),number.get(),offset.get(), partRotation.get()))
+    if convPartCancelFlag.get()=="0":
+        convParts.append(PartConv(partType.get(), partColor.get(),numberParts.get(),offsetParts.get(), partRotation.get()))
