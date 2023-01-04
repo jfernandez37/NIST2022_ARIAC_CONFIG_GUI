@@ -434,7 +434,7 @@ if __name__=="__main__":
         o.write("  tray_ids: [")
         for i in range(len(kittingTrayIds)):
             if kittingTrayIds[i]=="1":
-                tempStr+=str(i+1)+", "
+                tempStr+=str(i)+", "
         o.write(tempStr[:-2]+"]\n")
         o.write("  slots: [")
         tempStr=''
