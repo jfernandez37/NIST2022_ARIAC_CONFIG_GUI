@@ -312,7 +312,7 @@ if __name__=="__main__":
     agv4TrayLabel.pack()
     agv4TrayIdSelect=tk.OptionMenu(partsWind, agv4TrayId, *agvTrayIds)
     agv4TrayIdSelect.pack()
-    add_new_part=partial(addPart,agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants)
+    add_new_part=partial(addPart,agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants, partsWind)
     addPartsButton=tk.Button(partsWind, text="Add part", command=add_new_part)
     addPartsButton.pack()
     savePartsButton=tk.Button(partsWind, text="Save and Continue", command=partsWind.destroy)

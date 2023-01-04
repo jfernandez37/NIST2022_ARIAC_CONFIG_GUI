@@ -7,8 +7,8 @@ from newFunctions.updateAGVFuncs import updateAgvQudrants
 agvList=["agv1", "agv2", "agv3", "agv4"]
 partTypes=["sensor", "pump", "regulator", "battery"]
 partColors=['green', 'red', 'purple','blue','orange']
-def addPart(agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants):
-    newPartWind=tk.Toplevel()
+def addPart(agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants, mainWind):
+    newPartWind=tk.Toplevel(mainWind)
     newPartWind.geometry("850x600")
     #agv selection
     agvSelection=tk.StringVar()
