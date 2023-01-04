@@ -9,6 +9,7 @@ orderTypes=["kitting", "assembly", "combined"]
 quadrants=["0","1","2","3"]
 currentQuadMenu=[]
 challengeList=['flipped_part', 'faulty_part', 'dropped_part', 'sensor_blackout', 'robot_malfunction']
+orderCategories=["time-based","during kitting", "during assembly","after kitting", "after assembly"]
 def generateOrderId(usedId):
     newId=''.join(random.choices(string.ascii_uppercase+string.digits,k=8))
     if newId in usedId:
@@ -59,6 +60,14 @@ def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox
 def addNewOrder(orderCounter, allOrderChallenges):
     orderCounter.append(0)
     newOrderWind=tk.Tk()
+    newOrderWind.geometry("850x600")
+    #orderCategory
+    orderCategory=tk.StringVar()
+    orderCategory.set(orderCategories[0])
+    orderCategoryLabel=tk.Label(newOrderWind, text="Select the category of the order")
+    orderCategoryLabel.pack()
+    orderCategoryMenu=tk.OptionMenu(newOrderWind, orderCategory, *orderCategories)
+    orderCategoryMenu.pack()
     #order type
     orderType=tk.StringVar()
     orderType.set(orderTypes[0])
