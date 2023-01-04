@@ -25,7 +25,8 @@ class PartConv:  # for holding information about parts for the conveyor belt
         self.rotation=rotation
 
 class Order:  # for holding information about orders
-    def __init__(self, id, type, priority):
+    def __init__(category,self, id, type, priority):
+        self.category=category
         self.id=id
         self.type=type
         self.priority=priority
