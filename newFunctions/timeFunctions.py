@@ -13,8 +13,6 @@ def validateTime(val,a,b,c):
             tempStr=tempStr.replace(i, "")
     if tempStr!="":
         numVal=int(tempStr)
-        if numVal>500:
-            tempStr="500"
-        elif numVal<0:
+        if numVal<0:
             tempStr="0"
     val.set(tempStr)
