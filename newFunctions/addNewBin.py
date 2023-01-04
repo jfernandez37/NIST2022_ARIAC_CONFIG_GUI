@@ -41,60 +41,60 @@ def slotChecks(arr, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,
     slot8.set("0")
     slot9.set("0")
     if "1" in arr:
-        slot1Check=tk.Checkbutton(addBinWind, text="Slot 1", variable=slot1, onvalue="1", offvalue="0", height=2, width=20)
+        slot1Check=tk.Checkbutton(addBinWind, text="Slot 1", variable=slot1, onvalue="1", offvalue="0", height=1, width=20)
         slot1Check.pack(before=saveNewBinButton)
         presentChecks.append(slot1Check)
     if "2" in arr:
-        slot2Check=tk.Checkbutton(addBinWind, text="Slot 2", variable=slot2, onvalue="1", offvalue="0", height=2, width=20)
+        slot2Check=tk.Checkbutton(addBinWind, text="Slot 2", variable=slot2, onvalue="1", offvalue="0", height=1, width=20)
         if len(presentChecks)!=0:
             slot2Check.pack(after=presentChecks[len(presentChecks)-1])
         else:
             slot2Check.pack(before=saveNewBinButton)
         presentChecks.append(slot2Check)
     if "3" in arr:
-        slot3Check=tk.Checkbutton(addBinWind, text="Slot 3", variable=slot3, onvalue="1", offvalue="0", height=2, width=20)
+        slot3Check=tk.Checkbutton(addBinWind, text="Slot 3", variable=slot3, onvalue="1", offvalue="0", height=1, width=20)
         if len(presentChecks)!=0:
             slot3Check.pack(after=presentChecks[len(presentChecks)-1])
         else:
             slot3Check.pack(before=saveNewBinButton)
         presentChecks.append(slot3Check)
     if "4" in arr:
-        slot4Check=tk.Checkbutton(addBinWind, text="Slot 4", variable=slot4, onvalue="1", offvalue="0", height=2, width=20)
+        slot4Check=tk.Checkbutton(addBinWind, text="Slot 4", variable=slot4, onvalue="1", offvalue="0", height=1, width=20)
         if len(presentChecks)!=0:
             slot4Check.pack(after=presentChecks[len(presentChecks)-1])
         else:
             slot4Check.pack(before=saveNewBinButton)
         presentChecks.append(slot4Check)
     if "5" in arr:
-        slot5Check=tk.Checkbutton(addBinWind, text="Slot 5", variable=slot5, onvalue="1", offvalue="0", height=2, width=20)
+        slot5Check=tk.Checkbutton(addBinWind, text="Slot 5", variable=slot5, onvalue="1", offvalue="0", height=1, width=20)
         if len(presentChecks)!=0:
             slot5Check.pack(after=presentChecks[len(presentChecks)-1])
         else:
             slot5Check.pack(before=saveNewBinButton)
         presentChecks.append(slot5Check)
     if "6" in arr:
-        slot6Check=tk.Checkbutton(addBinWind, text="Slot 6", variable=slot6, onvalue="1", offvalue="0", height=2, width=20)
+        slot6Check=tk.Checkbutton(addBinWind, text="Slot 6", variable=slot6, onvalue="1", offvalue="0", height=1, width=20)
         if len(presentChecks)!=0:
             slot6Check.pack(after=presentChecks[len(presentChecks)-1])
         else:
             slot6Check.pack(before=saveNewBinButton)
         presentChecks.append(slot6Check)
     if "7" in arr:
-        slot7Check=tk.Checkbutton(addBinWind, text="Slot 7", variable=slot7, onvalue="1", offvalue="0", height=2, width=20)
+        slot7Check=tk.Checkbutton(addBinWind, text="Slot 7", variable=slot7, onvalue="1", offvalue="0", height=1, width=20)
         if len(presentChecks)!=0:
             slot7Check.pack(after=presentChecks[len(presentChecks)-1])
         else:
             slot7Check.pack(before=saveNewBinButton)
         presentChecks.append(slot7Check)
     if "8" in arr:
-        slot8Check=tk.Checkbutton(addBinWind, text="Slot 8", variable=slot8, onvalue="1", offvalue="0", height=2, width=20)
+        slot8Check=tk.Checkbutton(addBinWind, text="Slot 8", variable=slot8, onvalue="1", offvalue="0", height=1, width=20)
         if len(presentChecks)!=0:
             slot8Check.pack(after=presentChecks[len(presentChecks)-1])
         else:
             slot8Check.pack(before=saveNewBinButton)
         presentChecks.append(slot8Check)
     if "9" in arr:
-        slot9Check=tk.Checkbutton(addBinWind, text="Slot 9", variable=slot9, onvalue="1", offvalue="0", height=2, width=20)
+        slot9Check=tk.Checkbutton(addBinWind, text="Slot 9", variable=slot9, onvalue="1", offvalue="0", height=1, width=20)
         if len(presentChecks)!=0:
             slot9Check.pack(after=presentChecks[len(presentChecks)-1])
         else:

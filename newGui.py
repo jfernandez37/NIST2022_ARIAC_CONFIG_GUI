@@ -414,7 +414,7 @@ if __name__=="__main__":
     if len(agv4Parts)>0:
         writePartsToFile("agv4", agv4TrayId.get(), agv4Parts, saveFileName)
     with open(saveFileName, "a") as o:
-        o.write("\n  bins: # bin params - 8 total bins each bin has nine total slots (1-9)")
+        o.write("\n  bins: # bin params - 8 total bins each bin has nine total slots (1-9)\n")
     for i in bins:
         if i.binName=="bin1":
             binPresentFlags[0]=1
