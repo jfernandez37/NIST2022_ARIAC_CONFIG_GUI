@@ -378,6 +378,25 @@ if __name__=="__main__":
     cancelOrdersButton.pack(pady=20)
     ordersWind.mainloop()
     check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
+    #Finds which bins are present
+    for i in bins:
+        if i.binName=="bin1":
+            binPresentFlags[0]=1
+        if i.binName=="bin2":
+            binPresentFlags[1]=1
+        if i.binName=="bin3":
+            binPresentFlags[2]=1
+        if i.binName=="bin4":
+            binPresentFlags[3]=1
+        if i.binName=="bin5":
+            binPresentFlags[4]=1
+        if i.binName=="bin6":
+            binPresentFlags[5]=1
+        if i.binName=="bin7":
+            binPresentFlags[6]=1
+        if i.binName=="bin8":
+            binPresentFlags[7]=1    
+    
     
     # START TO WRITE TO FILE
     tempStr=''
@@ -415,23 +434,6 @@ if __name__=="__main__":
         writePartsToFile("agv4", agv4TrayId.get(), agv4Parts, saveFileName)
     with open(saveFileName, "a") as o:
         o.write("\n  bins: # bin params - 8 total bins each bin has nine total slots (1-9)\n")
-    for i in bins:
-        if i.binName=="bin1":
-            binPresentFlags[0]=1
-        if i.binName=="bin2":
-            binPresentFlags[1]=1
-        if i.binName=="bin3":
-            binPresentFlags[2]=1
-        if i.binName=="bin4":
-            binPresentFlags[3]=1
-        if i.binName=="bin5":
-            binPresentFlags[4]=1
-        if i.binName=="bin6":
-            binPresentFlags[5]=1
-        if i.binName=="bin7":
-            binPresentFlags[6]=1
-        if i.binName=="bin8":
-            binPresentFlags[7]=1
     if binPresentFlags[0]==1:
         writeBinsToFile("bin1", bins, saveFileName)
     if binPresentFlags[1]==1:
