@@ -25,7 +25,7 @@ from newFunctions.timeFunctions import *
 from newFunctions.newClasses import *
 from newFunctions.addPartFunc import *
 from newFunctions.updateAGVFuncs import updateTrayIds
-from newFunctions.addNewBin import addBin
+from newFunctions.addNewBin import *
 from newFunctions.addConvPart import addPartConv
 from orderFuncs import *
 
@@ -74,7 +74,9 @@ orderCounter=[]
 allOrderChallenges=[]
 kittingTrayIds=[]
 kittingTraySlots=[]
-
+binPresentFlags=[]
+for i in range(8):
+    binPresentFlags.append(0)
 
 def randOrSeq():  
     """Cycles through the options for the conveyor belt order"""
@@ -389,7 +391,7 @@ if __name__=="__main__":
         else:
             o.write("time_limit: "+timeVal.get())
         o.write(" # options: -1 (no time limit) or number of seconds (max 500)\n")
-        o.write("kitting_trays: # Which kitting trays will be spawned\n")
+        o.write("\nkitting_trays: # Which kitting trays will be spawned\n")
         o.write("  tray_ids: [")
         for i in range(len(kittingTrayIds)):
             if kittingTrayIds[i]=="1":
@@ -401,7 +403,7 @@ if __name__=="__main__":
             if kittingTraySlots[i]=="1":
                 tempStr+=str(i+1)+", "
         o.write(tempStr[:-2]+"]\n")
-        o.write("parts:\n")
+        o.write("\nparts:\n")
         o.write("  agvs:\n")
     if len(agv1Parts)>0:
         writePartsToFile("agv1", agv1TrayId.get(), agv1Parts, saveFileName)
@@ -410,6 +412,39 @@ if __name__=="__main__":
     if len(agv3Parts)>0:
         writePartsToFile("agv3", agv3TrayId.get(), agv3Parts, saveFileName)
     if len(agv4Parts)>0:
-            writePartsToFile("agv4", agv4TrayId.get(), agv4Parts, saveFileName)
+        writePartsToFile("agv4", agv4TrayId.get(), agv4Parts, saveFileName)
     with open(saveFileName, "a") as o:
-        o.write("\n\n")
+        o.write("\n  bins: # bin params - 8 total bins each bin has nine total slots (1-9)")
+    for i in bins:
+        if i.binName=="bin1":
+            binPresentFlags[0]=1
+        if i.binName=="bin2":
+            binPresentFlags[1]=1
+        if i.binName=="bin3":
+            binPresentFlags[2]=1
+        if i.binName=="bin4":
+            binPresentFlags[3]=1
+        if i.binName=="bin5":
+            binPresentFlags[4]=1
+        if i.binName=="bin6":
+            binPresentFlags[5]=1
+        if i.binName=="bin7":
+            binPresentFlags[6]=1
+        if i.binName=="bin8":
+            binPresentFlags[7]=1
+    if binPresentFlags[0]==1:
+        writeBinsToFile("bin1", bins, saveFileName)
+    if binPresentFlags[1]==1:
+        writeBinsToFile("bin2", bins, saveFileName)
+    if binPresentFlags[2]==1:
+        writeBinsToFile("bin3", bins, saveFileName)
+    if binPresentFlags[3]==1:
+        writeBinsToFile("bin4", bins, saveFileName)
+    if binPresentFlags[4]==1:
+        writeBinsToFile("bin5", bins, saveFileName)
+    if binPresentFlags[5]==1:
+        writeBinsToFile("bin6", bins, saveFileName)
+    if binPresentFlags[6]==1:
+        writeBinsToFile("bin7", bins, saveFileName)
+    if binPresentFlags[7]==1:
+        writeBinsToFile("bin8", bins, saveFileName)

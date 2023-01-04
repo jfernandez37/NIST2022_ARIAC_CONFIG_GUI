@@ -10,25 +10,25 @@ checkBoxes=[]
 for i in range(8):
     allBins.append('bin'+str(i+1))
 
-def runSlotChecks(addBinWind, currentBin,slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots,a,b,c):
+def runSlotChecks(addBinWind, currentBin,slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots,saveNewBinButton,a,b,c):
     if currentBin.get()=="bin1":
-        slotChecks(bin1Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks)
+        slotChecks(bin1Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,saveNewBinButton)
     elif currentBin.get()=="bin2":
-        slotChecks(bin2Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks)
+        slotChecks(bin2Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,saveNewBinButton)
     elif currentBin.get()=="bin3":
-        slotChecks(bin3Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks)
+        slotChecks(bin3Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,saveNewBinButton)
     elif currentBin.get()=="bin4":
-        slotChecks(bin4Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks)
+        slotChecks(bin4Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,saveNewBinButton)
     elif currentBin.get()=="bin5":
-        slotChecks(bin5Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks)
+        slotChecks(bin5Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,saveNewBinButton)
     elif currentBin.get()=="bin6":
-        slotChecks(bin6Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks)
+        slotChecks(bin6Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,saveNewBinButton)
     elif currentBin.get()=="bin7":
-        slotChecks(bin7Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks)
+        slotChecks(bin7Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,saveNewBinButton)
     elif currentBin.get()=="bin8":
-        slotChecks(bin8Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks)
+        slotChecks(bin8Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,saveNewBinButton)
 
-def slotChecks(arr, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks):
+def slotChecks(arr, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,saveNewBinButton):
     for i in presentChecks:
         i.destroy()
     slot1.set("0")
@@ -42,39 +42,63 @@ def slotChecks(arr, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,
     slot9.set("0")
     if "1" in arr:
         slot1Check=tk.Checkbutton(addBinWind, text="Slot 1", variable=slot1, onvalue="1", offvalue="0", height=2, width=20)
-        slot1Check.pack()
+        slot1Check.pack(before=saveNewBinButton)
         presentChecks.append(slot1Check)
     if "2" in arr:
         slot2Check=tk.Checkbutton(addBinWind, text="Slot 2", variable=slot2, onvalue="1", offvalue="0", height=2, width=20)
-        slot2Check.pack()
+        if len(presentChecks)!=0:
+            slot2Check.pack(after=presentChecks[len(presentChecks)-1])
+        else:
+            slot2Check.pack(before=saveNewBinButton)
         presentChecks.append(slot2Check)
     if "3" in arr:
         slot3Check=tk.Checkbutton(addBinWind, text="Slot 3", variable=slot3, onvalue="1", offvalue="0", height=2, width=20)
-        slot3Check.pack()
+        if len(presentChecks)!=0:
+            slot3Check.pack(after=presentChecks[len(presentChecks)-1])
+        else:
+            slot3Check.pack(before=saveNewBinButton)
         presentChecks.append(slot3Check)
     if "4" in arr:
         slot4Check=tk.Checkbutton(addBinWind, text="Slot 4", variable=slot4, onvalue="1", offvalue="0", height=2, width=20)
-        slot4Check.pack()
+        if len(presentChecks)!=0:
+            slot4Check.pack(after=presentChecks[len(presentChecks)-1])
+        else:
+            slot4Check.pack(before=saveNewBinButton)
         presentChecks.append(slot4Check)
     if "5" in arr:
         slot5Check=tk.Checkbutton(addBinWind, text="Slot 5", variable=slot5, onvalue="1", offvalue="0", height=2, width=20)
-        slot5Check.pack()
+        if len(presentChecks)!=0:
+            slot5Check.pack(after=presentChecks[len(presentChecks)-1])
+        else:
+            slot5Check.pack(before=saveNewBinButton)
         presentChecks.append(slot5Check)
     if "6" in arr:
         slot6Check=tk.Checkbutton(addBinWind, text="Slot 6", variable=slot6, onvalue="1", offvalue="0", height=2, width=20)
-        slot6Check.pack()
+        if len(presentChecks)!=0:
+            slot6Check.pack(after=presentChecks[len(presentChecks)-1])
+        else:
+            slot6Check.pack(before=saveNewBinButton)
         presentChecks.append(slot6Check)
     if "7" in arr:
         slot7Check=tk.Checkbutton(addBinWind, text="Slot 7", variable=slot7, onvalue="1", offvalue="0", height=2, width=20)
-        slot7Check.pack()
+        if len(presentChecks)!=0:
+            slot7Check.pack(after=presentChecks[len(presentChecks)-1])
+        else:
+            slot7Check.pack(before=saveNewBinButton)
         presentChecks.append(slot7Check)
     if "8" in arr:
         slot8Check=tk.Checkbutton(addBinWind, text="Slot 8", variable=slot8, onvalue="1", offvalue="0", height=2, width=20)
-        slot8Check.pack()
+        if len(presentChecks)!=0:
+            slot8Check.pack(after=presentChecks[len(presentChecks)-1])
+        else:
+            slot8Check.pack(before=saveNewBinButton)
         presentChecks.append(slot8Check)
     if "9" in arr:
         slot9Check=tk.Checkbutton(addBinWind, text="Slot 9", variable=slot9, onvalue="1", offvalue="0", height=2, width=20)
-        slot9Check.pack()
+        if len(presentChecks)!=0:
+            slot9Check.pack(after=presentChecks[len(presentChecks)-1])
+        else:
+            slot9Check.pack(before=saveNewBinButton)
         presentChecks.append(slot9Check)
 
 def updateAvailableSlots(currentBin, bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9,window):
@@ -166,7 +190,6 @@ def addBin(bins,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7
     slot7.set("0")
     slot8.set("0")
     slot9.set("0")
-    slotChecks(bin1Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, checkBoxes)
     #rotation
     partRotation=tk.StringVar()
     partRotation.set('0')
@@ -181,17 +204,19 @@ def addBin(bins,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7
     flippedCheck.pack()
     #save and cancel buttons
     save_new_bin=partial(updateAvailableSlots, binID, bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9,addBinWind)
-    saveNewPartButton=tk.Button(addBinWind, text="Save", command=save_new_bin)
-    saveNewPartButton.pack(pady=20)
-    newPartCancelFlag=tk.StringVar()
-    newPartCancelFlag.set("0")
-    cancel_new_part=partial(cancel_func, addBinWind, newPartCancelFlag)
-    cancelNewPartButton=tk.Button(addBinWind, text="Cancel", command=cancel_new_part)
-    cancelNewPartButton.pack(pady=20)
+    saveNewBinButton=tk.Button(addBinWind, text="Save", command=save_new_bin)
+    saveNewBinButton.pack(pady=20)
+    newBinCancelFlag=tk.StringVar()
+    newBinCancelFlag.set("0")
+    cancel_new_bin=partial(cancel_func, addBinWind, newBinCancelFlag)
+    cancelNewBinButton=tk.Button(addBinWind, text="Cancel", command=cancel_new_bin)
+    cancelNewBinButton.pack(pady=20)
+    #adds the slot checkboxes in
+    slotChecks(bin1Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, checkBoxes,saveNewBinButton)
     #trace functions
-    validate_rotation=partial(validateRotationValue, partRotation, saveNewPartButton)
+    validate_rotation=partial(validateRotationValue, partRotation, saveNewBinButton)
     partRotation.trace('w', validate_rotation)
-    update_checkboxes=partial(runSlotChecks,addBinWind, binID,slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, checkBoxes,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots)
+    update_checkboxes=partial(runSlotChecks,addBinWind, binID,slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, checkBoxes,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots, saveNewBinButton)
     binID.trace('w', update_checkboxes)
     addBinWind.mainloop()
     selectedSlots=[]
@@ -200,6 +225,21 @@ def addBin(bins,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7
     for i in allSlots:
         if i=="1":
             selectedSlots.append(str(counter))
+        counter+=1
     slotsString=",".join(selectedSlots)
     bins.append(Bin(binID.get(),partType.get(), partColor.get(),"["+slotsString+"]",partRotation.get(), flippedFlag.get()))
+
+def writeBinsToFile(name, binsList, saveFileName):
+    with open(saveFileName, "a") as o:
+        o.write("    "+name+":\n")
+        for i in binsList:
+            if i.binName==name:
+                o.write("      - type: "+i.type+"\n")
+                o.write("        color: "+i.color+"\n")
+                o.write("        slots: "+i.slots+"\n")
+                o.write("        rotation: "+i.rotation+"\n")
+                if i.flipped=="1":
+                    o.write("        flipped: true\n")
+                else:
+                    o.write("        flipped: false\n")
 
