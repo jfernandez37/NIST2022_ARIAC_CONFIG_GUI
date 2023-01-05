@@ -17,6 +17,14 @@ currentQuadMenu=[]
 challengeList=['flipped_part', 'faulty_part', 'dropped_part', 'sensor_blackout', 'robot_malfunction']
 orderCategories=["time-based","during kitting", "during assembly","after kitting", "after assembly"]
 taskPresentFlag=[]
+allProdTypes=["sensor", "pump", "regulator", "battery"]
+allProdColors=['green', 'red', 'purple','blue','orange']
+
+def typeOfProdSelect(orderType,orderKittingParts, currentOrderID):
+    if orderType.get()=="kitting":
+        addKittingProduct(orderKittingParts, currentOrderID)
+    
+
 def updateTaskOptions(orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayIdMenu, kittingDestination, kittingDestinationLabel, kittingDestinationMenu, assemblyStation, assemblyStationLabel, assemblyStationMenu,a,b,c):
     if orderType.get()=="kitting" and len(taskPresentFlag)==1:
         taskPresentFlag.clear()
@@ -74,6 +82,41 @@ def addOrderChallenge(allOrderChallenges, orderCounter):
     if orderChallengeCancelFlag.get()=="0":
         allOrderChallenges.append(OrderChallenge(str(len(orderCounter)),orderChallengeType.get(),orderChallengeQuadrant.get()))
 
+def addKittingProduct(orderKittingParts, currentOrderID):
+    kitProdWind=tk.Toplevel()
+    #type of product
+    prodType=tk.StringVar()
+    prodType.set(allProdTypes[0])
+    prodTypeLabel=tk.Label(kitProdWind, text="Select the type of product for the kitting task")
+    prodTypeLabel.pack()
+    prodTypeMenu=tk.OptionMenu(kitProdWind, prodType, *allProdTypes)
+    prodTypeMenu.pack()
+    #product color
+    prodColor=tk.StringVar()
+    prodColor.set(allProdColors[0])
+    prodColorLabel=tk.Label(kitProdWind, text="Select the color of the product for the kitting task")
+    prodColorLabel.pack()
+    prodColorMenu=tk.OptionMenu(kitProdWind, prodColor, *allProdColors)
+    prodColorMenu.pack()
+    #product quadrant
+    prodQuad=tk.StringVar()
+    prodQuad.set(quadrants[0])
+    prodQuadLabel=tk.Label(kitProdWind, text="Select the quadrant for the product")
+    prodQuadLabel.pack()
+    prodQuadMenu=tk.OptionMenu(kitProdWind, prodQuad, *quadrants)
+    prodQuadMenu.pack()
+    #save and cancel buttons
+    kitProdCancelFlag=tk.StringVar()
+    kitProdCancelFlag.set("0")
+    saveKitProdButton=tk.Button(kitProdWind, text="Save and Exit", command=kitProdWind.destroy)
+    saveKitProdButton.pack(pady=20)
+    cancel_new_kit_prod=partial(cancel_func, kitProdWind, kitProdCancelFlag)
+    cancelNewKitProdButton=tk.Button(kitProdWind, text="Cancel", command=cancel_new_kit_prod)
+    cancelNewKitProdButton.pack(pady=20)
+    kitProdWind.mainloop()
+    if kitProdCancelFlag.get()!="0":
+        orderKittingParts.append(KittingProds(currentOrderID,prodType.get(),prodColor.get(), prodQuad.get()))
+
 def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox, orderQuadLabel, a,b,c):
     if orderNum.get()!=" " and len(currentQuadMenu)==0:
         orderQuadrant.set('0')
@@ -88,8 +131,9 @@ def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox
             currentQuadMenu.remove(i)
 
 
-def addNewOrder(orderCounter, allOrderChallenges):
+def addNewOrder(orderCounter, allOrderChallenges, orderKittingParts,orderAssembParts, usedIDs):
     orderCounter.append(0)
+    orderID=generateOrderId(usedIDs)
     newOrderWind=tk.Tk()
     newOrderWind.geometry("850x600")
     #orderCategory
@@ -164,6 +208,10 @@ def addNewOrder(orderCounter, allOrderChallenges):
     assemblyStationLabel.pack_forget()
     assemblyStationMenu=tk.OptionMenu(newOrderWind, assemblyStation, *assemblyStations)
     assemblyStationMenu.pack_forget()
+    #add product button
+    type_of_prod_select=partial(typeOfProdSelect, orderType,orderKittingParts, orderID)
+    addProdButton=tk.Button(newOrderWind, text="Add product", command=type_of_prod_select)
+    addProdButton.pack()
     #save and cancel buttons
     saveOrdButton=tk.Button(newOrderWind, text="Save and Exit", command=newOrderWind.destroy)
     saveOrdButton.pack()
