@@ -20,9 +20,11 @@ taskPresentFlag=[]
 allProdTypes=["sensor", "pump", "regulator", "battery"]
 allProdColors=['green', 'red', 'purple','blue','orange']
 
-def typeOfProdSelect(orderType,orderKittingParts, currentOrderID):
+def typeOfProdSelect(orderType,orderKittingParts, orderAssembParts, currentOrderID):
     if orderType.get()=="kitting":
         addKittingProduct(orderKittingParts, currentOrderID)
+    else:
+        addAssembProduct(orderAssembParts, currentOrderID)
     
 
 def updateTaskOptions(orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayIdMenu, kittingDestination, kittingDestinationLabel, kittingDestinationMenu, assemblyStation, assemblyStationLabel, assemblyStationMenu,a,b,c):
@@ -114,8 +116,95 @@ def addKittingProduct(orderKittingParts, currentOrderID):
     cancelNewKitProdButton=tk.Button(kitProdWind, text="Cancel", command=cancel_new_kit_prod)
     cancelNewKitProdButton.pack(pady=20)
     kitProdWind.mainloop()
-    if kitProdCancelFlag.get()!="0":
+    if kitProdCancelFlag.get()=="0":
         orderKittingParts.append(KittingProds(currentOrderID,prodType.get(),prodColor.get(), prodQuad.get()))
+
+def addAssembProduct(orderAssembParts, currentOrderID):
+    assembProdWind=tk.Toplevel()
+    #product type
+    prodType=tk.StringVar()
+    prodType.set(allProdTypes[0])
+    prodTypeLabel=tk.Label(assembProdWind, text="Select the type of product for the assembly task")
+    prodTypeLabel.pack()
+    prodTypeMenu=tk.OptionMenu(assembProdWind, prodType, *allProdTypes)
+    prodTypeMenu.pack()
+    #product color
+    prodColor=tk.StringVar()
+    prodColor.set(allProdColors[0])
+    prodColorLabel=tk.Label(assembProdWind, text="Select the color of the product for the assembly task")
+    prodColorLabel.pack()
+    prodColorMenu=tk.OptionMenu(assembProdWind, prodColor, *allProdColors)
+    prodColorMenu.pack()
+    #XYZ and RPY variable declarations
+    x_val = tk.StringVar()
+    x_val.set('0')
+    y_val = tk.StringVar()
+    y_val.set('0')
+    z_val = tk.StringVar()
+    z_val.set('0')
+    r_val = tk.StringVar()
+    r_val.set('0')
+    p_val = tk.StringVar()
+    p_val.set('0')
+    y_rpy_val = tk.StringVar()
+    y_rpy_val.set('0')
+    #XYZ and RPY entry boxes
+    x_val_label = tk.Label(assembProdWind, text="Enter the x value")
+    x_val_label.pack()
+    x_val_entry = tk.Entry(assembProdWind, textvariable=x_val)
+    x_val_entry.pack()
+    y_val_label = tk.Label(assembProdWind, text="Enter the y value")
+    y_val_label.pack()
+    y_val_entry = tk.Entry(assembProdWind, textvariable=y_val)
+    y_val_entry.pack()
+    z_val_label = tk.Label(assembProdWind, text="Enter the z value")
+    z_val_label.pack()
+    z_val_entry = tk.Entry(assembProdWind, textvariable=z_val)
+    z_val_entry.pack()
+    r_val_label = tk.Label(assembProdWind, text="Enter the r value")
+    r_val_label.pack()
+    r_val_entry = tk.Entry(assembProdWind, textvariable=r_val)
+    r_val_entry.pack()
+    p_val_label = tk.Label(assembProdWind, text="Enter the p value")
+    p_val_label.pack()
+    p_val_entry = tk.Entry(assembProdWind, textvariable=p_val)
+    p_val_entry.pack()
+    y_rpy_val_label = tk.Label(assembProdWind, text="Enter the y (rpy) value")
+    y_rpy_val_label.pack()
+    y_rpy_val_entry = tk.Entry(assembProdWind, textvariable=y_rpy_val)
+    y_rpy_val_entry.pack()
+    #assembly direction declarations
+    x_dir=tk.StringVar()
+    x_dir.set("0")
+    y_dir=tk.StringVar()
+    y_dir.set("0")
+    z_dir=tk.StringVar()
+    z_dir.set("0")
+    #assembly direction entry boxes
+    x_dir_label = tk.Label(assembProdWind, text="Enter the x value for the assembly direction")
+    x_dir_label.pack()
+    x_dir_entry = tk.Entry(assembProdWind, textvariable=x_dir)
+    x_dir_entry.pack()
+    y_dir_label = tk.Label(assembProdWind, text="Enter the y value for the assembly direction")
+    y_dir_label.pack()
+    y_dir_entry = tk.Entry(assembProdWind, textvariable=y_dir)
+    y_dir_entry.pack()
+    z_dir_label = tk.Label(assembProdWind, text="Enter the z value for the assembly direction")
+    z_dir_label.pack()
+    z_dir_entry = tk.Entry(assembProdWind, textvariable=z_dir)
+    z_dir_entry.pack()
+    #save and cancel buttons
+    assembProdCancelFlag=tk.StringVar()
+    assembProdCancelFlag.set("0")
+    saveAssembProdButton=tk.Button(assembProdWind, text="Save and Exit", command=assembProdWind.destroy)
+    saveAssembProdButton.pack(pady=20)
+    cancel_new_assemb_prod=partial(cancel_func, assembProdWind, assembProdCancelFlag)
+    cancelNewAssembProdButton=tk.Button(assembProdWind, text="Cancel", command=cancel_new_assemb_prod)
+    cancelNewAssembProdButton.pack(pady=20)
+    assembProdWind.mainloop()
+    if assembProdCancelFlag.get()=="0":
+        orderAssembParts.append(AssemblyProds(currentOrderID, prodType.get(), prodColor.get(), str("["+x_val.get()+", "+y_val.get()+", "+z_val.get()+"]"),
+                                    str("["+r_val.get()+", "+p_val.get()+", "+y_rpy_val.get()+"]"), str("["+x_dir.get()+", "+y_dir.get()+", "+z_dir.get()+"]")))
 
 def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox, orderQuadLabel, a,b,c):
     if orderNum.get()!=" " and len(currentQuadMenu)==0:
@@ -209,7 +298,7 @@ def addNewOrder(orderCounter, allOrderChallenges, orderKittingParts,orderAssembP
     assemblyStationMenu=tk.OptionMenu(newOrderWind, assemblyStation, *assemblyStations)
     assemblyStationMenu.pack_forget()
     #add product button
-    type_of_prod_select=partial(typeOfProdSelect, orderType,orderKittingParts, orderID)
+    type_of_prod_select=partial(typeOfProdSelect, orderType,orderKittingParts, orderAssembParts, orderID)
     addProdButton=tk.Button(newOrderWind, text="Add product", command=type_of_prod_select)
     addProdButton.pack()
     #save and cancel buttons
