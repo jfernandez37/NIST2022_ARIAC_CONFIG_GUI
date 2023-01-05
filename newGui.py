@@ -383,7 +383,7 @@ if __name__=="__main__":
     # START OF ORDERS
     ordersWind=tk.Tk()
     ordersWind.geometry("850x600")
-    new_order_func=partial(addNewOrder, orderCounter, allOrderChallenges,orderKittingParts,orderAssembParts, usedIDs)
+    new_order_func=partial(addNewOrder, allOrders, orderCounter, allOrderChallenges,orderKittingParts,orderAssembParts, usedIDs)
     newOrderButton=tk.Button(ordersWind, text="New Order", command=new_order_func)
     newOrderButton.pack()
     saveOrdersButton=tk.Button(ordersWind, text="Save and Continue", command=ordersWind.destroy)
@@ -481,4 +481,37 @@ if __name__=="__main__":
                 o.write("\n        number: "+part.number)
                 o.write("\n        offset: "+part.offset+" # between -1 and 1")
                 o.write("\n        rotation: "+ part.rotation)
-                o.write("\n        # time_before_next_part: 2 # seconds")
+                o.write("\n        # time_before_next_part: 2 # seconds\n")
+        o.write("\n# ORDER SETUP\n")
+        o.write("orders:\n")
+        for order in allOrders:
+            o.write("  - order_category: "+order.category)
+            o.write("\n    id: \'"+order.id+"\'\n")
+            o.write("    type: \'"+order.type+"\'\n")
+            o.write("    announcement:\n")
+            """STILL NEEDS TO BE IMPLEMENTED"""
+            o.write("    priority: "+order.priority+"\n")
+            if order.type=="kitting":
+                o.write("    kitting_task:\n")
+                o.write("      agv: "+order.agvNumber+"\n")
+                o.write("      tray_id: "+order.trayId+"\n")
+                o.write("      destination: \'"+order.destination+"\'\n")
+                o.write("      products:\n")
+                for prod in orderKittingParts:
+                    if prod.orderId==order.id:
+                        o.write("        - type: \'"+prod.type+"\'\n")
+                        o.write("          color: \'"+prod.color+"\'\n")
+                        o.write("          quadrant: "+prod.quadrant+"\n")
+            else:
+                o.write("    assembly_task:\n")
+                o.write("      agv: ["+order.agvNumber+"]\n")
+                o.write("      station: \'"+order.station+"\'\n")
+                o.write("      products:\n")
+                for prod in orderAssembParts:
+                    if prod.orderId==order.id:
+                        o.write("        - type: \'"+prod.type+"\'\n")
+                        o.write("          color: \'"+prod.color+"\'\n")
+                        o.write("          assembled_pose: # relative to briefcase frame\n")
+                        o.write("            xyz: "+prod.xyz+"\n")
+                        o.write("            rpy: "+prod.rpy+"\n")
+                        o.write("          assembly_direction: "+prod.direction+"\n")
