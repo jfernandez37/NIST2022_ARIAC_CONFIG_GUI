@@ -39,7 +39,7 @@ def updateTaskOptions(orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayI
         kittingDestinationMenu.pack(after=kittingDestinationLabel)
         assemblyStationLabel.pack_forget()
         assemblyStationMenu.pack_forget()
-    elif len(taskPresentFlag)==0:
+    elif orderType.get()!="kitting" and len(taskPresentFlag)==0:
         taskPresentFlag.append(0)
         kitTrayId.set("")
         kittingDestination.set("")
