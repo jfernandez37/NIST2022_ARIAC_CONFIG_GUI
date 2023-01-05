@@ -7,9 +7,40 @@ from newFunctions.validationFunctions import *
 from newFunctions.newClasses import *
 orderTypes=["kitting", "assembly", "combined"]
 quadrants=["0","1","2","3"]
+agvOptions=["1","2","3","4"]
+kittingDestinations=["warehouse", "as1", "as2","as3","as4","kitting"]
+assemblyStations=["as1","as2","as3","as4"]
+kittingTrayIDs=[]
+for i in range(10):
+    kittingTrayIDs.append(str(i))
 currentQuadMenu=[]
 challengeList=['flipped_part', 'faulty_part', 'dropped_part', 'sensor_blackout', 'robot_malfunction']
 orderCategories=["time-based","during kitting", "during assembly","after kitting", "after assembly"]
+taskPresentFlag=[]
+def updateTaskOptions(orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayIdMenu, kittingDestination, kittingDestinationLabel, kittingDestinationMenu, assemblyStation, assemblyStationLabel, assemblyStationMenu,a,b,c):
+    if orderType.get()=="kitting" and len(taskPresentFlag)==1:
+        taskPresentFlag.clear()
+        kitTrayId.set(kittingTrayIDs[0])
+        kittingDestination.set(kittingDestinations[0])
+        assemblyStation.set("")
+        kitTrayIdLabel.pack(after=taskAgvMenu)
+        kitTrayIdMenu.pack(after=kitTrayIdLabel)
+        kittingDestinationLabel.pack(after=kitTrayIdMenu)
+        kittingDestinationMenu.pack(after=kittingDestinationLabel)
+        assemblyStationLabel.pack_forget()
+        assemblyStationMenu.pack_forget()
+    elif len(taskPresentFlag)==0:
+        taskPresentFlag.append(0)
+        kitTrayId.set("")
+        kittingDestination.set("")
+        assemblyStation.set(assemblyStations[0])
+        kitTrayIdLabel.pack_forget()
+        kitTrayIdMenu.pack_forget()
+        kittingDestinationLabel.pack_forget()
+        kittingDestinationMenu.pack_forget()
+        assemblyStationLabel.pack(after=taskAgvMenu)
+        assemblyStationMenu.pack(after=assemblyStationLabel)
+
 def generateOrderId(usedId):
     newId=''.join(random.choices(string.ascii_uppercase+string.digits,k=8))
     if newId in usedId:
@@ -108,14 +139,31 @@ def addNewOrder(orderCounter, allOrderChallenges):
     order_challenge_func=partial(addOrderChallenge, allOrderChallenges, orderCounter)
     addOrderChallengeButton=tk.Button(newOrderWind, text="Add challenge", command=order_challenge_func)
     addOrderChallengeButton.pack()
-    #choose the tasks
-    '''
-    
-    
-    kitting or assembly task
-    
-    
-    '''
+    #Task options
+    taskAGV=tk.StringVar()
+    taskAGV.set(agvOptions[0])
+    taskAGVLabel=tk.Label(newOrderWind, text="Select the agv for the task")
+    taskAGVLabel.pack()
+    taskAgvMenu=tk.OptionMenu(newOrderWind, taskAGV, *agvOptions)
+    taskAgvMenu.pack()
+    kitTrayId=tk.StringVar()
+    kitTrayId.set(kittingTrayIDs[0])
+    kitTrayIdLabel=tk.Label(newOrderWind, text="Select the tray ID for the kitting task")
+    kitTrayIdLabel.pack()
+    kitTrayIdMenu=tk.OptionMenu(newOrderWind, kitTrayId, *kittingTrayIDs)
+    kitTrayIdMenu.pack()
+    kittingDestination=tk.StringVar()
+    kittingDestination.set(kittingDestinations[0])
+    kittingDestinationLabel=tk.Label(newOrderWind, text="Select the destination for kitting")
+    kittingDestinationLabel.pack()
+    kittingDestinationMenu=tk.OptionMenu(newOrderWind, kittingDestination, *kittingDestinations)
+    kittingDestinationMenu.pack()
+    assemblyStation=tk.StringVar()
+    assemblyStation.set("")
+    assemblyStationLabel=tk.Label(newOrderWind, text="Select the station for assembly")
+    assemblyStationLabel.pack_forget()
+    assemblyStationMenu=tk.OptionMenu(newOrderWind, assemblyStation, *assemblyStations)
+    assemblyStationMenu.pack_forget()
     #save and cancel buttons
     saveOrdButton=tk.Button(newOrderWind, text="Save and Exit", command=newOrderWind.destroy)
     saveOrdButton.pack()
@@ -126,6 +174,8 @@ def addNewOrder(orderCounter, allOrderChallenges):
     cancelNewOrdButton.pack(pady=20)
     order_quad_func=partial(updateQuadMenu, orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox, orderQuadLabel)
     orderNum.trace('w',order_quad_func)
+    update_task_options=partial(updateTaskOptions, orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayIdMenu, kittingDestination, kittingDestinationLabel, kittingDestinationMenu, assemblyStation, assemblyStationLabel, assemblyStationMenu)
+    orderType.trace('w', update_task_options)
     newOrderWind.mainloop()
     if ordCancelFlag.get()=="1":
         orderCounter.remove(0)
