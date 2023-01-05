@@ -38,19 +38,19 @@ class Order:  # for holding information about orders
 
 class KittingProds:
     def __init__(self, orderID, type, color, quadrant):
-        self.orderID=orderID
+        self.orderId=orderID
         self.type=type
         self.color=color
         self.quadrant=quadrant
 
 class AssemblyProds:
     def __init__(self, orderID, type, color, xyz, rpy, direction):
-        self.orderID=orderID
+        self.orderId=orderID
         self.type=type
         self.color=color
         self.xyz=xyz
         self.rpy=rpy
-        self.direciton=direction
+        self.direction=direction
 
 class OrderChallenge:
     def __init__(self, orderId, challengeType, quadrant):
