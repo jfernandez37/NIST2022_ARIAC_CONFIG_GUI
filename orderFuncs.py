@@ -220,7 +220,7 @@ def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox
             currentQuadMenu.remove(i)
 
 
-def addNewOrder(orderCounter, allOrderChallenges, orderKittingParts,orderAssembParts, usedIDs):
+def addNewOrder(allOrders, orderCounter, allOrderChallenges, orderKittingParts,orderAssembParts, usedIDs):
     orderCounter.append(0)
     orderID=generateOrderId(usedIDs)
     newOrderWind=tk.Tk()
@@ -316,3 +316,9 @@ def addNewOrder(orderCounter, allOrderChallenges, orderKittingParts,orderAssembP
     newOrderWind.mainloop()
     if ordCancelFlag.get()=="1":
         orderCounter.remove(0)
+    else:
+        if orderPriority.get()=="0":
+            ordP="false"
+        else:
+            ordP="true"
+        allOrders.append(Order(orderCategory.get(),orderID,orderType.get(),ordP, taskAGV.get(), kitTrayId.get(), kittingDestination.get(), assemblyStation.get()))
