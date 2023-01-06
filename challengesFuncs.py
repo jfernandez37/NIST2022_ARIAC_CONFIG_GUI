@@ -7,7 +7,7 @@ allPartTypes=["sensor", "pump", "regulator", "battery"]
 allPartColors=['green', 'red', 'purple','blue','orange']
 
 def newRobotMalfunction(robotMalfunctions):
-    robotMalfunctionWind=tk.Tk()
+    robotMalfunctionWind=tk.Toplevel()
     robotMalfunctionWind.geometry("850x600")
     #duration
     duration=tk.StringVar()
@@ -18,9 +18,9 @@ def newRobotMalfunction(robotMalfunctions):
     durationEntry.pack()
     #robots to disable
     floorRobot=tk.StringVar()
+    floorRobot.set("0")
     ceilRobot=tk.StringVar()
-    floorRobot.set('0')
-    ceilRobot.set('0')
+    ceilRobot.set("0")
     floorRobotCB=tk.Checkbutton(robotMalfunctionWind, text="Floor robot", variable=floorRobot, onvalue="1", offvalue="0", height=1, width=20)
     floorRobotCB.pack()
     ceilRobotCB=tk.Checkbutton(robotMalfunctionWind, text="Ceiling robot", variable=ceilRobot, onvalue="1", offvalue="0", height=1, width=20)
@@ -58,7 +58,7 @@ def newRobotMalfunction(robotMalfunctions):
     if robotMalfCancelFlag.get()=="0":
         robotsString=""
         if floorRobot.get()=="1" and ceilRobot.get()=="1":
-            robotsString="[\'floor_robot\',\'ceiling_robot\']"
+            robotsString="[\'floor_robot\', \'ceiling_robot\']"
         elif floorRobot.get()=="1":
             robotsString="[\'floor_robot\']"
         elif ceilRobot.get()=="1":
