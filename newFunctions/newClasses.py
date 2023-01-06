@@ -57,3 +57,11 @@ class OrderChallenge:
         self.ord=orderId
         self.type=challengeType
         self.quadrant=quadrant
+
+class RobotMalfunction:
+    def __init__(self, duration, roboToDisable, type, color, agv):
+        self.duration=duration
+        self.robot=roboToDisable
+        self.type=type
+        self.color=color
+        self.agv=agv
