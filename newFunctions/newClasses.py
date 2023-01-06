@@ -70,3 +70,18 @@ class FaultyPart:
     def __init__(self, orderID, quadrant):
         self.orderID=orderID
         self.quadrant=quadrant
+
+class DroppedPart:
+    def __init__(self, robot, type, color, dropAfter, delay):
+        self.robot=robot
+        self.type=type
+        self.color=color
+        self.dropAfter=dropAfter
+        self.delay=delay
+
+class SensorBlackout:
+    def __init__(self, category, time, duration, sensors):
+        self.category=category
+        self.time=time
+        self.duration=duration
+        self.sensors=sensors
