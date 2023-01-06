@@ -21,6 +21,7 @@ from newFunctions.updateAGVFuncs import updateTrayIds
 from newFunctions.addNewBin import *
 from newFunctions.addConvPart import addPartConv
 from orderFuncs import *
+from challengesFuncs import *
 
 CHECKBOXHEIGHT=1
 pathIncrement = []  # gives the full path for recursive deletion
@@ -81,6 +82,7 @@ def randOrSeq():
     elif changeOrder.config('text')[-1] == 'sequential':
         changeOrder.config(text='random')
         convOrder.set("random")
+robotMalfunctions=[]
 
 
 if __name__=="__main__":
@@ -393,6 +395,20 @@ if __name__=="__main__":
     cancelOrdersButton.pack(pady=20)
     ordersWind.mainloop()
     check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
+    # END OF ORDERS
+    # ----------------------------------------------------------------------------------------------
+    #START OF CHALLENGES
+    challengeWind=tk.Tk()
+    challengeWind.geometry("850x600")
+    new_robot_malfunction=partial(newRobotMalfunction, robotMalfunctions)
+    robotMalfunctionButton=tk.Button(challengeWind, text="Add robot malfunction", command=new_robot_malfunction)
+    robotMalfunctionButton.pack()
+    saveChallengeButton=tk.Button(challengeWind, text="Save and Continue", command=challengeWind.destroy)
+    saveChallengeButton.pack(pady=20)
+    cancel_challenge_command=partial(cancel_wind, challengeWind, cancelFlag)
+    cancelChallengeButton=tk.Button(challengeWind, text="Cancel and Exit", command=cancel_challenge_command)
+    cancelChallengeButton.pack(pady=20)
+    challengeWind.mainloop()
     #Finds which bins are present
     for i in bins:
         if i.binName=="bin1":
