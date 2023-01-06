@@ -65,3 +65,8 @@ class RobotMalfunction:
         self.type=type
         self.color=color
         self.agv=agv
+
+class FaultyPart:
+    def __init__(self, orderID, quadrant):
+        self.orderID=orderID
+        self.quadrant=quadrant
