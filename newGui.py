@@ -409,6 +409,7 @@ if __name__=="__main__":
     cancelChallengeButton=tk.Button(challengeWind, text="Cancel and Exit", command=cancel_challenge_command)
     cancelChallengeButton.pack(pady=20)
     challengeWind.mainloop()
+    check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
     #Finds which bins are present
     for i in bins:
         if i.binName=="bin1":
@@ -531,3 +532,12 @@ if __name__=="__main__":
                         o.write("            xyz: "+prod.xyz+"\n")
                         o.write("            rpy: "+prod.rpy+"\n")
                         o.write("          assembly_direction: "+prod.direction+"\n")
+        o.write("\n# GLOBAL CHALLENGES\n")
+        o.write("challenges:\n")
+        for malf in robotMalfunctions:
+            o.write("  - robot_malfunction:\n")
+            o.write("      duration: "+malf.duration+"\n")
+            o.write("      robots_to_disable: "+malf.robot+"\n")
+            o.write("      part_type: \'"+malf.type+"\'\n")
+            o.write("      part_color: \'"+malf.color+"\'\n")
+            o.write("      agv: "+malf.agv+"\n")
