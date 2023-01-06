@@ -37,10 +37,10 @@ agv3Parts=[]
 agv4Parts=[]
 agvTrayIds=["","0","1","2","3","4","5","6"]
 trayIds=["0","1","2","3","4","5","6"]
-agv1Quadrants=["0","1","2","3"]
-agv2Quadrants=["0","1","2","3"]
-agv3Quadrants=["0","1","2","3"]
-agv4Quadrants=["0","1","2","3"]
+agv1Quadrants=["1","2","3","4"]
+agv2Quadrants=["1","2","3","4"]
+agv3Quadrants=["1","2","3","4"]
+agv4Quadrants=["1","2","3","4"]
 bins=[]
 bin1Slots=[]
 bin2Slots=[]
@@ -83,7 +83,7 @@ def randOrSeq():
         changeOrder.config(text='random')
         convOrder.set("random")
 robotMalfunctions=[]
-
+faultyParts=[]
 
 if __name__=="__main__":
     getFileName = tk.Tk()
@@ -395,6 +395,9 @@ if __name__=="__main__":
     cancelOrdersButton.pack(pady=20)
     ordersWind.mainloop()
     check_cancel(cancelFlag.get(), pathIncrement, fileName, createdDir)
+    allOrders.reverse()
+    orderKittingParts.reverse()
+    orderAssembParts.reverse()
     # END OF ORDERS
     # ----------------------------------------------------------------------------------------------
     #START OF CHALLENGES
@@ -403,6 +406,9 @@ if __name__=="__main__":
     new_robot_malfunction=partial(newRobotMalfunction, robotMalfunctions)
     robotMalfunctionButton=tk.Button(challengeWind, text="Add robot malfunction", command=new_robot_malfunction)
     robotMalfunctionButton.pack()
+    new_faulty_part=partial(newFaultyPart, faultyParts, usedIDs)
+    faultyPartButton=tk.Button(challengeWind, text="Add faulty part", command=new_faulty_part)
+    faultyPartButton.pack()
     saveChallengeButton=tk.Button(challengeWind, text="Save and Continue", command=challengeWind.destroy)
     saveChallengeButton.pack(pady=20)
     cancel_challenge_command=partial(cancel_wind, challengeWind, cancelFlag)
@@ -541,3 +547,7 @@ if __name__=="__main__":
             o.write("      part_type: \'"+malf.type+"\'\n")
             o.write("      part_color: \'"+malf.color+"\'\n")
             o.write("      agv: "+malf.agv+"\n")
+        for part in faultyParts:
+            o.write("  - faulty_part:\n")
+            o.write("      order_id: \'"+part.orderID+"\'\n")
+            o.write("      quadrant: ["+part.quadrant+"]\n")
