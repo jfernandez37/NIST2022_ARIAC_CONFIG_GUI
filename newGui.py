@@ -84,6 +84,8 @@ def randOrSeq():
         convOrder.set("random")
 robotMalfunctions=[]
 faultyParts=[]
+droppedParts=[]
+sensorBlackouts=[]
 
 if __name__=="__main__":
     getFileName = tk.Tk()
@@ -409,6 +411,9 @@ if __name__=="__main__":
     new_faulty_part=partial(newFaultyPart, faultyParts, usedIDs)
     faultyPartButton=tk.Button(challengeWind, text="Add faulty part", command=new_faulty_part)
     faultyPartButton.pack()
+    new_dropped_part=partial(newDroppedPart, droppedParts)
+    droppedPartButton=tk.Button(challengeWind, text="Add dropped part", command=new_dropped_part)
+    droppedPartButton.pack()
     saveChallengeButton=tk.Button(challengeWind, text="Save and Continue", command=challengeWind.destroy)
     saveChallengeButton.pack(pady=20)
     cancel_challenge_command=partial(cancel_wind, challengeWind, cancelFlag)
