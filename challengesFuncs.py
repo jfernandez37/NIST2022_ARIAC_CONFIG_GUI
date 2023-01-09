@@ -203,6 +203,16 @@ def showStatMenu(statShow, statShowCB, statMenu, statLabel, station, a,b,c):
         statMenu.pack_forget()
         station.set('')
 
+def showTimeMenu(timeShow, timeShowCB, timeEntry, timeLabel, time, a,b,c):
+    if timeShow.get()=="1":
+        timeLabel.pack(after=timeShowCB)
+        timeEntry.pack(after=timeLabel)
+        time.set('0')
+    else:
+        timeLabel.pack_forget()
+        timeEntry.pack_forget()
+        time.set('')
+
 def newSensorBlackout(sensorBlackouts):
     allSensors=[]
     selectedSensors=[]
@@ -263,6 +273,16 @@ def newSensorBlackout(sensorBlackouts):
     #optional items
     optionalLabel=tk.Label(sensBOWind, text="The following are optional. To add them, click the associated checkbox")
     optionalLabel.pack()
+    timeShow=tk.StringVar()
+    timeShow.set('0')
+    timeShowCB=tk.Checkbutton(sensBOWind, text="Time", variable=timeShow, onvalue="1", offvalue='0', height=1, width=20)
+    timeShowCB.pack()
+    time=tk.StringVar()
+    time.set('')
+    timeLabel=tk.Label(sensBOWind, text="Enter the time")
+    timeLabel.pack_forget()
+    timeEntry=tk.Entry(sensBOWind, textvariable=time)
+    timeEntry.pack_forget()
     agvShow=tk.StringVar()
     agvShow.set('0')
     agvShowCB=tk.Checkbutton(sensBOWind, text="AGV", variable=agvShow, onvalue="1", offvalue='0', height=1, width=20)
@@ -302,6 +322,8 @@ def newSensorBlackout(sensorBlackouts):
     sensBOCancel=tk.Button(sensBOWind, text="Cancel", command=cancel_sens_bo_challenge)
     sensBOCancel.pack()
     #variable tracing
+    show_time_menu=partial(showTimeMenu, timeShow, timeShowCB, timeEntry, timeLabel, time)
+    timeShow.trace('w', show_time_menu)
     show_agv_menu=partial(showAGVMenu, agvShow,agvShowCB, agvMenu, agvLabel, agv)
     agvShow.trace('w', show_agv_menu)
     show_dest_menu=partial(showDestMenu,destShow, destShowCB, destMenu, destLabel, destination)
@@ -318,5 +340,7 @@ def newSensorBlackout(sensorBlackouts):
         allSensors.append(sensor6.get())
         for i in range(len(allSensors)):
             if allSensors[i]=="1":
-                selectedSensors.append("sensor"+str(i+1))
+                selectedSensors.append("\'sensor"+str(i+1)+"\'")
+        sensorBlackouts.append(SensorBlackout(category.get(), time.get(),duration.get(),", ".join(selectedSensors), agv.get(), destination.get(), station.get()))
+        
             
