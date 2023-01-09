@@ -8,6 +8,8 @@ agvOptions=["1","2","3","4"]
 allPartTypes=["sensor", "pump", "regulator", "battery"]
 allPartColors=['green', 'red', 'purple','blue','orange']
 robotTypes=["ceiling_robot","floor_robot"]
+destinations=["warehouse", "as1", "as2","as3","as4","kitting"]
+stations=["as1","as2","as3","as4"]
 sensBOCategories=["time-based","during kitting", "during assembly","after kitting", "after assembly"]
 def newRobotMalfunction(robotMalfunctions):
     robotMalfunctionWind=tk.Toplevel()
@@ -181,6 +183,26 @@ def showAGVMenu(agvShow,agvShowCB, agvMenu, agvLabel, agv, a,b,c):
         agvMenu.pack_forget()
         agv.set('')
 
+def showDestMenu(destShow, destShowCB, destMenu, destLabel, destination,a,b,c):
+    if destShow.get()=="1":
+        destLabel.pack(after=destShowCB)
+        destMenu.pack(after=destLabel)
+        destination.set(destinations[0])
+    else:
+        destLabel.pack_forget()
+        destMenu.pack_forget()
+        destination.set('')
+
+def showStatMenu(statShow, statShowCB, statMenu, statLabel, station, a,b,c):
+    if statShow.get()=="1":
+        statLabel.pack(after=statShowCB)
+        statMenu.pack(after=statLabel)
+        station.set(stations[0])
+    else:
+        statLabel.pack_forget()
+        statMenu.pack_forget()
+        station.set('')
+
 def newSensorBlackout(sensorBlackouts):
     allSensors=[]
     selectedSensors=[]
@@ -251,6 +273,26 @@ def newSensorBlackout(sensorBlackouts):
     agvLabel.pack_forget()
     agvMenu=tk.OptionMenu(sensBOWind, agv, *agvOptions)
     agvMenu.pack_forget()
+    destShow=tk.StringVar()
+    destShow.set('0')
+    destShowCB=tk.Checkbutton(sensBOWind, text="Destination", variable=destShow, onvalue="1", offvalue='0', height=1, width=20)
+    destShowCB.pack()
+    destination=tk.StringVar()
+    destination.set(destinations[0])
+    destLabel=tk.Label(sensBOWind, text="Choose the destination")
+    destLabel.pack_forget()
+    destMenu=tk.OptionMenu(sensBOWind, destination, *destinations)
+    destMenu.pack_forget()
+    statShow=tk.StringVar()
+    statShow.set('0')
+    statShowCB=tk.Checkbutton(sensBOWind, text="Station", variable=statShow, onvalue="1", offvalue='0', height=1, width=20)
+    statShowCB.pack()
+    station=tk.StringVar()
+    station.set(stations[0])
+    stationLabel=tk.Label(sensBOWind, text="Choose the station")
+    stationLabel.pack_forget()
+    stationMenu=tk.OptionMenu(sensBOWind, station, *stations)
+    stationMenu.pack_forget()
     #save and cancel buttons
     sensBOSave=tk.Button(sensBOWind, text="Save", command=sensBOWind.destroy)
     sensBOSave.pack(pady=20)
@@ -262,6 +304,10 @@ def newSensorBlackout(sensorBlackouts):
     #variable tracing
     show_agv_menu=partial(showAGVMenu, agvShow,agvShowCB, agvMenu, agvLabel, agv)
     agvShow.trace('w', show_agv_menu)
+    show_dest_menu=partial(showDestMenu,destShow, destShowCB, destMenu, destLabel, destination)
+    destShow.trace('w', show_dest_menu)
+    show_stat_menu=partial(showStatMenu,statShow, statShowCB, stationMenu, stationLabel, station)
+    statShow.trace('w', show_stat_menu)
     sensBOWind.mainloop()
     if sensBOCancelFlag.get()=="0":
         allSensors.append(sensor1.get())
