@@ -3,9 +3,11 @@ from functools import partial
 from Functions.checkCancel import *
 from newFunctions.newClasses import *
 from newFunctions.timeFunctions import validateTime
+from newFunctions.validationFunctions import *
 agvOptions=["1","2","3","4"]
 allPartTypes=["sensor", "pump", "regulator", "battery"]
 allPartColors=['green', 'red', 'purple','blue','orange']
+robotTypes=["ceiling_robot","floor_robot"]
 
 def newRobotMalfunction(robotMalfunctions):
     robotMalfunctionWind=tk.Toplevel()
@@ -114,3 +116,61 @@ def newFaultyPart(faultyParts, usedIds):
         if q4.get()=="1":
             quadrants.append("4")
         faultyParts.append(FaultyPart(currentOrderID.get(),", ".join(quadrants)))
+
+def newDroppedPart(droppedParts):
+    dropPartWind=tk.Toplevel()
+    #robot types
+    robotType=tk.StringVar()
+    robotType.set(robotTypes)
+    robotTypeLabel=tk.Label(dropPartWind, text="Select the robot type for the dropped part")
+    robotTypeLabel.pack()
+    robotTypeMenu=tk.OptionMenu(dropPartWind, robotType, *robotTypes)
+    robotTypeMenu.pack()
+    #part type
+    partType=tk.StringVar()
+    partType.set(allPartTypes[0])
+    partTypeLabel=tk.Label(dropPartWind, text="Select the type of part")
+    partTypeLabel.pack()
+    partTypeMenu=tk.OptionMenu(dropPartWind, partType, *allPartTypes)
+    partTypeMenu.pack()
+    #part color
+    partColor=tk.StringVar()
+    partColor.set(allPartColors[0])
+    partColorLabel=tk.Label(dropPartWind, text="Select the color of the part")
+    partColorLabel.pack()
+    partColorMenu=tk.OptionMenu(dropPartWind, partColor, *allPartColors)
+    partColorMenu.pack()
+    #drop after
+    dropAfter=tk.StringVar()
+    dropAfter.set("0")
+    dropAfterLabel=tk.Label(dropPartWind, text="Set the amount of time to drop the part after")
+    dropAfterLabel.pack()
+    dropAfterEntry=tk.Entry(dropPartWind, textvariable=dropAfter)
+    dropAfterEntry.pack()
+    #delay
+    delayVal=tk.StringVar()
+    delayVal.set('0')
+    delayLabel=tk.Label(dropPartWind,text="Set the delay for the dropped part")
+    delayLabel.pack()
+    delayEntry=tk.Entry(dropPartWind, textvariable=delayVal)
+    delayEntry.pack()
+    #save and cancel buttons
+    dropPartSave=tk.Button(dropPartWind, text="Save", command=dropPartWind.destroy)
+    dropPartSave.pack(pady=20)
+    dropPartCancelFlag=tk.StringVar()
+    dropPartCancelFlag.set('0')
+    cancel_drop_part_challenge=partial(exitAndFlag, dropPartWind, dropPartCancelFlag)
+    dropPartCancel=tk.Button(dropPartWind, text="Cancel", command=cancel_drop_part_challenge)
+    dropPartCancel.pack()
+    #validation
+    validate_drop_after=partial(require_num,dropAfter)
+    dropAfter.trace('w',validate_drop_after)
+    validate_delay=partial(require_num, delayVal)
+    delayVal.trace('w', validate_delay)
+    dropPartWind.mainloop()
+    if dropPartCancelFlag.get()=="0":
+        droppedParts.append(DroppedPart(robotType.get(), partType.get(), partColor.get(), dropAfter.get(), delayVal.get()))
+    
+def newSensorBlackout(sensorBlackouts):
+    sensBOWind=tk.Toplevel()
+    sensBOWind.mainloop()
