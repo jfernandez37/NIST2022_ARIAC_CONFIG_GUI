@@ -20,7 +20,7 @@ from newFunctions.addPartFunc import *
 from newFunctions.updateAGVFuncs import updateTrayIds
 from newFunctions.addNewBin import *
 from newFunctions.addConvPart import addPartConv
-from orderFuncs import *
+from newFunctions.orderFuncs import *
 from challengesFuncs import *
 
 CHECKBOXHEIGHT=1
@@ -407,13 +407,16 @@ if __name__=="__main__":
     challengeWind.geometry("850x600")
     new_robot_malfunction=partial(newRobotMalfunction, robotMalfunctions)
     robotMalfunctionButton=tk.Button(challengeWind, text="Add robot malfunction", command=new_robot_malfunction)
-    robotMalfunctionButton.pack()
+    robotMalfunctionButton.pack(pady=10)
     new_faulty_part=partial(newFaultyPart, faultyParts, usedIDs)
     faultyPartButton=tk.Button(challengeWind, text="Add faulty part", command=new_faulty_part)
-    faultyPartButton.pack()
+    faultyPartButton.pack(pady=10)
     new_dropped_part=partial(newDroppedPart, droppedParts)
     droppedPartButton=tk.Button(challengeWind, text="Add dropped part", command=new_dropped_part)
-    droppedPartButton.pack()
+    droppedPartButton.pack(pady=10)
+    new_sensor_blackout=partial(newSensorBlackout, sensorBlackouts)
+    sensorBlackoutButton=tk.Button(challengeWind, text="Add sensor blackout", command=new_sensor_blackout)
+    sensorBlackoutButton.pack(pady=10)
     saveChallengeButton=tk.Button(challengeWind, text="Save and Continue", command=challengeWind.destroy)
     saveChallengeButton.pack(pady=20)
     cancel_challenge_command=partial(cancel_wind, challengeWind, cancelFlag)
