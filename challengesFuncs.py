@@ -8,7 +8,7 @@ agvOptions=["1","2","3","4"]
 allPartTypes=["sensor", "pump", "regulator", "battery"]
 allPartColors=['green', 'red', 'purple','blue','orange']
 robotTypes=["ceiling_robot","floor_robot"]
-
+sensBOCategories=["time-based","during kitting", "during assembly","after kitting", "after assembly"]
 def newRobotMalfunction(robotMalfunctions):
     robotMalfunctionWind=tk.Toplevel()
     robotMalfunctionWind.geometry("850x600")
@@ -170,7 +170,107 @@ def newDroppedPart(droppedParts):
     dropPartWind.mainloop()
     if dropPartCancelFlag.get()=="0":
         droppedParts.append(DroppedPart(robotType.get(), partType.get(), partColor.get(), dropAfter.get(), delayVal.get()))
-    
+
+def showAGVMenu(agvShow,agvShowCB, agvMenu, agvLabel, agv, a,b,c):
+    if agvShow.get()=="1":
+        agvLabel.pack(after=agvShowCB)
+        agvMenu.pack(after=agvLabel)
+        agv.set(agvOptions[0])
+    else:
+        agvLabel.pack_forget()
+        agvMenu.pack_forget()
+        agv.set('')
+
 def newSensorBlackout(sensorBlackouts):
+    allSensors=[]
+    selectedSensors=[]
     sensBOWind=tk.Toplevel()
+    #category
+    category=tk.StringVar()
+    category.set(sensBOCategories[0])
+    categoryLabel=tk.Label(sensBOWind, text="Choose the category for the sensor blackout")
+    categoryLabel.pack()
+    categoryMenu=tk.OptionMenu(sensBOWind, category, *sensBOCategories)
+    categoryMenu.pack()
+    #duration
+    duration=tk.StringVar()
+    duration.set('0')
+    durationLabel=tk.Label(sensBOWind, text="Enter the duration for the sensor blackout")
+    durationLabel.pack()
+    durationEntry=tk.Entry(sensBOWind, textvariable=duration)
+    durationEntry.pack()
+    #part type
+    partType=tk.StringVar()
+    partType.set(allPartTypes[0])
+    partTypeLabel=tk.Label(sensBOWind, text="Select the type of part")
+    partTypeLabel.pack()
+    partTypeMenu=tk.OptionMenu(sensBOWind, partType, *allPartTypes)
+    partTypeMenu.pack()
+    #part color
+    partColor=tk.StringVar()
+    partColor.set(allPartColors[0])
+    partColorLabel=tk.Label(sensBOWind, text="Select the color of the part")
+    partColorLabel.pack()
+    partColorMenu=tk.OptionMenu(sensBOWind, partColor, *allPartColors)
+    partColorMenu.pack()
+    #sensors to disable
+    sensor1=tk.StringVar()
+    sensor2=tk.StringVar()
+    sensor3=tk.StringVar()
+    sensor4=tk.StringVar()
+    sensor5=tk.StringVar()
+    sensor6=tk.StringVar()
+    sensor1.set('0')
+    sensor2.set('0')
+    sensor3.set('0')
+    sensor4.set('0')
+    sensor5.set('0')
+    sensor6.set('0')
+    sensor1CB=tk.Checkbutton(sensBOWind, text="break beam", variable=sensor1, onvalue="1", offvalue="0", height=1, width=20)
+    sensor1CB.pack()
+    sensor2CB=tk.Checkbutton(sensBOWind, text="proximity", variable=sensor2, onvalue="1", offvalue="0", height=1, width=20)
+    sensor2CB.pack()
+    sensor3CB=tk.Checkbutton(sensBOWind, text="laser profiler", variable=sensor3, onvalue="1", offvalue="0", height=1, width=20)
+    sensor3CB.pack()
+    sensor4CB=tk.Checkbutton(sensBOWind, text="lidar", variable=sensor4, onvalue="1", offvalue="0", height=1, width=20)
+    sensor4CB.pack()
+    sensor5CB=tk.Checkbutton(sensBOWind, text="camera", variable=sensor5, onvalue="1", offvalue="0", height=1, width=20)
+    sensor5CB.pack()
+    sensor6CB=tk.Checkbutton(sensBOWind, text="logical camera", variable=sensor6, onvalue="1", offvalue="0", height=1, width=20)
+    sensor6CB.pack()
+    #optional items
+    optionalLabel=tk.Label(sensBOWind, text="The following are optional. To add them, click the associated checkbox")
+    optionalLabel.pack()
+    agvShow=tk.StringVar()
+    agvShow.set('0')
+    agvShowCB=tk.Checkbutton(sensBOWind, text="AGV", variable=agvShow, onvalue="1", offvalue='0', height=1, width=20)
+    agvShowCB.pack()
+    agv=tk.StringVar()
+    agv.set("")
+    agvLabel=tk.Label(sensBOWind, text="Choose the agv")
+    agvLabel.pack_forget()
+    agvMenu=tk.OptionMenu(sensBOWind, agv, *agvOptions)
+    agvMenu.pack_forget()
+    #save and cancel buttons
+    sensBOSave=tk.Button(sensBOWind, text="Save", command=sensBOWind.destroy)
+    sensBOSave.pack(pady=20)
+    sensBOCancelFlag=tk.StringVar()
+    sensBOCancelFlag.set('0')
+    cancel_sens_bo_challenge=partial(exitAndFlag, sensBOWind, sensBOCancelFlag)
+    sensBOCancel=tk.Button(sensBOWind, text="Cancel", command=cancel_sens_bo_challenge)
+    sensBOCancel.pack()
+    #variable tracing
+    show_agv_menu=partial(showAGVMenu, agvShow,agvShowCB, agvMenu, agvLabel, agv)
+    agvShow.trace('w', show_agv_menu)
     sensBOWind.mainloop()
+    if sensBOCancelFlag.get()=="0":
+        allSensors.append(sensor1.get())
+        allSensors.append(sensor2.get())
+        allSensors.append(sensor3.get())
+        allSensors.append(sensor4.get())
+        allSensors.append(sensor5.get())
+        allSensors.append(sensor6.get())
+        for i in range(len(allSensors)):
+            if allSensors[i]=="1":
+                selectedSensors.append("sensor"+str(i+1))
+            
