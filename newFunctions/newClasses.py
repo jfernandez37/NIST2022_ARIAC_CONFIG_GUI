@@ -80,8 +80,11 @@ class DroppedPart:
         self.delay=delay
 
 class SensorBlackout:
-    def __init__(self, category, time, duration, sensors):
+    def __init__(self, category, time, duration, sensors, agv, destination, station):
         self.category=category
         self.time=time
         self.duration=duration
         self.sensors=sensors
+        self.agv=agv
+        self.destination=destination
+        self.station=station
