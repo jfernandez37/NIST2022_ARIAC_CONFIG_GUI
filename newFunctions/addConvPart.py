@@ -29,14 +29,15 @@ def validateOffset(offsetVal, a,b,c):
             elif tempStr[i]=='-':
                 tempStr=tempStr[:i]+tempStr[i+1:]
                 break
-    if float(tempStr)>1:
-        tempStr="1"
-    elif float(tempStr)<-1:
-        tempStr="-1"
+    if tempStr!="":
+        if float(tempStr)>1:
+            tempStr="1"
+        elif float(tempStr)<-1:
+            tempStr="-1"
     offsetVal.set(tempStr)
 
 def addPartConv(convParts):
-    partConvWind=tk.Tk()
+    partConvWind=tk.Toplevel()
     #part type
     partType=tk.StringVar()
     partType.set(partTypes[0])
