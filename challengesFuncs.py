@@ -213,6 +213,22 @@ def showTimeMenu(timeShow, timeShowCB, timeEntry, timeLabel, time, a,b,c):
         timeEntry.pack_forget()
         time.set('')
 
+def showPartMenu(partShow, partShowCB, partTypeLabel, partTypeMenu, partColorLabel, partColorMenu,partType, partColor,a,b,c):
+    if partShow.get()=="1":
+        partTypeLabel.pack(after=partShowCB)
+        partTypeMenu.pack(after=partTypeLabel)
+        partColorLabel.pack(after=partTypeMenu)
+        partColorMenu.pack(after=partColorLabel)
+        partType.set(allPartTypes[0])
+        partColor.set(allPartColors[0])
+    else:
+        partTypeLabel.pack_forget()
+        partTypeMenu.pack_forget()
+        partColorLabel.pack_forget()
+        partColorMenu.pack_forget()
+        partType.set("")
+        partColor.set("")
+
 def newSensorBlackout(sensorBlackouts):
     allSensors=[]
     selectedSensors=[]
@@ -313,6 +329,22 @@ def newSensorBlackout(sensorBlackouts):
     stationLabel.pack_forget()
     stationMenu=tk.OptionMenu(sensBOWind, station, *stations)
     stationMenu.pack_forget()
+    partShow=tk.StringVar()
+    partShow.set('0')
+    partShowCB=tk.Checkbutton(sensBOWind, text="Part", variable=partShow, onvalue="1", offvalue='0', height=1, width=20)
+    partShowCB.pack()
+    partType=tk.StringVar()
+    partType.set("")
+    partTypeLabel=tk.Label(sensBOWind, text="Select the type of part")
+    partTypeLabel.pack_forget()
+    partTypeMenu=tk.OptionMenu(sensBOWind, partType, *allPartTypes)
+    partTypeMenu.pack_forget()
+    partColor=tk.StringVar()
+    partColor.set("")
+    partColorLabel=tk.Label(sensBOWind, text="Select the color of the part")
+    partColorLabel.pack_forget()
+    partColorMenu=tk.OptionMenu(sensBOWind, partColor, *allPartColors)
+    partColorMenu.pack_forget()
     #save and cancel buttons
     sensBOSave=tk.Button(sensBOWind, text="Save", command=sensBOWind.destroy)
     sensBOSave.pack(pady=20)
@@ -341,6 +373,6 @@ def newSensorBlackout(sensorBlackouts):
         for i in range(len(allSensors)):
             if allSensors[i]=="1":
                 selectedSensors.append("\'sensor"+str(i+1)+"\'")
-        sensorBlackouts.append(SensorBlackout(category.get(), time.get(),duration.get(),", ".join(selectedSensors), agv.get(), destination.get(), station.get()))
+        sensorBlackouts.append(SensorBlackout(category.get(), time.get(),duration.get(),", ".join(selectedSensors), agv.get(), destination.get(), station.get(), partType.get(), partColor.get()))
         
             
