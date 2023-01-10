@@ -30,22 +30,22 @@ agv1Parts=[]
 agv2Parts=[]
 agv3Parts=[]
 agv4Parts=[]
-agvTrayIds=["","0","1","2","3","4","5","6"]
-trayIds=["0","1","2","3","4","5","6"]
-agv1Quadrants=["1","2","3","4"]
-agv2Quadrants=["1","2","3","4"]
-agv3Quadrants=["1","2","3","4"]
-agv4Quadrants=["1","2","3","4"]
-bins=[]
-bin1Slots=[]
-bin2Slots=[]
-bin3Slots=[]
-bin4Slots=[]
-bin5Slots=[]
-bin6Slots=[]
-bin7Slots=[]
-bin8Slots=[]
-convParts=[]
+agvTrayIds=["","0","1","2","3","4","5","6"] # all options for tray ids for agvs
+trayIds=["0","1","2","3","4","5","6"] # all options for tray ids
+agv1Quadrants=["1","2","3","4"] # available quadrants for agv1
+agv2Quadrants=["1","2","3","4"] # available quadrants for agv2
+agv3Quadrants=["1","2","3","4"] # available quadrants for agv3
+agv4Quadrants=["1","2","3","4"] # available quadrants for agv4
+bins=[] # holds the bins
+bin1Slots=[] # holds the available slots for bin1
+bin2Slots=[] # holds the available slots for bin2
+bin3Slots=[] # holds the available slots for bin3
+bin4Slots=[] # holds the available slots for bin4
+bin5Slots=[] # holds the available slots for bin5
+bin6Slots=[] # holds the available slots for bin6
+bin7Slots=[] # holds the available slots for bin7
+bin8Slots=[] # holds the available slots for bin8
+convParts=[] # holds conveyor belt parts
 for i in range(9):
     bin1Slots.append(str(i+1))
     bin2Slots.append(str(i+1))
@@ -69,6 +69,11 @@ for i in range(8):
 orderKittingParts=[]
 orderAssembParts=[]
 usedIDs=[]
+robotMalfunctions=[]
+faultyParts=[]
+droppedParts=[]
+sensorBlackouts=[]
+
 def randOrSeq():  
     """Cycles through the options for the conveyor belt order"""
     if changeOrder.config('text')[-1] == 'random':
@@ -77,13 +82,10 @@ def randOrSeq():
     elif changeOrder.config('text')[-1] == 'sequential':
         changeOrder.config(text='random')
         convOrder.set("random")
-robotMalfunctions=[]
-faultyParts=[]
-droppedParts=[]
-sensorBlackouts=[]
+
 
 if __name__=="__main__":
-    getFileName = tk.Tk()
+    getFileName = tk.Tk() #window to create and get the file
     fileNameVar = tk.StringVar()
     faultySkipFlag = tk.StringVar()
     faultySkipFlag.set('0')
@@ -140,7 +142,7 @@ if __name__=="__main__":
     if cancelFlag.get()=='1':
         quit()
     tempFilePath=''
-    if platform.system()=="Windows":
+    if platform.system()=="Windows": # gets the file name of the file just created
         brokenPath=fileNameVar.get().split("\\")
         for i in brokenPath[:-1]:
             tempFilePath+=i+"\\"
@@ -193,6 +195,8 @@ if __name__=="__main__":
     # ----------------------------------------------------------------------------------------------
     # START OF GETTING KITTING TRAYS
     trayWind=tk.Tk()
+    trayWind.title("Kitting trays")
+    trayWind.geometry("850x600")
     trayIDLabel=tk.Label(trayWind, text="Select the tray ID's to be spawned")
     trayIDLabel.grid(column=leftColumn)
     tray0=tk.StringVar()
@@ -288,6 +292,7 @@ if __name__=="__main__":
     # ----------------------------------------------------------------------------------------------
     # START OF PARTS
     partsWind=tk.Tk()
+    partsWind.title("AGVs and parts")
     partsWind.geometry("850x600")
     agv1TrayId=tk.StringVar()
     agv1TrayId.set(agvTrayIds[0])
@@ -332,6 +337,7 @@ if __name__=="__main__":
     # ----------------------------------------------------------------------------------------------
     # START OF BINS
     binsWind=tk.Tk()
+    binsWind.title("Bins and parts")
     binsWind.geometry("850x600")
     add_bin_func=partial(addBin,bins,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots)
     addBinsButton=tk.Button(binsWind, text="Add Bins", command=add_bin_func)
@@ -347,7 +353,7 @@ if __name__=="__main__":
     # ----------------------------------------------------------------------------------------------
     # START OF CONVEYOR BELT
     convWind=tk.Tk()
-    convWind.title("Conveyor Belt")
+    convWind.title("Conveyor Belt and parts")
     convWind.geometry("850x600")
     conveyorBeltLabel=tk.Label(convWind, text="Conveyor Belt Settings")
     conveyorBeltLabel.pack()
@@ -381,6 +387,7 @@ if __name__=="__main__":
     # ----------------------------------------------------------------------------------------------
     # START OF ORDERS
     ordersWind=tk.Tk()
+    ordersWind.title("Orders")
     ordersWind.geometry("850x600")
     new_order_func=partial(addNewOrder, allOrders, orderCounter, allOrderChallenges,orderKittingParts,orderAssembParts, usedIDs)
     newOrderButton=tk.Button(ordersWind, text="New Order", command=new_order_func)
@@ -399,6 +406,7 @@ if __name__=="__main__":
     # ----------------------------------------------------------------------------------------------
     #START OF CHALLENGES
     challengeWind=tk.Tk()
+    challengeWind.title("Challenges")
     challengeWind.geometry("850x600")
     new_robot_malfunction=partial(newRobotMalfunction, robotMalfunctions)
     robotMalfunctionButton=tk.Button(challengeWind, text="Add robot malfunction", command=new_robot_malfunction)
