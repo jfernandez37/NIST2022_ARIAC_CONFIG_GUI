@@ -559,3 +559,25 @@ if __name__=="__main__":
             o.write("  - faulty_part:\n")
             o.write("      order_id: \'"+part.orderID+"\'\n")
             o.write("      quadrant: ["+part.quadrant+"]\n")
+        for part in droppedParts:
+            o.write("  - dropped_part:\n")
+            o.write("      robot: \'"+part.robot+"\'\n")
+            o.write("      type: \'"+part.type+"\'\n")
+            o.write("      color: \'"+part.color+"\'\n")
+            o.write("      drop_after: "+part.dropAfter+" # first part the robot successfully picks\n")
+            o.write("      delay: "+part.delay+" # secons\n")
+        for blackout in sensorBlackouts:
+            o.write("  - sensor_blackout_category: "+blackout.category+"\n")
+            if blackout.time!="":
+                o.write("    time: "+blackout.time+"\n")
+            o.write("    duration: "+blackout.duration+"\n")
+            if blackout.type!="" and blackout.color!="":
+                o.write("    part_type: \'"+blackout.type+"\'\n")
+                o.write("    part_color: \'"+blackout.color+"\'\n")
+            if blackout.agv!="":
+                o.write("    agv: "+blackout.agv+"\n")
+            if blackout.station!="":
+                o.write("    station: "+blackout.station+"\n")
+            if blackout.destination!="":
+                o.write("    destination: "+blackout.destination+"\n")
+            o.write("    sensors_to_disable: ["+blackout.sensors+"]\n")
