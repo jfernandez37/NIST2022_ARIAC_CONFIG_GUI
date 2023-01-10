@@ -373,6 +373,6 @@ def newSensorBlackout(sensorBlackouts):
         for i in range(len(allSensors)):
             if allSensors[i]=="1":
                 selectedSensors.append("\'sensor"+str(i+1)+"\'")
-        sensorBlackouts.append(SensorBlackout(category.get(), time.get(),duration.get(),", ".join(selectedSensors), agv.get(), destination.get(), station.get(), partType.get(), partColor.get()))
+        sensorBlackouts.append(SensorBlackout(str(sensBOCategories.index(category.get())), time.get(),duration.get(),", ".join(selectedSensors), agv.get(), destination.get(), station.get(), partType.get(), partColor.get()))
         
             
