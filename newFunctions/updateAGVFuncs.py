@@ -1,5 +1,6 @@
 
 def updateAgvQudrants(agvSelection, quadrantMenu, currentQuadrant, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants, window):
+    '''Updates the available quadrants for each agv'''
     menu=quadrantMenu['menu']
     menu.delete(0,'end')
     if agvSelection.get()=='agv1':
@@ -25,6 +26,7 @@ def updateAgvQudrants(agvSelection, quadrantMenu, currentQuadrant, agv1Quadrants
     window.destroy()
 
 def updateTrayIds(agv1Val, agv2Val, agv3Val, agv4Val, agv1Menu, agv2Menu, agv3Menu, agv4Menu,agvTrayIds,a,b,c):
+    '''Updates the available tray ids for the agvs'''
     menu1=agv1Menu['menu']
     menu1.delete(0, 'end')
     menu2=agv2Menu['menu']

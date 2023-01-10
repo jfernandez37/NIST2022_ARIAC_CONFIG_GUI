@@ -9,6 +9,7 @@ partTypes=["sensor", "pump", "regulator", "battery"]
 partColors=['green', 'red', 'purple','blue','orange']
 
 def validateOffset(offsetVal, a,b,c):
+    '''Validates the value that the user inputs for the offset'''
     perFlag=0
     negFlag=0
     tempStr=offsetVal.get()
@@ -37,6 +38,7 @@ def validateOffset(offsetVal, a,b,c):
     offsetVal.set(tempStr)
 
 def addPartConv(convParts):
+    '''Window to add parts to the conveyor belt'''
     partConvWind=tk.Toplevel()
     #part type
     partType=tk.StringVar()

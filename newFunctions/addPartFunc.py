@@ -8,6 +8,7 @@ agvList=["agv1", "agv2", "agv3", "agv4"]
 partTypes=["sensor", "pump", "regulator", "battery"]
 partColors=['green', 'red', 'purple','blue','orange']
 def addPart(agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants, mainWind):
+    '''Adds a part to the agv'''
     newPartWind=tk.Toplevel(mainWind)
     newPartWind.geometry("850x600")
     #agv selection
@@ -74,6 +75,7 @@ def addPart(agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadra
 
 
 def writePartsToFile(name, id, partsList, saveFileName):
+    '''Writes agv info and parts on the agv to the file'''
     with open(saveFileName, "a") as o:
         o.write("    "+name+":\n")
         o.write("      tray_id: "+ id+"\n")

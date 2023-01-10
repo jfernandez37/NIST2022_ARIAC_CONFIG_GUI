@@ -16,7 +16,7 @@ from newFunctions.updateAGVFuncs import updateTrayIds
 from newFunctions.addNewBin import *
 from newFunctions.addConvPart import addPartConv
 from newFunctions.orderFuncs import *
-from challengesFuncs import *
+from newFunctions.challengesFuncs import *
 
 CHECKBOXHEIGHT=1
 pathIncrement = []  # gives the full path for recursive deletion
@@ -447,7 +447,7 @@ if __name__=="__main__":
             binPresentFlags[7]=1    
     
     
-    # START TO WRITE TO FILE
+    # WRITE TO FILE
     tempStr=''
     with open(saveFileName, "a") as o:
         o.write("# Trial Name: "+saveFileName+"\n")

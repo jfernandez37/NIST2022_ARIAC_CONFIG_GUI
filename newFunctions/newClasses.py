@@ -25,6 +25,7 @@ class PartConv:  # for holding information about parts for the conveyor belt
         self.rotation=rotation
 
 class Order:  # for holding information about orders
+    '''Holds information about the order'''
     def __init__(self,category, id, type, priority,agvNumber, trayId, destination, station):
         self.category=category
         self.id=id
@@ -37,6 +38,7 @@ class Order:  # for holding information about orders
         
 
 class KittingProds:
+    '''Holds information about products in kitting orders'''
     def __init__(self, orderID, type, color, quadrant):
         self.orderId=orderID
         self.type=type
@@ -44,6 +46,7 @@ class KittingProds:
         self.quadrant=quadrant
 
 class AssemblyProds:
+    '''Holds information about products in assembly or combined orders'''
     def __init__(self, orderID, type, color, xyz, rpy, direction):
         self.orderId=orderID
         self.type=type
@@ -59,6 +62,7 @@ class OrderChallenge:
         self.quadrant=quadrant
 
 class RobotMalfunction:
+    '''Holds information about robot malfunctions'''
     def __init__(self, duration, roboToDisable, type, color, agv):
         self.duration=duration
         self.robot=roboToDisable
@@ -67,11 +71,13 @@ class RobotMalfunction:
         self.agv=agv
 
 class FaultyPart:
+    '''Holds information about faulty parts'''
     def __init__(self, orderID, quadrant):
         self.orderID=orderID
         self.quadrant=quadrant
 
 class DroppedPart:
+    '''Holds information about dropped parts'''
     def __init__(self, robot, type, color, dropAfter, delay):
         self.robot=robot
         self.type=type
@@ -80,6 +86,7 @@ class DroppedPart:
         self.delay=delay
 
 class SensorBlackout:
+    '''Holds information about sensor blackouts'''
     def __init__(self, category, time, duration, sensors, agv, destination, station,type,color):
         self.category=category
         self.time=time

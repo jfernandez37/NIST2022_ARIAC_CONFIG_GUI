@@ -11,6 +11,7 @@ for i in range(8):
     allBins.append('bin'+str(i+1))
 
 def runSlotChecks(addBinWind, currentBin,slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots,saveNewBinButton,a,b,c):
+    '''runs the slotChecks function for the correct bin'''
     if currentBin.get()=="bin1":
         slotChecks(bin1Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,saveNewBinButton)
     elif currentBin.get()=="bin2":
@@ -29,6 +30,7 @@ def runSlotChecks(addBinWind, currentBin,slot1,slot2,slot3,slot4,slot5,slot6,slo
         slotChecks(bin8Slots, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,saveNewBinButton)
 
 def slotChecks(arr, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9, presentChecks,saveNewBinButton):
+    '''puts the correct checkboxes in the window. This guarantees that slots are not repeated for bins'''
     for i in presentChecks:
         i.destroy()
     slot1.set("0")
@@ -102,6 +104,7 @@ def slotChecks(arr, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,
         presentChecks.append(slot9Check)
 
 def updateAvailableSlots(currentBin, bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9,window):
+    '''Removes slots that have been selected by the user'''
     allSlots=[slot1.get(),slot2.get(),slot3.get(),slot4.get(),slot5.get(),slot6.get(),slot7.get(),slot8.get(),slot9.get()]
     counter=1
     if currentBin.get()=="bin1":
@@ -149,6 +152,7 @@ def updateAvailableSlots(currentBin, bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin
     window.destroy()
 
 def addBin(bins,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots):
+    '''Adds a bin'''
     addBinWind=tk.Toplevel()
     #choose bin
     binID=tk.StringVar()
@@ -230,6 +234,7 @@ def addBin(bins,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7
     bins.append(Bin(binID.get(),partType.get(), partColor.get(),"["+slotsString+"]",partRotation.get(), flippedFlag.get()))
 
 def writeBinsToFile(name, binsList, saveFileName):
+    '''Writes a given bin to the file'''
     with open(saveFileName, "a") as o:
         o.write("    "+name+":\n")
         for i in binsList:

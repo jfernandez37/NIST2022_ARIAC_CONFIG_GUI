@@ -21,6 +21,7 @@ allProdTypes=["sensor", "pump", "regulator", "battery"]
 allProdColors=['green', 'red', 'purple','blue','orange']
 
 def typeOfProdSelect(orderType,orderKittingParts, orderAssembParts, currentOrderID):
+    '''Runs the correct function based on the order type'''
     if orderType.get()=="kitting":
         addKittingProduct(orderKittingParts, currentOrderID)
     else:
@@ -28,6 +29,7 @@ def typeOfProdSelect(orderType,orderKittingParts, orderAssembParts, currentOrder
     
 
 def updateTaskOptions(orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayIdMenu, kittingDestination, kittingDestinationLabel, kittingDestinationMenu, assemblyStation, assemblyStationLabel, assemblyStationMenu,a,b,c):
+    '''Shows the correct options for different types of orders'''
     if orderType.get()=="kitting" and len(taskPresentFlag)==1:
         taskPresentFlag.clear()
         kitTrayId.set(kittingTrayIDs[0])
@@ -52,6 +54,7 @@ def updateTaskOptions(orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayI
         assemblyStationMenu.pack(after=assemblyStationLabel)
 
 def generateOrderId(usedId):
+    '''Generates a unique id for each order'''
     newId=''.join(random.choices(string.ascii_uppercase+string.digits,k=8))
     if newId in usedId:
         while newId in usedId:
@@ -85,6 +88,7 @@ def addOrderChallenge(allOrderChallenges, orderCounter):
         allOrderChallenges.append(OrderChallenge(str(len(orderCounter)),orderChallengeType.get(),orderChallengeQuadrant.get()))
 
 def addKittingProduct(orderKittingParts, currentOrderID):
+    '''Adds a product to a kitting order'''
     kitProdWind=tk.Toplevel()
     #type of product
     prodType=tk.StringVar()
@@ -120,6 +124,7 @@ def addKittingProduct(orderKittingParts, currentOrderID):
         orderKittingParts.append(KittingProds(currentOrderID,prodType.get(),prodColor.get(), prodQuad.get()))
 
 def addAssembProduct(orderAssembParts, currentOrderID):
+    '''Adds a product to an assembly or combined order'''
     assembProdWind=tk.Toplevel()
     #product type
     prodType=tk.StringVar()
@@ -207,6 +212,7 @@ def addAssembProduct(orderAssembParts, currentOrderID):
                                     str("["+r_val.get()+", "+p_val.get()+", "+y_rpy_val.get()+"]"), str("["+x_dir.get()+", "+y_dir.get()+", "+z_dir.get()+"]")))
 
 def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox, orderQuadLabel, a,b,c):
+    '''Updates the quadrant menu'''
     if orderNum.get()!=" " and len(currentQuadMenu)==0:
         orderQuadrant.set('0')
         orderQuadMenu.pack(before=orderPriorityCheckBox)
@@ -221,6 +227,7 @@ def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox
 
 
 def addNewOrder(allOrders, orderCounter, allOrderChallenges, orderKittingParts,orderAssembParts, usedIDs):
+    '''Window for adding a new order'''
     orderCounter.append(0)
     orderID=generateOrderId(usedIDs)
     newOrderWind=tk.Toplevel()
