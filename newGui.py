@@ -1,19 +1,14 @@
 import tkinter as tk
-import tkinter.ttk as ttk
 import platform
 from datetime import datetime
 from os import chdir
 from functools import partial
 from PIL import Image, ImageTk  # needed for images in gui
-from jsonschema import validate
-import yaml
-import Functions.validateARIAC as validateARIAC
 from Functions.checkCancel import *
 from Functions.updateRanges import *
 from Functions.validationFunc import *
 from Functions.fileFunc import *
 from Functions.buttonFuncs import *
-from Functions.orders.orderFuncs import *
 from newFunctions.timeFunctions import *
 from newFunctions.newClasses import *
 from newFunctions.addPartFunc import *
