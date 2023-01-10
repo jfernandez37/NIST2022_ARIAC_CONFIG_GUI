@@ -223,7 +223,7 @@ def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox
 def addNewOrder(allOrders, orderCounter, allOrderChallenges, orderKittingParts,orderAssembParts, usedIDs):
     orderCounter.append(0)
     orderID=generateOrderId(usedIDs)
-    newOrderWind=tk.Tk()
+    newOrderWind=tk.Toplevel()
     newOrderWind.geometry("850x600")
     #orderCategory
     orderCategory=tk.StringVar()
@@ -321,4 +321,4 @@ def addNewOrder(allOrders, orderCounter, allOrderChallenges, orderKittingParts,o
             ordP="false"
         else:
             ordP="true"
-        allOrders.append(Order(orderCategory.get(),orderID,orderType.get(),ordP, taskAGV.get(), kitTrayId.get(), kittingDestination.get(), assemblyStation.get()))
+        allOrders.append(Order(str(orderCategories.index(orderCategory.get())),orderID,orderType.get(),ordP, taskAGV.get(), kitTrayId.get(), kittingDestination.get(), assemblyStation.get()))
