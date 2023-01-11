@@ -55,24 +55,21 @@ for i in range(9):
     bin6Slots.append(str(i+1))
     bin7Slots.append(str(i+1))
     bin8Slots.append(str(i+1))
-allOrders=[]
-kittingParts=[]
-assemblyParts=[]
-orderIds=[]
-orderCounter=[]
-allOrderChallenges=[]
-kittingTrayIds=[]
-kittingTraySlots=[]
-binPresentFlags=[]
+allOrders=[] # holds all orders
+orderCounter=[] # for counting the number of orders
+allOrderChallenges=[] # for holding challenges in the orders section
+kittingTrayIds=[] # holds the selected kitting tray ids
+kittingTraySlots=[] # holds the selected kitting tray slots
+binPresentFlags=[] # to hold which bins are present 
 for i in range(8):
     binPresentFlags.append(0)
-orderKittingParts=[]
-orderAssembParts=[]
-usedIDs=[]
-robotMalfunctions=[]
-faultyParts=[]
-droppedParts=[]
-sensorBlackouts=[]
+orderKittingParts=[]# holds all kitting parts
+orderAssembParts=[] # holds all assembly parts
+usedIDs=[] # holds the ids that have already been used to avoid repeated ids
+robotMalfunctions=[] # holds all robot malfunctions
+faultyParts=[] # holds all faulty parts
+droppedParts=[] # holds all dropped parts
+sensorBlackouts=[] # holds all sensor blackouts
 
 def randOrSeq():  
     """Cycles through the options for the conveyor belt order"""
@@ -165,7 +162,7 @@ if __name__=="__main__":
     timeWind.geometry("850x600")
     #margin=tk.Label(timeWind, text=" "*middleColumnWidth)
     #margin.grid(column=leftColumn)
-    timeInstructions=tk.Label(timeWind, text="Enter the time limit you would like for the simulation (max value: 500)")
+    timeInstructions=tk.Label(timeWind, text="Enter the time limit you would like for the simulation")
     #timeInstructions.grid(column=middleColumn, pady=100)
     timeInstructions.pack(pady=100)
     timeVal=tk.StringVar()
@@ -447,7 +444,7 @@ if __name__=="__main__":
             binPresentFlags[7]=1    
     
     
-    # WRITE TO FILE
+    #  WRITE TO FILE
     tempStr=''
     with open(saveFileName, "a") as o:
         o.write("# Trial Name: "+saveFileName+"\n")
@@ -458,7 +455,7 @@ if __name__=="__main__":
             o.write("time_limit: -1")
         else:
             o.write("time_limit: "+timeVal.get())
-        o.write(" # options: -1 (no time limit) or number of seconds (max 500)\n")
+        o.write(" # options: -1 (no time limit) or number of seconds\n")
         o.write("\nkitting_trays: # Which kitting trays will be spawned\n")
         o.write("  tray_ids: [")
         for i in range(len(kittingTrayIds)):
