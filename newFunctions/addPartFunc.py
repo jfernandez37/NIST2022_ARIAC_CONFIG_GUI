@@ -63,7 +63,7 @@ def addPart(agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadra
         add_quotes(partType)
         add_quotes(partColor)
         if 'pi' in partRotation.get():
-            add_quotes(partRotation.get())
+            add_quotes(partRotation)
         if agvSelection.get()=='agv1':
             agv1Parts.append(Parts(partType.get(), partColor.get(), partQuadrant.get(), partRotation.get()))
         elif agvSelection.get()=='agv2':
