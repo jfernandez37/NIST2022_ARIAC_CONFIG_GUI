@@ -5,6 +5,7 @@ from Functions.checkCancel import *
 from functools import partial
 from newFunctions.validationFunctions import *
 from newFunctions.newClasses import *
+from newFunctions.timeFunctions import *
 orderTypes=["kitting", "assembly", "combined"]
 quadrants=["0","1","2","3"]
 agvOptions=["1","2","3","4"]
@@ -435,6 +436,8 @@ def addNewOrder(allOrders, orderCounter, allOrderChallenges, orderKittingParts,o
     orderType.trace('w', update_task_options)
     show_time_menu=partial(showTimeMenu, timeShow, timeShowCB, timeEntry, timeLabel, time)
     timeShow.trace('w', show_time_menu)
+    validate_time=partial(validateTime, time)
+    time.trace('w', validate_time)
     show_agv_menu=partial(showAGVMenu, agvShow,agvShowCB, agvMenu, agvLabel, agv,quadLabel, quadMenu, quadrant)
     agvShow.trace('w', show_agv_menu)
     show_part_menu=partial(showPartMenu, partShow, partShowCB, partTypeLabel, partTypeMenu, partColorLabel, partColorMenu,partType, partColor)

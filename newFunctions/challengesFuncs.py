@@ -356,6 +356,8 @@ def newSensorBlackout(sensorBlackouts):
     #variable tracing
     show_time_menu=partial(showTimeMenu, timeShow, timeShowCB, timeEntry, timeLabel, time)
     timeShow.trace('w', show_time_menu)
+    validate_time=partial(validateTime, time)
+    time.trace('w', validate_time)
     show_agv_menu=partial(showAGVMenu, agvShow,agvShowCB, agvMenu, agvLabel, agv)
     agvShow.trace('w', show_agv_menu)
     show_dest_menu=partial(showDestMenu,destShow, destShowCB, destMenu, destLabel, destination)
