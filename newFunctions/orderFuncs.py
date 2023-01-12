@@ -225,13 +225,67 @@ def updateQuadMenu(orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox
         for i in currentQuadMenu:
             currentQuadMenu.remove(i)
 
+def showAGVMenu(agvShow,agvShowCB, agvMenu, agvLabel, agv,quadLabel, quadMenu, quad, a,b,c):
+    if agvShow.get()=="1":
+        agvLabel.pack(after=agvShowCB)
+        agvMenu.pack(after=agvLabel)
+        quadLabel.pack(after=agvMenu)
+        quadMenu.pack(after=quadLabel)
+        agv.set(agvOptions[0])
+        quad.set(quadrants[0])
+    else:
+        agvLabel.pack_forget()
+        agvMenu.pack_forget()
+        quadLabel.pack_forget()
+        quadMenu.pack_forget()
+        agv.set('')
+        quad.set('')
+
+def showTimeMenu(timeShow, timeShowCB, timeEntry, timeLabel, time, a,b,c):
+    if timeShow.get()=="1":
+        timeLabel.pack(after=timeShowCB)
+        timeEntry.pack(after=timeLabel)
+        time.set('0')
+    else:
+        timeLabel.pack_forget()
+        timeEntry.pack_forget()
+        time.set('')
+
+def showPartMenu(partShow, partShowCB, partTypeLabel, partTypeMenu, partColorLabel, partColorMenu,partType, partColor,a,b,c):
+    if partShow.get()=="1":
+        partTypeLabel.pack(after=partShowCB)
+        partTypeMenu.pack(after=partTypeLabel)
+        partColorLabel.pack(after=partTypeMenu)
+        partColorMenu.pack(after=partColorLabel)
+        partType.set(allProdTypes[0])
+        partColor.set(allProdColors[0])
+    else:
+        partTypeLabel.pack_forget()
+        partTypeMenu.pack_forget()
+        partColorLabel.pack_forget()
+        partColorMenu.pack_forget()
+        partType.set("")
+        partColor.set("")
+
+def showAnnIDMenu(annIDShow, annIDShowCB, annIDLabel, annIDMenu, annID, tempIDs, a,b,c):
+    if annIDShow.get()=="1":
+        annIDLabel.pack(after=annIDShowCB)
+        annIDMenu.pack(after=annIDLabel)
+        annID.set(tempIDs[0])
+    else:
+        annIDLabel.pack_forget()
+        annIDMenu.pack_forget()
+        annID.set("")
 
 def addNewOrder(allOrders, orderCounter, allOrderChallenges, orderKittingParts,orderAssembParts, usedIDs):
     '''Window for adding a new order'''
     orderCounter.append(0)
+    tempIDs=[]
+    for id in usedIDs:
+        tempIDs.append(id)
     orderID=generateOrderId(usedIDs)
     newOrderWind=tk.Toplevel()
-    newOrderWind.geometry("850x600")
+    newOrderWind.geometry("850x800")
     #orderCategory
     orderCategory=tk.StringVar()
     orderCategory.set(orderCategories[0])
@@ -276,10 +330,68 @@ def addNewOrder(allOrders, orderCounter, allOrderChallenges, orderKittingParts,o
     orderPriorityCheckBox=tk.Checkbutton(newOrderWind, text="Priority", variable=orderPriority, onvalue="1", offvalue="0", height=1, width=20)
     orderPriorityCheckBox.pack()
     #order challenges
-    order_challenge_func=partial(addOrderChallenge, allOrderChallenges, orderCounter)
+    '''order_challenge_func=partial(addOrderChallenge, allOrderChallenges, orderCounter)
     addOrderChallengeButton=tk.Button(newOrderWind, text="Add challenge", command=order_challenge_func)
-    addOrderChallengeButton.pack()
+    addOrderChallengeButton.pack()'''
+    #announcement
+    announcementLabel=tk.Label(newOrderWind, text="Announcement options")
+    announcementLabel.pack()
+    timeShow=tk.StringVar()
+    timeShow.set('0')
+    timeShowCB=tk.Checkbutton(newOrderWind, text="Time", variable=timeShow, onvalue="1", offvalue='0', height=1, width=20)
+    timeShowCB.pack()
+    time=tk.StringVar()
+    time.set('')
+    timeLabel=tk.Label(newOrderWind, text="Enter the time")
+    timeLabel.pack_forget()
+    timeEntry=tk.Entry(newOrderWind, textvariable=time)
+    timeEntry.pack_forget()
+    agvShow=tk.StringVar()
+    agvShow.set('0')
+    agvShowCB=tk.Checkbutton(newOrderWind, text="AGV", variable=agvShow, onvalue="1", offvalue='0', height=1, width=20)
+    agvShowCB.pack()
+    agv=tk.StringVar()
+    agv.set("")
+    agvLabel=tk.Label(newOrderWind, text="Choose the agv")
+    agvLabel.pack_forget()
+    agvMenu=tk.OptionMenu(newOrderWind, agv, *agvOptions)
+    agvMenu.pack_forget()
+    quadrant=tk.StringVar()
+    quadrant.set("")
+    quadLabel=tk.Label(newOrderWind, text="Select the quadrant")
+    quadLabel.pack_forget()
+    quadMenu=tk.OptionMenu(newOrderWind, quadrant, *quadrants)
+    quadMenu.pack_forget()
+    partShow=tk.StringVar()
+    partShow.set('0')
+    partShowCB=tk.Checkbutton(newOrderWind, text="Part", variable=partShow, onvalue="1", offvalue='0', height=1, width=20)
+    partShowCB.pack()
+    partType=tk.StringVar()
+    partType.set("")
+    partTypeLabel=tk.Label(newOrderWind, text="Select the type of part")
+    partTypeLabel.pack_forget()
+    partTypeMenu=tk.OptionMenu(newOrderWind, partType, *allProdTypes)
+    partTypeMenu.pack_forget()
+    partColor=tk.StringVar()
+    partColor.set("")
+    partColorLabel=tk.Label(newOrderWind, text="Select the color of the part")
+    partColorLabel.pack_forget()
+    partColorMenu=tk.OptionMenu(newOrderWind, partColor, *allProdColors)
+    partColorMenu.pack_forget()
+    if len(tempIDs)>0:
+        annIDShow=tk.StringVar()
+        annIDShow.set('0')
+        annIDShowCB=tk.Checkbutton(newOrderWind, text="Order ID", variable=annIDShow, onvalue="1", offvalue='0', height=1, width=20)
+        annIDShowCB.pack()
+        annID=tk.StringVar()
+        annID.set("")
+        annIDLabel=tk.Label(newOrderWind, text="Select the order ID")
+        annIDLabel.pack_forget()
+        annIDMenu=tk.OptionMenu(newOrderWind, annID, *tempIDs)
+        annIDMenu.pack_forget()
     #Task options
+    bufferLabel=tk.Label(newOrderWind, text="")
+    bufferLabel.pack(pady=5)
     taskAGV=tk.StringVar()
     taskAGV.set(agvOptions[0])
     taskAGVLabel=tk.Label(newOrderWind, text="Select the agv for the task")
@@ -316,16 +428,30 @@ def addNewOrder(allOrders, orderCounter, allOrderChallenges, orderKittingParts,o
     cancel_new_ord_part=partial(cancel_func, newOrderWind, ordCancelFlag)
     cancelNewOrdButton=tk.Button(newOrderWind, text="Cancel", command=cancel_new_ord_part)
     cancelNewOrdButton.pack(pady=20)
+    #update menu functions
     order_quad_func=partial(updateQuadMenu, orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox, orderQuadLabel)
     orderNum.trace('w',order_quad_func)
     update_task_options=partial(updateTaskOptions, orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayIdMenu, kittingDestination, kittingDestinationLabel, kittingDestinationMenu, assemblyStation, assemblyStationLabel, assemblyStationMenu)
     orderType.trace('w', update_task_options)
+    show_time_menu=partial(showTimeMenu, timeShow, timeShowCB, timeEntry, timeLabel, time)
+    timeShow.trace('w', show_time_menu)
+    show_agv_menu=partial(showAGVMenu, agvShow,agvShowCB, agvMenu, agvLabel, agv,quadLabel, quadMenu, quadrant)
+    agvShow.trace('w', show_agv_menu)
+    show_part_menu=partial(showPartMenu, partShow, partShowCB, partTypeLabel, partTypeMenu, partColorLabel, partColorMenu,partType, partColor)
+    partShow.trace('w', show_part_menu)
+    if len(tempIDs)>0:
+        show_annID_menu=partial(showAnnIDMenu,annIDShow, annIDShowCB, annIDLabel, annIDMenu, annID, tempIDs)
+        annIDShow.trace('w', show_annID_menu)
     newOrderWind.mainloop()
     if ordCancelFlag.get()=="1":
         orderCounter.remove(0)
     else:
+        if len(tempIDs)>0:
+            announcementID=annID.get()
+        else:
+            announcementID=""
         if orderPriority.get()=="0":
             ordP="false"
         else:
             ordP="true"
-        allOrders.append(Order(str(orderCategories.index(orderCategory.get())),orderID,orderType.get(),ordP, taskAGV.get(), kitTrayId.get(), kittingDestination.get(), assemblyStation.get()))
+        allOrders.append(Order(str(orderCategories.index(orderCategory.get())),orderID,orderType.get(),ordP, taskAGV.get(), kitTrayId.get(), kittingDestination.get(), assemblyStation.get(), time.get(), agv.get(), quadrant.get(), announcementID, partType.get(), partColor.get()))
