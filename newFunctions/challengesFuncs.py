@@ -362,6 +362,8 @@ def newSensorBlackout(sensorBlackouts):
     destShow.trace('w', show_dest_menu)
     show_stat_menu=partial(showStatMenu,statShow, statShowCB, stationMenu, stationLabel, station)
     statShow.trace('w', show_stat_menu)
+    show_part_menu=partial(showPartMenu, partShow, partShowCB, partTypeLabel, partTypeMenu, partColorLabel, partColorMenu,partType, partColor)
+    partShow.trace('w', show_part_menu)
     sensBOWind.mainloop()
     if sensBOCancelFlag.get()=="0":
         allSensors.append(sensor1.get())
