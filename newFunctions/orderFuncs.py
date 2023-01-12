@@ -320,7 +320,7 @@ def addNewOrder(allOrders, orderCounter, allOrderChallenges, orderKittingParts,o
     orderQuadMenu.pack_forget()
     #Priority
     orderPriority=tk.StringVar()
-    orderPriority.set('1')
+    orderPriority.set('0')
     orderPriorityCheckBox=tk.Checkbutton(newOrderWind, text="Priority", variable=orderPriority, onvalue="1", offvalue="0", height=1, width=20)
     orderPriorityCheckBox.pack()
     #order challenges
