@@ -301,13 +301,6 @@ def addNewOrder(allOrders, orderCounter, allOrderChallenges, orderKittingParts,o
     orderTypeSelectionLabel.pack()
     orderTypeSelectionMenu=tk.OptionMenu(newOrderWind, orderType, *orderTypes)
     orderTypeSelectionMenu.pack()
-    #announcement
-    timeCondition=tk.StringVar()
-    timeCondition.set('0')
-    timeConditionEntryLabel=tk.Label(newOrderWind, text="Enter the announcement time_condition")
-    timeConditionEntryLabel.pack()
-    timeConditionEntry=tk.Entry(newOrderWind, textvariable=timeCondition)
-    timeConditionEntry.pack()
     #order condition
     orderNum=tk.StringVar()
     orderNum.set(" ")
