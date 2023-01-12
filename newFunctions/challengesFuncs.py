@@ -230,7 +230,6 @@ def showPartMenu(partShow, partShowCB, partTypeLabel, partTypeMenu, partColorLab
         partColor.set("")
 
 def newSensorBlackout(sensorBlackouts):
-    allSensors=[]
     selectedSensors=[]
     sensBOWind=tk.Toplevel()
     #category
@@ -369,16 +368,19 @@ def newSensorBlackout(sensorBlackouts):
     validate_duration=partial(validateTime, duration)
     duration.trace('w', validate_duration)
     sensBOWind.mainloop()
-    if sensBOCancelFlag.get()=="0":
-        allSensors.append(sensor1.get())
-        allSensors.append(sensor2.get())
-        allSensors.append(sensor3.get())
-        allSensors.append(sensor4.get())
-        allSensors.append(sensor5.get())
-        allSensors.append(sensor6.get())
-        for i in range(len(allSensors)):
-            if allSensors[i]=="1":
-                selectedSensors.append("\'sensor"+str(i+1)+"\'")
+    if sensBOCancelFlag.get()=="0": # name of sensor
+        if sensor1.get()=="1":
+            selectedSensors.append("break_beam")
+        if sensor2.get()=="1":
+            selectedSensors.append("proximity")
+        if sensor3.get()=="1":
+            selectedSensors.append("laser_profiler")
+        if sensor4.get()=="1":
+            selectedSensors.append("lidar")
+        if sensor5.get()=="1":
+            selectedSensors.append("camera")
+        if sensor6.get()=="1":
+            selectedSensors.append("logical camera")
         sensorBlackouts.append(SensorBlackout(str(sensBOCategories.index(category.get())), time.get(),duration.get(),", ".join(selectedSensors), agv.get(), destination.get(), station.get(), partType.get(), partColor.get()))
         
             
