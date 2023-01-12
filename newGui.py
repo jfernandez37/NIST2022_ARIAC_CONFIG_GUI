@@ -520,7 +520,16 @@ if __name__=="__main__":
             o.write("\n    id: \'"+order.id+"\'\n")
             o.write("    type: \'"+order.type+"\'\n")
             o.write("    announcement:\n")
-            """STILL NEEDS TO BE IMPLEMENTED"""
+            if order.time!="":
+                o.write("      time: "+order.time+"\n")
+            if order.agv!="" and order.quadrant!="":
+                o.write("      agv: "+order.agv+"\n")
+                o.write("      quadrant: "+order.quadrant+"\n")
+            if order.annID!="":
+                o.write("      order_id: \""+order.annID+"\"\n")
+            if order.pType!="" and order.pColor!="":
+                o.write("      part_type: \'"+order.pType+"\'\n")
+                o.write("      part_color: \'"+order.pColor+"\'\n")
             o.write("    priority: "+order.priority+"\n")
             if order.type=="kitting":
                 o.write("    kitting_task:\n")
