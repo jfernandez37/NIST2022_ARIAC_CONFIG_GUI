@@ -193,7 +193,7 @@ if __name__=="__main__":
     # START OF GETTING KITTING TRAYS
     trayWind=tk.Tk()
     trayWind.title("Kitting trays")
-    trayWind.geometry("850x600")
+    #trayWind.geometry("850x600")
     trayIDLabel=tk.Label(trayWind, text="Select the tray ID's to be spawned")
     trayIDLabel.grid(column=leftColumn)
     tray0=tk.StringVar()
