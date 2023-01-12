@@ -307,17 +307,6 @@ def addNewOrder(allOrders, orderCounter, allOrderChallenges, orderKittingParts,o
     orderNums=[" "]
     orderQuadrant=tk.StringVar()
     orderQuadrant.set(" ")
-    if len(orderCounter)>1:
-        for i in range(len(orderCounter)-1):
-            orderNums.append(str(i+1))
-        orderNumLabel=tk.Label(newOrderWind, text="Choose the order number for the order_condition announcement. Leave blank to skip.")
-        orderNumLabel.pack()
-        orderNumMenu=tk.OptionMenu(newOrderWind, orderNum, *orderNums)
-        orderNumMenu.pack()
-    orderQuadLabel=tk.Label(newOrderWind, text="Choose the quadrant for the order_condition announcement")
-    orderQuadLabel.pack_forget()
-    orderQuadMenu=tk.OptionMenu(newOrderWind, orderQuadrant, *quadrants)
-    orderQuadMenu.pack_forget()
     #Priority
     orderPriority=tk.StringVar()
     orderPriority.set('0')
@@ -423,8 +412,6 @@ def addNewOrder(allOrders, orderCounter, allOrderChallenges, orderKittingParts,o
     cancelNewOrdButton=tk.Button(newOrderWind, text="Cancel", command=cancel_new_ord_part)
     cancelNewOrdButton.pack(pady=20)
     #update menu functions
-    order_quad_func=partial(updateQuadMenu, orderNum, orderQuadrant, orderQuadMenu, orderPriorityCheckBox, orderQuadLabel)
-    orderNum.trace('w',order_quad_func)
     update_task_options=partial(updateTaskOptions, orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayIdMenu, kittingDestination, kittingDestinationLabel, kittingDestinationMenu, assemblyStation, assemblyStationLabel, assemblyStationMenu)
     orderType.trace('w', update_task_options)
     show_time_menu=partial(showTimeMenu, timeShow, timeShowCB, timeEntry, timeLabel, time)
