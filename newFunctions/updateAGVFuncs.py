@@ -1,28 +1,34 @@
 
-def updateAgvQudrants(agvSelection, quadrantMenu, currentQuadrant, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants, window):
+def updateAgvQudrants(agvSelection, quadrantMenu, currentQuadrant, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants,a,b,c):
     '''Updates the available quadrants for each agv'''
     menu=quadrantMenu['menu']
     menu.delete(0,'end')
     if agvSelection.get()=='agv1':
-        agv1Quadrants.remove(currentQuadrant.get())
         currentQuadrant.set(agv1Quadrants[0])
         for quadrant in agv1Quadrants:
             menu.add_command(label=quadrant, command=lambda quadrant=quadrant: currentQuadrant.set(quadrant))
     elif agvSelection.get()=='agv2':
-        agv2Quadrants.remove(currentQuadrant.get())
         currentQuadrant.set(agv2Quadrants[0])
         for quadrant in agv2Quadrants:
             menu.add_command(label=quadrant, command=lambda quadrant=quadrant: currentQuadrant.set(quadrant))
     elif agvSelection.get()=='agv3':
-        agv3Quadrants.remove(currentQuadrant.get())
         currentQuadrant.set(agv3Quadrants[0])
         for quadrant in agv3Quadrants:
             menu.add_command(label=quadrant, command=lambda quadrant=quadrant: currentQuadrant.set(quadrant))
     else:
-        agv4Quadrants.remove(currentQuadrant.get())
         currentQuadrant.set(agv4Quadrants[0])
         for quadrant in agv4Quadrants:
             menu.add_command(label=quadrant, command=lambda quadrant=quadrant: currentQuadrant.set(quadrant))
+
+def saveAndExitParts(agvSelection, currentQuadrant, agv1Quadrants, agv2Quadrants, agv3Quadrants, agv4Quadrants, window):
+    if agvSelection.get()=='agv1':
+        agv1Quadrants.remove(currentQuadrant.get())
+    elif agvSelection.get()=='agv2':
+        agv2Quadrants.remove(currentQuadrant.get())
+    elif agvSelection.get()=='agv3':
+        agv3Quadrants.remove(currentQuadrant.get())
+    else:
+        agv4Quadrants.remove(currentQuadrant.get())
     window.destroy()
 
 def updateTrayIds(agv1Val, agv2Val, agv3Val, agv4Val, agv1Menu, agv2Menu, agv3Menu, agv4Menu,agvTrayIds,a,b,c):

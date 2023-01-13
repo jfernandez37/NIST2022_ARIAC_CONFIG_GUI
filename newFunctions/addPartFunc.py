@@ -3,7 +3,7 @@ import tkinter as tk
 from functools import partial
 from Functions.checkCancel import *
 from newFunctions.validationFunctions import *
-from newFunctions.updateAGVFuncs import updateAgvQudrants
+from newFunctions.updateAGVFuncs import *
 agvList=["agv1", "agv2", "agv3", "agv4"]
 partTypes=["sensor", "pump", "regulator", "battery"]
 partColors=['green', 'red', 'purple','blue','orange']
@@ -47,7 +47,7 @@ def addPart(agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadra
     partRotationEntry=tk.Entry(newPartWind, textvariable=partRotation)
     partRotationEntry.pack()
     #save and cancel buttons
-    save_new_part=partial(updateAgvQudrants,agvSelection, partQuadrantSelectMenu, partQuadrant, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants, newPartWind)
+    save_new_part=partial(saveAndExitParts,agvSelection, partQuadrant, agv1Quadrants, agv2Quadrants, agv3Quadrants, agv4Quadrants, newPartWind)
     saveNewPartButton=tk.Button(newPartWind, text="Save", command=save_new_part)
     saveNewPartButton.pack(pady=20)
     newPartCancelFlag=tk.StringVar()
@@ -58,6 +58,8 @@ def addPart(agv1Parts, agv2Parts, agv3Parts, agv4Parts, agv1Quadrants,agv2Quadra
     #trace functions
     validate_rotation=partial(validateRotationValue, partRotation, saveNewPartButton)
     partRotation.trace('w', validate_rotation)
+    agv_update_menu=partial(updateAgvQudrants,agvSelection, partQuadrantSelectMenu, partQuadrant, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants)
+    agvSelection.trace('w', agv_update_menu)
     newPartWind.mainloop()
     if newPartCancelFlag.get()=="0":
         add_quotes(partType)
