@@ -123,7 +123,7 @@ def newDroppedPart(droppedParts):
     dropPartWind=tk.Toplevel()
     #robot types
     robotType=tk.StringVar()
-    robotType.set(robotTypes)
+    robotType.set(robotTypes[0])
     robotTypeLabel=tk.Label(dropPartWind, text="Select the robot type for the dropped part")
     robotTypeLabel.pack()
     robotTypeMenu=tk.OptionMenu(dropPartWind, robotType, *robotTypes)
