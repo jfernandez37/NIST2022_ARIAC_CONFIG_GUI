@@ -49,8 +49,10 @@ def savePartOption(partEntry, partWidgets, partFlag, partVals, chosenOptions):
     switchPartMenu(partEntry, partVals, partWidgets, partFlag)
     print(chosenOptions)
 
-def runMainWind(chosenOptions,timeVal, frameFlag):
+def runMainWind(chosenOptions,timeVal):
     mainWind=tk.Tk()
+    frameFlag=tk.StringVar()
+    frameFlag.set('0')
     mainWind.geometry('400x500')
     mainWind.title('notebook testing')
 
@@ -138,10 +140,4 @@ def runMainWind(chosenOptions,timeVal, frameFlag):
 if __name__=="__main__":
     chosenOptions=[]
     timeVal=['0']
-    root=tk.Tk()
-    frameFlag=tk.StringVar()
-    frameFlag.set('0')
-    exitButton=tk.Button(root, text="exit", command=root.destroy)
-    exitButton.pack()
-    root.mainloop()
-    runMainWind(chosenOptions, timeVal,frameFlag)
+    runMainWind(chosenOptions, timeVal)
