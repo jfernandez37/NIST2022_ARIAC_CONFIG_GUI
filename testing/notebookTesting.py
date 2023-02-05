@@ -259,9 +259,6 @@ def timeEntry(timeFrame, timeVar, timeVal):
     timeEntry=tk.Entry(timeFrame, textvariable=timeVar)
     timeEntry.grid(column=MIDDLECOLUMN)
 
-def kittingTrays(setupFrame):
-    print("")
-
 def removeFrame(frameFlag, mainWind):
     frameFlag.set('1')
     mainWind.destroy()
