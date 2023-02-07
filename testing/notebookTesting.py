@@ -380,24 +380,61 @@ def partsWidgets(partsFrame, partFlag):
     switch_buttons=partial(showAndHideButton,switchPartMenuButton, saveOptionButton, partVals[0], partOptionFlag)
     partVals[0].trace('w',switch_buttons)
 
-def chooseChallenge(challengeFrame):
-    newRobotMalfunctionButton=tk.Button(challengeFrame, text="Add new robot malfunction")
+def robotMalfunctionMenu(allChallengeWidgetsArr,presentChallengeWidgets):
+    for widget in presentChallengeWidgets:
+        widget.grid_forget()
+    presentChallengeWidgets.clear()
+    for index in range(4): #how many widgets there are for robot malfunction
+        allChallengeWidgetsArr[index].grid(column=2, row=1+index)
+        presentChallengeWidgets.append(allChallengeWidgetsArr[index])
+
+def faultyPartMenu(allChallengeWidgetsArr,presentChallengeWidgets):
+    for widget in presentChallengeWidgets:
+        widget.grid_forget()
+    presentChallengeWidgets.clear()
+    for index in range(6): #how many widgets there are for faulty part
+        allChallengeWidgetsArr[index+4].grid(column=2, row=1+index)
+        presentChallengeWidgets.append(allChallengeWidgetsArr[index+4])
+
+def droppedPartMenu(allChallengeWidgetsArr,presentChallengeWidgets):
+    for widget in presentChallengeWidgets:
+        widget.grid_forget()
+    presentChallengeWidgets.clear()
+    for index in range(9): #how many widgets there are for dropped part
+        allChallengeWidgetsArr[index+10].grid(column=2, row=1+index)
+        presentChallengeWidgets.append(allChallengeWidgetsArr[index+10])
+
+def sensorBlackoutMenu(allChallengeWidgetsArr,presentChallengeWidgets):
+    for widget in presentChallengeWidgets:
+        widget.grid_forget()
+    presentChallengeWidgets.clear()
+    for index in range(10): #how many widgets there are for dropped part
+        allChallengeWidgetsArr[index+19].grid(column=2, row=1+index)
+        presentChallengeWidgets.append(allChallengeWidgetsArr[index+19])
+
+
+def chooseChallenge(challengeFrame,allChallengeWidgetsArr,presentChallengeWidgets):
+    new_robot_malfunction=partial(robotMalfunctionMenu, allChallengeWidgetsArr,presentChallengeWidgets)
+    newRobotMalfunctionButton=tk.Button(challengeFrame, text="Add new robot malfunction", command=new_robot_malfunction)
     newRobotMalfunctionButton.grid(column=1)
-    newFaultyPartButton=tk.Button(challengeFrame, text="Add new faulty part")
+    new_faulty_part=partial(faultyPartMenu, allChallengeWidgetsArr, presentChallengeWidgets)
+    newFaultyPartButton=tk.Button(challengeFrame, text="Add new faulty part", command=new_faulty_part)
     newFaultyPartButton.grid(column=1)
-    newDroppedPartButton=tk.Button(challengeFrame, text="Add new dropped part")
+    new_dropped_part=partial(droppedPartMenu, allChallengeWidgetsArr, presentChallengeWidgets)
+    newDroppedPartButton=tk.Button(challengeFrame, text="Add new dropped part", command=new_dropped_part)
     newDroppedPartButton.grid(column=1)
-    newSensorBlackoutButton=tk.Button(challengeFrame, text="Add new sensor blackout")
+    new_sensor_blackout=partial(sensorBlackoutMenu, allChallengeWidgetsArr, presentChallengeWidgets)
+    newSensorBlackoutButton=tk.Button(challengeFrame, text="Add new sensor blackout", command=new_sensor_blackout)
     newSensorBlackoutButton.grid(column=1)
 
-def allChallengeWidgets(challengesFrame):
+def allChallengeWidgets(challengesFrame,allChallengeWidgetsArr):
     #robot malfunction
-    duration=tk.StringVar()
-    duration.set("0")
-    durationLabel=tk.Label(challengesFrame, text="Enter the duration of the robot malfunction")
-    durationLabel.grid_forget()
-    durationEntry=tk.Entry(challengesFrame, textvariable=duration)
-    durationEntry.grid_forget()
+    rmDuration=tk.StringVar()
+    rmDuration.set("0")
+    rmDurationLabel=tk.Label(challengesFrame, text="Enter the duration of the robot malfunction")
+    rmDurationLabel.grid_forget()
+    rmDurationEntry=tk.Entry(challengesFrame, textvariable=rmDuration)
+    rmDurationEntry.grid_forget()
     floorRobot=tk.StringVar()
     floorRobot.set("0")
     ceilRobot=tk.StringVar()
@@ -406,6 +443,10 @@ def allChallengeWidgets(challengesFrame):
     floorRobotCB.grid_forget()
     ceilRobotCB=tk.Checkbutton(challengesFrame, text="Ceiling robot", variable=ceilRobot, onvalue="1", offvalue="0", height=1, width=20)
     ceilRobotCB.grid_forget()
+    allChallengeWidgetsArr.append(rmDurationLabel)
+    allChallengeWidgetsArr.append(rmDurationEntry)
+    allChallengeWidgetsArr.append(floorRobotCB)
+    allChallengeWidgetsArr.append(ceilRobotCB)
     #faulty Part
     currentOrderID=tk.StringVar()
     currentOrderID.set(usedIds[0])
@@ -429,6 +470,12 @@ def allChallengeWidgets(challengesFrame):
     q3CB.grid_forget()
     q4CB=tk.Checkbutton(challengesFrame, text="Quadrant 4", variable=q4, onvalue="1", offvalue="0", height=1, width=20)
     q4CB.grid_forget()
+    allChallengeWidgetsArr.append(orderIDLabel)
+    allChallengeWidgetsArr.append(orderIDMenu)
+    allChallengeWidgetsArr.append(q1CB)
+    allChallengeWidgetsArr.append(q2CB)
+    allChallengeWidgetsArr.append(q3CB)
+    allChallengeWidgetsArr.append(q4CB)
     #dropped part
     robotType=tk.StringVar()
     robotType.set(robotTypes[0])
@@ -460,6 +507,15 @@ def allChallengeWidgets(challengesFrame):
     dropAfterTimeLabel.grid_forget()
     dropAfterTimeEntry=tk.Entry(challengesFrame, textvariable=dropAfterTime)
     dropAfterTimeEntry.grid_forget()
+    allChallengeWidgetsArr.append(robotTypeLabel)
+    allChallengeWidgetsArr.append(robotTypeMenu)
+    allChallengeWidgetsArr.append(partTypeLabel)
+    allChallengeWidgetsArr.append(partColorLabel)
+    allChallengeWidgetsArr.append(partColorMenu)
+    allChallengeWidgetsArr.append(dropAfterNumLabel)
+    allChallengeWidgetsArr.append(dropAfterNumEntry)
+    allChallengeWidgetsArr.append(dropAfterTimeLabel)
+    allChallengeWidgetsArr.append(dropAfterTimeEntry)
     #sensor blackout
     category=tk.StringVar()
     category.set(sensBOCategories[0])
@@ -467,12 +523,12 @@ def allChallengeWidgets(challengesFrame):
     categoryLabel.grid_forget()
     categoryMenu=tk.OptionMenu(challengesFrame, category, *sensBOCategories)
     categoryMenu.grid_forget()
-    duration=tk.StringVar()
-    duration.set('0')
-    durationLabel=tk.Label(challengesFrame, text="Enter the duration for the sensor blackout")
-    durationLabel.grid_forget()
-    durationEntry=tk.Entry(challengesFrame, textvariable=duration)
-    durationEntry.grid_forget()
+    sbDuration=tk.StringVar()
+    sbDuration.set('0')
+    sbDurationLabel=tk.Label(challengesFrame, text="Enter the duration for the sensor blackout")
+    sbDurationLabel.grid_forget()
+    sbDurationEntry=tk.Entry(challengesFrame, textvariable=sbDuration)
+    sbDurationEntry.grid_forget()
     sensor1=tk.StringVar()
     sensor2=tk.StringVar()
     sensor3=tk.StringVar()
@@ -497,6 +553,16 @@ def allChallengeWidgets(challengesFrame):
     sensor5CB.grid_forget()
     sensor6CB=tk.Checkbutton(challengesFrame, text="logical camera", variable=sensor6, onvalue="1", offvalue="0", height=1, width=20)
     sensor6CB.grid_forget()
+    allChallengeWidgetsArr.append(categoryLabel)
+    allChallengeWidgetsArr.append(categoryMenu)
+    allChallengeWidgetsArr.append(sbDurationLabel)
+    allChallengeWidgetsArr.append(sbDurationEntry)
+    allChallengeWidgetsArr.append(sensor1CB)
+    allChallengeWidgetsArr.append(sensor2CB)
+    allChallengeWidgetsArr.append(sensor3CB)
+    allChallengeWidgetsArr.append(sensor4CB)
+    allChallengeWidgetsArr.append(sensor5CB)
+    allChallengeWidgetsArr.append(sensor6CB)
     #condition
     condition=tk.StringVar()
     condition.set(conditionTypes[0])
@@ -537,7 +603,7 @@ def allChallengeWidgets(challengesFrame):
 
 def runMainWind(chosenOptions,timeVal):
     presentChallengeWidgets=[]
-    allChallengeWidgets=[]
+    allChallengeWidgetsArr=[]
     trayVals=[]
     slotVals=[]
     availableTrays=["Tray 0","Tray 1","Tray 2","Tray 3","Tray 4","Tray 5","Tray 6","Tray 7","Tray 8","Tray 9"]
@@ -579,8 +645,8 @@ def runMainWind(chosenOptions,timeVal):
     partsWidgets(partsFrame, partFlag)
 
     #Challenges frame
-    chooseChallenge(challengesFrame)
-
+    allChallengeWidgets(challengesFrame,allChallengeWidgetsArr)
+    chooseChallenge(challengesFrame, allChallengeWidgetsArr,presentChallengeWidgets)
     mainWind.mainloop()
 
 if __name__=="__main__":
