@@ -23,6 +23,7 @@ agv1Quadrants=["1","2","3","4"] # available quadrants for agv1
 agv2Quadrants=["1","2","3","4"] # available quadrants for agv2
 agv3Quadrants=["1","2","3","4"] # available quadrants for agv3
 agv4Quadrants=["1","2","3","4"] # available quadrants for agv4
+agvTrayIds=["0","1","2","3","4","5","6"] # all options for tray ids for agvs
 def addNewKTray(topLabel, tray1, slot1, tray1Menu, slot1Menu,tray2, slot2, tray2Menu, slot2Menu,tray3, slot3, tray3Menu, slot3Menu,tray4, slot4, tray4Menu, slot4Menu,tray5, slot5, tray5Menu, slot5Menu,tray6, slot6, tray6Menu, slot6Menu, counter, availableTrays, availableSlots):
     if len(counter)==0:
         tray1.set(availableTrays[0])
@@ -291,7 +292,7 @@ def removeFrame(frameFlag, mainWind):
     frameFlag.set('1')
     mainWind.destroy()
 
-def switchPartMenu(partEntry, partVals, partWidgets, partFlag):
+def switchPartMenu(partVals, partWidgets, partFlag, agvTrayWidgetsArr, agvTrayValsArr):
     if partFlag.get()=="0":
         partVals[0].set(agvList[0])
         partVals[1].set(partTypes[0])
@@ -300,14 +301,16 @@ def switchPartMenu(partEntry, partVals, partWidgets, partFlag):
         partVals[4].set('0')
         for widget in partWidgets:
             widget.pack()
-        partEntry.pack_forget()
+        for widget in agvTrayWidgetsArr:
+            widget.pack_forget()
         partFlag.set('1')
     else:
         for val in partVals:
             val.set('')
         for widget in partWidgets:
             widget.pack_forget()
-        partEntry.pack()
+        for widget in agvTrayWidgetsArr:
+            widget.pack()
         partFlag.set('0')
 
 def showAndHideButton(switchPartMenuButton, saveButton, val, partOptionFlag,a,b,c):
@@ -321,7 +324,7 @@ def showAndHideButton(switchPartMenuButton, saveButton, val, partOptionFlag,a,b,
         partOptionFlag.set('1')
         
 
-def savePartOption(agvSelection, partEntry, partWidgets, partFlag, partVals, chosenOptions, currentQuadrant, agv1Quadrants, agv2Quadrants, agv3Quadrants, agv4Quadrants):
+def savePartOption(agvSelection,partWidgets, partFlag, partVals, chosenOptions, currentQuadrant, agv1Quadrants, agv2Quadrants, agv3Quadrants, agv4Quadrants, agvTrayWidgetsArr, agvTrayValsArr):
     for val in partVals:
         chosenOptions.append(val.get())
     if agvSelection.get()=='agv1':
@@ -332,16 +335,12 @@ def savePartOption(agvSelection, partEntry, partWidgets, partFlag, partVals, cho
         agv3Quadrants.remove(currentQuadrant.get())
     else:
         agv4Quadrants.remove(currentQuadrant.get())
-    switchPartMenu(partEntry, partVals, partWidgets, partFlag)
+    switchPartMenu(partVals, partWidgets, partFlag, agvTrayWidgetsArr, agvTrayValsArr)
     print(chosenOptions)
 
-def partsWidgets(partsFrame, partFlag, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants):
+def partsWidgets(partsFrame, partFlag, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants,agvTrayWidgetsArr, agvTrayValsArr):
     partOptionFlag=tk.StringVar()
     partOptionFlag.set('0')
-    partVal=tk.StringVar()
-    partVal.set('')
-    partEntry=tk.Entry(partsFrame, textvariable=partVal)
-    partEntry.pack()
     partVals=[]
     partWidgets=[]
     #agv selection
@@ -394,11 +393,11 @@ def partsWidgets(partsFrame, partFlag, agv1Quadrants,agv2Quadrants,agv3Quadrants
     partVals.append(partRotation)
     partWidgets.append(partRotationLabel)
     partWidgets.append(partRotationEntry)
-    show_option_menu=partial(switchPartMenu, partEntry, partVals, partWidgets, partFlag)
-    switchPartMenuButton=tk.Button(partsFrame, text="Switch Window", command=show_option_menu)
+    show_option_menu=partial(switchPartMenu,partVals, partWidgets, partFlag, agvTrayWidgetsArr, agvTrayValsArr)
+    switchPartMenuButton=tk.Button(partsFrame, text="Add Part", command=show_option_menu)
     switchPartMenuButton.pack()
-    save_option=partial(savePartOption, agvSelection, partEntry, partWidgets, partFlag, partVals, chosenOptions, partQuadrant, agv1Quadrants, agv2Quadrants, agv3Quadrants, agv4Quadrants)
-    saveOptionButton=tk.Button(partsFrame, text="Save option", command=save_option)
+    save_option=partial(savePartOption, agvSelection,partWidgets, partFlag, partVals, chosenOptions, partQuadrant, agv1Quadrants, agv2Quadrants, agv3Quadrants, agv4Quadrants, agvTrayWidgetsArr, agvTrayValsArr)
+    saveOptionButton=tk.Button(partsFrame, text="Save Part", command=save_option)
     saveOptionButton.pack_forget()
     switch_buttons=partial(showAndHideButton,switchPartMenuButton, saveOptionButton, partVals[0], partOptionFlag)
     agv_update_menu=partial(updateAgvQudrants,agvSelection, partQuadrantSelectMenu, partQuadrant, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants)
@@ -647,11 +646,51 @@ def allChallengeWidgets(challengesFrame,allChallengeWidgetsArr):
     annIDMenu=tk.OptionMenu(challengesFrame, annID, *usedIds)
     annIDMenu.grid_forget()
 
+def agvTrayWidgets(partsFrame, agvTrayWidgetsArr, agvTrayValsArr):
+    agv1TrayId=tk.StringVar()
+    agv1TrayId.set(agvTrayIds[0])
+    agv2TrayId=tk.StringVar()
+    agv2TrayId.set(agvTrayIds[0])
+    agv3TrayId=tk.StringVar()
+    agv3TrayId.set(agvTrayIds[0])
+    agv4TrayId=tk.StringVar()
+    agv4TrayId.set(agvTrayIds[0])
+    agv1TrayLabel=tk.Label(partsFrame, text="Select the tray Id for agv1")
+    agv1TrayLabel.pack()
+    agv1TrayIdSelect=tk.OptionMenu(partsFrame, agv1TrayId, *agvTrayIds)
+    agv1TrayIdSelect.pack()
+    agv2TrayLabel=tk.Label(partsFrame, text="Select the tray Id for agv2")
+    agv2TrayLabel.pack()
+    agv2TrayIdSelect=tk.OptionMenu(partsFrame, agv2TrayId, *agvTrayIds)
+    agv2TrayIdSelect.pack()
+    agv3TrayLabel=tk.Label(partsFrame, text="Select the tray Id for agv3")
+    agv3TrayLabel.pack()
+    agv3TrayIdSelect=tk.OptionMenu(partsFrame, agv3TrayId, *agvTrayIds)
+    agv3TrayIdSelect.pack()
+    agv4TrayLabel=tk.Label(partsFrame, text="Select the tray Id for agv4")
+    agv4TrayLabel.pack()
+    agv4TrayIdSelect=tk.OptionMenu(partsFrame, agv4TrayId, *agvTrayIds)
+    agv4TrayIdSelect.pack()
+    agvTrayValsArr.append(agv1TrayId)
+    agvTrayValsArr.append(agv2TrayId)
+    agvTrayValsArr.append(agv3TrayId)
+    agvTrayValsArr.append(agv4TrayId)
+    agvTrayWidgetsArr.append(agv1TrayLabel)
+    agvTrayWidgetsArr.append(agv1TrayIdSelect)
+    agvTrayWidgetsArr.append(agv2TrayLabel)
+    agvTrayWidgetsArr.append(agv2TrayIdSelect)
+    agvTrayWidgetsArr.append(agv3TrayLabel)
+    agvTrayWidgetsArr.append(agv3TrayIdSelect)
+    agvTrayWidgetsArr.append(agv4TrayLabel)
+    agvTrayWidgetsArr.append(agv4TrayIdSelect)
+
 def runMainWind(chosenOptions,timeVal):
     presentChallengeWidgets=[]
     allChallengeWidgetsArr=[]
     trayVals=[]
     slotVals=[]
+    agvTrayWidgetsArr = []
+    agvTrayValsArr = []
     availableTrays=["Tray 0","Tray 1","Tray 2","Tray 3","Tray 4","Tray 5","Tray 6","Tray 7","Tray 8","Tray 9"]
     availableSlots=["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6"]
     kittingTrayCounter=[]
@@ -688,7 +727,8 @@ def runMainWind(chosenOptions,timeVal):
     #Parts frame
     partFlag=tk.StringVar()
     partFlag.set('0')
-    partsWidgets(partsFrame, partFlag, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants)
+    partsWidgets(partsFrame, partFlag, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants,agvTrayWidgetsArr, agvTrayValsArr)
+    agvTrayWidgets(partsFrame, agvTrayWidgetsArr, agvTrayValsArr)
 
     #Challenges frame
     allChallengeWidgets(challengesFrame,allChallengeWidgetsArr)
