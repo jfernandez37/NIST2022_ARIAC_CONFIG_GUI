@@ -15,10 +15,14 @@ destinations=["warehouse", "as1", "as2","as3","as4","kitting"]
 stations=["as1","as2","as3","as4"]
 sensBOCategories=["time-based","during kitting", "during assembly","after kitting", "after assembly"]
 conditionTypes=['','time','partPlace','submission']
-usedIds=["ABCDFGHI"]
+usedIds=["ABCDFGHI"] #Temporary for testing
 LEFTCOLUMN=1
 MIDDLECOLUMN=2
 RIGHTCOLUMN=3
+agv1Quadrants=["1","2","3","4"] # available quadrants for agv1
+agv2Quadrants=["1","2","3","4"] # available quadrants for agv2
+agv3Quadrants=["1","2","3","4"] # available quadrants for agv3
+agv4Quadrants=["1","2","3","4"] # available quadrants for agv4
 def addNewKTray(topLabel, tray1, slot1, tray1Menu, slot1Menu,tray2, slot2, tray2Menu, slot2Menu,tray3, slot3, tray3Menu, slot3Menu,tray4, slot4, tray4Menu, slot4Menu,tray5, slot5, tray5Menu, slot5Menu,tray6, slot6, tray6Menu, slot6Menu, counter, availableTrays, availableSlots):
     if len(counter)==0:
         tray1.set(availableTrays[0])
@@ -292,7 +296,8 @@ def switchPartMenu(partEntry, partVals, partWidgets, partFlag):
         partVals[0].set(agvList[0])
         partVals[1].set(partTypes[0])
         partVals[2].set(partColors[0])
-        partVals[3].set('0')
+        partVals[3].set(agv1Quadrants[0])
+        partVals[4].set('0')
         for widget in partWidgets:
             widget.pack()
         partEntry.pack_forget()
@@ -316,13 +321,21 @@ def showAndHideButton(switchPartMenuButton, saveButton, val, partOptionFlag,a,b,
         partOptionFlag.set('1')
         
 
-def savePartOption(partEntry, partWidgets, partFlag, partVals, chosenOptions):
+def savePartOption(agvSelection, partEntry, partWidgets, partFlag, partVals, chosenOptions, currentQuadrant, agv1Quadrants, agv2Quadrants, agv3Quadrants, agv4Quadrants):
     for val in partVals:
         chosenOptions.append(val.get())
+    if agvSelection.get()=='agv1':
+        agv1Quadrants.remove(currentQuadrant.get())
+    elif agvSelection.get()=='agv2':
+        agv2Quadrants.remove(currentQuadrant.get())
+    elif agvSelection.get()=='agv3':
+        agv3Quadrants.remove(currentQuadrant.get())
+    else:
+        agv4Quadrants.remove(currentQuadrant.get())
     switchPartMenu(partEntry, partVals, partWidgets, partFlag)
     print(chosenOptions)
 
-def partsWidgets(partsFrame, partFlag):
+def partsWidgets(partsFrame, partFlag, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants):
     partOptionFlag=tk.StringVar()
     partOptionFlag.set('0')
     partVal=tk.StringVar()
@@ -361,6 +374,16 @@ def partsWidgets(partsFrame, partFlag):
     partVals.append(partColor)
     partWidgets.append(partColorSelectLabel)
     partWidgets.append(partColorSelectMenu)
+    #quadrants
+    partQuadrant=tk.StringVar()
+    partQuadrant.set(agv1Quadrants[0])
+    partQuadrantSelectLabel=tk.Label(partsFrame, text="Select the quadrant of the tray for the part")
+    partQuadrantSelectLabel.pack_forget()
+    partQuadrantSelectMenu=tk.OptionMenu(partsFrame, partQuadrant, *agv1Quadrants)
+    partQuadrantSelectMenu.pack_forget()
+    partVals.append(partQuadrant)
+    partWidgets.append(partQuadrantSelectLabel)
+    partWidgets.append(partQuadrantSelectMenu)
     #rotation entry
     partRotation=tk.StringVar()
     partRotation.set('0')
@@ -374,11 +397,34 @@ def partsWidgets(partsFrame, partFlag):
     show_option_menu=partial(switchPartMenu, partEntry, partVals, partWidgets, partFlag)
     switchPartMenuButton=tk.Button(partsFrame, text="Switch Window", command=show_option_menu)
     switchPartMenuButton.pack()
-    save_option=partial(savePartOption, partEntry, partWidgets, partFlag, partVals, chosenOptions)
+    save_option=partial(savePartOption, agvSelection, partEntry, partWidgets, partFlag, partVals, chosenOptions, partQuadrant, agv1Quadrants, agv2Quadrants, agv3Quadrants, agv4Quadrants)
     saveOptionButton=tk.Button(partsFrame, text="Save option", command=save_option)
     saveOptionButton.pack_forget()
     switch_buttons=partial(showAndHideButton,switchPartMenuButton, saveOptionButton, partVals[0], partOptionFlag)
+    agv_update_menu=partial(updateAgvQudrants,agvSelection, partQuadrantSelectMenu, partQuadrant, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants)
+    agvSelection.trace('w', agv_update_menu)
     partVals[0].trace('w',switch_buttons)
+
+def updateAgvQudrants(agvSelection, quadrantMenu, currentQuadrant, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants,a,b,c):
+    '''Updates the available quadrants for each agv'''
+    menu=quadrantMenu['menu']
+    menu.delete(0,'end')
+    if agvSelection.get()=='agv1':
+        currentQuadrant.set(agv1Quadrants[0])
+        for quadrant in agv1Quadrants:
+            menu.add_command(label=quadrant, command=lambda quadrant=quadrant: currentQuadrant.set(quadrant))
+    elif agvSelection.get()=='agv2':
+        currentQuadrant.set(agv2Quadrants[0])
+        for quadrant in agv2Quadrants:
+            menu.add_command(label=quadrant, command=lambda quadrant=quadrant: currentQuadrant.set(quadrant))
+    elif agvSelection.get()=='agv3':
+        currentQuadrant.set(agv3Quadrants[0])
+        for quadrant in agv3Quadrants:
+            menu.add_command(label=quadrant, command=lambda quadrant=quadrant: currentQuadrant.set(quadrant))
+    else:
+        currentQuadrant.set(agv4Quadrants[0])
+        for quadrant in agv4Quadrants:
+            menu.add_command(label=quadrant, command=lambda quadrant=quadrant: currentQuadrant.set(quadrant))
 
 def robotMalfunctionMenu(allChallengeWidgetsArr,presentChallengeWidgets):
     for widget in presentChallengeWidgets:
@@ -514,7 +560,7 @@ def allChallengeWidgets(challengesFrame,allChallengeWidgetsArr):
     allChallengeWidgetsArr.append(partColorMenu)
     allChallengeWidgetsArr.append(dropAfterNumLabel)
     allChallengeWidgetsArr.append(dropAfterNumEntry)
-    allChallengeWidgetsArr.append(dropAfterTimeLabel)
+    allChallengeWidgetsArr.append(dropAfterTimeLabel) 
     allChallengeWidgetsArr.append(dropAfterTimeEntry)
     #sensor blackout
     category=tk.StringVar()
@@ -642,7 +688,7 @@ def runMainWind(chosenOptions,timeVal):
     #Parts frame
     partFlag=tk.StringVar()
     partFlag.set('0')
-    partsWidgets(partsFrame, partFlag)
+    partsWidgets(partsFrame, partFlag, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants)
 
     #Challenges frame
     allChallengeWidgets(challengesFrame,allChallengeWidgetsArr)
