@@ -353,7 +353,7 @@ def runMainWind(chosenOptions,timeVal):
     notebook=ttk.Notebook(mainWind)
     notebook.pack(pady=10, expand=True)
 
-    setupFrame = ttk.Frame(notebook, width=400, height=280)
+    setupFrame = ttk.Frame(notebook, width=800, height=600)
     
 
     setupFrame.pack(fill='both', expand=True)
@@ -365,19 +365,19 @@ def runMainWind(chosenOptions,timeVal):
     #kitting trays
     kittingTrayWidgets(setupFrame, kittingTrayCounter, availableSlots, availableTrays, trayVals, slotVals)
     notebook.add(setupFrame, text='Setup')
-    partsFrame = ttk.Frame(notebook, width=400, height=280)
+    partsFrame = ttk.Frame(notebook, width=800, height=600)
     partsFrame.pack(fill='both', expand=True)
     notebook.add(partsFrame, text='Parts')
 
-    binFrame=ttk.Frame(notebook, width=400, height=280)
+    binFrame=ttk.Frame(notebook, width=800, height=600)
     binFrame.pack(fill='both', expand=True)
     notebook.add(binFrame, text="Bins")
 
-    convFrame=ttk.Frame(notebook, width=400, height=280)
+    convFrame=ttk.Frame(notebook, width=800, height=600)
     convFrame.pack(fill='both', expand=True)
     notebook.add(convFrame, text="Conveyor Belt")
 
-    challengesFrame=ttk.Frame(notebook, width=400, height=280)
+    challengesFrame=ttk.Frame(notebook, width=800, height=600)
     challengesFrame.pack(fill='both', expand=True)
     notebook.add(challengesFrame, text="Challenges")
 

@@ -114,7 +114,6 @@ def slotChecks(arr, addBinWind, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,
 def updateAvailableSlots(currentBin, bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9,window, mainWind):
     '''Removes slots that have been selected by the user'''
     allSlots=[slot1.get(),slot2.get(),slot3.get(),slot4.get(),slot5.get(),slot6.get(),slot7.get(),slot8.get(),slot9.get()]
-    checkBoxes.clear()
     counter=1
     if currentBin.get()=="bin1":
         for i in allSlots:
@@ -195,7 +194,6 @@ def showAndHideBinButton(addBinButton, val, binOptionFlag,bin1Slots, binFrame, s
 
 def saveBin(currentBin, bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots, slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9,binWidgetsArr, binValsArr,binFlag):
     allSlots=[slot1.get(),slot2.get(),slot3.get(),slot4.get(),slot5.get(),slot6.get(),slot7.get(),slot8.get(),slot9.get()]
-    checkBoxes.clear()
     counter=1
     if currentBin.get()=="bin1":
         for i in allSlots:
