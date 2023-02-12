@@ -315,11 +315,11 @@ def switchPartMenu(partVals, partWidgets, partFlag, agvTrayWidgetsArr, agvTrayVa
 
 def showAndHideButton(switchPartMenuButton, saveButton, val, partOptionFlag,a,b,c):
     if val.get()=="":
-        switchPartMenuButton.pack()
+        switchPartMenuButton.pack(side = tk.BOTTOM)
         saveButton.pack_forget()
         partOptionFlag.set('0')
     elif partOptionFlag.get()=="0":
-        saveButton.pack()
+        saveButton.pack(side = tk.BOTTOM)
         switchPartMenuButton.pack_forget()
         partOptionFlag.set('1')
         
@@ -395,7 +395,7 @@ def partsWidgets(partsFrame, partFlag, agv1Quadrants,agv2Quadrants,agv3Quadrants
     partWidgets.append(partRotationEntry)
     show_option_menu=partial(switchPartMenu,partVals, partWidgets, partFlag, agvTrayWidgetsArr, agvTrayValsArr)
     switchPartMenuButton=tk.Button(partsFrame, text="Add Part", command=show_option_menu)
-    switchPartMenuButton.pack()
+    switchPartMenuButton.pack(side = tk.BOTTOM)
     save_option=partial(savePartOption, agvSelection,partWidgets, partFlag, partVals, chosenOptions, partQuadrant, agv1Quadrants, agv2Quadrants, agv3Quadrants, agv4Quadrants, agvTrayWidgetsArr, agvTrayValsArr)
     saveOptionButton=tk.Button(partsFrame, text="Save Part", command=save_option)
     saveOptionButton.pack_forget()
@@ -720,6 +720,14 @@ def runMainWind(chosenOptions,timeVal):
     partsFrame.pack(fill='both', expand=True)
     notebook.add(partsFrame, text='Parts')
 
+    binFrame=ttk.Frame(notebook, width=400, height=280)
+    binFrame.pack(fill='both', expand=True)
+    notebook.add(binFrame, text="Bins")
+
+    convFrame=ttk.Frame(notebook, width=400, height=280)
+    convFrame.pack(fill='both', expand=True)
+    notebook.add(convFrame, text="Conveyor Belt")
+
     challengesFrame=ttk.Frame(notebook, width=400, height=280)
     challengesFrame.pack(fill='both', expand=True)
     notebook.add(challengesFrame, text="Challenges")
@@ -729,6 +737,8 @@ def runMainWind(chosenOptions,timeVal):
     partFlag.set('0')
     partsWidgets(partsFrame, partFlag, agv1Quadrants,agv2Quadrants,agv3Quadrants,agv4Quadrants,agvTrayWidgetsArr, agvTrayValsArr)
     agvTrayWidgets(partsFrame, agvTrayWidgetsArr, agvTrayValsArr)
+
+    #Bins frame
 
     #Challenges frame
     allChallengeWidgets(challengesFrame,allChallengeWidgetsArr)
