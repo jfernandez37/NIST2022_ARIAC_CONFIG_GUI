@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from functools import partial
 from notebookParts import *
+from notebookBins import *
 from notebookChallenges import *
 options=["1","2","3"]
 agvList=["agv1", "agv2", "agv3", "agv4"]
@@ -387,7 +388,24 @@ def runMainWind(chosenOptions,timeVal):
     agvTrayWidgets(partsFrame, agvTrayWidgetsArr, agvTrayValsArr)
 
     #Bins frame
-
+    bin1Slots=[] # holds the available slots for bin1
+    bin2Slots=[] # holds the available slots for bin2
+    bin3Slots=[] # holds the available slots for bin3
+    bin4Slots=[] # holds the available slots for bin4
+    bin5Slots=[] # holds the available slots for bin5
+    bin6Slots=[] # holds the available slots for bin6
+    bin7Slots=[] # holds the available slots for bin7
+    bin8Slots=[] # holds the available slots for bin8
+    for i in range(9):
+        bin1Slots.append(str(i+1))
+        bin2Slots.append(str(i+1))
+        bin3Slots.append(str(i+1))
+        bin4Slots.append(str(i+1))
+        bin5Slots.append(str(i+1))
+        bin6Slots.append(str(i+1))
+        bin7Slots.append(str(i+1))
+        bin8Slots.append(str(i+1))
+    binWidgets(binFrame,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots)
     #Challenges frame
     allChallengeWidgets(challengesFrame,allChallengeWidgetsArr)
     chooseChallenge(challengesFrame, allChallengeWidgetsArr,presentChallengeWidgets)
