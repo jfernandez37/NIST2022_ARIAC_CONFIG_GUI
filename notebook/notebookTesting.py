@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
 from functools import partial
-from notebookParts import *
-from notebookBins import *
-from notebookChallenges import *
+from notebookParts import partsWidgets
+from notebookBins import binWidgets
+from notebookConveyor import convWidgets
+from notebookChallenges import allChallengeWidgets, chooseChallenge
+
 options=["1","2","3"]
 agvList=["agv1", "agv2", "agv3", "agv4"]
 partTypes=["sensor", "pump", "regulator", "battery"]
@@ -406,6 +408,10 @@ def runMainWind(chosenOptions,timeVal):
         bin7Slots.append(str(i+1))
         bin8Slots.append(str(i+1))
     binWidgets(binFrame,bin1Slots,bin2Slots,bin3Slots,bin4Slots,bin5Slots,bin6Slots,bin7Slots,bin8Slots)
+    
+    #Conveyor fame
+    convWidgets(convFrame)
+    
     #Challenges frame
     allChallengeWidgets(challengesFrame,allChallengeWidgetsArr)
     chooseChallenge(challengesFrame, allChallengeWidgetsArr,presentChallengeWidgets)
