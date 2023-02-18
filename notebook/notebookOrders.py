@@ -48,6 +48,7 @@ def showNewOrderMenu(orderWidgetsArr, orderValsArr):
     orderWidgetsArr[23].grid(column=2, row=20)
     #orderWidgetsArr[24].grid(column=2, row=21)
     orderWidgetsArr[25].grid(column=2, row=22)
+    orderWidgetsArr[26].grid(column=2, row=23)
     
 
 def showCorrectMenu(orderValsArr, orderWidgetsArr,tempIDs,a,b,c):
@@ -138,6 +139,14 @@ def addAssembProduct(assemblyValsArr, assemblyWidgetsArr):
     for i in range(len(assemblyWidgetsArr)):
         assemblyWidgetsArr[i].grid(column=3, row=i)
 
+def saveKittingProd(kitValsArr, kitWidgetsArr):
+    for widget in kitWidgetsArr:
+        widget.grid_forget()
+
+def saveAssemblyProd(assemblyValsArr, assemblyWidgetsArr):
+    for widget in assemblyWidgetsArr:
+        widget.grid_forget()
+    
 def updateTaskOptions(orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayIdMenu, kittingDestination, kittingDestinationLabel, kittingDestinationMenu, assemblyStation, assemblyStationLabel, assemblyStationMenu,a,b,c):
     '''Shows the correct options for different types of orders'''
     if orderType.get()=="kitting" and len(taskPresentFlag)>0:
@@ -172,6 +181,10 @@ def generateOrderId(usedId):
     usedId.append(newId)
     return newId
 
+def saveOrder(orderWidgetsArr):
+    for widget in orderWidgetsArr:
+        widget.grid_forget()
+
 def kittingProdWidgets(orderFrame, kittingParts, kitValsArr, kitWidgetsArr):
     prodType=tk.StringVar()
     prodType.set(allProdTypes[0])
@@ -202,6 +215,11 @@ def kittingProdWidgets(orderFrame, kittingParts, kitValsArr, kitWidgetsArr):
     kitValsArr.append(prodQuad)
     kitWidgetsArr.append(prodQuadLabel)
     kitWidgetsArr.append(prodQuadMenu)
+    #save button
+    save_kit_prod=partial(saveKittingProd, kitValsArr, kitWidgetsArr)
+    saveKitButton=tk.Button(orderFrame, text="Save product", command=save_kit_prod)
+    saveKitButton.grid_forget()
+    kitWidgetsArr.append(saveKitButton)
 
 def assemblyProdWidgets(orderFrame, assemblyParts, assemblyValsArr, assemblyWidgetsArr):
     prodType=tk.StringVar()
@@ -308,6 +326,11 @@ def assemblyProdWidgets(orderFrame, assemblyParts, assemblyValsArr, assemblyWidg
     assemblyWidgetsArr.append(y_dir_entry)
     assemblyWidgetsArr.append(z_dir_label)
     assemblyWidgetsArr.append(z_dir_entry)
+    #save button
+    save_assemb_prod=partial(saveKittingProd, assemblyValsArr, assemblyWidgetsArr)
+    saveAssembButton=tk.Button(orderFrame, text="Save product", command=save_assemb_prod)
+    saveAssembButton.grid_forget()
+    assemblyWidgetsArr.append(saveAssembButton)
 
 def orderWidgets(orderFrame, orderMSGS,orderConditions, usedIDs, kittingParts, assemblyParts):
     kitWidgetsArr=[]
@@ -455,8 +478,10 @@ def orderWidgets(orderFrame, orderMSGS,orderConditions, usedIDs, kittingParts, a
     addProdButton.grid_forget()
     orderWidgetsArr.append(addProdButton)
     #save and cancel buttons
-    #saveOrdButton=tk.Button(orderFrame, text="Save order", command=)
-    #saveOrdButton.grid()
+    save_order=partial(saveOrder, orderWidgetsArr)
+    saveOrdButton=tk.Button(orderFrame, text="Save order", command=save_order)
+    saveOrdButton.grid_forget()
+    orderWidgetsArr.append(saveOrdButton)
     #update menu functions
     update_task_options=partial(updateTaskOptions, orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayIdMenu, kittingDestination, kittingDestinationLabel, kittingDestinationMenu, assemblyStation, assemblyStationLabel, assemblyStationMenu)
     orderType.trace('w', update_task_options)

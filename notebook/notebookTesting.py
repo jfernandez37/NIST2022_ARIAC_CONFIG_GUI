@@ -25,6 +25,8 @@ usedIds=["ABCDFGHI"] #Temporary for testing
 LEFTCOLUMN=1
 MIDDLECOLUMN=2
 RIGHTCOLUMN=3
+FRAMEWIDTH=1000
+FRAMEHEIGHT=750
 agv1Quadrants=["1","2","3","4"] # available quadrants for agv1
 agv2Quadrants=["1","2","3","4"] # available quadrants for agv2
 agv3Quadrants=["1","2","3","4"] # available quadrants for agv3
@@ -299,10 +301,6 @@ def timeEntry(timeFrame, timeVar, timeVal):
     timeEntry.grid(column=MIDDLECOLUMN)
 
 
-def removeFrame(frameFlag, mainWind):
-    frameFlag.set('1')
-    mainWind.destroy()
-
 def agvTrayWidgets(partsFrame, agvTrayWidgetsArr, agvTrayValsArr):
     agv1TrayId=tk.StringVar()
     agv1TrayId.set(agvTrayIds[0])
@@ -373,23 +371,23 @@ def runMainWind(chosenOptions,timeVal):
     #kitting trays
     kittingTrayWidgets(setupFrame, kittingTrayCounter, availableSlots, availableTrays, trayVals, slotVals)
     notebook.add(setupFrame, text='Setup')
-    partsFrame = ttk.Frame(notebook, width=800, height=600)
+    partsFrame = ttk.Frame(notebook, width=FRAMEWIDTH, height=FRAMEHEIGHT)
     partsFrame.pack(fill='both', expand=True)
     notebook.add(partsFrame, text='Parts')
 
-    binFrame=ttk.Frame(notebook, width=800, height=600)
+    binFrame=ttk.Frame(notebook, width=FRAMEWIDTH, height=FRAMEHEIGHT)
     binFrame.pack(fill='both', expand=True)
     notebook.add(binFrame, text="Bins")
 
-    convFrame=ttk.Frame(notebook, width=800, height=600)
+    convFrame=ttk.Frame(notebook, width=FRAMEWIDTH, height=FRAMEHEIGHT)
     convFrame.pack(fill='both', expand=True)
     notebook.add(convFrame, text="Conveyor Belt")
 
-    ordersFrame=ttk.Frame(notebook, width=800, height=600)
+    ordersFrame=ttk.Frame(notebook, width=FRAMEWIDTH, height=FRAMEHEIGHT)
     ordersFrame.pack(fill='both', expand=True)
     notebook.add(ordersFrame, text="Orders")
 
-    challengesFrame=ttk.Frame(notebook, width=800, height=600)
+    challengesFrame=ttk.Frame(notebook, width=FRAMEWIDTH, height=FRAMEHEIGHT)
     challengesFrame.pack(fill='both', expand=True)
     notebook.add(challengesFrame, text="Challenges")
 
