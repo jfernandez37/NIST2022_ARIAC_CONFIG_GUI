@@ -379,6 +379,10 @@ def runMainWind(chosenOptions,timeVal):
     convFrame.pack(fill='both', expand=True)
     notebook.add(convFrame, text="Conveyor Belt")
 
+    ordersFrame=ttk.Frame(notebook, width=800, height=600)
+    ordersFrame.pack(fill='both', expand=True)
+    notebook.add(ordersFrame, text="Orders")
+
     challengesFrame=ttk.Frame(notebook, width=800, height=600)
     challengesFrame.pack(fill='both', expand=True)
     notebook.add(challengesFrame, text="Challenges")
@@ -411,6 +415,8 @@ def runMainWind(chosenOptions,timeVal):
     
     #Conveyor fame
     convWidgets(convFrame)
+    
+    #Orders frame
     
     #Challenges frame
     allChallengeWidgets(challengesFrame,allChallengeWidgetsArr)
