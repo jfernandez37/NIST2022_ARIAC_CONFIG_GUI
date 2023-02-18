@@ -4,6 +4,7 @@ from functools import partial
 from notebookParts import partsWidgets
 from notebookBins import binWidgets
 from notebookConveyor import convWidgets
+from notebookOrders import orderWidgets
 from notebookChallenges import allChallengeWidgets, chooseChallenge
 
 options=["1","2","3"]
@@ -29,6 +30,11 @@ agv2Quadrants=["1","2","3","4"] # available quadrants for agv2
 agv3Quadrants=["1","2","3","4"] # available quadrants for agv3
 agv4Quadrants=["1","2","3","4"] # available quadrants for agv4
 agvTrayIds=["0","1","2","3","4","5","6"] # all options for tray ids for agvs
+orderMSGS=[]
+orderConditions=[] 
+usedIDs=[] 
+kittingParts=[] 
+assemblyParts=[]
 def addNewKTray(topLabel, tray1, slot1, tray1Menu, slot1Menu,tray2, slot2, tray2Menu, slot2Menu,tray3, slot3, tray3Menu, slot3Menu,tray4, slot4, tray4Menu, slot4Menu,tray5, slot5, tray5Menu, slot5Menu,tray6, slot6, tray6Menu, slot6Menu, counter, availableTrays, availableSlots):
     if len(counter)==0:
         tray1.set(availableTrays[0])
@@ -417,7 +423,7 @@ def runMainWind(chosenOptions,timeVal):
     convWidgets(convFrame)
     
     #Orders frame
-    
+    orderWidgets(ordersFrame, orderMSGS,orderConditions, usedIDs, kittingParts, assemblyParts)
     #Challenges frame
     allChallengeWidgets(challengesFrame,allChallengeWidgetsArr)
     chooseChallenge(challengesFrame, allChallengeWidgetsArr,presentChallengeWidgets)

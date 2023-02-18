@@ -37,8 +37,8 @@ def showNewOrderMenu(orderWidgetsArr, orderValsArr):
     orderWidgetsArr[4].grid(column=2, row=4)
     orderWidgetsArr[5].grid(column=2, row=5)
     orderWidgetsArr[6].grid(column=2, row=6)
-    orderWidgetsArr[7].grid(column=2, row=7)
-    orderWidgetsArr[8].grid(column=2, row=8)
+    #orderWidgetsArr[7].grid(column=2, row=7)
+    #orderWidgetsArr[8].grid(column=2, row=8)
     orderWidgetsArr[17].grid(column=2, row=14)
     orderWidgetsArr[18].grid(column=2, row=15)
     orderWidgetsArr[19].grid(column=2, row=16)
@@ -46,7 +46,8 @@ def showNewOrderMenu(orderWidgetsArr, orderValsArr):
     orderWidgetsArr[21].grid(column=2, row=18)
     orderWidgetsArr[22].grid(column=2, row=19)
     orderWidgetsArr[23].grid(column=2, row=20)
-    orderWidgetsArr[24].grid(column=2, row=21)
+    #orderWidgetsArr[24].grid(column=2, row=21)
+    orderWidgetsArr[25].grid(column=2, row=22)
     
 
 def showCorrectMenu(orderValsArr, orderWidgetsArr,tempIDs,a,b,c):
@@ -66,7 +67,7 @@ def showCorrectMenu(orderValsArr, orderWidgetsArr,tempIDs,a,b,c):
         orderWidgetsArr[14].grid_forget()#partColorMenu
         orderWidgetsArr[15].grid_forget()#annIDLabel
         orderWidgetsArr[16].grid_forget()#annIDMenu
-    elif orderValsArr[3].get()==conditionTypes[1]:
+    elif orderValsArr[3].get()==conditionTypes[0]:
         orderWidgetsArr[7].grid(column=2, row=7)
         orderWidgetsArr[8].grid(column=2, row=8)
         orderValsArr[4].set('0')
@@ -82,7 +83,7 @@ def showCorrectMenu(orderValsArr, orderWidgetsArr,tempIDs,a,b,c):
         orderWidgetsArr[14].grid_forget()
         orderWidgetsArr[15].grid_forget()
         orderWidgetsArr[16].grid_forget()
-    elif orderValsArr[3].get()==conditionTypes[2]:
+    elif orderValsArr[3].get()==conditionTypes[1]:
         orderWidgetsArr[9].grid(column=2, row=7)
         orderWidgetsArr[10].grid(column=2, row=8)
         orderValsArr[5].set(agvOptions[0])
@@ -99,8 +100,8 @@ def showCorrectMenu(orderValsArr, orderWidgetsArr,tempIDs,a,b,c):
         orderWidgetsArr[15].grid_forget()
         orderWidgetsArr[16].grid_forget()
     else:
-        orderWidgetsArr[15].grid(after=7)
-        orderWidgetsArr[16].grid(after=8)
+        orderWidgetsArr[15].grid(column=2, row=7)
+        orderWidgetsArr[16].grid(column=2, row=8)
         orderValsArr[8].set(tempIDs[0])
         orderValsArr[4].set('')
         orderValsArr[5].set('')
@@ -115,12 +116,27 @@ def showCorrectMenu(orderValsArr, orderWidgetsArr,tempIDs,a,b,c):
         orderWidgetsArr[13].grid_forget()
         orderWidgetsArr[14].grid_forget()
 
-def typeOfProdSelect(kittingParts, assemblyParts, orderType):
+def typeOfProdSelect(orderType, kitValsArr, kitWidgetsArr, assemblyValsArr, assemblyWidgetsArr):
     '''Runs the correct function based on the order type'''
     if orderType.get()=="kitting":
-        addKittingProduct(kittingParts)
+        addKittingProduct(kitValsArr, kitWidgetsArr)
     else:
-        addAssembProduct(assemblyParts)
+        addAssembProduct(assemblyValsArr, assemblyWidgetsArr)
+
+def addKittingProduct(kitValsArr, kitWidgetsArr):
+    kitValsArr[0].set(allProdTypes[0])
+    kitValsArr[1].set(allProdColors[0])
+    kitValsArr[2].set(quadrants[0])
+    for i in range(len(kitWidgetsArr)):
+        kitWidgetsArr[i].grid(column=3, row=i)
+
+def addAssembProduct(assemblyValsArr, assemblyWidgetsArr):
+    assemblyValsArr[0].set(allProdTypes[0])
+    assemblyValsArr[1].set(allProdColors[0])
+    for i in range(2,len(assemblyValsArr)):
+        assemblyValsArr[i].set('0')
+    for i in range(len(assemblyWidgetsArr)):
+        assemblyWidgetsArr[i].grid(column=3, row=i)
 
 def updateTaskOptions(orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayIdMenu, kittingDestination, kittingDestinationLabel, kittingDestinationMenu, assemblyStation, assemblyStationLabel, assemblyStationMenu,a,b,c):
     '''Shows the correct options for different types of orders'''
@@ -129,10 +145,10 @@ def updateTaskOptions(orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayI
         kitTrayId.set(kittingTrayIDs[0])
         kittingDestination.set(kittingDestinations[0])
         assemblyStation.set("")
-        kitTrayIdLabel.grid(after=taskAgvMenu)
-        kitTrayIdMenu.grid(after=kitTrayIdLabel)
-        kittingDestinationLabel.grid(after=kitTrayIdMenu)
-        kittingDestinationMenu.grid(after=kittingDestinationLabel)
+        kitTrayIdLabel.grid(column=2, row=16)
+        kitTrayIdMenu.grid(column=2, row=17)
+        kittingDestinationLabel.grid(column=2, row=18)
+        kittingDestinationMenu.grid(column=2, row=17)
         assemblyStationLabel.grid_forget()
         assemblyStationMenu.grid_forget()
     elif orderType.get()!="kitting" and len(taskPresentFlag)==0:
@@ -144,8 +160,8 @@ def updateTaskOptions(orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayI
         kitTrayIdMenu.grid_forget()
         kittingDestinationLabel.grid_forget()
         kittingDestinationMenu.grid_forget()
-        assemblyStationLabel.grid(after=taskAgvMenu)
-        assemblyStationMenu.grid(after=assemblyStationLabel)
+        assemblyStationLabel.grid(column=2, row=16)
+        assemblyStationMenu.grid(column=2, row=17)
 
 def generateOrderId(usedId):
     '''Generates a unique id for each order'''
@@ -156,15 +172,156 @@ def generateOrderId(usedId):
     usedId.append(newId)
     return newId
 
-def orderWidgets(orderFrame, orderMSGS,orderConditions, orderCounter, usedIDs, kittingParts, assemblyParts):
+def kittingProdWidgets(orderFrame, kittingParts, kitValsArr, kitWidgetsArr):
+    prodType=tk.StringVar()
+    prodType.set(allProdTypes[0])
+    prodTypeLabel=tk.Label(orderFrame, text="Select the type of product for the kitting task")
+    prodTypeLabel.grid_forget()
+    prodTypeMenu=tk.OptionMenu(orderFrame, prodType, *allProdTypes)
+    prodTypeMenu.grid_forget()
+    kitValsArr.append(prodType)
+    kitWidgetsArr.append(prodTypeLabel)
+    kitWidgetsArr.append(prodTypeMenu)
+    #product color
+    prodColor=tk.StringVar()
+    prodColor.set(allProdColors[0])
+    prodColorLabel=tk.Label(orderFrame, text="Select the color of the product for the kitting task")
+    prodColorLabel.grid_forget()
+    prodColorMenu=tk.OptionMenu(orderFrame, prodColor, *allProdColors)
+    prodColorMenu.grid_forget()
+    kitValsArr.append(prodColor)
+    kitWidgetsArr.append(prodColorLabel)
+    kitWidgetsArr.append(prodColorMenu)
+    #product quadrant
+    prodQuad=tk.StringVar()
+    prodQuad.set(quadrants[0])
+    prodQuadLabel=tk.Label(orderFrame, text="Select the quadrant for the product")
+    prodQuadLabel.grid_forget()
+    prodQuadMenu=tk.OptionMenu(orderFrame, prodQuad, *quadrants)
+    prodQuadMenu.grid_forget()
+    kitValsArr.append(prodQuad)
+    kitWidgetsArr.append(prodQuadLabel)
+    kitWidgetsArr.append(prodQuadMenu)
+
+def assemblyProdWidgets(orderFrame, assemblyParts, assemblyValsArr, assemblyWidgetsArr):
+    prodType=tk.StringVar()
+    prodType.set(allProdTypes[0])
+    prodTypeLabel=tk.Label(orderFrame, text="Select the type of product for the assembly task")
+    prodTypeLabel.grid_forget()
+    prodTypeMenu=tk.OptionMenu(orderFrame, prodType, *allProdTypes)
+    prodTypeMenu.grid_forget()
+    assemblyValsArr.append(prodType)
+    assemblyWidgetsArr.append(prodTypeLabel)
+    assemblyWidgetsArr.append(prodTypeMenu)
+    #product color
+    prodColor=tk.StringVar()
+    prodColor.set(allProdColors[0])
+    prodColorLabel=tk.Label(orderFrame, text="Select the color of the product for the assembly task")
+    prodColorLabel.grid_forget()
+    prodColorMenu=tk.OptionMenu(orderFrame, prodColor, *allProdColors)
+    prodColorMenu.grid_forget()
+    assemblyValsArr.append(prodColor)
+    assemblyWidgetsArr.append(prodColorLabel)
+    assemblyWidgetsArr.append(prodColorMenu)
+    #XYZ and RPY variable declarations
+    x_val = tk.StringVar()
+    x_val.set('0')
+    y_val = tk.StringVar()
+    y_val.set('0')
+    z_val = tk.StringVar()
+    z_val.set('0')
+    r_val = tk.StringVar()
+    r_val.set('0')
+    p_val = tk.StringVar()
+    p_val.set('0')
+    y_rpy_val = tk.StringVar()
+    y_rpy_val.set('0')
+    assemblyValsArr.append(x_val)
+    assemblyValsArr.append(y_val)
+    assemblyValsArr.append(z_val)
+    assemblyValsArr.append(r_val)
+    assemblyValsArr.append(p_val)
+    assemblyValsArr.append(y_rpy_val)
+    #XYZ and RPY entry boxes
+    x_val_label = tk.Label(orderFrame, text="Enter the x value")
+    x_val_label.grid_forget()
+    x_val_entry = tk.Entry(orderFrame, textvariable=x_val)
+    x_val_entry.grid_forget()
+    y_val_label = tk.Label(orderFrame, text="Enter the y value")
+    y_val_label.grid_forget()
+    y_val_entry = tk.Entry(orderFrame, textvariable=y_val)
+    y_val_entry.grid_forget()
+    z_val_label = tk.Label(orderFrame, text="Enter the z value")
+    z_val_label.grid_forget()
+    z_val_entry = tk.Entry(orderFrame, textvariable=z_val)
+    z_val_entry.grid_forget()
+    r_val_label = tk.Label(orderFrame, text="Enter the r value")
+    r_val_label.grid_forget()
+    r_val_entry = tk.Entry(orderFrame, textvariable=r_val)
+    r_val_entry.grid_forget()
+    p_val_label = tk.Label(orderFrame, text="Enter the p value")
+    p_val_label.grid_forget()
+    p_val_entry = tk.Entry(orderFrame, textvariable=p_val)
+    p_val_entry.grid_forget()
+    y_rpy_val_label = tk.Label(orderFrame, text="Enter the y (rpy) value")
+    y_rpy_val_label.grid_forget()
+    y_rpy_val_entry = tk.Entry(orderFrame, textvariable=y_rpy_val)
+    y_rpy_val_entry.grid_forget()
+    assemblyWidgetsArr.append(x_val_label)
+    assemblyWidgetsArr.append(x_val_entry)
+    assemblyWidgetsArr.append(y_val_label)
+    assemblyWidgetsArr.append(y_val_entry)
+    assemblyWidgetsArr.append(z_val_label)
+    assemblyWidgetsArr.append(z_val_entry)
+    assemblyWidgetsArr.append(r_val_label)
+    assemblyWidgetsArr.append(r_val_entry)
+    assemblyWidgetsArr.append(p_val_label)
+    assemblyWidgetsArr.append(p_val_entry)
+    assemblyWidgetsArr.append(y_rpy_val_label)
+    assemblyWidgetsArr.append(y_rpy_val_entry)
+    #assembly direction declarations
+    x_dir=tk.StringVar()
+    x_dir.set("0")
+    y_dir=tk.StringVar()
+    y_dir.set("0")
+    z_dir=tk.StringVar()
+    z_dir.set("0")
+    assemblyValsArr.append(x_dir)
+    assemblyValsArr.append(y_dir)
+    assemblyValsArr.append(z_dir)
+    #assembly direction entry boxes
+    x_dir_label = tk.Label(orderFrame, text="Enter the x value for the assembly direction")
+    x_dir_label.grid_forget()
+    x_dir_entry = tk.Entry(orderFrame, textvariable=x_dir)
+    x_dir_entry.grid_forget()
+    y_dir_label = tk.Label(orderFrame, text="Enter the y value for the assembly direction")
+    y_dir_label.grid_forget()
+    y_dir_entry = tk.Entry(orderFrame, textvariable=y_dir)
+    y_dir_entry.grid_forget()
+    z_dir_label = tk.Label(orderFrame, text="Enter the z value for the assembly direction")
+    z_dir_label.grid_forget()
+    z_dir_entry = tk.Entry(orderFrame, textvariable=z_dir)
+    z_dir_entry.grid_forget()
+    assemblyWidgetsArr.append(x_dir_label)
+    assemblyWidgetsArr.append(x_dir_entry)
+    assemblyWidgetsArr.append(y_dir_label)
+    assemblyWidgetsArr.append(y_dir_entry)
+    assemblyWidgetsArr.append(z_dir_label)
+    assemblyWidgetsArr.append(z_dir_entry)
+
+def orderWidgets(orderFrame, orderMSGS,orderConditions, usedIDs, kittingParts, assemblyParts):
+    kitWidgetsArr=[]
+    kitValsArr=[]
+    assemblyWidgetsArr=[]
+    assemblyValsArr=[]
     #generate the order id
     tempIDs=[]
     orderWidgetsArr=[]
     orderValsArr=[]
     for id in usedIDs:
         tempIDs.append(id)
+    tempIDs.append(" ")
     orderID=generateOrderId(usedIDs)
-
     orderCategory=tk.StringVar()
     orderCategory.set(orderCategories[0])
     orderCategoryLabel=tk.Label(orderFrame, text="Select the category of the order")
@@ -285,18 +442,23 @@ def orderWidgets(orderFrame, orderMSGS,orderConditions, orderCounter, usedIDs, k
     orderValsArr.append(assemblyStation)
     orderWidgetsArr.append(assemblyStationLabel)
     orderWidgetsArr.append(assemblyStationMenu)
+    #Build the menus for kitting and assembly products
+    kittingProdWidgets(orderFrame, kittingParts, kitValsArr, kitWidgetsArr)
+    assemblyProdWidgets(orderFrame, assemblyParts, assemblyValsArr, assemblyWidgetsArr)
     #Add order button
-    addOrderButton=tk.Button(orderFrame, text="Add order", command=)
+    show_new_order_menu=partial(showNewOrderMenu,orderWidgetsArr, orderValsArr)
+    addOrderButton=tk.Button(orderFrame, text="Add order", command=show_new_order_menu)
     addOrderButton.grid(column=1, row=5)
     #add product button
-    type_of_prod_select=partial(typeOfProdSelect, kittingParts, assemblyParts, orderType)
+    type_of_prod_select=partial(typeOfProdSelect, orderType, kitValsArr, kitWidgetsArr, assemblyValsArr, assemblyWidgetsArr)
     addProdButton=tk.Button(orderFrame, text="Add product", command=type_of_prod_select)
-    addProdButton.grid()
+    addProdButton.grid_forget()
+    orderWidgetsArr.append(addProdButton)
     #save and cancel buttons
-    saveOrdButton=tk.Button(orderFrame, text="Save order", command=)
-    saveOrdButton.grid()
+    #saveOrdButton=tk.Button(orderFrame, text="Save order", command=)
+    #saveOrdButton.grid()
     #update menu functions
     update_task_options=partial(updateTaskOptions, orderType, kitTrayId, taskAgvMenu,kitTrayIdLabel, kitTrayIdMenu, kittingDestination, kittingDestinationLabel, kittingDestinationMenu, assemblyStation, assemblyStationLabel, assemblyStationMenu)
     orderType.trace('w', update_task_options)
-    updateConditionMenu=partial(showCorrectMenu,condition, conditionMenu, time, timeLabel, timeEntry, agv, agvLabel, agvMenu, partType, partTypeLabel, partTypeMenu, partColor, partColorLabel, partColorMenu, annID, annIDLabel, annIDMenu,tempIDs)
+    updateConditionMenu=partial(showCorrectMenu,orderValsArr, orderWidgetsArr,tempIDs)
     condition.trace('w', updateConditionMenu)
