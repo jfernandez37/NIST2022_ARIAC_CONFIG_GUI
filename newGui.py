@@ -17,59 +17,7 @@ from newFunctions.addNewBin import *
 from newFunctions.addConvPart import addPartConv
 from newFunctions.orderFuncs import *
 from newFunctions.challengesFuncs import *
-
-CHECKBOXHEIGHT=1
-pathIncrement = []  # gives the full path for recursive deletion
-createdDir = []  # to deleted directories made if canceled
-leftColumn=0
-middleColumn=1 
-middleColumnWidth=62  # width of middle margin for live yaml windows
-rightColumn=2
-nameLabels = []  # holds temporary flags to be deleted
-agv1Parts=[]
-agv2Parts=[]
-agv3Parts=[]
-agv4Parts=[]
-agvTrayIds=["","0","1","2","3","4","5","6"] # all options for tray ids for agvs
-trayIds=["0","1","2","3","4","5","6"] # all options for tray ids
-agv1Quadrants=["1","2","3","4"] # available quadrants for agv1
-agv2Quadrants=["1","2","3","4"] # available quadrants for agv2
-agv3Quadrants=["1","2","3","4"] # available quadrants for agv3
-agv4Quadrants=["1","2","3","4"] # available quadrants for agv4
-bins=[] # holds the bins
-bin1Slots=[] # holds the available slots for bin1
-bin2Slots=[] # holds the available slots for bin2
-bin3Slots=[] # holds the available slots for bin3
-bin4Slots=[] # holds the available slots for bin4
-bin5Slots=[] # holds the available slots for bin5
-bin6Slots=[] # holds the available slots for bin6
-bin7Slots=[] # holds the available slots for bin7
-bin8Slots=[] # holds the available slots for bin8
-convParts=[] # holds conveyor belt parts
-for i in range(9):
-    bin1Slots.append(str(i+1))
-    bin2Slots.append(str(i+1))
-    bin3Slots.append(str(i+1))
-    bin4Slots.append(str(i+1))
-    bin5Slots.append(str(i+1))
-    bin6Slots.append(str(i+1))
-    bin7Slots.append(str(i+1))
-    bin8Slots.append(str(i+1))
-allOrders=[] # holds all orders
-orderCounter=[] # for counting the number of orders
-allOrderChallenges=[] # for holding challenges in the orders section
-kittingTrayIds=[] # holds the selected kitting tray ids
-kittingTraySlots=[] # holds the selected kitting tray slots
-binPresentFlags=[] # to hold which bins are present 
-for i in range(8):
-    binPresentFlags.append(0)
-orderKittingParts=[]# holds all kitting parts
-orderAssembParts=[] # holds all assembly parts
-usedIDs=[] # holds the ids that have already been used to avoid repeated ids
-robotMalfunctions=[] # holds all robot malfunctions
-faultyParts=[] # holds all faulty parts
-droppedParts=[] # holds all dropped parts
-sensorBlackouts=[] # holds all sensor blackouts
+#from ariac_msgs.msg import Part
 
 def randOrSeq():  
     """Cycles through the options for the conveyor belt order"""
@@ -80,8 +28,59 @@ def randOrSeq():
         changeOrder.config(text='random')
         convOrder.set("random")
 
-
-if __name__=="__main__":
+def runGUI():
+    CHECKBOXHEIGHT=1
+    pathIncrement = []  # gives the full path for recursive deletion
+    createdDir = []  # to deleted directories made if canceled
+    leftColumn=0
+    middleColumn=1 
+    middleColumnWidth=62  # width of middle margin for live yaml windows
+    rightColumn=2
+    nameLabels = []  # holds temporary flags to be deleted
+    agv1Parts=[]
+    agv2Parts=[]
+    agv3Parts=[]
+    agv4Parts=[]
+    agvTrayIds=["","0","1","2","3","4","5","6"] # all options for tray ids for agvs
+    trayIds=["0","1","2","3","4","5","6"] # all options for tray ids
+    agv1Quadrants=["1","2","3","4"] # available quadrants for agv1
+    agv2Quadrants=["1","2","3","4"] # available quadrants for agv2
+    agv3Quadrants=["1","2","3","4"] # available quadrants for agv3
+    agv4Quadrants=["1","2","3","4"] # available quadrants for agv4
+    bins=[] # holds the bins
+    bin1Slots=[] # holds the available slots for bin1
+    bin2Slots=[] # holds the available slots for bin2
+    bin3Slots=[] # holds the available slots for bin3
+    bin4Slots=[] # holds the available slots for bin4
+    bin5Slots=[] # holds the available slots for bin5
+    bin6Slots=[] # holds the available slots for bin6
+    bin7Slots=[] # holds the available slots for bin7
+    bin8Slots=[] # holds the available slots for bin8
+    convParts=[] # holds conveyor belt parts
+    for i in range(9):
+        bin1Slots.append(str(i+1))
+        bin2Slots.append(str(i+1))
+        bin3Slots.append(str(i+1))
+        bin4Slots.append(str(i+1))
+        bin5Slots.append(str(i+1))
+        bin6Slots.append(str(i+1))
+        bin7Slots.append(str(i+1))
+        bin8Slots.append(str(i+1))
+    allOrders=[] # holds all orders
+    orderCounter=[] # for counting the number of orders
+    allOrderChallenges=[] # for holding challenges in the orders section
+    kittingTrayIds=[] # holds the selected kitting tray ids
+    kittingTraySlots=[] # holds the selected kitting tray slots
+    binPresentFlags=[] # to hold which bins are present 
+    for i in range(8):
+        binPresentFlags.append(0)
+    orderKittingParts=[]# holds all kitting parts
+    orderAssembParts=[] # holds all assembly parts
+    usedIDs=[] # holds the ids that have already been used to avoid repeated ids
+    robotMalfunctions=[] # holds all robot malfunctions
+    faultyParts=[] # holds all faulty parts
+    droppedParts=[] # holds all dropped parts
+    sensorBlackouts=[] # holds all sensor blackouts
     getFileName = tk.Tk() #window to create and get the file
     fileNameVar = tk.StringVar()
     faultySkipFlag = tk.StringVar()
@@ -442,8 +441,8 @@ if __name__=="__main__":
             binPresentFlags[6]=1
         if i.binName=="bin8":
             binPresentFlags[7]=1    
-    
-    
+
+
     #  WRITE TO FILE
     tempStr=''
     with open(saveFileName, "a") as o:
@@ -590,3 +589,6 @@ if __name__=="__main__":
             if blackout.destination!="":
                 o.write("    destination: "+blackout.destination+"\n")
             o.write("    sensors_to_disable: ["+blackout.sensors+"]\n")
+
+if __name__=="__main__":
+    runGUI()
